@@ -8,7 +8,8 @@ Given a string `s`, find the first non-repeating character in it and return its 
 >Output: 0 <br /> <br />
 >Example 2: <br /> Input: s = "aabb"<br /> 
 >Output: -1 <br />
-```#include<bits/stdc++.h>
+```
+#include<bits/stdc++.h>
 using namespace std;
 
 int firstUniqChar(string s) {
@@ -17,5 +18,6 @@ int firstUniqChar(string s) {
     for(int i = 0;i<n;i++)count[s[i]]++;
     for(int i = 0;i<n;i++)if(count[s[i]]==1)return i;
     return -1;
-}```
+}
+```
      
