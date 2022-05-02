@@ -117,7 +117,7 @@ An integer `a` is closer to `x` than an integer `b` if: <br />
 * `|a - x| == |b - x|` and `a < b` <br />
 * Constraints: <br />
 * `1 <= k <= arr.length` <b`r />
-* `1 <= arr.length <= 10^4 <br />
+* `1 <= arr.length <= 10^4` <br />
 * `arr` is sorted in ascending order.
 * `-10^4 <= arr[i], x <= 10^4`
 >Example :<br />
