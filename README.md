@@ -8,7 +8,7 @@ Given a string `s`, find the first non-repeating character in it and return its 
 >Output: 0 <br /> <br />
 >Example 2: <br /> Input: s = "aabb"<br /> 
 >Output: -1 <br />
-```
+```cpp
 #include<bits/stdc++.h>
 using namespace std;
 
