@@ -109,5 +109,43 @@ int maximumScore(int a, int b, int c) {
     return ans;
 }
 ```
+## Coding Exercise 5:
+**Find K Closest Elements**
+Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
+An integer `a` is closer to `x` than an integer `b` if: <br />
+* `|a - x| < |b - x|`, or <br />
+* `|a - x| == |b - x|` and `a < b` <br />
+* Constraints: <br />
+* `1 <= k <= arr.length` <b`r />
+* `1 <= arr.length <= 10^4 <br />
+* `arr` is sorted in ascending order.
+* `-10^4 <= arr[i], x <= 10^4`
+>Example :<br />
+>Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
+>Output: [1,2,3,4] <br />
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+bool compare(int a, int b){return a<b;}
+
+vector<int> findClosestElements(vector<int> arr, int k, int x) {
+    vector<int>ans;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>q;
+    int n = arr.size();
+    for(int i = 0;i<n;i++){
+        int diff = abs(arr[i]-x);
+        q.push({diff, arr[i]});
+    }
+    while(k--){
+        ans.push_back(q.top().second);
+        q.pop();
+    }
+    sort(ans.begin(), ans.end(), compare);
+    return ans;
+}
+```
+
+
 
      
