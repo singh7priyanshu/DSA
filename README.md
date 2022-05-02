@@ -115,10 +115,10 @@ Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` clo
 An integer `a` is closer to `x` than an integer `b` if: <br />
 * `|a - x| < |b - x|`, or <br />
 * `|a - x| == |b - x|` and `a < b` <br />
-* Constraints: <br /> `1 <= k <= arr.length` <b`r />
-*  `1 <= arr.length <= 10^4` <br />
-*  `arr` is sorted in ascending order. <br />
-*  `-10^4 <= arr[i], x <= 10^4` <br />
+* Constraints: <br /> `1 <= k <= arr.length` <br />
+* `1 <= arr.length <= 10^4` <br />
+* `arr` is sorted in ascending order. <br />
+* `-10^4 <= arr[i], x <= 10^4` <br />
 >Example :<br />
 >Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
 >Output: [1,2,3,4] <br />
