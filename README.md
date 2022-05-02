@@ -54,7 +54,7 @@ Return the minimum total cost of reducing `nums` to one integer.<br />
 > * We take `4` and `5` out to get `[6, 9]`<br />
 > * We take `6` and `9` out to get `[15]`<br />
 > * The sum is `33 = 1 + 2 + 3 + 3 + 4 + 5 + 6 + 9`<br />
-```cpp
+``cpp
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -71,6 +71,6 @@ int solve(vector<int> nums) {
     }
     return ans;
 }
-```
+``
 
      
