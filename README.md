@@ -1,6 +1,6 @@
 # Competitive-Programming-Essentials-Master-Algorithms-2022
 ## Coding Exercise 1:
-**First Unique Character in a String**
+**First Unique Character in a String**<br />
 Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return `-1`.<br />
 * Constraints:<br />`1 <= s.length <= 10^5`<br /> 
 * `s` consists of only lowercase English letters.<br />
@@ -21,7 +21,7 @@ int firstUniqChar(string s) {
 }
 ```
 ## Coding Exercise 2:
-**Kth Largest Element**
+**Kth Largest Element**<br />
 Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
 * Constraints:<br />`1 <= k <= nums.length <= 10^4`<br />
 * `-10^4 <= nums[i] <= 10^4`<br />
