@@ -3,7 +3,7 @@
 **First Unique Character in a String**<br />
 Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return `-1`.<br />
 * Constraints:<br />`1 <= s.length <= 10^5`<br /> 
-* `s` consists of only lowercase English letters.<br />
+`s` consists of only lowercase English letters.<br />
 >Example 1: <br /> Input: s = "codingminutes" <br /> 
 >Output: 0 <br /> <br />
 >Example 2: <br /> Input: s = "aabb"<br /> 
@@ -24,7 +24,7 @@ int firstUniqChar(string s) {
 **Kth Largest Element**<br />
 Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
 * Constraints:<br />`1 <= k <= nums.length <= 10^4`<br />
-* `-10^4 <= nums[i] <= 10^4`<br />
+ `-10^4 <= nums[i] <= 10^4`<br />
 >Input: nums = [3, 2, 3, 1, 2, 4, 5, 5, 6], k = 4 <br />
 >Output: 4<br />
 ```cpp
@@ -115,10 +115,11 @@ Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` clo
 An integer `a` is closer to `x` than an integer `b` if: <br />
 * `|a - x| < |b - x|`, or <br />
 * `|a - x| == |b - x|` and `a < b` <br />
-* Constraints: <br /> `1 <= k <= arr.length` <br />
-* `1 <= arr.length <= 10^4` <br />
-* `arr` is sorted in ascending order. <br />
-* `-10^4 <= arr[i], x <= 10^4` <br />
+* Constraints: <br />
+`1 <= k <= arr.length` <br />
+`1 <= arr.length <= 10^4` <br />
+`arr` is sorted in ascending order. <br />
+`-10^4 <= arr[i], x <= 10^4` <br />
 >Example :<br />
 >Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
 >Output: [1,2,3,4] <br />
