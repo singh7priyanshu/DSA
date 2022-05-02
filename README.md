@@ -72,5 +72,42 @@ int solve(vector<int> nums) {
     return ans;
 }
 ```
+## Coding Exercise 4:
+**Maximum Score From Removing Stones**<br />
+You are playing a solitaire game with three piles of stones of sizes `a`, `b`, and `c` respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).<br />
+Given three integers `a`, `b`, and `c`, return the maximum score you can get.<br />
+* Constraints:<br />`1 <= a, b, c <= 10^5` <br />
+>Example:<br />
+>Input: a = 2, b = 4, c = 6 <br />
+>Output: 6 <br />
+>Explanation: The starting state is (2, 4, 6). One optimal set of moves is: <br />
+>- Take from `1st` and `3rd` piles, state is now `(1, 4, 5)` <br />
+>- Take from `1st` and `3rd` piles, state is now `(0, 4, 4)` <br />
+>- Take from `2nd` and `3rd` piles, state is now `(0, 3, 3)` <br />
+>- Take from `2nd` and `3rd` piles, state is now `(0, 2, 2)` <br />
+>- Take from `2nd` and `3rd` piles, state is now `(0, 1, 1)` <br />
+>- Take from `2nd` and `3rd` piles, state is now `(0, 0, 0)` <br />
+>There are fewer than two non-empty piles, so the game ends. Total: `6` points. <br />
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+int maximumScore(int a, int b, int c) {
+    priority_queue<int>q;
+    q.push(a);
+    q.push(b);
+    q.push(c);
+    int ans = 0;
+    while(q.size()>1){
+        int x = q.top(); q.pop();
+        int y = q.top(); q.pop();
+        x--; y--;
+        if(x) q.push(x);
+        if(y) q.push(y);
+        ans++;
+    }
+    return ans;
+}
+```
 
      
