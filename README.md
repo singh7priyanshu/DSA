@@ -39,4 +39,37 @@ int findKthLargest(vector<int> nums, int k) {
     return pq.top();
 }
 ```
+## Coding Exercise 3:
+**One Integer**<br />
+You are given a list of integers `nums`. You can reduce the length of `nums` by taking any two integers, removing them, and appending their sum to the end. The cost of doing this is the sum of the two integers you removed.<br />
+Return the minimum total cost of reducing `nums` to one integer.<br />
+>Note : Cost can be negative also.<br />
+* Constraints: <br /> `n <= 100,000` where `n` is length of `nums`.<br />
+>Example 1 <br />
+>Input: nums : [1, 2, 3, 4, 5]<br />
+>Output: 33<br />
+>Explanation<br />
+> * We take `1` and `2` out to get `[3, 4, 5, 3]`<br />
+> * We take `3` and `3` out to get `[4, 5, 6]`<br />
+> * We take `4` and `5` out to get `[6, 9]`<br />
+> * We take `6` and `9` out to get `[15]`<br />
+> * The sum is `33 = 1 + 2 + 3 + 3 + 4 + 5 + 6 + 9`<br />
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+int solve(vector<int> nums) {
+    priority_queue<int, vector<int>, greater<int>>pq;
+    for(int i = 0;i<nums.size();i++)pq.push(nums[i]);
+    int a, b, sum, ans=0;
+    while(pq.size() > 1){
+        a = pq.top(); pq.pop();
+        b = pq.top(); pq.pop();
+        sum = a+b; 
+        ans += sum;
+        pq.push(sum);
+    }
+    return ans;
+}```
+
      
