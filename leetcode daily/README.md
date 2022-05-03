@@ -110,7 +110,7 @@ int maximumScore(int a, int b, int c) {
 }
 ```
 ## Coding Exercise 5:
-**Find K Closest Elements**
+**Find K Closest Elements**<br />
 Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
 An integer `a` is closer to `x` than an integer `b` if: <br />
 * `|a - x| < |b - x|`, or <br />
