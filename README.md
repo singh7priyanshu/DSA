@@ -1,4 +1,4 @@
-### [Arrays]https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/array/README.md)
+### [Arrays](https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/array/README.md)
 ### [Matrix](https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/matrix/README.md)
 ### [Strings](https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/string/README.md)
 ### [Searching & Sorting](https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/searching%20and%20sorting/README.md)
