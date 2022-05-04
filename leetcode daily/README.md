@@ -1251,3 +1251,153 @@ public:
     }
 };
 ```
+
+			     
+			     
+		
+
+<br /> <br /> <br />**[1631. Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort/)**<br />
+You are a hiker preparing for an upcoming hike. You are given `heights`, a 2D array of size `rows x columns`, where `heights[row][col]` represents the height of cell `(row, col)`. You are situated in the top-left cell, `(0, 0)`, and you hope to travel to the bottom-right cell, `(rows-1, columns-1)` (i.e., **0-indexed**). You can move `up`, `down`, `left`, or `right`, and you wish to find a route that requires the minimum `effort`.<br />
+A route's `effort` is the `maximum absolute difference` in heights between two consecutive cells of the route.<br />
+Return _the **minimum effort** required to travel from the top-left cell to the bottom-right cell_.<br />
+	
+>Example 1:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e20.png"><br />
+>Input: heights = [[1,2,2],[3,8,2],[5,3,5]]<br />
+>Output: 2<br />
+>Explanation: The route of [1,3,5,3,5] has a maximum absolute difference of 2 in consecutive cells.<br />
+>This is better than the route of [1,2,2,2,5], where the maximum absolute difference is 3.<br />
+	
+>Example 2:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e21.png"><br />
+>Input: heights = [[1,2,3],[3,8,4],[5,3,5]]<br />
+>Output: 1<br />
+>Explanation: The route of [1,2,3,4,5] has a maximum absolute difference of 1 in consecutive cells, which is better than route [1,3,5,3,5].<br />
+	
+>Example 3:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e22.png"><br />
+>Input: heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]<br />
+>Output: 0<br />
+>Explanation: This route does not require any effort.<br />
+	
+* Constraints:`rows == heights.length`<br />
+`columns == heights[i].length`<br />
+`1 <= rows, columns <= 100`<br />
+`1 <= heights[i][j] <= 10^6`<br />
+
+```cpp
+class Solution {
+    vector<vector<int>> dirs = {
+                {-1,0},
+        {0,-1},         {0,1},
+                {1, 0}
+    };
+    bool isValid(vector<vector<int>>& heights, int mx) {
+        queue<pair<int,int>> q;
+        int ROWS = heights.size();
+        int COLS = heights[0].size();
+        
+        vector<vector<bool>> seen(ROWS, vector<bool>(COLS, false));
+        q.push({0,0});
+        seen[0][0] = true;
+        while(!q.empty()) {
+            auto node = q.front();
+            q.pop();
+            int r = node.first;
+            int c = node.second;
+            if(r == ROWS - 1 && c == COLS - 1) return true;
+            for(auto& dir : dirs) {
+                int dr = dir[0] + r;
+                int dc = dir[1] + c;
+                if(dr < 0 || dr >= ROWS) continue;
+                if(dc < 0 || dc >= COLS) continue;
+                if(seen[dr][dc]) continue;
+                if(abs(heights[r][c] - heights[dr][dc]) > mx) continue;
+                seen[dr][dc] = true;
+                q.push({dr, dc});
+            }
+        }
+        return false;
+    }
+	
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int L = 0;
+        int R = INT_MAX;
+        int best = INT_MAX;
+        while(L <= R) {
+            int M = L + (R-L) / 2;
+            if(isValid(heights, M)) {
+                R = M - 1;
+                best = min(best, M);
+            } else L = M + 1;
+        } 
+        return best;
+    }
+};
+```
+		   
+		    
+		  
+
+<br /> <br /> <br />**[785. Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/)**<br />
+There is an **undirected** graph with `n` nodes, where each node is numbered between `0` and `n - 1`. You are given a 2D array `graph`, where `graph[u]` is an array of nodes that node `u` is adjacent to. More formally, for each `v` in `graph[u]`, there is an undirected edge between node `u` and node `v`. The graph has the following properties:<br />
+* There are no self-edges (`graph[u]` does not contain `u`).<br />
+* There are no parallel edges (`graph[u]` does not contain duplicate values).<br />
+* If `v` is in `graph[u]`, then `u` is in `graph[v]` (the graph is undirected).<br />
+* The graph may not be connected, meaning there may be two nodes `u` and `v` such that there is no path between them.<br />
+A graph is **bipartite** if the nodes can be partitioned into two independent sets `A` and `B` such that **every** edge in the graph connects a node in set `A` and a node in set `B`.<br />
+Return `true` _if and only if it is **bipartite**_.<br />
+	
+>Example 1:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e23.jpg"><br />
+>Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]<br />
+>Output: false<br />
+>Explanation: There is no way to partition the nodes into two independent sets such that every edge connects a node in one and a node in the other.<br />
+
+>Example 2:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e24.jpg"><br />
+>Input: graph = [[1,3],[0,2],[1,3],[0,2]]<br />
+>Output: true<br />
+>Explanation: We can partition the nodes into two sets: {0, 2} and {1, 3}.<br />
+
+* Constraints:`graph.length == n`<br />
+`1 <= n <= 100`<br />
+`0 <= graph[u].length < n`<br />
+`0 <= graph[u][i] <= n - 1`<br />
+`graph[u]` does not contain u.<br />
+All the values of `graph[u]` are **unique**.<br />
+If `graph[u]` contains `v`, then `graph[v]` contains `u`.<br />
+
+```cpp
+class Solution {
+public:
+    vector<int>vis,col;
+    bool dfs(int v, int c, vector<vector<int>>& graph){
+        vis[v]=1;
+        col[v]=c;
+        for(int child:graph[v]){
+            if(vis[child]==0){
+                // here c^1 is for flipping 1 by 0 or 0 by 1, that is flip the current color
+                if(dfs(child,c^1,graph)==false)return false; 
+            }
+            else{
+                if(col[v]==col[child])return false;     
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vis.resize(n);
+        col.resize(n);
+        for(int i=0;i<n;++i)if(vis[i]==0 && dfs(i,0,graph)==false)return false;
+        return true;
+    }
+};
+```
