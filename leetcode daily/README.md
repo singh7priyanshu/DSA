@@ -680,3 +680,493 @@ public:
  */
 ```
 
+	
+	
+	
+<br /> <br /> <br />**[706. Design HashMap](https://leetcode.com/problems/design-hashmap/)**<br />
+Design a HashMap without using any built-in hash table libraries.<br />
+Implement the `MyHashMap` class:<br />
+	
+* `MyHashMap()` initializes the object with an empty map.
+* `void put(int key, int value)` inserts a `(key, value)` pair into the HashMap. If the `key` already exists in the map, update the corresponding `value`.
+* `int get(int key)` returns the `value` to which the specified `key` is mapped, or `-1` if this map contains no mapping for the `key`.
+* `void remove(key)` removes the `key` and its corresponding `value` if the map contains the mapping for the `key`.
+
+>Example 1: <br /> 
+>Input:<br /> 
+>["MyHashMap", "put", "put", "get", "get", "put", "get", "remove", "get"]<br /> 
+>[[], [1, 1], [2, 2], [1], [3], [2, 1], [2], [2], [2]]<br /> 
+>Output:<br /> 
+>[null, null, null, 1, -1, null, 1, null, -1]<br /> 
+>Explanation:<br /> 
+>MyHashMap myHashMap = new MyHashMap();<br /> 
+>myHashMap.put(1, 1); // The map is now [[1,1]]<br /> 
+>myHashMap.put(2, 2); // The map is now [[1,1], [2,2]]<br /> 
+>myHashMap.get(1);    // return 1, The map is now [[1,1], [2,2]]<br /> 
+>myHashMap.get(3);    // return -1 (i.e., not found), The map is now [[1,1], [2,2]]<br /> 
+>myHashMap.put(2, 1); // The map is now [[1,1], [2,1]] (i.e., update the existing value)<br /> 
+>myHashMap.get(2);    // return 1, The map is now [[1,1], [2,1]]<br /> 
+>myHashMap.remove(2); // remove the mapping for 2, The map is now [[1,1]]<br /> 
+>myHashMap.get(2);    // return -1 (i.e., not found), The map is now [[1,1]]<br /> 
+	
+* Constraints:<br />`0 <= key, value <= 10^6`.<br /> 
+At most `10^4` calls will be made to `put`, `get`, and `remove`.<br /> 
+	
+```cpp
+static int fastIO = []() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    std::cout.tie(0);
+    return 0;
+}();
+
+class linkedList{
+    private: 
+        class node{
+            public:
+                int key, value; 
+                node* next; 
+                node(int k=0, int v=0, node* nextptr=NULL) : key(k), value(v), next(nextptr){}}; 
+        node* head; 
+        node* tail; 
+        void deleteHead(){
+            if((head == tail) && (head == NULL)) return; 
+            node* delNode = head;
+            if((head == tail) && (head != NULL))head = tail = NULL;   
+            else head = head->next;
+            delete delNode; 
+        } 
+
+        void deleteTail(){
+            if((head == tail) && (tail == NULL))return; 
+            node* delNode = tail; 
+            if((head == tail) && (tail != NULL))head = tail = NULL;
+            else{
+                node* curr = head; 
+                while(curr->next != delNode)curr = curr->next;
+                tail = curr; 
+                tail->next = NULL;
+            }
+            delete delNode; 
+        }
+
+        node* getNode(int key){
+            node* curr = head; 
+            while(curr){
+                if(curr->key == key) return curr; 
+                curr = curr->next; 
+            }
+            return NULL; 
+        }
+
+    public: 
+        linkedList(){
+            head = NULL; 
+            tail = NULL; 
+        }
+
+        int getKeyValue(int key){
+            node* addr = getNode(key); 
+            return ( addr != NULL ? addr->value : -1); 
+        }
+
+        void addNode(int key, int value){
+            node* addr = getNode(key); 
+            if(addr != NULL){
+                addr->value = value; 
+                return; 
+            }
+
+            node* newNode = new node(key, value);
+            if((head == tail) && (tail == NULL)){ 
+                head = tail = newNode;            
+                return; 
+            }
+
+            tail->next = newNode; 
+            tail = newNode; 
+        }
+    
+        void deleteNode(int key){
+            if((head == tail) && (head == NULL))return; 
+            node* prevNode = head; 
+            if(prevNode->key == key){
+                deleteHead(); 
+                return; 
+            }
+
+            bool found = false; 
+            while(prevNode->next){
+                if((prevNode->next)->key == key){
+                    found = true; 
+                    break; 
+                }
+                prevNode = prevNode->next;
+            }
+
+            if(!found) return;
+            if(prevNode->next == tail)
+                deleteTail(); 
+            else{
+                node* delNode = prevNode->next; 
+                prevNode->next = delNode->next; 
+                delNode->next = NULL; 
+                delete delNode;
+            }
+        }        
+};
+
+
+class MyHashMap : protected linkedList{
+    private: 
+        linkedList* buckets;
+    public: 
+        int tsize;
+        MyHashMap(int _tsize = 499){
+            tsize = _tsize; 
+            buckets = new linkedList[tsize];
+        }
+
+        void put(int key, int value){
+            buckets[(key % tsize)].addNode(key, value); 
+        }
+
+        int get(int key){ 
+            return buckets[(key % tsize)].getKeyValue(key); 
+        }
+
+        void remove(int key){
+            buckets[(key % tsize)].deleteNode(key); 
+        }
+}; 
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
+```
+	
+	
+
+<br /> <br /> <br />**[535. Encode and Decode TinyURL](https://leetcode.com/problems/encode-and-decode-tinyurl/)**<br />
+* Note: This is a companion problem to the System Design problem: [Design TinyURL](https://leetcode.com/discuss/interview-question/124658/Design-a-URL-Shortener-(-TinyURL-)-System/).<br />
+TinyURL is a URL shortening service where you enter a URL such as `https://leetcode.com/problems/design-tinyurl` and it returns a short URL such as `http://tinyurl.com/4e9iAk`. Design a class to encode a URL and decode a tiny URL.<br />
+There is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.<br />
+Implement the `Solution` class:<br />
+* `Solution()` Initializes the object of the system.<br />
+* `String encode(String longUrl)` Returns a tiny URL for the given `longUrl`.<br />
+* `String decode(String shortUrl)` Returns the original long URL for the given `shortUrl`. It is guaranteed that the given `shortUrl` was encoded by the same object.<br />
+	
+>Example 1: <br /> 
+>Input: url = "`https://leetcode.com/problems/design-tinyurl`" <br />
+>Output: "`https://leetcode.com/problems/design-tinyurl`" <br />
+>Explanation: <br />
+>Solution obj = new Solution(); <br />
+>string tiny = obj.encode(url); // returns the encoded tiny url. <br />
+>string ans = obj.decode(tiny); // returns the original url after deconding it. <br />
+
+* Constraints:<br />`1 <= url.length <= 10^4`.<br />
+`url` is guranteed to be a valid URL. <br />
+	
+```cpp
+class Solution {
+public:
+    unordered_map<string, string>mp;
+    int length = 6;
+    
+    string hashing(string longUrl){
+        string hashCode = "";
+        
+        for(int i=0; i<length; i++){
+            int random = rand() % 3;
+            
+            if(random == 0)
+                hashCode += ('0' + rand() % 10);
+            else if(random == 1)
+                hashCode += ('a' + rand() % 26);
+            else
+                hashCode += ('A' + rand() % 26);
+        }
+        
+        if(mp.find(hashCode) !=mp.end())
+            return hashing(longUrl);
+        else{
+            mp[hashCode] = longUrl;
+            return hashCode;
+        }
+    }
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        string tinyUrl = "http://tinyurl.com/";
+        string hashCode = hashing(longUrl);
+        return tinyUrl + hashCode;
+    }
+    
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        string hashCode = shortUrl.substr(shortUrl.size() - length, length);
+        return mp[hashCode];
+    }
+};
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));
+```
+			       
+			       
+			   
+<br /> <br /> <br />**[1396. Design Underground System](https://leetcode.com/problems/design-underground-system/)**<br />
+An underground railway system is keeping track of customer travel times between different stations. They are using this data to calculate the average time it takes to travel from one station to another.<br />
+Implement the `UndergroundSystem` class:<br />
+* `void checkIn(int id, string stationName, int t)`<br />
+  * A customer with a card ID equal to `id`, checks in at the station `stationName` at time `t`.<br />
+  * A customer can only be checked into one place at a time.<br />
+* `void checkOut(int id, string stationName, int t)`<br />
+  * A customer with a card ID equal to `id`, checks out from the station `stationName` at time `t`.<br />
+* `double getAverageTime(string startStation, string endStation)`<br />
+  * Returns the average time it takes to travel from `startStation` to `endStation`.<br />
+  * The average time is computed from all the previous traveling times from `startStation` to `endStation` that happened **directly**, meaning a check in at `startStation` followed by a check out from `endStation`.<br />
+  * The time it takes to travel from `startStation` to `endStation` **may be different** from the time it takes to travel from `endStation` to `startStation`.<br />
+  * There will be at least one customer that has traveled from `startStation` to `endStation` before `getAverageTime` is called.<br />
+
+You may assume all calls to the `checkIn` and `checkOut` methods are consistent. If a customer checks in at time `t1` then checks out at time `t2`, then `t1 < t2`. All events happen in chronological order.<br />
+
+>Example 1: <br /> 
+>Input:<br />
+>["UndergroundSystem","checkIn","checkIn","checkIn","checkOut","checkOut","checkOut","getAverageTime","getAverageTime","checkIn","getAverageTime","checkOut","getAverageTime"]<br />
+>[[],[45,"Leyton",3],[32,"Paradise",8],[27,"Leyton",10],[45,"Waterloo",15],[27,"Waterloo",20],[32,"Cambridge",22],["Paradise","Cambridge"],["Leyton","Waterloo"],[10,"Leyton",24],["Leyton","Waterloo"],[10,"Waterloo",38],["Leyton","Waterloo"]]<br />
+>Output:<br />
+>[null,null,null,null,null,null,null,14.00000,11.00000,null,11.00000,null,12.00000]<br />
+>Explanation:<br />
+>UndergroundSystem undergroundSystem = new UndergroundSystem();<br />
+>undergroundSystem.checkIn(45, "Leyton", 3);<br />
+>undergroundSystem.checkIn(32, "Paradise", 8);<br />
+>undergroundSystem.checkIn(27, "Leyton", 10);<br />
+>undergroundSystem.checkOut(45, "Waterloo", 15);  // Customer 45 "Leyton" -> "Waterloo" in 15-3 = 12<br />
+>undergroundSystem.checkOut(27, "Waterloo", 20);  // Customer 27 "Leyton" -> "Waterloo" in 20-10 = 10<br />
+>undergroundSystem.checkOut(32, "Cambridge", 22); // Customer 32 "Paradise" -> "Cambridge" in 22-8 = 14<br />
+>undergroundSystem.getAverageTime("Paradise", "Cambridge"); // return 14.00000. One trip "Paradise" -> "Cambridge", (14) / 1 = 14<br />
+>undergroundSystem.getAverageTime("Leyton", "Waterloo");    // return 11.00000. Two trips "Leyton" -> "Waterloo", (10 + 12) / 2 = 11<br />
+>undergroundSystem.checkIn(10, "Leyton", 24);<br />
+>undergroundSystem.getAverageTime("Leyton", "Waterloo");    // return 11.00000<br />
+>undergroundSystem.checkOut(10, "Waterloo", 38);  // Customer 10 "Leyton" -> "Waterloo" in 38-24 = 14<br />
+>undergroundSystem.getAverageTime("Leyton", "Waterloo");    // return 12.00000. Three trips "Leyton" -> "Waterloo", (10 + 12 + 14) / 3 = 12<br />
+	
+>Example 2:<br />
+>Input:<br />
+>["UndergroundSystem","checkIn","checkOut","getAverageTime","checkIn","checkOut","getAverageTime","checkIn","checkOut","getAverageTime"]<br />
+>[[],[10,"Leyton",3],[10,"Paradise",8],<br />["Leyton","Paradise"],[5,"Leyton",10],<br />[5,"Paradise",16],["Leyton","Paradise"],<br />[2,"Leyton",21],[2,"Paradise",30],<br />["Leyton","Paradise"]]<br />
+>Output:<br />
+>[null,null,null,5.00000,null,null,5.50000,null,null,6.66667]<br />
+>Explanation:<br />
+>UndergroundSystem undergroundSystem = new UndergroundSystem();<br />
+>undergroundSystem.checkIn(10, "Leyton", 3);<br />
+>undergroundSystem.checkOut(10, "Paradise", 8); // Customer 10 "Leyton" -> "Paradise" in 8-3 = 5<br />
+>undergroundSystem.getAverageTime("Leyton", "Paradise"); // return 5.00000, (5) / 1 = 5<br />
+>undergroundSystem.checkIn(5, "Leyton", 10);<br />
+>undergroundSystem.checkOut(5, "Paradise", 16); // Customer 5 "Leyton" -> "Paradise" in 16-10 = 6<br />
+>undergroundSystem.getAverageTime("Leyton", "Paradise"); // return 5.50000, (5 + 6) / 2 = 5.5<br />
+>undergroundSystem.checkIn(2, "Leyton", 21);<br />
+>undergroundSystem.checkOut(2, "Paradise", 30); // Customer 2 "Leyton" -> "Paradise" in 30-21 = 9<br />
+>undergroundSystem.getAverageTime("Leyton", "Paradise"); // return 6.66667, (5 + 6 + 9) / 3 = 6.66667<br />
+	
+* Constraints:<br />`1 <= id, t <= 10^6`.<br />
+`1 <= stationName.length, startStation.length, endStation.length <= 10`<br />
+All strings consist of uppercase and lowercase English letters and digits.<br />
+There will be at most `2 * 10^4` calls **in total** to `checkIn`, `checkOut`, and `getAverageTime`.<br />
+Answers within `10^-5` of the actual value will be accepted.<br />
+	
+```cpp
+class UndergroundSystem {
+public:
+    unordered_map<string, pair<long long, int>> stationTimes;
+    unordered_map<int, pair<string,int>> inTransit;
+    UndergroundSystem() {
+        stationTimes.clear();
+        inTransit.clear();
+    }
+    
+    void checkIn(int id, string stationName, int t) {
+        if(inTransit.find(id) != inTransit.end()) return;
+        inTransit[id] = {stationName, t};
+    }
+    
+    void checkOut(int id, string stationName, int t) {
+        auto& info = inTransit[id];
+        string startStation = info.first;
+        int startTime = info.second;
+        string key = startStation + ":" + stationName;
+        int time = t - startTime;
+        
+        if(stationTimes.find(key) != stationTimes.end()) {
+            auto& oldTimes = stationTimes[key];
+            oldTimes.first += time;
+            oldTimes.second++;
+        } else {
+            stationTimes[key] = {time, 1};
+        }
+        inTransit.erase(id);
+        
+    }
+    
+    double getAverageTime(string startStation, string endStation) {
+        string key = startStation + ":" + endStation;
+        auto& info = stationTimes[key];
+        double avg = (double)info.first / (double)info.second;
+        return avg;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */
+```
+	
+
+
+
+<br /> <br /> <br />**[284. Peeking Iterator](https://leetcode.com/problems/peeking-iterator/)**<br />
+Design an iterator that supports the `peek` operation on an existing iterator in addition to the `hasNext` and the `next` operations.<br />
+Implement the `PeekingIterator` class:<br />
+* `PeekingIterator(Iterator<int> nums)` Initializes the object with the given integer iterator `iterator`.
+* `int next()` Returns the next element in the array and moves the pointer to the next element.
+* `boolean hasNext()` Returns `true` if there are still elements in the array.
+* `int peek()` Returns the next element in the array **without** moving the pointer.
+> **Note**: Each language may have a different implementation of the constructor and `Iterator`, but they all support the `int next()` and `boolean hasNext()` functions.<br />
+
+>Example 1:<br />
+>Input:<br />
+>["PeekingIterator", "next", "peek", "next", "next", "hasNext"]<br />
+>[[[1, 2, 3]], [], [], [], [], []]<br />
+>Output:<br />
+>[null, 1, 2, 2, 3, false]<br />
+>Explanation:<br />
+>PeekingIterator peekingIterator = new PeekingIterator([1, 2, 3]); // [1,2,3]<br />
+>peekingIterator.next();    // return 1, the pointer moves to the next element [1,2,3].<br />
+>peekingIterator.peek();    // return 2, the pointer does not move [1,2,3].<br />
+>peekingIterator.next();    // return 2, the pointer moves to the next element [1,2,3]<br />
+>peekingIterator.next();    // return 3, the pointer moves to the next element [1,2,3]<br />
+>peekingIterator.hasNext(); // return False<br />
+	
+* Constraints:`1 <= nums.length <= 1000`<br />
+`1 <= nums[i] <= 1000`<br />
+All the calls to `next` and `peek` are valid.<br />
+At most `1000` calls will be made to `next`, `hasNext`, and `peek`.<br />
+	
+```cpp
+/*
+ * Below is the interface for Iterator, which is already defined for you.
+ * **DO NOT** modify the interface for Iterator.
+ *
+ *  class Iterator {
+ *		struct Data;
+ * 		Data* data;
+ *  public:
+ *		Iterator(const vector<int>& nums);
+ * 		Iterator(const Iterator& iter);
+ *
+ * 		// Returns the next element in the iteration.
+ *		int next();
+ *
+ *		// Returns true if the iteration has more elements.
+ *		bool hasNext() const;
+ *	};
+ */
+
+class PeekingIterator : public Iterator {
+public:
+	PeekingIterator(const vector<int>& nums) : Iterator(nums) {
+	    // Initialize any member here.
+	    // **DO NOT** save a copy of nums and manipulate it directly.
+	    // You should only use the Iterator interface methods.
+	    
+	}
+	
+    // Returns the next element in the iteration without advancing the iterator.
+	int peek() {
+        Iterator temp = (*this); //taking a new iterator and storing the current value
+        return temp.next();//return the next of that iterator
+	}
+	
+	// hasNext() and next() should behave the same as in the Iterator interface.
+	// Override them if needed.
+	int next() {
+	    return Iterator::next();// override
+	}
+	
+	bool hasNext() const {
+	    return Iterator::hasNext(); // override
+	}
+};
+```
+	
+	
+	
+
+<br /> <br /> <br />**[1584. Min Cost to Connect All Points](https://leetcode.com/problems/min-cost-to-connect-all-points/)**<br />
+You are given an array `points` representing integer coordinates of some points on a 2D-plane, where `points[i] = [xi, yi]`.<br />
+The cost of connecting two points [xi, yi] and [xj, yj] is the **manhattan distance** between them: `|xi - xj| + |yi - yj|`, where `|val|` denotes the absolute value of `val`.<br />
+Return the _minimum cost to make all points connected_. All points are connected if there is **exactly one** simple path between any two points.<br />
+
+>Example 1: <br /> 
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e18.png"><br />
+>Input: points = [[0,0],[2,2],[3,10],[5,2],[7,0]]<br />
+>Output: 20<br />
+>Explanation:<br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e19.png"><br />
+>We can connect the points as shown above to get the minimum cost of 20.<br />
+Notice that there is a unique path between every pair of points.<br />
+
+>Example 2: <br />
+>Input: points = [[3,12],[-2,5],[-4,1]]<br />
+>Output: 18<br />
+
+* Constraints:`1 <= points.length <= 1000`<br />
+`-10^6 <= xi, yi <= 10^6`<br />
+All pairs `(xi, yi)` are distinct.<br />
+	
+```cpp
+class Solution {
+public:
+    int getParent(vector<int>& parents, int idx){
+        if(parents[idx]==idx)return idx;
+        parents[idx] = getParent(parents, parents[parents[idx]]);
+        return parents[idx]; 
+    }
+    
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        vector<int> parents(n);        
+        iota(parents.begin(), parents.end(), 0);
+        int ans = 0, edges = 0;
+        priority_queue<vector<int>> pq;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(i!=j)pq.push({-1*(abs(points[i][0] - points[j][0]) + abs(points[i][1] -                                                                          points[j][1])), i, j});   
+            }
+        }
+        while(edges!=n-1){
+            vector<int> edge = pq.top();
+            int p1 = getParent(parents, edge[1]);
+            int p2 = getParent(parents, edge[2]);
+            if(p1!=p2){
+                ans += -1*edge[0];
+                parents[p1] = p2;
+                edges++;
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
+```
