@@ -1490,3 +1490,324 @@ void dfs(string start,string end,map<string,double>& mp,map<string,vector<string
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[2183. Count Array Pairs Divisible by K](https://leetcode.com/problems/count-array-pairs-divisible-by-k/)**<br />
+Given a **0-indexed** integer array `nums` of length `n` and an integer `k`, return the _**number of pairs**_ `(i, j)` such that:<br />
+* `0 <= i < j <= n - 1` and<br />
+* `nums[i] * nums[j]` is divisible by `k`.<br />
+	      
+>Example 1:<br />
+>Input: nums = [1,2,3,4,5], k = 2<br />
+>Output: 7<br />
+>Explanation: <br />
+>The 7 pairs of indices whose corresponding products are divisible by 2 are<br />
+>(0, 1), (0, 3), (1, 2), (1, 3), (1, 4), (2, 3), and (3, 4).<br />
+>Their products are 2, 4, 6, 8, 10, 12, and 20 respectively.<br />
+>Other pairs such as (0, 2) and (2, 4) have products 3 and 15 respectively, which are not divisible by 2.<br />
+	      
+>Example 2:<br />
+>Input: nums = [1,2,3,4], k = 5<br />
+>Output: 0<br />
+>Explanation: There does not exist any pair of indices whose corresponding product is divisible by 5.<br />
+
+* Constraints:`1 <= nums.length <= 10^5`<br />
+`1 <= nums[i], k <= 10^5`<br />
+	
+```cpp
+class Solution{
+    public:
+    long long countPairs(vector<int>& nums, int k) {
+       long long ans = 0;
+       unordered_map<int, int> mp;
+       for(auto ele:nums){
+           long long gcd = __gcd(k,ele);
+           long long x=k/gcd;
+           
+           for(auto it:mp)
+               if(it.first%x==0) 
+                   ans+=it.second;
+            mp[gcd]++;
+       }
+       return ans;
+    }
+};
+/*
+// CPP program to illustrate
+// gcd function of C++ STL
+#include <iostream>
+#include <algorithm>
+// #include<numeric> for C++17
+
+using namespace std;
+
+int main()
+{
+	cout << "gcd(6, 20) = " << __gcd(6, 20) << endl; // gcd(2.0,8) for C++17
+}
+
+Output
+gcd(6, 20) = 2
+*/
+```
+	
+	
+	
+<br /> <br /> <br />**[1961. Check If String Is a Prefix of Array](https://leetcode.com/problems/check-if-string-is-a-prefix-of-array/)**<br />
+Given a string `s` and an array of strings `words`, determine whether `s` is a **prefix string** of `words`.<br />
+A string `s` is a **prefix string** of `words` if `s` can be made by concatenating the first `k` strings in `words` for some **positive** `k` no larger than `words.length`.<br />
+Return `true` if `s` is a **prefix string** of `words`, or `false` otherwise.<br />
+	
+>Example 1:<br />
+>Input: s = "iloveleetcode", words = ["i","love","leetcode","apples"]<br />
+>Output: true<br />
+>Explanation:<br />
+>s can be made by concatenating "i", "love", and "leetcode" together.<br />
+	
+>Example 2:<br />
+>Input: s = "iloveleetcode", words = ["apples","i","love","leetcode"]<br />
+>Output: false<br />
+>Explanation:<br />
+>It is impossible to make s using a prefix of arr.<br />
+	
+* Constraints:`1 <= words.length <= 100`<br />
+`1 <= words[i].length <= 20`<br />
+`1 <= s.length <= 1000`<br />
+`words[i]` and `s` consist of only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool isPrefixString(string s, vector<string>& words) {
+        int is = 0;
+        for (int i = 0; i < words.size(); i++){
+            for (int j = 0; j < words[i].length(); j++){
+                if (s[is] != words[i][j])return false;  
+                is++;
+                if (is == s.length())return j == words[i].length() - 1;
+            }
+        }
+        return false;
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[228. Summary Ranges](https://leetcode.com/problems/summary-ranges/)**<br />
+You are given a **sorted unique** integer array `nums`.
+A **range** `[a,b]` is the set of all integers from `a` to `b` (inclusive).<br />
+Return the **smallest sorted** list of ranges that **cover all the numbers in the array exactly**. That is, each element of `nums` is covered by exactly one of the ranges, and there is no integer `x` such that `x` is in one of the ranges but not in `nums`.<br />
+Each range `[a,b]` in the list should be output as:<br />
+* `"a->b"` if `a != b`<br />
+* `"a"` if `a == b`<br />
+ 
+>Example 1:<br />
+>Input: nums = [0,1,2,4,5,7]<br />
+>Output: ["0->2","4->5","7"]<br />
+>Explanation: The ranges are:<br />
+>[0,2] --> "0->2"<br />
+>[4,5] --> "4->5"<br />
+>[7,7] --> "7"<br />
+	
+>Example 2:<br />
+>Input: nums = [0,2,3,4,6,8,9]<br />
+>Output: ["0","2->4","6","8->9"]<br />
+>Explanation: The ranges are:<br />
+>[0,0] --> "0"<br />
+>[2,4] --> "2->4"<br />
+>[6,6] --> "6"<br />
+>[8,9] --> "8->9"<br />
+ 
+* Constraints:`0 <= nums.length <= 20`<br />
+`-2^31 <= nums[i] <= 2^31 - 1`.<br />
+All the values of `nums` are **unique**.<br />
+`nums` is sorted in ascending order.<br />
+	
+```cpp
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& arr) {
+        int n = arr.size(); 
+        vector<string> ans; 
+        string temp = ""; 
+        for(int i = 0; i < n; i++){
+            int j = i;        
+            while(j + 1 < n && arr[j + 1] == arr[j] + 1)j++;
+            if(j > i){
+                temp += to_string(arr[i]); 
+                temp += "->"; 
+                temp += to_string(arr[j]);
+            }
+            else temp += to_string(arr[i]); 
+            ans.push_back(temp); 
+            temp = ""; 
+            i = j; 
+        }
+        return ans; 
+    }
+};
+```
+	
+
+
+<br /> <br /> <br />**[844. Backspace String Compare](https://leetcode.com/problems/backspace-string-compare/)**<br />
+Given two strings `s` and `t`, return `true` _if they are equal when both are typed into empty text editors_. `'#'` means a backspace character.<br />
+Note that after backspacing an empty text, the text will continue empty.<br />
+
+>Example 1:<br />
+>Input: s = "ab#c", t = "ad#c"<br />
+>Output: true<br />
+>Explanation: Both s and t become "ac".<br />
+	
+>Example 2:<br />
+>Input: s = "ab##", t = "c#d#"<br />
+>Output: true<br />
+>Explanation: Both s and t become "".<br />
+	
+>Example 3:<br />
+>Input: s = "a#c", t = "b"<br />
+>Output: false<br />
+>Explanation: s becomes "c" while t becomes "b".<br />
+
+* Constraints:`1 <= s.length, t.length <= 200`<br />
+`s` and `t` only contain lowercase letters and `'#'` characters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool backspaceCompare(string s, string t) {
+        string sFinal = processString(s);
+        string tFinal = processString(t);
+        return sFinal == tFinal;
+    }
+    string processString(string s) {
+        stack<char> stk;
+        for(char c : s) {
+            if(c == '#') {
+                if(!stk.empty())stk.pop();
+            } else stk.push(c);
+        }
+        string processed = "";
+        while(!stk.empty()) {
+            processed += stk.top();
+            stk.pop();
+        }
+        return processed;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[905. Sort Array By Parity](https://leetcode.com/problems/sort-array-by-parity/)**<br />
+Given an integer array `nums`, move all the even integers at the beginning of the array followed by all the odd integers.<br />
+Return **any array** that satisfies this condition.<br />
+
+>Example 1:<br />
+>Input: nums = [3,1,2,4]<br />
+>Output: [2,4,3,1]<br />
+>Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.<br />
+	
+>Example 2:<br />
+>Input: nums = [0]<br />
+>Output: [0]<br />
+
+* Constraints:`1 <= nums.length <= 5000`<br />
+`0 <= nums[i] <= 5000`<br />
+	
+```cpp
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        int s = 0, n = nums.size();
+        for(int i=0;i<n;i++){
+            if(nums[i]%2==0)swap(nums[s++],nums[i]);  
+        }
+        return nums;
+    }
+};
+```
+			      
+			      
+			      
+<br /> <br /> <br />**[581. Shortest Unsorted Continuous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray/)**<br />
+Given an integer array `nums`, you need to find one **continuous subarray** that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order.<br />
+Return _the shortest such subarray_ _and output its length_.<br />
+
+>Example 1:<br />
+>Input: nums = [2,6,4,8,10,9,15]<br />
+>Output: 5<br />
+>Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.<br />
+	
+>Example 2:<br />
+>Input: nums = [1,2,3,4]<br />
+>Output: 0<br />
+	
+>Example 3:<br />
+>Input: nums = [1]<br />
+>Output: 0<br />
+ 
+Constraints:`1 <= nums.length <= 10^4`<br />
+`-10^5 <= nums[i] <= 10^5`<br />
+	
+```cpp
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int start = -1, end = -1,  max = INT_MIN;
+        for(int i=0; i<nums.size();i++){
+            if(max>nums[i]){
+                if(start == -1)start = i-1;
+                while(start-1>=0 && nums[start-1]>nums[i])start--;
+                end = i+1;
+            }
+            else max = nums[i];
+        }
+        return end - start;   
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[1679. Max Number of K-Sum Pairs](https://leetcode.com/problems/max-number-of-k-sum-pairs/)**<br />
+You are given an integer array `nums` and an integer `k`.<br />
+In one operation, you can pick two numbers from the array whose sum equals `k` and remove them from the array.<br />
+Return the _maximum number of operations you can perform on the array_.<br />
+	
+>Example 1:<br />
+>Input: nums = [1,2,3,4], k = 5<br />
+>Output: 2<br />
+>Explanation: Starting with nums = [1,2,3,4]:<br />
+> - Remove numbers 1 and 4, then nums = [2,3]<br />
+> - Remove numbers 2 and 3, then nums = []<br />
+>There are no more pairs that sum up to 5, hence a total of 2 operations.<br />
+	
+>Example 2:<br />
+>Input: nums = [3,1,3,4,3], k = 6<br />
+>Output: 1<br />
+>Explanation: Starting with nums = [3,1,3,4,3]:<br />
+> - Remove the first two 3's, then nums = [1,4,3]<br />
+>There are no more pairs that sum up to 6, hence a total of 1 operation.<br />
+
+* Constraints:`1 <= nums.length <= 10^5`<br />
+`1 <= nums[i] <= 10^9`<br />
+`1 <= k <= 10^9`<br />
+	
+```cpp
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) {
+        map<int, int>a;int c=0;
+        for(int i: nums)
+            if(a[k-i])a[k-i]--,c++;
+            else a[i]++;
+        return c;
+    }
+};
+```
