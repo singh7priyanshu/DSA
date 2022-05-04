@@ -536,3 +536,147 @@ public:
 };
 ```
 
+	
+	
+<br /> <br /> <br />**[173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)**<br />
+Implement the `BSTIterator` class that represents an iterator over the **in-order traversal** of a binary search tree (BST):<br />
+* `BSTIterator(TreeNode root)` Initializes an object of the `BSTIterator` class. The `root` of the BST is given as part of the constructor. The pointer should be initialized to a non-existent number smaller than any element in the BST.<br />
+* `boolean hasNext()` Returns `true` if there exists a number in the traversal to the right of the pointer, otherwise returns `false`.<br />
+* `int next()` Moves the pointer to the right, then returns the number at the pointer.<br />
+
+Notice that by initializing the pointer to a non-existent smallest number, the first call to `next()` will return the smallest element in the BST.<br />
+You may assume that `next()` calls will always be valid. That is, there will be at least a next number in the in-order traversal when `next()` is called.<br />
+
+>Example 1: <br /> 
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e17.png"><br />
+>Input:<br />
+>["BSTIterator", "next", "next", "hasNext", "next", "hasNext", "next", "hasNext", "next", "hasNext"]<br />
+>[[[7, 3, 15, null, null, 9, 20]], [], [], [], [], [], [], [], [], []]<br />
+>Output:
+>[null, 3, 7, true, 9, true, 15, true, 20, false]<br />
+>Explanation<br />
+>BSTIterator bSTIterator = new BSTIterator([7, 3, 15, null, null, 9, 20]);<br />
+>bSTIterator.next();    // return 3<br />
+>bSTIterator.next();    // return 7<br />
+>bSTIterator.hasNext(); // return True<br />
+>bSTIterator.next();    // return 9<br />
+>bSTIterator.hasNext(); // return True<br />
+>bSTIterator.next();    // return 15<br />
+>bSTIterator.hasNext(); // return True<br />
+>bSTIterator.next();    // return 20<br />
+>bSTIterator.hasNext(); // return False<br />
+
+* Constraints:<br />The number of nodes in the tree is in the range `[1, 10^5]`.<br /> 
+`0 <= Node.val <= 10^6`<br /> 
+At most `10^5` calls will be made to `hasNext`, and `next`.<br /> 
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class BSTIterator {
+public:
+     stack<TreeNode*> st;
+    BSTIterator(TreeNode *root) {
+        Lefttree(root);
+    }
+    
+    bool hasNext() {
+    return st.empty() ? false : true;
+    }
+    
+    int next() {
+        TreeNode* top = st.top();
+        st.pop();
+        if (top->right != NULL)
+            Lefttree(top->right);  
+     return top->val;
+    }
+    
+    void Lefttree(TreeNode* root)
+    {
+        TreeNode* p = root;
+        while (p)
+        {
+            st.push(p);
+            p = p->left;
+        }
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
+```
+	
+
+<br /> <br /> <br />**[705. Design HashSet](https://leetcode.com/problems/design-hashset/)**<br />
+Design a `HashSet` without using any built-in hash table libraries.<br />
+Implement `MyHashSet` class:<br />
+
+* `void add(key)` Inserts the value `key` into the HashSet.<br />
+* `bool contains(key)` Returns whether the value `key` exists in the HashSet or not.<br />
+* `void remove(key)` Removes the value `key` in the HashSet. If `key` does not exist in the HashSet, do nothing.<br />
+
+>Example 1: <br /> 
+>Input: <br /> 
+>["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"] <br /> 
+>[[], [1], [2], [1], [3], [2], [2], [2], [2]] <br /> 
+>Output: <br /> 
+>[null, null, null, true, false, null, true, null, false] <br /> 
+>Explanation <br /> 
+>MyHashSet myHashSet = new MyHashSet(); <br /> 
+>myHashSet.add(1);      // set = [1] <br /> 
+>myHashSet.add(2);      // set = [1, 2] <br /> 
+>myHashSet.contains(1); // return True <br /> 
+>myHashSet.contains(3); // return False, (not found) <br /> 
+>myHashSet.add(2);      // set = [1, 2] <br /> 
+>myHashSet.contains(2); // return True <br /> 
+>myHashSet.remove(2);   // set = [1] <br /> 
+>myHashSet.contains(2); // return False, (already removed) <br /> 
+
+* Constraints:<br />`0 <= key <= 10^6`.<br /> 
+At most `10^4` calls will be made to `add`, `remove`, and `contains`.<br /> 
+
+```cpp
+class MyHashSet {
+public:
+    vector<bool>sol;
+    MyHashSet() {
+        sol.resize(1e6+1, false);
+    }
+    
+    void add(int key) {
+        sol[key] = true;
+    }
+    
+    void remove(int key) {
+        sol[key] = false;
+    }
+    
+    bool contains(int key) {
+        return sol[key];
+    }
+};
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
+```
+
