@@ -1170,3 +1170,84 @@ public:
     }
 };
 ```
+	
+	
+	
+<br /> <br /> <br />**[1202. Smallest String With Swaps](https://leetcode.com/problems/smallest-string-with-swaps/)**<br />
+You are given a string `s`, and an array of pairs of indices in the string `pairs` where `pairs[i] = [a, b]` indicates 2 indices(0-indexed) of the string.<br />
+You can swap the characters at any pair of indices in the given `pairs` **any number of times**.<br />
+Return the lexicographically smallest string that `s` can be changed to after using the swaps.<br />
+
+>Example 1:<br />
+>Input: s = "dcab", pairs = [[0,3],[1,2]]<br />
+>Output: "bacd"<br />
+>Explaination:<br /> 
+>Swap s[0] and s[3], s = "bcad"<br />
+>Swap s[1] and s[2], s = "bacd"<br />
+	
+>Example 2:<br />
+>Input: s = "dcab", pairs = [[0,3],[1,2],[0,2]]<br />
+>Output: "abcd"<br />
+>Explaination: <br />
+>Swap s[0] and s[3], s = "bcad"<br />
+>Swap s[0] and s[2], s = "acbd"<br />
+>Swap s[1] and s[2], s = "abcd"<br />
+	
+>Example 3:<br />
+>Input: s = "cba", pairs = [[0,1],[1,2]]<br />
+>Output: "abc"<br />
+>Explaination: <br />
+>Swap s[0] and s[1], s = "bca"<br />
+>Swap s[1] and s[2], s = "bac"<br />
+>Swap s[0] and s[1], s = "abc"<br />
+ 
+* Constraints:`1 <= s.length <= 10^5`.<br />
+`0 <= pairs.length <= 10^5`.<br />
+`0 <= pairs[i][0], pairs[i][1] < s.length`.<br />
+`s` only contains lower case English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    void dfs(vector<vector<int>>& adjList, int x, unordered_set<int>& seen, vector<string>& sets, int seti, unordered_map<int, int>& parentSet, string& s) {
+        if(seen.find(x) != seen.end()) return;
+        seen.insert(x);
+        sets[seti].push_back(s[x]);
+        parentSet[x] = seti;
+        auto& children = adjList[x];
+        for(auto child : children) {
+            dfs(adjList, child, seen, sets, seti, parentSet, s);
+        }
+    }
+    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
+        int n = s.length();
+        vector<vector<int>> adjList(n);
+        for(auto& pair : pairs) {
+            adjList[pair[0]].push_back(pair[1]);
+            adjList[pair[1]].push_back(pair[0]);
+        }
+        unordered_set<int> seen;
+        vector<string> sets;
+        unordered_map<int, int> parentSet;
+        int seti = 0;
+        for(int i = 0; i < n; i++) {
+            if(seen.find(i) == seen.end()) {
+                string newSet = "";
+                sets.push_back(newSet);
+                dfs(adjList, i, seen, sets, seti, parentSet, s);
+                seti++;
+            }
+        }
+        int setSize = sets.size();
+        vector<int> its(setSize);
+        for(auto& thing : sets) {
+            sort(thing.begin(), thing.end());
+        }
+        for(int i = 0; i < n; i++) {
+            int j = parentSet[i];      
+            s[i]  = sets[j][its[j]++];  
+        }
+        return s;
+    }
+};
+```
