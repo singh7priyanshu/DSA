@@ -8,7 +8,8 @@ In one shift operation:<br />
   
 Return the 2D grid after applying shift operation `k` times.<br />
 >Example 1: <br /> 
-<img src = https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/leetcode%20daily/source/e1.png><br />
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e1.png"><br />
 >Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1 <br />
 >Output: [[9,1,2],[3,4,5],[6,7,8]] <br /> 
 
