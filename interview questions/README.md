@@ -500,3 +500,229 @@ public:
     }
 };
 ```
+
+
+
+
+<br /> <br /> <br />**[1827. Minimum Operations to Make the Array Increasing](https://leetcode.com/problems/minimum-operations-to-make-the-array-increasing/)**<br />
+You are given an integer array `nums` **(0-indexed)**. In one operation, you can choose an element of the array and increment it by `1`.<br />
+For example, if `nums = [1,2,3]`, you can choose to increment `nums[1]` to make `nums = [1,3,3]`.<br />
+Return _the **minimum** number of operations needed to make `nums` **strictly increasing**_.<br />
+An array `nums` is **strictly increasing** if `nums[i] < nums[i+1]` for all `0 <= i < nums.length - 1`. An array of length `1` is trivially strictly increasing.<br />
+
+>Example 1:<br />
+>Input: nums = [1,1,1]<br />
+>Output: 3<br />
+>Explanation: You can do the following operations:<br />
+>1) Increment nums[2], so nums becomes [1,1,2].<br />
+>2) Increment nums[1], so nums becomes [1,2,2].<br />
+>3) Increment nums[2], so nums becomes [1,2,3].<br />
+
+>Example 2:<br />
+>Input: nums = [1,5,2,4,1]<br />
+>Output: 14<br />
+
+>Example 3:<br />
+>Input: nums = [8]<br />
+>Output: 0<br />
+ 
+
+* Constraints: `1 <= nums.length <= 5000`.<br />
+`1 <= nums[i] <= 10^4`.<br />
+
+```cpp
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int step = 0;
+        for (int i = 1; i < nums.size(); i++){
+            if (nums[i] <= nums[i - 1]){
+                int diff = (nums[i - 1] + 1) - nums[i];
+                nums[i] += diff;
+                step += diff;
+            }
+        }
+        return step; 
+    }
+};
+```
+
+
+
+
+<br /> <br /> <br />**[1828. Queries on Number of Points Inside a Circle](https://leetcode.com/problems/queries-on-number-of-points-inside-a-circle/)**<br />
+You are given an array `points` where `points[i] = [xi, yi]` is the coordinates of the `ith` point on a 2D plane. Multiple points can have the **same** coordinates.<br />
+You are also given an array `queries` where `queries[j] = [xj, yj, rj]` describes a circle centered at `(xj, yj)` with a radius of `rj`.<br />
+For each query` queries[j]`, compute the number of points **inside** the `jth` circle. Points **on the border** of the circle are considered **inside**.<br />
+Return _an array `answer`, where `answer[j]` is the answer to the `jth` query_.<br />
+
+>Example 1: <br /> 
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/interview%20questions/source%20images/iq1.png"><br />
+>Input: points = [[1,3],[3,3],[5,3],[2,2]], queries = [[2,3,1],[4,3,1],[1,1,2]]<br /> 
+>Output: [3,2,2]<br /> 
+>Explanation: The points and circles are shown above.<br /> 
+>queries[0] is the green circle, queries[1] is the red circle, and queries[2] is the blue circle.<br /> 
+ 
+>Example 1: <br /> 
+><div align="left">
+><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/interview%20questions/source%20images/iq2.png"><br />
+>Input: points = [[1,1],[2,2],[3,3],[4,4],[5,5]], queries = [[1,2,2],[2,2,2],[4,3,2],[4,3,3]]<br /> 
+>Output: [2,3,2,4]<br /> 
+>Explanation: The points and circles are shown above.<br /> 
+>queries[0] is green, queries[1] is red, queries[2] is blue, and queries[3] is purple.<br /> 
+ 
+* Constraints: `1 <= points.length <= 500`. <br />
+`points[i].length == 2`. <br />
+`0 <= xi, yi <= 500`. <br />
+`1 <= queries.length <= 500`. <br />
+`queries[j].length == 3`. <br />
+ `0 <= xj, yj <= 500`. <br />
+`1 <= rj <= 500`. <br />
+All coordinates are integers.<br />
+ 
+```cpp
+class Solution {
+public:
+    vector<int> countPoints(vector<vector<int>>& points, vector<vector<int>>& queries) {
+        vector<int> ans(queries.size(), 0);
+        for(int i = 0; i < queries.size(); i++){ 
+            //for each query, add +1 for each point that lies within radius distance of query center
+            for(int j = 0; j < points.size(); j++)
+                    if(inCircle(queries[i], points[j])) ans[i]++;
+        }
+        return ans; 
+    }
+    
+private:
+    bool inCircle(vector<int>& circle, vector<int>& point){ 
+        //passing by reference (&) improves speed -- actually, TLE without it
+        double distance = sqrt((point[0] - circle[0]) * (point[0] - circle[0]) + (point[1] - circle[1]) * (point[1] - circle[1]));
+        return (distance <= circle[2]+0.0001); //fudge factor due to comparison w/ double
+    }
+};
+```
+                                             
+                                             
+                                         
+<br /> <br /> <br />**[1829. Maximum XOR for Each Query](https://leetcode.com/problems/maximum-xor-for-each-query/)**<br />
+You are given a **sorted** array `nums` of `n` non-negative integers and an integer `maximumBit`. You want to perform the following query `n` **times**:<br />
+ 1. Find a non-negative integer `k < 2^maximumBit` such that `nums[0] XOR nums[1] XOR ... XOR nums[nums.length-1] XOR k` is **maximized**. `k` is the answer to the `ith` query.<br />
+ 2. Remove the **last** element from the current array `nums`.<br />
+Return _an array `answer`, where `answer[i]` is the answer to the `ith` query_. <br />
+
+>Example 1:<br />
+>Input: nums = [0,1,1,3], maximumBit = 2<br />
+>Output: [0,3,2,3]<br />
+>Explanation: The queries are answered as follows:<br />
+>1st query: nums = [0,1,1,3], k = 0 since 0 XOR 1 XOR 1 XOR 3 XOR 0 = 3.<br />
+>2nd query: nums = [0,1,1], k = 3 since 0 XOR 1 XOR 1 XOR 3 = 3.<br />
+>3rd query: nums = [0,1], k = 2 since 0 XOR 1 XOR 2 = 3.<br />
+>4th query: nums = [0], k = 3 since 0 XOR 3 = 3.<br />
+                                           
+>Example 2:<br />
+>Input: nums = [2,3,4,7], maximumBit = 3<br />
+>Output: [5,2,6,5]<br />
+>Explanation: The queries are answered as follows:<br />
+>1st query: nums = [2,3,4,7], k = 5 since 2 XOR 3 XOR 4 XOR 7 XOR 5 = 7.<br />
+>2nd query: nums = [2,3,4], k = 2 since 2 XOR 3 XOR 4 XOR 2 = 7.<br />
+>3rd query: nums = [2,3], k = 6 since 2 XOR 3 XOR 6 = 7.<br />
+>4th query: nums = [2], k = 5 since 2 XOR 5 = 7.<br />
+                                           
+>Example 3:<br />
+>Input: nums = [0,1,2,2,5,7], maximumBit = 3<br />
+>Output: [4,3,6,4,6,7]<br />
+ 
+* Constraints: `nums.length == n`. <br />
+`1 <= n <= 10^5`. <br />
+`1 <= maximumBit <= 20`. <br />
+`0 <= nums[i] < 2^maximumBit`. <br />
+`nums` is sorted in **ascending** order.<br />
+ 
+ ```cpp
+ class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        int maxi = (1<<maximumBit);
+        int x = 0;
+        int n = nums.size();
+        for(int i = 0; i < n; i++){
+            x ^= nums[i];
+        }
+        // cout << "x= " << x << "\n";
+        vector<int> ans;
+        for(int j = n-1; j >= 0; j--){
+            ans.push_back(x^(maxi-1));
+            x ^= nums[j];
+        }
+        return ans;
+    }
+};
+```
+ 
+ 
+
+<br /> <br /> <br />**[1830. Minimum Number of Operations to Make String Sorted](https://leetcode.com/problems/minimum-number-of-operations-to-make-string-sorted/)**<br />
+You are given a string `s` (**0-indexed**). You are asked to perform the following operation on `s` until you get a sorted string:<br />
+ 1. Find **the largest index** `i` such that `1 <= i < s.length` and `s[i] < s[i - 1]`.<br />
+ 2. Find **the largest index** `j` such that `i <= j < s.length` and `s[k] < s[i - 1]` for all the possible values of `k` in the range `[i, j]` inclusive.<br />
+ 3. Swap the two characters at indices `i - 1` and `j`.<br />
+ 4. Reverse the suffix starting at index `i`.<br />
+Return_ the number of operations needed to make the string sorted_. Since the answer can be too large, return it **modulo** `10^9 + 7`.<br />
+
+>Example 1:<br />
+>Input: s = "cba"<br />
+>Output: 5<br />
+>Explanation: The simulation goes as follows:<br />
+>Operation 1: i=2, j=2. Swap s[1] and s[2] to get s="cab", then reverse the suffix starting at 2. Now, s="cab".<br />
+>Operation 2: i=1, j=2. Swap s[0] and s[2] to get s="bac", then reverse the suffix starting at 1. Now, s="bca".<br />
+>Operation 3: i=2, j=2. Swap s[1] and s[2] to get s="bac", then reverse the suffix starting at 2. Now, s="bac".<br />
+>Operation 4: i=1, j=1. Swap s[0] and s[1] to get s="abc", then reverse the suffix starting at 1. Now, s="acb".<br />
+>Operation 5: i=2, j=2. Swap s[1] and s[2] to get s="abc", then reverse the suffix starting at 2. Now, s="abc".<br />
+ 
+>Example 2:<br />
+>Input: s = "aabaa"<br />
+>Output: 2<br />
+>Explanation: The simulation goes as follows:<br />
+>Operation 1: i=3, j=4. Swap s[2] and s[4] to get s="aaaab", then reverse the substring starting at 3. Now, s="aaaba".<br />
+>Operation 2: i=4, j=4. Swap s[3] and s[4] to get s="aaaab", then reverse the substring starting at 4. Now, s="aaaab".<br />
+ 
+
+* Constraints: `1 <= s.length <= 3000`<br />
+`s` consists only of lowercase English letters.<br />
+ 
+```cpp
+class Solution {
+public:
+    const int mod = 1e9 + 7;
+    long long modpow(long long b, long long p){
+        long long ans = 1;
+        for (; p; p>>=1){
+            if (p&1)
+                ans = ans * b%mod;
+            b = b * b % mod;
+        }
+        return ans;
+    }
+    int makeStringSorted(string s) {
+        long long ans = 0;
+        map<int, long long> freq; 
+        for (char& c: s)freq[c - 'a']++;
+        vector<long long> fact(s.size() + 1, 1ll);
+        for (int i = 1; i <= s.size(); i++)fact[i] = (fact[i - 1] * i)%mod;
+        int l = s.size();
+        for (char c: s){
+            l--;
+            long long t = 0, rev = 1;
+            for (int i = 0; i < 26; i++){
+                if (i < c - 'a')t += freq[i];
+                rev = (rev * fact[freq[i]])%mod;
+            }
+            ans += (t*fact[l]%mod) * modpow(rev, mod - 2);
+            ans %= mod;
+            freq[c - 'a']--;
+        }
+        return ans;
+    }
+};
+```
