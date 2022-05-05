@@ -34,8 +34,9 @@ Given pointer to the head node of a linked list, the task is to reverse the link
     // Move prev and curr one step forward <br />
     prev = curr <br />
     curr = next<br />
+	 
 
-<img src="https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/linked%20list/ll1.gif">
+<img width="600" height="597" src="https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/linked%20list/ll1.gif">
 
 Below is the implementation of the above approach: <br />
 ```cpp
