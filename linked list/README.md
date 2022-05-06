@@ -558,24 +558,6 @@ void printList(struct node *node){
     printf("\n");
 }
 
-/*
-  Reverse a linked list
-  The input list will have at least one element  
-  Return the node which points to the head of the new LinkedList
-  Node is defined as 
-    struct node
-    {
-        int data;
-        struct node* next;
-    
-        node(int x){
-            data = x;
-            next = NULL;
-        }
-    
-    }*head;
-*/
-
 class Solution
 {
     public:
@@ -634,3 +616,114 @@ int main(void){
 }
 ```
 
+
+	
+	
+	
+	
+<br /> <br /> <br />**[3. Write a program to Detect loop in a linked list.](https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1)**<br />
+Given a linked list of `N` nodes. The task is to check if the linked list has a loop. Linked list can contain self loop.<br />
+	
+>Example 1:<br />
+>Input:<br />
+>N = 3<br />
+>value[] = {1,3,4}<br />
+>x(position at which tail is connected) = 2<br />
+>Output: True<br />
+>Explanation: In above test case N = 3. The linked list with nodes N = 3 is given. Then value of x=2 is given which means last node is connected with xth node of linked list. Therefore, there exists a loop.<br />
+	
+>Example 2:<br />
+>Input:<br />
+>N = 4<br />
+>value[] = {1,8,3,4}<br />
+>x = 0<br />
+>Output: False<br />
+>Explanation: For N = 4 ,x = 0 means then lastNode->next = NULL, then the Linked list does not contains any loop.<br />
+	
+Your Task:<br />
+The task is to complete the function **`detectloop`**() which contains reference to the head as only argument. This function should return `true` if linked list contains loop, else return `false`.<br />
+
+**Expected Time Complexity: O(N)**<br />
+**Expected Auxiliary Space: O(1)**<br />
+
+* Constraints: `1 ≤ N ≤ 10^4`<br />
+`1 ≤ Data on Node ≤ 10^3`<br />
+	
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* next;
+    
+    Node(int val)
+    {
+        data = val;
+        next = NULL;
+    }
+};
+
+void loopHere(Node* head, Node* tail, int position)
+{
+    if(position==0) return;
+    
+    Node* walk = head;
+    for(int i=1; i<position; i++)
+        walk = walk->next;
+    tail->next = walk;
+}
+
+class Solution
+{
+    public:
+    //Function to check if the linked list has a loop.
+    bool detectLoop(Node* head)
+    {
+        // your code here
+        if(!head) return false;
+        Node* fast = head->next;
+        Node* slow = head;
+        
+        while(fast != slow){
+            if(!fast || !fast->next)return false;
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        return true;
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, num;
+        cin>>n;
+        
+        Node *head, *tail;
+        cin>> num;
+        head = tail = new Node(num);
+        
+        for(int i=0 ; i<n-1 ; i++)
+        {
+            cin>> num;
+            tail->next = new Node(num);
+            tail = tail->next;
+        }
+        
+        int pos;
+        cin>> pos;
+        loopHere(head,tail,pos);
+        
+        Solution ob;
+        if(ob.detectLoop(head) )
+            cout<< "True\n";
+        else
+            cout<< "False\n";
+    }
+	return 0;
+}
+```
