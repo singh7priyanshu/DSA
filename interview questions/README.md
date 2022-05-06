@@ -726,3 +726,36 @@ public:
     }
 };
 ```
+                         
+                         
+                        
+    
+<br /> <br /> <br />**[976. Largest Perimeter Triangle](https://leetcode.com/problems/largest-perimeter-triangle/)**<br />
+Given an integer array `nums`, return _the largest perimeter of a triangle with a non-zero area, formed from three of these lengths_. If it is impossible to form any triangle of a non-zero area, return `0`.<br />
+
+>Example 1:<br />
+>Input: nums = [2,1,2]<br />
+>Output: 5<br />
+ 
+>Example 2:<br />
+>Input: nums = [1,2,1]<br />
+>Output: 0<br />
+ 
+* Constraints: 3 <= nums.length <= 10^4<br />
+1 <= nums[i] <= 10^6<br />
+ 
+```cpp
+class Solution {
+public:
+    int largestPerimeter(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        reverse(nums.begin(),nums.end());
+        for(int i=0;i<nums.size()-2;i++){
+            if(nums[i]<nums[i+1]+nums[i+2]){
+                return nums[i]+nums[i+1]+nums[i+2];
+            }
+        }
+        return 0;
+    }
+};
+```
