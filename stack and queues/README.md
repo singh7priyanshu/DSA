@@ -1,151 +1,273 @@
-# Competitive-Programming-Essentials-Master-Algorithms-2022
-## Coding Exercise 1:
-**First Unique Character in a String**<br />
-Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return `-1`.<br />
-* Constraints:<br />`1 <= s.length <= 10^5`<br /> 
-`s` consists of only lowercase English letters.<br />
->Example 1: <br /> Input: s = "codingminutes" <br /> 
->Output: 0 <br /> <br />
->Example 2: <br /> Input: s = "aabb"<br /> 
->Output: -1 <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+# Stacks and Queues
+**[1. Implement Stack from Scratch](https://www.tutorialspoint.com/javaexamples/data_stack.htm)**<br />
 
-int firstUniqChar(string s) {
-    unordered_map<char, int>count;
-    int n = s.size();
-    for(int i = 0;i<n;i++)count[s[i]]++;
-    for(int i = 0;i<n;i++)if(count[s[i]]==1)return i;
-    return -1;
-}
-```
-## Coding Exercise 2:
-**Kth Largest Element**<br />
-Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
-* Constraints:<br />`1 <= k <= nums.length <= 10^4`<br />
- `-10^4 <= nums[i] <= 10^4`<br />
->Input: nums = [3, 2, 3, 1, 2, 4, 5, 5, 6], k = 4 <br />
->Output: 4<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-int findKthLargest(vector<int> nums, int k) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int num: nums){
-        pq.push(num);
-        if(pq.size()>k)pq.pop();
-    }
-    return pq.top();
-}
-```
-## Coding Exercise 3:
-**One Integer**<br />
-You are given a list of integers `nums`. You can reduce the length of `nums` by taking any two integers, removing them, and appending their sum to the end. The cost of doing this is the sum of the two integers you removed.<br />
-Return the minimum total cost of reducing `nums` to one integer.<br />
->Note : Cost can be negative also.<br />
-* Constraints: <br /> `n <= 100,000` where `n` is length of `nums`.<br />
->Example 1 <br />
->Input: nums : [1, 2, 3, 4, 5]<br />
->Output: 33<br />
->Explanation<br />
-> * We take `1` and `2` out to get `[3, 4, 5, 3]`<br />
-> * We take `3` and `3` out to get `[4, 5, 6]`<br />
-> * We take `4` and `5` out to get `[6, 9]`<br />
-> * We take `6` and `9` out to get `[15]`<br />
-> * The sum is `33 = 1 + 2 + 3 + 3 + 4 + 5 + 6 + 9`<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+Following example shows how to implement stack by creating user defined `push()` method for entering elements and `pop()` method for retrieving elements from the stack.<br />
 
-int solve(vector<int> nums) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int i = 0;i<nums.size();i++)pq.push(nums[i]);
-    int a, b, sum, ans=0;
-    while(pq.size() > 1){
-        a = pq.top(); pq.pop();
-        b = pq.top(); pq.pop();
-        sum = a+b; 
-        ans += sum;
-        pq.push(sum);
-    }
-    return ans;
-}
-```
-## Coding Exercise 4:
-**Maximum Score From Removing Stones**<br />
-You are playing a solitaire game with three piles of stones of sizes `a`, `b`, and `c` respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).<br />
-Given three integers `a`, `b`, and `c`, return the maximum score you can get.<br />
-* Constraints:<br />`1 <= a, b, c <= 10^5` <br />
->Example:<br />
->Input: a = 2, b = 4, c = 6 <br />
->Output: 6 <br />
->Explanation: The starting state is (2, 4, 6). One optimal set of moves is: <br />
->- Take from `1st` and `3rd` piles, state is now `(1, 4, 5)` <br />
->- Take from `1st` and `3rd` piles, state is now `(0, 4, 4)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 3, 3)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 2, 2)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 1, 1)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 0, 0)` <br />
->There are fewer than two non-empty piles, so the game ends. Total: `6` points. <br />
 ```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-int maximumScore(int a, int b, int c) {
-    priority_queue<int>q;
-    q.push(a);
-    q.push(b);
-    q.push(c);
-    int ans = 0;
-    while(q.size()>1){
-        int x = q.top(); q.pop();
-        int y = q.top(); q.pop();
-        x--; y--;
-        if(x) q.push(x);
-        if(y) q.push(y);
-        ans++;
-    }
-    return ans;
-}
-```
-## Coding Exercise 5:
-**Find K Closest Elements**
-Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
-An integer `a` is closer to `x` than an integer `b` if: <br />
-* `|a - x| < |b - x|`, or <br />
-* `|a - x| == |b - x|` and `a < b` <br />
-* Constraints: <br />
-`1 <= k <= arr.length` <br />
-`1 <= arr.length <= 10^4` <br />
-`arr` is sorted in ascending order. <br />
-`-10^4 <= arr[i], x <= 10^4` <br />
->Example :<br />
->Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
->Output: [1,2,3,4] <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-bool compare(int a, int b){return a<b;}
-
-vector<int> findClosestElements(vector<int> arr, int k, int x) {
-    vector<int>ans;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>q;
-    int n = arr.size();
-    for(int i = 0;i<n;i++){
-        int diff = abs(arr[i]-x);
-        q.push({diff, arr[i]});
-    }
-    while(k--){
-        ans.push_back(q.top().second);
-        q.pop();
-    }
-    sort(ans.begin(), ans.end(), compare);
-    return ans;
+public class MyStack {
+   private int maxSize;
+   private long[] stackArray;
+   private int top;
+   
+   public MyStack(int s) {
+      maxSize = s;
+      stackArray = new long[maxSize];
+      top = -1;
+   }
+   public void push(long j) {
+      stackArray[++top] = j;
+   }
+   public long pop() {
+      return stackArray[top--];
+   }
+   public long peek() {
+      return stackArray[top];
+   }
+   public boolean isEmpty() {
+      return (top == -1);
+   }
+   public boolean isFull() {
+      return (top == maxSize - 1);
+   }
+   public static void main(String[] args) {
+      MyStack theStack = new MyStack(10); 
+      theStack.push(10);
+      theStack.push(20);
+      theStack.push(30);
+      theStack.push(40);
+      theStack.push(50);
+      
+      while (!theStack.isEmpty()) {
+         long value = theStack.pop();
+         System.out.print(value);
+         System.out.print(" ");
+      }
+      System.out.println("");
+   }
 }
 ```
 
+>Result<br />
+The above code sample will produce the following result.<br />
+50 40 30 20 10<br />
+
+The following is an another sample to implement stack by creating user defined `push()` method for entering elements and `pop()` method for retrieving elements from the stack.<br />
+
+```java
+import java.util.*;
+
+public class Demo {
+   static void showpush(Stack stack1, int a) {
+      stack1.push(new Integer(a));
+      System.out.println("push(" + a + ")");
+      System.out.println("stack: " + stack1);
+   } 
+   static void showpop(Stack stack1) {
+      Integer a = (Integer) stack1.pop();
+      System.out.println(a);
+      System.out.println("stack: " + stack1);
+   } 
+   public static void main(String args[]) {
+      Stack stack1 = new Stack();
+      System.out.println("stack: " + stack1);
+      showpush(stack1, 40);
+      showpush(stack1, 50);
+      showpush(stack1, 60);
+      showpop(stack1);
+      showpop(stack1);
+      showpop(stack1);
+      try {
+         showpop(stack1);
+      } catch (EmptyStackException e) {
+         System.out.println("it Is Empty Stack");
+      } 
+   }
+```
+
+>The above code sample will produce the following result.<br />
+stack: []<br />
+push(40)<br />
+stack: [40]<br />
+push(50)<br />
+stack: [40, 50]<br />
+push(60)<br />
+stack: [40, 50, 60]<br />
+60<br />
+stack: [40, 50]<br />
+50<br />
+stack: [40]<br />
+40<br />
+stack: []<br />
+it Is Empty Stack<br />
 
 
-     
+
+<br /><br /><br />**[2. Implement Queue from Scratch](https://www.geeksforgeeks.org/queue-set-1introduction-and-array-implementation/)**<br />
+Like `Stack`, `Queue` is a linear structure which follows a particular order in which the operations are performed. The order is `F`irst `I`n `F`irst `O`ut `(FIFO)`.  A good example of queue is any queue of consumers for a resource where the consumer that came first is served first. <br />
+The difference between stacks and queues is in removing. In a stack we remove the item the most recently added; in a queue, we remove the item the least recently added.<br />
+
+`Operations on Queue`:<br /> 
+Mainly the following four basic operations are performed on queue:<br />
+* `Enqueue`: Adds an item to the queue. If the queue is full, then it is said to be an Overflow condition.<br /> 
+* `Dequeue`: Removes an item from the queue. The items are popped in the same order in which they are pushed. If the queue is empty, then it is said to be an Underflow condition. <br />
+* `Front`: Get the front item from queue.<br /> 
+* `Rear`: Get the last item from queue. <br />
+
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/02/Queue.png">
+
+`Applications of Queue`: <br />
+Queue is used when things don’t have to be processed immediately, but have to be processed in First InFirst Out order like `Breadth First Search`. This property of Queue makes it also useful in following kind of scenarios.<br />
+ **1)** When a resource is shared among multiple consumers. Examples include CPU scheduling, Disk Scheduling.<br /> 
+ **2)** When data is transferred asynchronously (data not necessarily received at same rate as sent) between two processes. Examples include IO Buffers, pipes, file IO, etc.<br />
+
+`Array implementation Of Queue`<br />
+For implementing queue, we need to keep track of two indices, front and rear. We enqueue an item at the rear and dequeue an item from the front. If we simply increment front and rear indices, then there may be problems, the front may reach the end of the array. The solution to this problem is to increase front and rear in circular manner.<br />
+
+`Steps for ENQUEUE`<br />
+ 1. Check the queue is full or not<br />
+ 2. If full, print overflow and exit<br />
+ 3. If queue is not full, increment tail and add the element<br />
+
+`Steps for DEQUEUE`<br />
+ 1. Check queue is empty or not<br />
+ 2. if empty, print underflow and exit<br />
+ 3. if not empty, print element at the head and increment head<br />
+
+```cpp
+// CPP program for array
+// implementation of queue
+#include <bits/stdc++.h>
+using namespace std;
+
+// A structure to represent a queue
+class Queue {
+public:
+	int front, rear, size;
+	unsigned capacity;
+	int* array;
+};
+
+// function to create a queue
+// of given capacity.
+// It initializes size of queue as 0
+Queue* createQueue(unsigned capacity)
+{
+	Queue* queue = new Queue();
+	queue->capacity = capacity;
+	queue->front = queue->size = 0;
+
+	// This is important, see the enqueue
+	queue->rear = capacity - 1;
+	queue->array = new int[queue->capacity];
+	return queue;
+}
+
+// Queue is full when size
+// becomes equal to the capacity
+int isFull(Queue* queue)
+{
+	return (queue->size == queue->capacity);
+}
+
+// Queue is empty when size is 0
+int isEmpty(Queue* queue)
+{
+	return (queue->size == 0);
+}
+
+// Function to add an item to the queue.
+// It changes rear and size
+void enqueue(Queue* queue, int item)
+{
+	if (isFull(queue))
+		return;
+	queue->rear = (queue->rear + 1)
+				% queue->capacity;
+	queue->array[queue->rear] = item;
+	queue->size = queue->size + 1;
+	cout << item << " enqueued to queue\n";
+}
+
+// Function to remove an item from queue.
+// It changes front and size
+int dequeue(Queue* queue)
+{
+	if (isEmpty(queue))
+		return INT_MIN;
+	int item = queue->array[queue->front];
+	queue->front = (queue->front + 1)
+				% queue->capacity;
+	queue->size = queue->size - 1;
+	return item;
+}
+
+// Function to get front of queue
+int front(Queue* queue)
+{
+	if (isEmpty(queue))
+		return INT_MIN;
+	return queue->array[queue->front];
+}
+
+// Function to get rear of queue
+int rear(Queue* queue)
+{
+	if (isEmpty(queue))
+		return INT_MIN;
+	return queue->array[queue->rear];
+}
+
+// Driver code
+int main()
+{
+	Queue* queue = createQueue(1000);
+
+	enqueue(queue, 10);
+	enqueue(queue, 20);
+	enqueue(queue, 30);
+	enqueue(queue, 40);
+
+	cout << dequeue(queue)
+		<< " dequeued from queue\n";
+
+	cout << "Front item is "
+		<< front(queue) << endl;
+	cout << "Rear item is "
+		<< rear(queue) << endl;
+
+	return 0;
+}
+```
+
+>Output: <br />
+10 enqueued to queue<br />
+20 enqueued to queue<br />
+30 enqueued to queue<br />
+40 enqueued to queue<br />
+10 dequeued from queue<br />
+Front item is 20<br />
+Rear item is 40<br />
+
+`Complexity Analysis:  `
+
+* Time Complexity:
+<pre>
+  Operations              Complexity
+  Enque(insertion)           O(1)
+  Deque(deletion)            O(1)
+  Front(Get front)           O(1)
+  Rear(Get Rear)             O(1)
+ </pre>
+ 
+* **Auxiliary Space: O(N)**. <br />
+`N` is the size of array for storing elements.<br />
+
+>Pros of Array Implementation:  <br />
+ 1. Easy to implement.<br />
+
+>Cons of Array Implementation:<br />  
+ 1. Static Data Structure, fixed size.<br />
+ 2. If the queue has a large number of enqueue and dequeue operations, at some point (in case of linear increment of front and rear indexes) we may not be able to insert elements in the queue even if the queue is empty (this problem is avoided by using circular queue).<br />
+
+
+ 
