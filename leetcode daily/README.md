@@ -1883,3 +1883,61 @@ public:
  * bool param_4 = obj->empty();
  */
 ```
+	
+
+	
+<br /> <br /> <br />**[1209. Remove All Adjacent Duplicates in String II](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/)**<br />
+You are given a string `s` and an integer `k`, a `k` **duplicate removal** consists of choosing `k` adjacent and equal letters from `s` and removing them, causing the left and the right side of the deleted substring to concatenate together.<br />
+We repeatedly make `k` **duplicate removals** on `s` until we no longer can.<br />
+Return the final string after all such duplicate removals have been made. It is guaranteed that the answer is unique.<br />
+
+>Example 1:<br />
+>Input: s = "abcd", k = 2<br />
+>Output: "abcd"<br />
+>Explanation: There's nothing to delete.<br />
+	
+>Example 2:<br />
+>Input: s = "deeedbbcccbdaa", k = 3<br />
+>Output: "aa"<br />
+>Explanation: <br />
+>First delete "eee" and "ccc", get "ddbbbdaa"<br />
+>Then delete "bbb", get "dddaa"<br />
+>Finally delete "ddd", get "aa"<br />
+	
+>Example 3:<br />
+>Input: s = "pbbcggttciiippooaais", k = 2<br />
+>Output: "ps"<br />
+ 
+* Constraints: `1 <= s.length <= 10^5`<br />
+`2 <= k <= 10^4`<br />
+`s` only contains lower case English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+        int n = s.size();
+        if(n<k)return s;
+        stack<pair<char,int>> stk;
+        for(int i=0; i<n; ++i){
+            if(stk.empty() || stk.top().first != s[i]) stk.push({s[i],1});
+            else{
+                auto prev = stk.top();
+                stk.pop();
+                stk.push({s[i], prev.second+1});
+            }
+            if(stk.top().second==k) stk.pop();
+        }
+        string ans = "";
+        while(!stk.empty()){
+            auto cur = stk.top();
+            stk.pop();
+            while(cur.second--){
+                ans.push_back(cur.first);
+            }
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+```
