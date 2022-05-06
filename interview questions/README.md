@@ -1107,3 +1107,38 @@ public:
     }
 };
 ```
+ 
+ 
+ 
+<br /> <br /> <br />**[283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)**<br />
+Given an integer array `nums`, move all `0`'s to the end of it while maintaining the relative order of the non-zero elements.<br />
+**Note** that you must do this in-place without making a copy of the array.<br />
+
+>Example 1:<br />
+>Input: nums = [0,1,0,3,12]<br />
+>Output: [1,3,12,0,0]<br />
+ 
+>Example 2:<br />
+>Input: nums = [0]<br />
+>Output: [0]<br />
+
+* Constraints: `1 <= nums.length <= 10^4`<br />
+`-2^31 <= nums[i] <= 2^31 - 1`<br />
+ 
+```cpp
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int low=0;
+        int mid=0;
+        while(mid<nums.size()){
+            if(nums[mid]!=0){                                 
+                swap(nums[mid],nums[low]);
+                low++; 
+                mid++;
+            }
+            else mid++;
+        }
+    }
+};
+```
