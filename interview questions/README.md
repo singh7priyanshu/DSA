@@ -916,3 +916,194 @@ public:
     }
 };
 ```
+
+ 
+ 
+
+<br /> <br /> <br />**[122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)**<br />
+You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day.<br />
+On each day, you may decide to buy and/or sell the stock. You can only hold **at most one** share of the stock at any time. However, you can buy it then immediately sell it on the **same day**.<br />
+Find and return _the **maximum** profit you can achieve_.<br />
+
+>Example 1:<br />
+>Input: prices = [7,1,5,3,6,4]<br />
+>Output: 7<br />
+>Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.<br />
+>Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.<br />
+>Total profit is 4 + 3 = 7.<br />
+ 
+>Example 2:<br />
+>Input: prices = [1,2,3,4,5]<br />
+>Output: 4<br />
+>Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.<br />
+>Total profit is 4.<br />
+ 
+>Example 3:<br />
+>Iput: prices = [7,6,4,3,1]<br />
+>Output: 0<br />
+>Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.<br />
+
+* Constraints: `1 <= prices.length <= 3 * 10^4`<br />
+`0 <= prices[i] <= 10^4`<br />
+ 
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices){
+        int n=prices.size();
+        if(n==1) return 0;
+        int buy=0,profit=0;
+        for(int i=0;i<n-1;i++){
+            if(prices[i]<prices[i+1]){
+                buy=prices[i];
+                i++;
+                while( i<n-1  && prices[i]<prices[i+1])i++;
+                profit+=(prices[i]-buy);
+            }   
+        }  
+        return profit; 
+    }
+};
+```
+ 
+ 
+
+ 
+<br /> <br /> <br />**[123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)**<br />
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.<br />
+Find the maximum profit you can achieve. You may complete **at most two transactions**.<br />
+**Note**: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).<br />
+
+>Example 1:<br />
+>Input: prices = [3,3,5,0,0,3,1,4]<br />
+>Output: 6<br />
+>Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.<br />
+>Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.<br />
+ 
+>Example 2:<br />
+>Input: prices = [1,2,3,4,5]<br />
+>Output: 4<br />
+>Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.<br />
+>Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. You must sell before buying again.<br />
+
+>Example 3:<br />
+>Input: prices = [7,6,4,3,1]<br />
+>Output: 0<br />
+>Explanation: In this case, no transaction is done, i.e. max profit = 0.<br />
+ 
+* Constraints: `1 <= prices.length <= 10^5`<br />
+`0 <= prices[i] <= 10^5`<br />
+ 
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int* profit = new int[n];
+        for (int i = 0; i < n; i++)profit[i] = 0;
+        int max_price = prices[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (prices[i] > max_price)max_price = prices[i];
+
+            profit[i]
+                = max(profit[i + 1], max_price - prices[i]);
+        }
+        int min_price = prices[0];
+        for (int i = 1; i < n; i++) {
+            if (prices[i] < min_price)
+                min_price = prices[i];
+            profit[i] = max(profit[i - 1],
+                            profit[i] + (prices[i] - min_price));
+        }
+        int result = profit[n - 1];
+        delete[] profit;
+        return result;
+    }
+};
+```
+ 
+ 
+ 
+ 
+ 
+<br /> <br /> <br />**[188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)**<br />
+You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day, and an integer `k`.<br />
+Find the maximum profit you can achieve. You may complete at most `k` transactions.<br />
+**Note**: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).<br />
+
+>Example 1:<br />
+>Input: k = 2, prices = [2,4,1]<br />
+>Output: 2<br />
+>Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.<br />
+ 
+>Example 2:<br />
+>Input: k = 2, prices = [3,2,6,5,0,3]<br />
+>Output: 7<br />
+>Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.<br />
+ 
+* Constraints: `0 <= k <= 100`<br />
+`0 <= prices.length <= 1000`<br />
+`0 <= prices[i] <= 1000`<br />
+ 
+```cpp
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if(prices.size() == 0) return 0;
+        int n = k * 2 + 1;
+        vector<int> dp(n, 0);
+        for (int i = 0; i < k; i++) {
+            dp[1 + i * 2] = -prices[0];
+        }
+        for (int i = 1; i < prices.size(); i++) {
+            dp[0] = dp[0];
+            for (int j = 0; j < k; j++) {
+                dp[1 + j * 2] = max(dp[1 + j * 2], dp[j * 2] - prices[i]);
+                dp[2 + j * 2] = max(dp[2 + j * 2], dp[1 + j * 2] + prices[i]);
+            }
+        }
+        
+        int ans = 0;
+        for (int i = 0; i < k; i++) ans = max(ans, dp[2 + i * 2]);
+        return ans;
+    }
+};
+```
+
+ 
+
+
+<br /> <br /> <br />**[309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)**<br />
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.<br />
+Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:<br />
+  * After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).<br />
+**Note**: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).<br />
+
+>Example 1:<br />
+>Input: prices = [1,2,3,0,2]<br />
+>Output: 3<br />
+>Explanation: transactions = [buy, sell, cooldown, buy, sell]<br />
+ 
+>Example 2:<br />
+>Input: prices = [1]<br />
+>Output: 0<br />
+
+* Constraints: `1 <= prices.length <= 5000`<br />
+`0 <= prices[i] <= 1000`<br />
+ 
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> p = {0,0}, pp = {0,0}, cur = {0,0};
+        for(int i=n-1;i>=0;i--){
+            cur[1] = max(-prices[i] + p[0], p[1]);
+            cur[0] = max(prices[i] + pp[1], p[0]);
+            pp = p;
+            p = cur;
+        }
+        return p[1];
+    }
+};
+```
