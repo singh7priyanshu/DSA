@@ -404,10 +404,12 @@ int twoStacks :: pop2()
 
 <br /><br /><br />**[4. find the middle element of a stack](https://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/)**<br />
 How to implement a stack which will support following operations in `O(1) time complexity`? <br />
-	1) `push()` which adds an element to the top of stack. <br />
-	2) `pop()` which removes an element from top of stack. <br />
-	3) `findMiddle()` which will return middle element of the stack.<br /> 
-	4) `deleteMiddle()` which will delete the middle element. <br />
+
+  1) `push()` which adds an element to the top of stack. 
+  2) `pop()` which removes an element from top of stack. 
+  3) `findMiddle()` which will return middle element of the stack.
+  4) `deleteMiddle()` which will delete the middle element. 
+	
 `Push` and `pop` are standard stack operations. <br />
 
 >The important question is, whether to use a linked list or array for the implementation of the stack?<br /> 
