@@ -271,3 +271,288 @@ Rear item is 40<br />
 
 
  
+ 
+<br /><br /><br />**[3. Implement 2 stack in an array](https://practice.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1)**<br />
+Your task is to implement  2 stacks in one array efficiently.<br />
+
+>Example 1:<br />
+Input:<br />
+push1(2)<br />
+push1(3)<br />
+push2(4)<br />
+pop1()<br />
+pop2()<br />
+pop2()<br />
+
+>Output:<br />
+3 4 -1<br />
+
+>Explanation:<br />
+push1(2) the stack1 will be {2}<br />
+push1(3) the stack1 will be {2,3}<br />
+push2(4) the stack2 will be {4}<br />
+pop1()   the poped element will be 3 <br />
+from stack1 and stack1 will be {2}<br />
+pop2()   the poped element will be 4 <br />
+from stack2 and now stack2 is empty<br />
+pop2()   the stack2 is now empty hence -1 .<br />
+ 
+Your Task:<br />
+You don't need to read input or print anything. You are required to complete the 4 methods `push1`, `push2` which takes one argument an integer `'x'` to be pushed into stack one and two and `pop1`, `pop2` which returns the integer poped out from stack one and two. If no integer is present in the array return -1.<br />
+
+* **Expected Time Complexity**: O(1) for all the four methods.<br />
+  **Expected Auxiliary Space**: O(1) for all the four methods.<br />
+
+* Constraints: `1 <= Number of queries <= 100`<br />
+`1 <= value in the stack <= 100`<br />
+The sum of elements in both the stacks < size of the given array<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class twoStacks
+{
+    int *arr;
+    int size;
+    int top1, top2;
+public:
+   twoStacks(int n=100){size = n; arr = new int[n]; top1 = -1; top2 = size;}
+ 
+   void push1(int x);
+   void push2(int x);
+   int pop1();
+   int pop2();
+};
+
+int main()
+{
+    int T;
+    cin>>T;
+    while(T--)
+    {
+        twoStacks *sq = new twoStacks();
+
+        int Q;
+        cin>>Q;
+        while(Q--){
+        int stack_no;
+        cin>>stack_no;
+        int QueryType=0;
+        cin>>QueryType;
+        
+        if(QueryType==1)
+        {
+            int a;
+            cin>>a;
+            if(stack_no ==1)
+            sq->push1(a);
+            else if(stack_no==2)
+            sq->push2(a);
+        }else if(QueryType==2){
+        	if(stack_no==1)
+            cout<<sq->pop1()<<" ";
+            else if(stack_no==2)
+            cout<<sq->pop2()<<" ";
+
+        }
+        }
+        cout<<endl;
+    }
+}
+
+//Function to push an integer into the stack1.
+void twoStacks :: push1(int x)
+{
+    if(top1<top2 -1){
+        top1++;
+        arr[top1]=x;
+    }
+}
+   
+//Function to push an integer into the stack2.
+void twoStacks ::push2(int x)
+{
+    if(top1<top2 -1){
+        top2--;
+        arr[top2] = x;
+    }
+}
+   
+//Function to remove an element from top of the stack1.
+int twoStacks ::pop1()
+{
+    if(top1>=0){
+        int x = arr[top1];
+        top1--;
+        return x;
+    }else return -1;
+}
+
+//Function to remove an element from top of the stack2.
+int twoStacks :: pop2()
+{
+    if(top2<size){
+        int x = arr[top2];
+        top2++;
+        return x;
+    }else return -1;
+}
+```
+
+
+
+<br /><br /><br />**[4. find the middle element of a stack](https://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/)**<br />
+How to implement a stack which will support following operations in `O(1) time complexity`? <br />
+	1) `push()` which adds an element to the top of stack. <br />
+	2) `pop()` which removes an element from top of stack. <br />
+	3) `findMiddle()` which will return middle element of the stack.<br /> 
+	4) `deleteMiddle()` which will delete the middle element. <br />
+`Push` and `pop` are standard stack operations. <br />
+
+>The important question is, whether to use a linked list or array for the implementation of the stack?<br /> 
+Please note that we need to find and delete the `middle` element. Deleting an element from the middle is not `O(1)` for array. Also, we may need to move the `middle pointer` up when we `push` an element and move down when we `pop()`. In a `singly linked list`, moving the `middle pointer` in both directions is not possible.<br /> 
+The idea is to use `Doubly Linked List (DLL)`. We can delete the `middle` element in `O(1)` time by maintaining `mid pointer`. We can move mid pointer in both directions using previous and next pointers. <br />
+Following is implementation of `push()`, `pop()` and `findMiddle()` operations. Implementation of `deleteMiddle()` is left as an exercise. If there are `even` elements in stack, findMiddle() returns the `second middle element`. For example, if stack contains `{1, 2, 3, 4}`, then findMiddle() would return `3`.<br /> 
+
+```cpp
+/* C++ Program to implement a stack
+that supports findMiddle() and
+deleteMiddle in O(1) time */
+#include <bits/stdc++.h>
+using namespace std;
+
+class myStack
+{
+	struct Node
+	{
+		int num;
+		Node *next;
+		Node *prev;
+
+		Node(int num)
+		{
+			this->num = num;
+		}
+	};
+
+	//Members of stack
+	Node *head = NULL;
+	Node *mid = NULL;
+	int size = 0;
+
+public:
+	void push(int data)
+	{
+		Node *temp = new Node(data);
+		if (size==0)
+		{
+			head = temp;
+			mid = temp;
+			size++;
+			return;
+		}
+
+		head->next = temp;
+		temp->prev = head;
+
+		//update the pointers
+		head = head->next;
+		if (size%2==1)
+		{
+			mid = mid->next;
+		}
+		size++;
+	}
+
+	void pop()
+	{
+		if (size!=0)
+		{
+			if (size==1)
+			{
+				head = NULL;
+				mid = NULL;
+			}
+			else
+			{
+				head = head->prev;
+				head->next = NULL;
+				if (size%2==0)
+				{
+					mid = mid->prev;
+				}
+			}
+			size--;
+		}
+	}
+
+	int findMiddle()
+	{
+		if (size==0)
+		{
+			return -1;
+		}
+		return mid->num;
+	}
+
+	void deleteMiddle()
+	{
+		if (size!=0)
+		{
+			if (size==1)
+			{
+				head = NULL;
+				mid = NULL;
+			}
+			else if (size==2)
+			{
+				head = head->prev;
+				mid = mid->prev;
+				head->next =NULL;
+			}
+			else
+			{
+				mid->next->prev = mid->prev;
+				mid->prev->next = mid->next;
+				if (size%2==0)
+				{
+					mid = mid->prev;
+				}
+				else
+				{
+					mid = mid->next;
+				}
+			}
+			size--;
+		}
+	}
+};
+
+
+int main()
+{
+	myStack st;
+	st.push(11);
+	st.push(22);
+	st.push(33);
+	st.push(44);
+	st.push(55);
+	st.pop();
+	st.pop();
+	st.pop();
+	cout<<st.findMiddle()<<endl;
+	st.deleteMiddle();
+	cout<<st.findMiddle()<<endl;
+	return 0;
+}
+```
+
+>Output<br />
+Item popped is 77<br />
+Item popped is 66<br />
+Item popped is 55<br />
+Middle Element is 33<br />
+Deleted Middle Element is 33<br />
+Middle Element is 22<br />
+
