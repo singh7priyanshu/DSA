@@ -1187,3 +1187,368 @@ public:
     }
 };
 ```
+
+ 
+ 
+ 
+<br /> <br /> <br />**[1822. Sign of the Product of an Array](https://leetcode.com/problems/sign-of-the-product-of-an-array/)**<br />
+There is a function `signFunc(x)` that returns:<br />
+
+* `1` if `x` is positive.<br />
+* `-1` if `x` is negative.<br />
+* `0` if `x` is equal to `0`.<br />
+You are given an integer array `nums`. Let `product` be the product of all values in the array `nums`.<br />
+
+Return `signFunc(product)`.<br />
+
+
+>Example 1:<br />
+Input: nums = [-1,-2,-3,-4,3,2,1]<br />
+Output: 1<br />
+Explanation: The product of all values in the array is 144, and signFunc(144) = 1<br />
+ 
+>Example 2:<br />
+Input: nums = [1,5,0,2,-3]<br />
+Output: 0<br />
+Explanation: The product of all values in the array is 0, and signFunc(0) = 0<br />
+ 
+>Example 3:<br />
+Input: nums = [-1,1,-1,1,-1]<br />
+Output: -1<br />
+Explanation: The product of all values in the array is -1, and signFunc(-1) = -1<br />
+ 
+
+* Constraints: `1 <= nums.length <= 1000`<br />
+`-100 <= nums[i] <= 100`<br />
+ 
+```cpp
+class Solution {
+public:
+    int arraySign(vector<int>& nums) {
+        int count = 0;
+        for(int i = 0;i<nums.size();i++){
+            if((nums[i])==0)return 0;
+            if(nums[i]<0)count++;
+        }
+        return count%2 == 0? 1 : -1;
+    }
+};
+```
+
+ 
+ 
+ 
+<br /> <br /> <br />**[1502. Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/)**<br />
+A sequence of numbers is called an **arithmetic progression** if the difference between any two consecutive elements is the same.<br />
+Given an array of numbers `arr`, return `true` _if the array can be rearranged to form an **arithmetic progression**. Otherwise, return `false`_.<br />
+ 
+>Example 1:<br />
+Input: arr = [3,5,1]<br />
+Output: true<br />
+Explanation: We can reorder the elements as [1,3,5] or [5,3,1] with differences 2 and -2 respectively, between each consecutive elements.<br />
+ 
+>Example 2:<br />
+Input: arr = [1,2,4]<br />
+Output: false<br />
+Explanation: There is no way to reorder the elements to obtain an arithmetic progression.<br />
+ 
+* Constraints: 2 <= arr.length <= 1000<br />
+-10^6 <= arr[i] <= 10^6<br />
+ 
+```cpp
+class Solution {
+public:
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
+        int diff = arr[1]-arr[0];
+        for(int i = 0;i<arr.size()-1;i++){
+            if((arr[i+1]-arr[i]) != diff)return false;
+        }
+        return true;
+    }
+};
+```
+                                           
+                                           
+                                           
+                                           
+                                         
+<br /> <br /> <br />**[202. Happy Number](https://leetcode.com/problems/happy-number/)**<br />
+Write an algorithm to determine if a number `n` is happy.<br />
+A **happy number** is a number defined by the following process:<br />
+* Starting with any positive integer, replace the number by the sum of the squares of its digits.<br />
+* Repeat the process until the number equals 1 (where it will stay), or it **loops endlessly in a cycle** which does not include 1.<br />
+* Those numbers for which this process **ends in 1** are happy.<br />
+ 
+Return `true` if `n` is a happy number, and `false` if not.<br />
+
+>Example 1:<br />
+Input: n = 19<br />
+Output: true<br />
+Explanation:<br />
+12 + 92 = 82<br />
+82 + 22 = 68<br />
+62 + 82 = 100<br />
+12 + 02 + 02 = 1<br />
+ 
+>Example 2:<br />
+Input: n = 2<br />
+Output: false<br />
+ 
+* Constraints: `1 <= n <= 2^31 - 1`<br />
+ 
+```cpp
+class Solution {
+public:
+    bool isHappy(int n) {
+        while(n/10>0){
+            int sum=0;
+            while(n>0){
+                int rem=n%10;
+                sum=rem*rem+sum;
+                n=n/10;
+            }
+        n=sum;
+        }
+        //when you will split 07, add squares of 0 and 7. This will become 49, 
+        //and after following the same steps you'll certainly reach 1. 
+        if(n==1 || n==7)return true;
+        else return false;
+    }
+};
+```
+ 
+ 
+ 
+
+
+<br /> <br /> <br />**[1790. Check if One String Swap Can Make Strings Equal](https://leetcode.com/problems/check-if-one-string-swap-can-make-strings-equal/)**<br />
+You are given two strings `s1` and `s2` of equal length. A **string swap** is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.<br />
+Return `true` _if it is possible to make both strings equal by performing **at most one string swap** on **exactly one** of the strings_. Otherwise, return `false`.<br />
+
+>Example 1:<br />
+Input: s1 = "bank", s2 = "kanb"<br />
+Output: true<br />
+Explanation: For example, swap the first character with the last character of s2 to make "bank".<br />
+ 
+>Example 2:<br />
+Input: s1 = "attack", s2 = "defend"<br />
+Output: false<br />
+Explanation: It is impossible to make them equal with one string swap.<br />
+ 
+>Example 3:<br />
+Input: s1 = "kelb", s2 = "kelb"<br />
+Output: true<br />
+Explanation: The two strings are already equal, so no string swap operation is required.<br />
+
+* Constraints: `1 <= s1.length, s2.length <= 100`<br />
+`s1.length == s2.length`<br />
+`s1` and `s2` consist of only lowercase English letters.<br />
+ 
+```cpp
+class Solution {
+public:
+    bool areAlmostEqual(string s1, string s2) {
+        if(s1==s2) return true;
+        int diff=0;
+            vector<int> v;
+            for(int i=0;i<s1.length();i++){
+                if(s1[i] != s2[i]){
+                    diff++;
+                    v.push_back(i);
+                }
+            }
+            if(diff != 2) return false;
+            swap(s1[v[0]],s1[v[1]]);
+            if(s1==s2)return true;
+        return false;
+    }
+};
+```
+ 
+                                            
+                                            
+<br /> <br /> <br />**[566. Reshape the Matrix](https://leetcode.com/problems/reshape-the-matrix/)**<br />  
+In MATLAB, there is a handy function called `reshape` which can reshape an `m x n` matrix into a new one with a different size `r x c` keeping its original data.<br /> 
+You are given an `m x n` matrix `mat` and two integers `r` and `c` representing the number of rows and the number of columns of the wanted reshaped matrix.<br /> 
+The reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.<br /> 
+If the `reshape` operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.<br /> 
+
+>Example 1:<br /> 
+<img src = "https://assets.leetcode.com/uploads/2021/04/24/reshape1-grid.jpg"><br /> 
+Input: mat = [[1,2],[3,4]], r = 1, c = 4<br /> 
+Output: [[1,2,3,4]]<br /> 
+ 
+>Example 2:<br /> 
+<img src = "https://assets.leetcode.com/uploads/2021/04/24/reshape2-grid.jpg"><br /> 
+Input: mat = [[1,2],[3,4]], r = 2, c = 4<br /> 
+Output: [[1,2],[3,4]]<br /> 
+ 
+* Constraints: `m == mat.length`<br /> 
+`n == mat[i].length`<br /> 
+`1 <= m, n <= 100`<br /> 
+`-1000 <= mat[i][j] <= 1000`<br /> 
+`1 <= r, c <= 300`<br /> 
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+        int m = mat.size();
+        int n = mat[0].size();
+        if(r * c != m * n) return mat;
+        vector<int> temp;
+        for(int i = 0 ; i < mat.size() ; i++){
+            for(int j = 0 ; j < mat[i].size() ; j++){
+                temp.push_back(mat[i][j]);
+            }
+        }
+        vector<vector<int>> output;
+        for(int i = 0 ; i < r ; i++){
+            vector<int> v;
+            for(int j = 0 ; j < c ; j++){
+                v.push_back(temp[i * c + j]);
+            }
+            output.push_back(v);
+        }
+        return output;
+    }
+};
+```
+                                 
+                                 
+                                           
+
+
+<br /> <br /> <br />**[118. Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/)**<br />   
+Given an integer `numRows`, return the first numRows of **Pascal's triangle**.<br /> 
+In **Pascal's triangle**, each number is the sum of the two numbers directly above it as shown:<br /> 
+<img src = "https://upload.wikimedia.org/wikipedia/commons/0/0d/PascalTriangleAnimated2.gif"><br /> 
+
+>Example 1:<br /> 
+Input: numRows = 5<br /> 
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]<br /> 
+ 
+>Example 2:<br /> 
+Input: numRows = 1<br /> 
+Output: [[1]]<br /> 
+ 
+* Constraints: `1 <= numRows <= 30`<br /> 
+ 
+```cpp
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> res;
+        if(numRows <= 0)return res;
+        for(int i = 0; i<= numRows; ++i){
+            vector<int> row;
+            for(int j = 0; j < i; ++j){
+                if(j ==0 || j == i-1)row.push_back(1);
+                else row.push_back(res.at(i-1).at(j-1) +  res.at(i-1).at(j));              
+            }
+        res.push_back(row);
+        }
+    res.erase(res.begin());
+    return res;
+    }
+};
+```
+                                 
+                                 
+                                 
+<br /> <br /> <br />**[344. Reverse String](https://leetcode.com/problems/reverse-string/)**<br />
+Write a function that reverses a string. The input string is given as an array of characters `s`.<br /> 
+You must do this by modifying the input array `in-place` with `O(1)` extra memory.<br />
+
+>Example 1:<br />
+Input: s = ["h","e","l","l","o"]<br />
+Output: ["o","l","l","e","h"]<br />       
+ 
+>Example 2:<br />
+Input: s = ["H","a","n","n","a","h"]<br />
+Output: ["h","a","n","n","a","H"]<br />  
+ 
+* Constraints: `1 <= s.length <= 10^5`<br />
+s[i] is a `printable ascii character`.<br />  
+ 
+```cpp
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int i=0;
+        int j=(s.size())-1;
+        for(int k=0;k<s.size()/2;k++){
+            swap(s[i],s[j]);
+            i++;j--;
+        }
+    }
+};
+```
+                                       
+                                      
+
+<br /> <br /> <br />**[541. Reverse String II](https://leetcode.com/problems/reverse-string-ii/)**<br />          
+Given a string `s` and an integer `k`, reverse the first `k` characters for every `2k` characters counting from the start of the string.<br />
+If there are fewer than `k` characters left, reverse all of them. If there are less than `2k` but greater than or equal to `k` characters, then reverse the first `k` characters and leave the other as original.<br />
+ 
+>Example 1:<br />
+Input: s = "abcdefg", k = 2<br />
+Output: "bacdfeg"<br />
+ 
+>Example 2:<br />
+Input: s = "abcd", k = 2<br />
+Output: "bacd"<br />
+
+* Constraints: `1 <= s.length <= 10^4`<br />
+`s` consists of only lowercase English letters.<br />
+`1 <= k <= 10^4`<br />
+ 
+```cpp
+class Solution {
+public:
+    string reverseStr(string s, int k) {
+        int n =s.size(),i=0;
+        while(i<n){
+            reverse(s.begin()+i,s.begin()+min(i+k,n));
+            i=i+2*k;
+        }
+        return s;
+    }
+};
+```
+                    
+                    
+                    
+<br /> <br /> <br />**[557. Reverse Words in a String III](https://leetcode.com/problems/reverse-words-in-a-string-iii/)**<br />      
+Given a string `s`, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.<br />
+
+>Example 1:<br />
+Input: s = "Let's take LeetCode contest"<br />
+Output: "s'teL ekat edoCteeL tsetnoc"<br />
+ 
+>Example 2:<br />
+Input: s = "God Ding"<br />
+Output: "doG gniD"<br />
+
+* Constraints: `1 <= s.length <= 5 * 10^4`<br />
+`s` contains printable **ASCII** characters.<br />
+`s` does not contain any leading or trailing spaces.<br />
+There is `at least one` word in `s`.<br />
+All the words in `s` are separated by a single space.<br />
+ 
+```cpp
+class Solution {
+public:
+    string reverseWords(string s) {
+        int k = 0;
+        for(int i=0;i<=s.size();i++){
+            if(s[i]==' ' || i==s.size()){
+                reverse(s.begin()+k,s.begin()+i);
+                k=i+1;
+            }
+        }
+    return s;
+    }
+};
+```
