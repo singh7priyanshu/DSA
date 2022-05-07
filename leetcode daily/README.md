@@ -1941,3 +1941,65 @@ public:
     }
 };
 ```
+			  
+			  
+			  
+			 
+<br /> <br /> <br />**[456. 132 Pattern](https://leetcode.com/problems/132-pattern/)**<br />
+Given an array of `n` integers `nums`, a **132 pattern** is a subsequence of three integers `nums[i]`, `nums[j]` and `nums[k]` such that `i < j < k` and `nums[i] < nums[k] < nums[j]`.<br />
+Return `true` if there is a **132 pattern** in `nums`, otherwise, return `false`.<br />
+
+>Example 1:<br />
+Input: nums = [1,2,3,4]<br />
+Output: false<br />
+Explanation: There is no 132 pattern in the sequence.<br />
+	
+>Example 2:<br />
+Input: nums = [3,1,4,2]<br />
+Output: true<br />
+Explanation: There is a 132 pattern in the sequence: [1, 4, 2].<br />
+	
+>Example 3:<br />
+Input: nums = [-1,3,2,0]<br />
+Output: true<br />
+Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0].<br />
+
+* Constraints: `n == nums.length`<br />
+`1 <= n <= 2 * 10^5`<br />
+`-10^9 <= nums[i] <= 10^9`<br />
+	
+```cpp
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        stack<pair<int,int>> s;
+        int mini = INT_MAX;  
+        for(int i = 0;i<nums.size();i++){
+            if(s.size()!=0)mini = min(mini,s.top().first);     
+            while(s.size()!=0 && nums[i]>s.top().first) s.pop();
+            if(s.size()!=0){  
+                if((s.top().first > nums[i]) && (nums[i] > s.top().second))return true;
+            }
+            s.push({nums[i],mini}); 
+        }
+        return false;
+        /*
+        other solution
+        int s3 = INT_MIN;
+        int n = nums.size();
+        stack<int>s;
+        for(int i = n-1;i>=0;i--){
+            if(nums[i]<s3)return true;
+            else{
+                while(!s.empty() && nums[i]>s.top()){
+                    s3 = s.top();
+                    s.pop();
+                }
+            }
+            s.push(nums[i]);
+        }
+        return false;
+        */
+    }
+};
+```
