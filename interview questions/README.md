@@ -1552,3 +1552,454 @@ public:
     }
 };
 ```
+
+                                     
+                                   
+<br /> <br /> <br />**[589. N-ary Tree Preorder Traversal](https://leetcode.com/problems/n-ary-tree-preorder-traversal/)**<br />  
+Given the `root` of an n-ary tree, return _the preorder traversal of its nodes' values_.<br />
+Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)<br />
+ 
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2018/10/12/narytreeexample.png"><br />
+>Input: root = [1,null,3,2,4,null,5,6]<br />
+>Output: [1,3,5,6,2,4]<br />
+ 
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/11/08/sample_4_964.png"><br />
+>Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]<br />
+>Output: [1,2,3,6,7,11,14,4,8,12,5,9,13,10]<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 10^4]`.<br />
+`0 <= Node.val <= 10^4`<br />
+The height of the n-ary tree is less than or equal to `1000`.<br />
+ 
+```cpp
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    
+    void preOrder(Node* root, vector<int>& v){
+        if(!root) return;
+        v.push_back(root->val);
+        for(Node* rt: root->children) preOrder(rt,v);
+    }
+    
+    vector<int> preorder(Node* root) {
+        vector<int> v;
+        preOrder(root,v);
+        return v;
+    }
+};
+```
+ 
+
+ 
+ 
+
+<br /> <br /> <br />**[496. Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/)**<br />  
+The **next greater element** of some element `x` in an array is the **first greater** element that is **to the right** of `x` in the same array.<br />
+You are given **two distinct 0-indexed** integer arrays `nums1` and `nums2`, where nums1 is a subset of `nums2`.<br />
+For each `0 <= i < nums1.length`, find the index `j` such that `nums1[i] == nums2[j]` and determine the **next greater element** of `nums2[j]` in `nums2`. If there is no next greater element, then the answer for this query is `-1`.<br />
+Return _an array `ans` of length `nums1.length` such that `ans[i]` is the **next greater element** as described above_.<br />
+
+>Example 1:<br />
+>Input: nums1 = [4,1,2], nums2 = [1,3,4,2]<br />
+>Output: [-1,3,-1]<br />
+>Explanation: The next greater element for each value of nums1 is as follows:<br />
+>- 4 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.<br />
+>- 1 is underlined in nums2 = [1,3,4,2]. The next greater element is 3.<br />
+>- 2 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.<br />
+ 
+>Example 2:<br />
+>Input: nums1 = [2,4], nums2 = [1,2,3,4]<br />
+>Output: [3,-1]<br />
+>Explanation: The next greater element for each value of nums1 is as follows:<br />
+>- 2 is underlined in nums2 = [1,2,3,4]. The next greater element is 3.<br />
+>- 4 is underlined in nums2 = [1,2,3,4]. There is no next greater element, so the answer is -1.<br />
+ 
+* Constraints: `1 <= nums1.length <= nums2.length <= 1000`<br />
+`0 <= nums1[i], nums2[i] <= 10^4`<br />
+All integers in `nums1` and `nums2` are **unique**.<br />
+All the integers of `nums1` also appear in `nums2`.<br />
+                                
+```cpp
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums2.size();
+        stack<int>st;
+        unordered_map<int,int> mp;
+        for(int i = n-1; i >= 0; i--){
+        while(!st.empty() && st.top() <= nums2[i])st.pop(); 
+        if(st.empty())mp[nums2[i]] = -1;    
+        else mp[nums2[i]] = st.top();
+        st.push(nums2[i]);    
+    }
+    
+    vector<int> ans;
+    for(int i = 0; i < nums1.size(); i++)ans.push_back(mp[nums1[i]]);
+    return ans;
+    }
+};
+```                               
+                                
+
+                                    
+                                    
+<br /> <br /> <br />**[1232. Check If It Is a Straight Line](https://leetcode.com/problems/check-if-it-is-a-straight-line/)**<br /> 
+ You are given an array `coordinates, coordinates[i] = [x, y]`, where `[x, y]` represents the coordinate of a point. Check if these points make a straight line in the XY plane.<br />
+ 
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/10/15/untitled-diagram-2.jpg"><br />
+>Input: coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]<br />
+>Output: true<br />
+ 
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/10/09/untitled-diagram-1.jpg"><br />
+>Input: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]<br />
+>Output: false<br />
+ 
+* Constraints: `2 <= coordinates.length <= 1000`<br />
+`coordinates[i].length == 2`<br />
+`-10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4`<br />
+`coordinates` contains no duplicate point.<br />
+                                    
+ ```cpp
+ class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& coordinates) {
+        if (coordinates.size() == 2)  return true;
+        for (int i = 2; i < coordinates.size(); i++){
+            if (!helper(coordinates[i - 2], coordinates[i - 1], coordinates[i]))
+                return false;
+        }
+        return true;
+    }
+private:
+    bool helper(vector<int> a, vector<int> b, vector<int> c){
+        int xab = b[0] - a[0];
+        int yab = b[1] - a[1];
+        int xac = c[0] - a[0];
+        int yac = c[1] - a[1];
+        return (yac) * (xab) == (yab) * (xac);
+    }
+};
+/*
+class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& points) {
+        auto &a = points[0];
+        auto &b = points[1];
+        auto tangent = tan(a,b);
+        for(int i=2;i<points.size();i++){
+            auto cur = tan(points[i-1], points[i]);
+            if(cur != tangent) return false;
+        }
+        return true;
+    }
+    double tan(vector<int> &a, vector<int> &b){
+        if(a[0] == b[0]) return INT_MAX;
+        return (double)(a[1] - b[1])/(a[0]-b[0]);
+    }
+};
+*/
+```
+ 
+
+ 
+ 
+<br /> <br /> <br />**[36. Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)**<br /> 
+Determine if a `9 x 9` Sudoku board is valid. Only the filled cells need to be validated **according to the following rules**:<br />
+Each row must contain the digits `1-9` without repetition.<br />
+Each column must contain the digits `1-9` without repetition.<br />
+Each of the nine `3 x 3` sub-boxes of the grid must contain the digits `1-9` without repetition.<br />
+Note:<br />
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.<br />
+Only the filled cells need to be validated according to the mentioned rules.<br />
+ 
+>Example 1:<br />
+><img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png"><br />
+<pre>
+Input: board = 
+[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: true
+</pre><br />
+ 
+>Example 2:<br />
+<pre>
+Input: board = 
+[["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: false
+</pre><br />
+>Explanation: Same as Example 1, except with the 5 in the top left corner being modified to `8`. Since there are two 8's in the top left 3x3 sub-box, it is invalid.<br />
+
+* Constraints: `board.length == 9`<br />
+`board[i].length == 9`<br />
+`board[i][j]` is a digit `1-9` or `'.'`.<br />
+ 
+```cpp
+class Solution {
+public:
+    //function to check if number repeats in vector
+	bool comparer(vector<char>& in){
+        sort(in.begin(), in.end());
+        if(adjacent_find(in.begin(), in.end()) != in.end()){
+                return false;
+            }
+            
+        else{
+            return true;
+        }
+}
+
+
+    bool isValidSudoku(vector<std::vector<char>>& board) {
+        const unsigned char size = 9;
+        unsigned char mut = 0;
+        unsigned char cont = 0;
+        vector<char> comparelines;
+        vector<char> comparecols;
+        vector<char> comparesquares;
+        // loop that pushes line in comparelines
+	    for(int i = 0; i != size; i++){
+            for(int f = 0; f != size; f++){
+                if(board[i][f] != '.'){
+                    comparelines.push_back(board[i][f]);
+                }
+            }
+            // loop that pushes columns in comparecols
+		    for(int c = 0; c != size; c++){
+                if(board[c][i] != '.'){
+                    comparecols.push_back(board[c][i]);
+                }
+            }
+        
+            //loop that pushes 3x3 squares into comparesquares
+		    for(int d = mut; d != mut + 3; d++){
+                for(int c = cont; c != cont + 3; c++){
+                    if(board[d][c] != '.'){
+                        comparesquares.push_back(board[d][c]);
+
+                    }
+                }
+            }
+
+            // checking
+		    if(comparer(comparelines) && comparer(comparecols) && comparer(comparesquares)){
+                comparecols.clear();
+                comparelines.clear();
+                comparesquares.clear();
+            }
+            else{
+                return false;
+            }
+        
+            // math needed to compare 3x3 squares
+		    cont += 3;
+            if(i == 2 || i == 5 || i == 8){
+                mut += 3;
+                cont = 0;
+            }
+        
+        }
+    
+        return true;
+        
+    }
+};
+```
+ 
+ 
+ 
+ 
+ 
+<br /> <br /> <br />**[74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/)**<br /> 
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:<br />
+Integers in each row are sorted from left to right.<br />
+The first integer of each row is greater than the last integer of the previous row.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/05/mat.jpg"><br />
+>Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3<br />
+>Output: true<br />
+ 
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/05/mat2.jpg"><br />
+>Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13<br />
+>Output: false<br />
+
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 100`<br />
+`-10^4 <= matrix[i][j], target <= 10^4`<br />
+ 
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int lx = 0, rx = matrix.size();
+        int midx = (lx + rx) / 2;
+        while (lx < rx) { // Searching vector that may include our target
+            if (matrix[midx].back() >= target && matrix[midx][0] <= target) {
+                int ly = 0, ry = matrix[midx].size();
+                int midy = (ly + ry) / 2;
+                while (ly < ry) { // Searching our target
+                    if (matrix[midx][midy] == target) return true;
+                    if (matrix[midx][midy] < target) {
+                        ly = midy + 1;
+                    } else {
+                        ry = midy;
+                    }
+                    midy = (ly + ry) / 2;
+                }
+                return false; // If there is no number equals to target, 
+				              // than it can't be anywhere else so returning false
+            }
+            if (matrix[midx].back() < target) {
+                lx = midx + 1;
+            } else if (matrix[midx][0] > target) {
+                rx = midx;
+            }
+            midx = (lx + rx) / 2;
+        }
+        return false;
+        
+    }
+};
+```
+                     
+                     
+                     
+                     
+<br /> <br /> <br />**[876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)**<br />    
+Given the `head` of a singly linked list, return _the middle node of the linked list_.<br />
+If there are two middle nodes, return **the second middle node**.<br />
+                     
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/07/23/lc-midlist1.jpg"><br />   
+>Input: head = [1,2,3,4,5]<br />
+>Output: [3,4,5]<br />
+>Explanation: The middle node of the list is node 3.<br />
+                     
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/07/23/lc-midlist2.jpg"><br />
+>Input: head = [1,2,3,4,5,6]<br />
+>Output: [4,5,6]<br />
+>Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.<br />
+                     
+* Constraints: The number of nodes in the list is in the range `[1, 100]`.<br />
+`1 <= Node.val <= 100 `<br />
+                    
+ ```cpp
+ /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode *fast = head;
+        while(fast->next != NULL && fast->next->next != NULL){
+            head = head->next;
+            fast = fast->next->next;
+        }
+        if(fast->next == NULL) return head;
+        return head->next;
+    }
+};
+```                   
+ 
+                     
+                     
+                     
+                     
+<br /> <br /> <br />**[19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)**<br />    
+Given the `head` of a linked list, remove the `nth` node from the end of the list and return its head.<br />
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg"><br />
+>Input: head = [1,2,3,4,5], n = 2<br />
+>Output: [1,2,3,5]<br />
+                     
+>Example 2:<br />
+Input: head = [1], n = 1<br />
+Output: []<br />
+                     
+>Example 3:<br />
+Input: head = [1,2], n = 1<br />
+Output: [1]<br />
+ 
+
+* Constraints: The number of nodes in the list is `sz`.<br />
+`1 <= sz <= 30`<br />
+`0 <= Node.val <= 100`<br />
+`1 <= n <= sz`<br />
+
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution{
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n)
+    {
+        ListNode** t1 = &head, *t2 = head;
+        for(int i = 1; i < n; ++i)t2 = t2->next;
+        while(t2->next != NULL){
+            t1 = &((*t1)->next);
+            t2 = t2->next;
+        }
+        *t1 = (*t1)->next;
+        return head;
+    }
+};
+```                     
+                    
+                     
