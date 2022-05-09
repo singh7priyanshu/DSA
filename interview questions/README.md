@@ -2002,4 +2002,328 @@ public:
 };
 ```                     
                     
-                     
+ 
+			    
+			    
+			    
+<br /> <br /> <br />**[1588. Sum of All Odd Length Subarrays](https://leetcode.com/problems/sum-of-all-odd-length-subarrays/)**<br />    	
+Given an array of positive integers `arr`, calculate the sum of all possible odd-length subarrays.<br />
+A subarray is a contiguous subsequence of the array.<br />
+Return _the sum of all odd-length subarrays of `arr`_.<br />
+ 
+>Example 1:<br />
+Input: arr = [1,4,2,5,3]<br />
+Output: 58<br />
+Explanation: The odd-length subarrays of arr and their sums are:<br />
+[1] = 1<br />
+[4] = 4<br />
+[2] = 2<br />
+[5] = 5<br />
+[3] = 3<br />
+[1,4,2] = 7<br />
+[4,2,5] = 11<br />
+[2,5,3] = 10<br />
+[1,4,2,5,3] = 15<br />
+If we add all these together we get 1 + 4 + 2 + 5 + 3 + 7 + 11 + 10 + 15 = 58<br />
+			    
+>Example 2:<br />
+Input: arr = [1,2]<br />
+Output: 3<br />
+Explanation: There are only 2 subarrays of odd length, [1] and [2]. Their sum is 3.<br />
+			    
+>Example 3:<br />
+Input: arr = [10,11,12]<br />
+Output: 66<br />
+			    
+* Constraints: 1 <= arr.length <= 100<br />
+1 <= arr[i] <= 1000<br />	
+			    
+```cpp
+class Solution {
+public:
+    int sumOddLengthSubarrays(vector<int>& arr) {
+        arr.insert(arr.begin(), 0);
+        for (int i = 1; i < arr.size(); i++)arr[i] += arr[i - 1];
+        int res = 0;
+        for (int left = 1; left < arr.size(); left++){
+            for (int right = left; right < arr.size(); right += 2){
+                res += (arr[right] - arr[left - 1]);
+            }
+        }
+        return res;
+    }
+};
+/*
+class Solution {
+public:
+    int sumOddLengthSubarrays(vector<int>& arr) {
+        int result = 0;
+            for(int i = 0; i < arr.size(); i++){
+                for (int j = i; j < arr.size(); j += 2){ 
+                    for(int k = i; k <= j; k++)result += arr[k];
+                }
+            }
+            return result;
+        }
+    };
+*/
+```
+
+			    
+			    
+<br /> <br /> <br />**[1672. Richest Customer Wealth](https://leetcode.com/problems/richest-customer-wealth/)**<br /> 	
+You are given an `m x n` integer grid `accounts` where `accounts[i][j]` is the amount of money the `ith` customer has in the `jth` bank. Return _the **wealth** that the richest customer has_.<br />
+A customer's **wealth** is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum **wealth**.<br />
+
+>Example 1:<br />
+Input: accounts = [[1,2,3],[3,2,1]]<br />
+Output: 6<br />
+Explanation:<br />
+1st customer has wealth = 1 + 2 + 3 = 6<br />
+2nd customer has wealth = 3 + 2 + 1 = 6<br />
+Both customers are considered the richest with a wealth of 6 each, so return 6.<br />
+						    
+>Example 2:<br />
+Input: accounts = [[1,5],[7,3],[3,5]]<br />
+Output: 10<br />
+Explanation: <br />
+1st customer has wealth = 6<br />
+2nd customer has wealth = 10 <br />
+3rd customer has wealth = 8<br />
+The 2nd customer is the richest with a wealth of 10.<br />
+						    
+>Example 3:<br />
+Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]<br />
+Output: 17<br />
+
+* Constraints: `m == accounts.length`<br />
+`n == accounts[i].length`<br />
+`1 <= m, n <= 50`<br />
+`1 <= accounts[i][j] <= 100`<br />
+	
+```cpp
+class Solution {
+public:
+    int maximumWealth(vector<vector<int>>& accounts) {
+        int sol = INT_MIN; 
+        for(int i = 0;i<accounts.size();i++){
+            int temp = 0;
+            for(int j = 0;j<accounts[0].size();j++){
+              temp += accounts[i][j];  
+            }
+            sol = max(temp,sol);
+        }
+        return sol;
+    }
+};
+```
+	
+	
+	
+
+<br /> <br /> <br />**[387. First Unique Character in a String](https://leetcode.com/problems/first-unique-character-in-a-string/)**<br />
+Given a string `s`, _find the first non-repeating character in it and return its index_. If it does not exist, return `-1`.<br />
+ 
+>Example 1:<br />
+Input: s = "leetcode"<br />
+Output: 0<br />
+	
+>Example 2:<br />
+Input: s = "loveleetcode"<br />
+Output: 2<br />
+	
+>Example 3:<br />
+Input: s = "aabb"<br />
+Output: -1<br />
+ 
+* Constraints: `1 <= s.length <= 10^5`<br />
+`s` consists of only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    int firstUniqChar(string s) {
+      unordered_map<char,int>map;
+        for(int i=0;i<s.length();i++){
+            map[s[i]]++;
+        }
+        for(int i=0;i<s.length();i++){
+            if(map[s[i]]==1)
+                return i;
+        }
+        return -1;
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[383. Ransom Note](https://leetcode.com/problems/ransom-note/)**<br />
+Given two strings `ransomNote` and `magazine`, return `true` _if `ransomNote` can be constructed from `magazine` and `false` otherwise_.<br />
+Each letter in `magazine` can only be used once in `ransomNote`.<br />
+
+>Example 1:<br />
+Input: ransomNote = "a", magazine = "b"<br />
+Output: false<br />
+	
+>Example 2:<br />
+Input: ransomNote = "aa", magazine = "ab"<br />
+Output: false<br />
+	
+>Example 3:<br />
+Input: ransomNote = "aa", magazine = "aab"<br />
+Output: true<br />
+
+* Constraints: `1 <= ransomNote.length, magazine.length <= 10^5`<br />
+`ransomNote` and `magazine` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, int> m;
+        for(char c : magazine)m[c]++;
+        for(char c : ransomNote) {
+            if(m[c] == 0) return false;
+            m[c]--;
+        }
+        return true;
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[242. Valid Anagram](https://leetcode.com/problems/valid-anagram/)**<br />
+Given two strings `s` and `t`, return `true` _if `t` is an anagram of `s`, and `false` otherwise_.<br />
+An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.<br />
+
+>Example 1:<br />
+Input: s = "anagram", t = "nagaram"<br />
+Output: true<br />
+	
+>Example 2:<br />
+Input: s = "rat", t = "car"<br />
+Output: false<br />
+
+* Constraints: `1 <= s.length, t.length <= 5 * 10^4`<br />
+`s` and `t` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool isAnagram(string s, string t){
+        sort(t.begin() ,t.end()) ;
+        sort(s.begin() ,s.end()) ; 
+        return s==t ;
+    }
+};
+/*
+unordered_map<char,int> mp ;
+    for(char x:s) mp[x]++;
+    
+    for(int x:t) {
+        mp[x]--;
+        if(mp[x]<0) return false; 
+    }
+    for(int x:mp) {   
+        if(x.second!=0) return false; 
+    }
+
+    return true;
+*/
+```
+		    
+		    
+<br /> <br /> <br />**[3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)**<br />
+Given a string `s`, find the length of the **longest substring** without repeating characters.<br />
+ 
+>Example 1:<br />
+Input: s = "abcabcbb"<br />
+Output: 3<br />
+Explanation: The answer is "abc", with the length of 3.<br />
+	
+>Example 2:<br />
+Input: s = "bbbbb"<br />
+Output: 1<br />
+Explanation: The answer is "b", with the length of 1.<br />
+	
+>Example 3:<br />
+Input: s = "pwwkew"<br />
+Output: 3<br />
+Explanation: The answer is "wke", with the length of 3.<br />
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.<br />
+
+* Constraints: `0 <= s.length <= 5 * 10^4`<br />
+`s` consists of English letters, digits, symbols and spaces.<br />
+	
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+         int max_len = 0;
+        int i = 0;
+        int j = 0;
+        int n = s.length();
+        unordered_map<char, int> char_map;
+        while ((i < n) && (j < n)){
+            char c = s[j];
+            unordered_map<char, int>::iterator it = char_map.find(c);
+            if (it == char_map.end()){
+                char_map[c] = j;
+                j++;
+                if (char_map.size() > max_len)
+                    max_len = char_map.size();
+            }
+            else{
+                i = it->second + 1;
+                char_map.clear();
+                j = i;
+            }
+        }
+        return max_len;
+    }
+        
+    
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[567. Permutation in String](https://leetcode.com/problems/permutation-in-string/)**<br />
+Given two strings `s1` and `s2`, return `true` _if `s2` contains a permutation of `s1`, or `false` otherwise_.<br />
+In other words, return `true` if one of `s1's` permutations is the substring of `s2`.<br />
+
+>Example 1:<br />
+Input: s1 = "ab", s2 = "eidbaooo"<br />
+Output: true<br />
+Explanation: s2 contains one permutation of s1 ("ba").<br />
+	
+>Example 2:<br />
+Input: s1 = "ab", s2 = "eidboaoo"<br />
+Output: false<br />
+
+* Constraints: `1 <= s1.length, s2.length <= 10^4`<br />
+`s1` and `s2` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+	bool checkInclusion(string s1, string s2) {
+		vector<int> map_s1(26), map_s2(26);
+		for(char& i1 : s1) 
+			map_s1[i1 - 'a']++;
+		for(int i = 0; i < s2.size(); i++) {
+			map_s2[s2[i] - 'a']++;
+			if(i >= s1.size() - 1) {
+				if(map_s2 == map_s1)  // Time: O(26)
+					return true;
+				map_s2[s2[i - s1.size() + 1] - 'a']--;
+			}
+		}
+		return false;
+	}
+};
+// Time complexity: O(n * 26) = O(n)
+// Time space: O(26 * 2) = O(1)
+```
