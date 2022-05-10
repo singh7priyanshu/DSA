@@ -2327,3 +2327,109 @@ public:
 // Time complexity: O(n * 26) = O(n)
 // Time space: O(26 * 2) = O(1)
 ```
+
+	
+<br /> <br /> <br />**[1572. Matrix Diagonal Sum](https://leetcode.com/problems/matrix-diagonal-sum/)**<br />
+Given a square matrix `mat`, return the sum of the matrix diagonals.<br />
+Only include the sum of all the elements on the primary diagonal and all the elements on the secondary diagonal that are not part of the primary diagonal.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/08/14/sample_1911.png"><br />
+<pre>
+Input: mat = [[1,2,3],
+              [4,5,6],
+              [7,8,9]]
+Output: 25
+</pre>
+>Explanation: Diagonals sum: 1 + 5 + 9 + 3 + 7 = 25<br />
+>Notice that element mat[1][1] = 5 is counted only once.<br /><br />
+	
+>Example 2:<br />
+<pre>
+Input: mat = [[1,1,1,1],
+              [1,1,1,1],
+              [1,1,1,1],
+              [1,1,1,1]]
+Output: 8
+</pre><br />
+	
+>Example 3:<br />
+>Input: mat = [[5]]<br />
+>Output: 5<br />
+ 
+* Constraints: `n == mat.length == mat[i].length`<br />
+`1 <= n <= 100`<br />
+`1 <= mat[i][j] <= 100`<br />
+	
+```cpp
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int sum = 0, dub = 0;
+        if(n&1)dub = mat[n/2][n/2]; 
+        for(int i = 0; i<n ; i++){
+            sum += mat[i][n-i-1];
+            sum += mat[i][i];
+        }
+        return sum - dub;
+    }
+};
+```
+			   
+			   
+			   
+<br /> <br /> <br />**[141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)**<br />	
+Given `head`, the head of a linked list, determine if the linked list has a cycle in it.<br />
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.<br />
+Return `true` _if there is a cycle in the linked list_. Otherwise, return `false`.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png"><br />
+>Input: head = [3,2,0,-4], pos = 1<br />
+>Output: true<br />
+>Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png"><br />
+>Input: head = [1,2], pos = 0<br />
+>Output: true<br />
+>Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.<br />
+
+>Example 3:<br />
+><img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png"><br />
+>Input: head = [1], pos = -1<br />
+>Output: false<br />
+>Explanation: There is no cycle in the linked list.<br />
+	
+* Constraints: The number of the nodes in the list is in the range `[0, 10^4]`.<br />
+`-10^5 <= Node.val <= 10^5`<br />
+`pos` is `-1` or a **valid index** in the linked-list.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head == NULL)return false;
+        ListNode *fast = head;
+        ListNode *slow = head;
+        while(fast != NULL && fast ->next != NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+            if(fast == slow)
+                return true;
+        }
+        return false;
+    }
+};
+```
+
+	
