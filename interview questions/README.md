@@ -2433,3 +2433,240 @@ public:
 ```
 
 	
+
+	
+	
+<br /> <br /> <br />**[21. Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/)**<br />
+You are given the heads of two sorted linked lists `list1` and `list2`.<br />
+Merge the two lists in a one **sorted** list. The list should be made by splicing together the nodes of the first two lists.<br />
+Return _the head of the merged linked list_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg"><br />
+>Input: list1 = [1,2,4], list2 = [1,3,4]<br />
+>Output: [1,1,2,3,4,4]<br />
+	
+>Example 2:<br />
+>Input: list1 = [], list2 = []<br />
+>Output: []<br />
+	
+>Example 3:<br />
+>Input: list1 = [], list2 = [0]<br />
+>Output: [0]<br />
+
+* Constraints: The number of nodes in both lists is in the range `[0, 50]`.<br />
+`-100 <= Node.val <= 100`<br />
+Both `list1` and `list2` are sorted in **non-decreasing** order.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * insert(ListNode * head, int val){
+        if(head == nullptr)return new ListNode(val);
+        else{
+            head -> next = insert(head->next,val);
+            return head;
+        }
+    }
+    int listSize(ListNode* head){
+        if(!head)return 0;
+        else return listSize(head->next)+1;
+    }
+    
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *head = nullptr;
+        int l1s = listSize(list1);
+        int l2s = listSize(list2);
+        while (l1s > 0 && l2s > 0){
+            int v1 = list1 -> val;
+            int v2 = list2 -> val;
+            if(v1<=v2){
+                l1s--;
+                head  = insert(head,v1);
+                list1 = list1 -> next;
+            }else{
+                l2s--;
+                head = insert(head,v2);
+                list2 = list2 -> next;
+            }
+        }
+        while(l1s>0){
+            int val1 = list1 -> val;
+            l1s--;
+            head = insert(head,val1);
+            list1 = list1 -> next;
+        }
+        while(l2s>0){
+            int val2 = list2 -> val;
+            l2s--;
+            head = insert(head,val2);
+            list2 = list2 -> next;
+        }
+        return head;          
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[203. Remove Linked List Elements](https://leetcode.com/problems/remove-linked-list-elements/)**<br />
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.<br />
+ 
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/03/06/removelinked-list.jpg"><br />
+>Input: head = [1,2,6,3,4,5,6], val = 6<br />
+>Output: [1,2,3,4,5]<br />
+	
+>Example 2:<br />
+>Input: head = [], val = 1<br />
+>Output: []<br />
+	
+>Example 3:<br />
+>Input: head = [7,7,7,7], val = 7<br />
+>Output: []<br />
+
+* Constraints: The number of nodes in the list is in the range `[0, 10^4]`.<br />
+`1 <= Node.val <= 50`<br />
+`0 <= val <= 50`<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution{
+public:
+    ListNode* removeElements(ListNode* head, int val){
+        ListNode** node = &head;
+        while (*node)
+            if ((*node)->val == val) *node = (*node)->next;
+            else if (*node) node = &(*node)->next;
+        return head;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[733. Flood Fill](https://leetcode.com/problems/flood-fill/)**<br />
+An image is represented by an `m x n` integer grid `image` where `image[i][j]` represents the pixel value of the image.<br />
+You are also given three integers `sr`, `sc`, and `newColor`. You should perform a **flood fill** on the image starting from the pixel `image[sr][sc]`.<br />
+To perform a **flood fill**, consider the starting pixel, plus any pixels connected **4-directionally** to the starting pixel of the same color as the starting pixel, plus any pixels connected `4-directionally` to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with `newColor`.<br />
+Return _the modified image after performing the flood fill_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/06/01/flood1-grid.jpg"><br />
+>Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, newColor = 2<br />
+>Output: [[2,2,2],[2,2,0],[2,0,1]]<br />
+>Explanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting >pixel (i.e., the blue pixels) are colored with the new color.<br />
+>Note the bottom corner is not colored 2, because it is not 4-directionally connected to the starting pixel.<br />
+	
+>Example 2:<br />
+>Input: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, newColor = 2<br />
+>Output: [[2,2,2],[2,2,2]]<br />
+ 
+* Constraints: `m == image.length`<br />
+`n == image[i].length`<br />
+`1 <= m, n <= 50`<br />
+`0 <= image[i][j], newColor < 2^16`<br />
+`0 <= sr < m`<br />
+`0 <= sc < n`<br />
+	
+```cpp
+class Solution {
+public:
+    void dfs(int i,int j,int initialColor,int newColor,vector<vector<int>> &image){
+        if(i<0 || j<0 || i>=(image.size()) || j>=(image[0].size()) || image[i][j] != initialColor) return;
+        image[i][j] = newColor;
+        dfs(i-1,j,initialColor,newColor,image);
+        dfs(i+1,j,initialColor,newColor,image);
+        dfs(i,j-1,initialColor,newColor,image);
+        dfs(i,j+1,initialColor,newColor,image);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(image[sr][sc] != newColor) dfs(sr,sc,image[sr][sc],newColor,image);
+        return image;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[695. Max Area of Island](https://leetcode.com/problems/max-area-of-island/)**<br />
+You are given an `m x n` binary matrix `grid`. An island is a group of `1`'s (representing land) connected **4-directionally** (horizontal or vertical.) You may assume all >our edges of the grid are surrounded by water.<br />
+The **area** of an island is the number of cells with a value `1` in the island.<br />
+Return _the maximum **area** of an island in `grid`_. If there is no island, return `0`.<br />
+ 
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/05/01/maxarea1-grid.jpg">
+<pre>
+Input: grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],
+	       [0,0,0,0,0,0,0,1,1,1,0,0,0],
+	       [0,1,1,0,1,0,0,0,0,0,0,0,0],
+	       [0,1,0,0,1,1,0,0,1,0,1,0,0],
+	       [0,1,0,0,1,1,0,0,1,1,1,0,0],
+	       [0,0,0,0,0,0,0,0,0,0,1,0,0],
+	       [0,0,0,0,0,0,0,1,1,1,0,0,0],
+	       [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+Output: 6
+</pre>
+>Explanation: The answer is not 11, because the island must be connected 4-directionally.<br />
+	
+>Example 2:<br />
+>Input: grid = [[0,0,0,0,0,0,0,0]]<br />
+>Output: 0<br />
+ 
+* Constraints: `m == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= m, n <= 50`<br />
+`grid[i][j]` is either `0` or `1`.<br />
+
+```cpp
+class Solution{
+    public:
+    int dfs(vector<vector < int>> &grid, int i, int j,int &temp){
+        if (i >= 0 && i < grid.size() && j >= 0 && j < grid[0].size() && grid[i][j]){
+            temp++;
+            grid[i][j] = 0;
+            dfs(grid, i - 1, j,temp);
+            dfs(grid, i + 1, j,temp);
+            dfs(grid, i, j - 1,temp);
+            dfs(grid, i, j + 1,temp);
+        }
+       return temp;   
+    }
+    
+    int maxAreaOfIsland(vector<vector < int>> &grid){
+        int n = grid.size();
+        int m = grid[0].size(); 
+        int ans = 0;
+		for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                if (grid[i][j] == 1)
+                {   int temp = 0;
+                    int area = dfs(grid, i, j,temp);
+                    ans = max(area, ans);
+                }
+        return ans;
+    }
+};
+```
