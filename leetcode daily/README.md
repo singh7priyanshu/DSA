@@ -2156,3 +2156,61 @@ public:
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[216. Combination Sum III](https://leetcode.com/problems/combination-sum-iii/)**<br />	
+Find all valid combinations of `k` numbers that sum up to `n` such that the following conditions are true:<br />
+ - Only numbers `1` through `9` are used.<br />
+ - Each number is used **at most once**.<br />
+	
+Return _a list of all possible valid combinations_. The list must not contain the same combination twice, and the combinations may be returned in any order.<br />
+
+>Example 1:<br />
+Input: k = 3, n = 7<br />
+Output: [[1,2,4]]<br />
+Explanation:<br />
+1 + 2 + 4 = 7<br />
+There are no other valid combinations.<br />
+	
+>Example 2:<br />
+Input: k = 3, n = 9<br />
+Output: [[1,2,6],[1,3,5],[2,3,4]]<br />
+Explanation:<br />
+1 + 2 + 6 = 9<br />
+1 + 3 + 5 = 9<br />
+2 + 3 + 4 = 9<br />
+There are no other valid combinations.<br />
+	
+>Example 3:<br />
+Input: k = 4, n = 1<br />
+Output: []<br />
+Explanation: There are no valid combinations.<br />
+Using 4 different numbers in the range [1,9], the smallest sum we can get is 1+2+3+4 = 10 and since 10 > 1, there are no valid combination.<br />
+
+* Constraints: `2 <= k <= 9`<br />
+`1 <= n <= 60`<br />
+	
+```cpp
+class Solution {
+public:
+    void helper(int st,int k,int n,vector<int> &ds,vector<vector<int>> &ans){
+            if(k<=0){
+                if(n==0) ans.push_back(ds);
+                return;
+            }
+            for(int i=st;i<=9;i++)    {
+                ds.push_back(i);
+                helper(i+1,k-1,n-i,ds,ans);
+                ds.pop_back();
+            }
+        }
+        vector<vector<int>> combinationSum3(int k, int n) {
+            vector<vector<int>> ans;
+            vector<int> ds;
+            helper(1,k,n,ds,ans);
+            return ans;
+        }
+    };
+```
