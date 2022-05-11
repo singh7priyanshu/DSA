@@ -2214,3 +2214,46 @@ public:
         }
     };
 ```
+	
+	
+<br /> <br /> <br />**[1641. Count Sorted Vowel Strings](https://leetcode.com/problems/count-sorted-vowel-strings/)**<br />	
+Given an integer `n`, return _the number of strings of length `n` that consist only of vowels `(a, e, i, o, u)` and are **lexicographically sorted**_.<br />
+A string `s` is **lexicographically sorted** if for all valid `i`, `s[i]` is the same as or comes before `s[i+1]` in the alphabet.<br />
+
+>Example 1:<br />
+Input: n = 1<br />
+Output: 5<br />
+Explanation: The 5 sorted strings that consist of vowels only are ["a","e","i","o","u"].<br />
+	
+>Example 2:<br />
+Input: n = 2<br />
+Output: 15<br />
+Explanation: The 15 sorted strings that consist of vowels only are<br />
+["aa","ae","ai","ao","au","ee","ei","eo","eu","ii","io","iu","oo","ou","uu"].<br />
+Note that "ea" is not a valid string since 'e' comes after 'a' in the alphabet.<br />
+	
+>Example 3:<br />
+Input: n = 33<br />
+Output: 66045<br />
+ 
+* Constraints: `1 <= n <= 50` <br />
+	
+```cpp
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        string vowels= "aeiou";
+		vector<vector<int>> dp(5, vector<int>(n+1)); 
+		for(int i=0; i<5; ++i) dp[i][0]= 1; 
+		for(int i=4; i>=0; --i){
+		  for(int j=1; j<=n; ++j){
+			int pick= 0, notPick= 0;
+			pick= dp[i][j-1];
+			if(i<4) notPick= dp[i+1][j];
+			dp[i][j]= pick+notPick;
+		  }
+		}
+		return dp[0][n]; 
+    }
+};
+```
