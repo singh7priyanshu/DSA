@@ -2670,3 +2670,68 @@ class Solution{
     }
 };
 ```
+
+	
+	
+<br /> <br /> <br />**[1768. Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/)**<br />
+You are given two strings `word1` and `word2`. Merge the strings by adding letters in alternating order, starting with `word1`. If a string is longer than the other, append the additional letters onto the end of the merged string.<br />
+Return _the merged string_.<br />
+
+>Example 1:<br />
+Input: word1 = "abc", word2 = "pqr"<br />
+Output: "apbqcr"<br />
+Explanation: The merged string will be merged as so:<br />
+<pre>
+word1:  a   b   c
+word2:    p   q   r
+</pre>
+merged: a p b q c r<br />
+	
+>Example 2:<br />
+Input: word1 = "ab", word2 = "pqrs"<br />
+Output: "apbqrs"<br />
+Explanation: Notice that as word2 is longer, "rs" is appended to the end.<br />
+<pre>
+word1:  a   b 
+word2:    p   q   r   s
+</pre>
+merged: a p b q   r   s<br />
+	
+>Example 3:<br />
+Input: word1 = "abcd", word2 = "pq"<br />
+Output: "apbqcd"<br />
+Explanation: Notice that as word1 is longer, "cd" is appended to the end.<br />
+<pre>
+word1:  a   b   c   d
+word2:    p   q 
+</pre>
+merged: a p b q c   d<br />
+
+* Constraints: `1 <= word1.length, word2.length <= 100`<br />
+`word1` and `word2` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    string mergeAlternately(string word1, string word2) {
+        string res = "";
+        int len1 = word1.size();
+        int len2 = word2.size();
+        if(word1.size()==word2.size()){
+            for(int i = 0;i<word1.size();i++)res = res + word1[i] + word2[i];
+            return res;
+        }
+        else if(len1>len2){ 
+            for(int i = 0;i<len2;i++)res = res + word1[i] + word2[i];
+            for(int i = len2;i<len1;i++)res = res + word1[i];
+            return res;   
+        }
+        else if(len1<len2){ 
+            for(int i = 0;i<len1;i++)res = res + word1[i] + word2[i];
+            for(int i = len1;i<len2;i++)res = res + word2[i];
+            return res;  
+        }
+        return res;
+    }
+};
+```
