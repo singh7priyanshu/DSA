@@ -2820,3 +2820,56 @@ public:
     }
 };
 ```
+
+				     
+				     
+				     
+<br /> <br /> <br />**[206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)**<br />
+Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg"><br />
+>Input: head = [1,2,3,4,5]<br />
+>Output: [5,4,3,2,1]<br />
+
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg"><br />
+>Input: head = [1,2]<br />
+>Output: [2,1]<br />
+	
+>Example 3:<br />
+>Input: head = []<br />
+>Output: []<br />
+	
+* Constraints: The number of nodes in the list is the range `[0, 5000]`.<br />
+`-5000 <= Node.val <= 5000`<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL || head->next==NULL) return head;
+        ListNode*prev=NULL;
+        ListNode*curr=head;
+        ListNode*forward=NULL;
+    
+        while(curr !=NULL){
+            forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;  
+        }
+        return prev; 
+    }
+};
+```
