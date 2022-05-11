@@ -2873,3 +2873,46 @@ public:
     }
 };
 ```
+	
+	
+
+<br /> <br /> <br />**[83. Remove Duplicates from Sorted List](https://leetcode.com/problems/remove-duplicates-from-sorted-list/)**<br />
+Given the `head` of a sorted linked list, delete _all duplicates such that each element appears only once_. Return _the linked list **sorted** as well_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/01/04/list1.jpg"><br />
+>Input: head = [1,1,2]<br />
+>Output: [1,2]<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/01/04/list2.jpg"><br />
+>Input: head = [1,1,2,3,3]<br />
+>Output: [1,2,3]<br />
+
+* Constraints: The number of nodes in the list is in the range `[0, 300]`.<br />
+`-100 <= Node.val <= 100`<br />
+The list is guaranteed to be **sorted** in ascending order.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *curr = head;
+        while(curr && curr->next) {
+            if(curr->val == curr->next->val)curr->next = curr->next->next;
+            else curr = curr->next;
+        }
+        return head;
+    }
+};
+```
