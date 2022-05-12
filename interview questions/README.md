@@ -3119,3 +3119,47 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+<br /> <br /> <br />**[953. Verifying an Alien Dictionary](https://leetcode.com/problems/verifying-an-alien-dictionary/)**<br />
+In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different `order`. The `order` of the alphabet is some permutation of lowercase letters.<br />
+Given a sequence of `words` written in the alien language, and the `order` of the alphabet, return `true` if and only if the given `words` are sorted lexicographically in this alien language.<br />
+
+>Example 1:<br />
+>Input: words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"<br />
+>Output: true<br />
+>Explanation: As 'h' comes before 'l' in this language, then the sequence is sorted.<br />
+	
+>Example 2:<br />
+>Input: words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"<br />
+>Output: false<br />
+>Explanation: As 'd' comes after 'l' in this language, then words[0] > words[1], hence the sequence is unsorted.<br />
+	
+>Example 3:<br />
+>Input: words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"<br />
+>Output: false<br />
+>Explanation: The first three characters "app" match, and the second string is shorter (in size.) According to lexicographical rules "apple" > "app", because 'l' > '∅', where '∅' is defined as the blank character which is less than any other character (More info).<br />
+ 
+* Constraints: `1 <= words.length <= 100`<br />
+`1 <= words[i].length <= 20`<br />
+`order.length == 26`<br />
+All characters in `words[i]` and `order` are English lowercase letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        int si=words.size(), sio=order.size();
+        vector<char>ele;
+        map<char,int>mp;
+        for(int i=0;i<sio;i++)mp[order[i]]=i;
+        for (string &wp : words)
+            for (char &c : wp)
+                c = mp[c];
+        return is_sorted(words.begin(), words.end());
+    }
+};
+```
