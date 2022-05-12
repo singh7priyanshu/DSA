@@ -3211,3 +3211,230 @@ public:
     }
 };
 ```
+
+			     
+			     
+			     
+<br /> <br /> <br />**[232. Implement Queue using Stacks](https://leetcode.com/problems/implement-queue-using-stacks/)**<br />
+Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (`push`, `peek`, `pop`, and `empty`).<br />
+Implement the `MyQueue` class:<br />
+	
+ * `void push(int x)` Pushes element x to the back of the queue.<br />
+ * `int pop()` Removes the element from the front of the queue and returns it.<br />
+ * `int peek()` Returns the element at the front of the queue.<br />
+ * `boolean empty()` Returns `true` if the queue is empty, `false` otherwise.<br />
+	
+Notes:<br />
+ * You must use **only** standard operations of a stack, which means only `push to top`, `peek/pop from top`, `size`, and `is empty` operations are valid.<br />
+ * Depending on your language, the stack may not be supported natively. You may simulate a stack using a list or deque (double-ended queue) as long as you use only a stack's standard operations.<br />
+ 
+>Example 1:<br />
+>Input<br />
+>["MyQueue", "push", "push", "peek", "pop", "empty"]<br />
+>[[], [1], [2], [], [], []]<br />
+>Output<br />
+>[null, null, null, 1, 1, false]<br /><br />
+>Explanation<br />
+>MyQueue myQueue = new MyQueue();<br />
+>myQueue.push(1); // queue is: [1]<br />
+>myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)<br />
+>myQueue.peek(); // return 1<br />
+>myQueue.pop(); // return 1, queue is [2]<br />
+>myQueue.empty(); // return false<br />
+ 
+* Constraints: `1 <= x <= 9`<br />
+At most `100` calls will be made to `push`, `pop`, `peek`, and `empty`.<br />
+All the calls to `pop` and `peek` are valid.<br />
+
+```cpp
+class MyQueue {
+public:
+    stack<int> s, s1;
+    MyQueue() { 
+    }
+    
+    void push(int x) {
+        while(!s.empty()) {
+            s1.push(s.top()); s.pop();
+        }
+        s.push(x);
+        
+        while(!s1.empty()) {
+            s.push(s1.top()); s1.pop();
+        }
+    }
+    
+    int pop() {
+        int a = s.top();
+        s.pop();
+        return a;
+    }
+    
+    int peek() {
+        return s.top();
+    }
+    
+    bool empty() {
+        return s.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[542. 01 Matrix](https://leetcode.com/problems/01-matrix/)**<br />
+Given an `m x n` binary matrix `mat`, return _the distance of the nearest `0` for each cell_.<br />
+The distance between two adjacent cells is `1`.<br />
+ 
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/04/24/01-1-grid.jpg"><br />
+>Input: mat = [[0,0,0],[0,1,0],[0,0,0]]<br />
+>Output: [[0,0,0],[0,1,0],[0,0,0]]<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/04/24/01-2-grid.jpg"><br />
+>Input: mat = [[0,0,0],[0,1,0],[1,1,1]]<br />
+>Output: [[0,0,0],[0,1,0],[1,2,1]]<br />
+ 
+* Constraints: `m == mat.length`<br />
+`n == mat[i].length`<br />
+`1 <= m, n <= 10^4`<br />
+`1 <= m * n <= 10^4`<br />
+`mat[i][j]` is either `0` or `1`.
+There is at least one `0` in `mat`.
+
+```cpp
+class Solution {
+public:
+    
+    int dirX[8] = {0, 0, 1, -1};
+    int dirY[8] = {1, -1, 0, 0};
+    
+    vector<vector<int>> updateMatrix(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>> ans(m, vector<int>(n, INT_MAX));
+        queue<pair<int, int>> q;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0){
+                    ans[i][j] = 0;
+                    q.push({i, j});  
+                }
+            }
+        }
+        
+        while(!q.empty()){
+            pair<int, int> temp = q.front();
+            q.pop();
+            for(int i=0;i<4;i++){
+                int dX = temp.first + dirX[i];
+                int dY = temp.second + dirY[i];
+                if(dX>=0 and dX<m and dY>=0 and dY<n){ /* check for valid boundary */
+                    if(ans[dX][dY]==0)   /* if ans[dX][dY]=0, distance = 0, no modification */
+                        continue;
+                    if(ans[dX][dY]==INT_MAX){  /* if ans[dX][dY]=INT_MAX, the node has not been visited, update its distance by adding its                                                  neighbors value +1 */ 
+                        ans[dX][dY] = ans[temp.first][temp.second] + 1;
+                        q.push({dX, dY}); /* push the index, so that its neighbors take updated value at the index*/
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
+
+						       
+						       
+
+<br /> <br /> <br />**[994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/)**<br />
+You are given an `m x n` grid where each cell can have one of three values:<br />
+	 
+ * `0` representing an empty cell,<br />
+ * `1` representing a fresh orange, or<br />
+ * `2` representing a rotten orange.<br />
+	
+Every minute, any fresh orange that is `4-directionally adjacent` to a rotten orange becomes rotten.<br />
+Return the _minimum number of minutes that must elapse until no cell has a fresh orange_. If _this is impossible, return `-1`_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/02/16/oranges.png"><br />
+>Input: grid = [[2,1,1],[1,1,0],[0,1,1]]<br />
+>Output: 4<br />
+	
+>Example 2:<br />
+>Input: grid = [[2,1,1],[0,1,1],[1,0,1]]<br />
+>Output: -1<br />
+>Explanation: The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.<br />
+	
+>Example 3:<br />
+>Input: grid = [[0,2]]<br />
+>Output: 0<br />
+>Explanation: Since there are already no fresh oranges at minute 0, the answer is just 0.<br />
+
+* Constraints: `m == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= m, n <= 10`<br />
+`grid[i][j]` is `0`, `1`, or `2`.<br />
+
+```cpp
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        int dis[n][m];
+        queue<pair<int,int>> Q;
+       
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                dis[i][j] = INT_MAX;
+                if(grid[i][j]==2){
+                    Q.push({i,j});
+                    dis[i][j] = 0;
+                }
+            }
+        }
+        
+        int dx[] = {-1,0,1,0};
+        int dy[] = {0,1,0,-1};
+        while(!Q.empty()){
+            int x = Q.front().first;
+            int y = Q.front().second;
+            Q.pop();
+            for(int i = 0 ; i < 4 ; i++){
+                int xx = x+dx[i];
+                int yy = y+dy[i];
+                
+                if(xx>=0 and xx<n and yy>=0 and yy<m and dis[xx][yy] == INT_MAX and grid[xx][yy]==1){
+                    Q.push({xx,yy});
+                    grid[xx][yy]=2;
+                    dis[xx][yy] = dis[x][y]+1;
+                }
+            }
+        }
+        int time = 0;
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+			// we dont need to take care of 0 element and if dis of some orange is 
+			// INT_MAX i.e its is not visited so return -1
+                if(grid[i][j]!=0 and dis[i][j]==INT_MAX) return -1;
+				
+			// else the time is max of all dis calc
+                else if(grid[i][j]==2) time = max(time,dis[i][j]);
+            }
+        }
+        return time;    
+    }
+};
+```
