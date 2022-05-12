@@ -2257,3 +2257,37 @@ public:
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[47. Permutations II](https://leetcode.com/problems/permutations-ii/)**<br />
+Given a collection of numbers, `nums`, that might contain duplicates, return _all possible unique permutations **in any order**_.<br />
+
+>Example 1:<br />
+>Input: nums = [1,1,2]<br />
+>Output:<br />
+>[[1,1,2],<br />
+> [1,2,1],<br />
+> [2,1,1]]<br />
+	
+>Example 2:<br />
+>Input: nums = [1,2,3]<br />
+>Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]<br />
+
+* Constraints: `1 <= nums.length <= 8`<br />
+`-10 <= nums[i] <= 10`<br />
+	
+```cpp
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>ans;
+        sort(nums.begin(),nums.end());
+        ans.push_back(nums);
+        while(next_permutation(nums.begin(),nums.end()))
+            ans.push_back(nums);
+        return ans;
+    }
+};
+```
