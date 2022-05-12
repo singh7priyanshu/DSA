@@ -3027,3 +3027,95 @@ public:
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[709. To Lower Case](https://leetcode.com/problems/to-lower-case/)**<br />
+Given a string `s`, return _the string after replacing every uppercase letter with the same lowercase letter_.<br /> 
+
+>Example 1:<br />
+>Input: s = "Hello"<br />
+>Output: "hello"<br />
+	
+>Example 2:<br />
+>Input: s = "here"<br />
+>Output: "here"<br />
+	
+>Example 3:<br />
+>Input: s = "LOVELY"<br />
+>Output: "lovely"<br />
+ 
+* Constraints: `1 <= s.length <= 100`<br />
+`s` consists of printable ASCII characters.<br />
+
+```cpp
+class Solution {
+public:
+    string toLowerCase(string s) {
+        for(auto &i:s){
+            if(i>='A' && i<='Z')i=i+32;
+        }
+        return s;
+    }
+};
+/*
+class Solution {
+public:
+    string toLowerCase(string s) {
+        for(int i=0; i<s.size(); i++){
+            if(s[i]>=65 && s[i]<=90)s[i]=s[i]+32;
+            else continue;    
+        }
+        return s;
+    }
+};
+*/
+```
+					
+					
+					
+<br /> <br /> <br />**[1309. Decrypt String from Alphabet to Integer Mapping](https://leetcode.com/problems/decrypt-string-from-alphabet-to-integer-mapping/)**<br />
+You are given a string `s` formed by digits and `'#'`. We want to map `s` to English lowercase characters as follows:<br />
+ * Characters (`'a'` to `'i'`) are represented by (`'1'` to `'9'`) respectively.<br />
+ * Characters (`'j'` to `'z'`) are represented by (`'10#'` to `'26#'`) respectively.<br />
+	
+Return _the string formed after mapping_.<br />
+The test cases are generated so that a unique mapping will always exist. <br />
+
+>Example 1:<br />
+>Input: s = "10#11#12"<br />
+>Output: "jkab"<br />
+>Explanation: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".<br />
+	
+>Example 2:<br />
+>Input: s = "1326#"<br />
+>Output: "acz"<br />
+
+* Constraints: `1 <= s.length <= 1000`<br />
+`s` consists of digits and the `'#'` letter.<br />
+`s` will be a valid string such that mapping is always possible.<br />
+	
+```cpp
+class Solution {
+public:
+    string freqAlphabets(string s) {
+        string ans="";
+        for(int i=0;i<s.length();i++){
+            if(i+2<s.length()){
+                if(s[i+2]=='#'){
+                    int x=stoi(s.substr(i,i+2));
+                    x--;
+                    ans+=char('a'+x);
+                    i+=2;
+                continue;
+                }
+            }
+            int x=s[i]-'0';
+            x--;
+            ans+=char('a'+x);
+        }
+        return ans;
+    }
+};
+```
