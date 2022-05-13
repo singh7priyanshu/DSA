@@ -3438,3 +3438,398 @@ public:
     }
 };
 ```
+				 
+				
+				 
+				 
+
+<br /> <br /> <br />**[117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)**<br />
+Given a binary tree<br />
+<pre>
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+</pre><br />
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to `NULL`.<br />
+Initially, all next pointers are set to `NULL`.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/02/15/117_sample.png"><br />
+>Input: root = [1,2,3,4,5,null,7]<br />
+>Output: [1,#,2,3,#,4,5,7,#]<br />
+>Explanation: Given the above binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.<br />
+	
+>Example 2:<br />
+>Input: root = []<br />
+>Output: []<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 6000]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+```cpp
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) 
+    { 
+        // just created a queue because we are going to follow level order traversal and push our root into that initially
+        queue<Node*> q;
+        if(root)
+            q.push(root);
+        
+        // BFS(Level) Traversal
+        while(!q.empty())
+        {
+            // extracting the current queue size and make a next pointer with value NULL
+            // because we pushing the elments in our queue -> right then left (and right next will always be NULL)
+            int size = q.size();
+            Node* nxt = nullptr;
+            
+            // do the traversal over current queue size
+            for(int i=0;i<size;i++)
+            {
+                // extractong the queue front and pop that from our queue
+                auto top = q.front();
+                q.pop();
+                
+                // now according to need assign top next NULL
+                // and make current top as next for the left element
+                top->next = nxt;
+                nxt = top;
+                
+                // push left and right nodes if they are available
+                if(top->right)
+                    q.push(top->right);
+                if(top->left)
+                    q.push(top->left);
+            }
+        }
+        return root;
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[1290. Convert Binary Number in a Linked List to Integer](https://leetcode.com/problems/convert-binary-number-in-a-linked-list-to-integer/)**<br />
+Given `head` which is a reference node to a singly-linked list. The value of each node in the linked list is either `0` or `1`. The linked list holds the binary representation of a number.<br />
+Return the _decimal value_ of the number in the linked list.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2019/12/05/graph-1.png"><br />
+>Input: head = [1,0,1]<br />
+>Output: 5<br />
+>Explanation: (101) in base 2 = (5) in base 10<br />
+	
+>Example 2:<br />
+>Input: head = [0]<br />
+>Output: 0<br />
+ 
+* Constraints: The Linked List is not empty.<br />
+Number of nodes will not exceed `30`.<br />
+Each node's value is either `0` or `1`.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        int len=0;
+        ListNode *temp1=head;
+        while(temp1!=NULL){
+            len++;
+            temp1=temp1->next;
+        }
+        ListNode *temp2=head;
+        int k=1;
+        int res=0;
+        while(temp2){
+            res+=temp2->val*pow(2,len-k);
+            k++;
+            temp2=temp2->next;
+        }
+        return res;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[104. Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)**<br />
+Given the `root` of a binary tree, return its _maximum depth_.<br />
+A binary tree's **maximum depth** is the number of nodes along the longest path from the root node down to the farthest leaf node.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg"><br />
+>Input: root = [3,9,20,null,null,15,7]<br />
+>Output: 3<br />
+	
+>Example 2:<br />
+>Input: root = [1,null,2]<br />
+>Output: 2<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 10^4]`.<br />
+`-100 <= Node.val <= 100`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        int maxLeft = maxDepth(root->left);
+        int maxRight = maxDepth(root->right);
+        return max(maxLeft, maxRight)+1;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[404. Sum of Left Leaves](https://leetcode.com/problems/sum-of-left-leaves/)**<br />
+Given the `root` of a binary tree, return _the sum of all left leaves_.<br />
+A **leaf** is a node with no children. A **left leaf** is a leaf that is the left child of another node.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/04/08/leftsum-tree.jpg"><br />
+>Input: root = [3,9,20,null,null,15,7]<br />
+>Output: 24<br />
+>Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.<br />
+	
+>Example 2:<br />
+>Input: root = [1]<br />
+>Output: 0<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[1, 1000]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int findLeftSum(TreeNode *root, int flag) {
+        // flag will tell us whether the current node is the left one or right
+        if(!root)
+            return 0;
+        // base case: left leaf node
+        if(!root->left && !root->right)
+            return flag == 1 ? root->val : 0;
+        // recursive calls
+        return findLeftSum(root->left, 1) + findLeftSum(root->right, 0);
+    }
+    
+    
+    int sumOfLeftLeaves(TreeNode* root) {
+        return findLeftSum(root, -1);
+    }
+};
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)**<br />
+Given the `root` of a binary tree, return _the preorder traversal of its nodes' values_. <br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg"><br />
+>Input: root = [1,null,2,3]<br />
+>Output: [1,2,3]<br />
+	
+>Example 2:<br />
+>Input: root = []<br />
+>Output: []<br />
+	
+>Example 3:<br />
+>Input: root = [1]<br />
+>Output: [1]<br />
+
+* Constraints: The number of nodes in the tree is in the range `[0, 100]`.<br />
+`-100 <= Node.val <= 100`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void preorderTraversal(TreeNode *root, vector<int> &ar){
+    if (root == NULL)return;
+    ar.push_back(root->val);
+    preorderTraversal(root->left, ar);
+    preorderTraversal(root->right, ar);
+}
+
+vector<int> preorderTraversal(TreeNode *root){
+    vector<int> ans;
+    preorderTraversal(root, ans);
+    return ans;
+    }
+};
+```
+	
+	
+	
+	
+
+<br /> <br /> <br />**[94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)**<br />
+Given the `root` of a binary tree, return _the inorder traversal of its nodes' values_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg"><br />
+>Input: root = [1,null,2,3]<br />
+>Output: [1,3,2]<br />
+	
+>Example 2:<br />
+>Input: root = []<br />
+>Output: []<br />
+	
+>Example 3:<br />
+>Input: root = [1]<br />
+>Output: [1]<br />
+	
+* Constraints: The number of nodes in the tree is in the range `[0, 100]`.<br />
+`-100 <= Node.val <= 100`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        inorder(root,ans);
+        return ans;
+    }
+    
+    void inorder(TreeNode* root, vector<int>&ans){
+        if(root){
+            inorder(root->left, ans);
+            ans.push_back(root->val);
+            inorder(root->right, ans);
+        }
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[145. Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)**<br />
+Given the `root` of a binary tree, return _the postorder traversal of its nodes' values_.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/08/28/pre1.jpg"><br />
+>Input: root = [1,null,2,3]<br />
+>Output: [3,2,1]<br />
+	
+>Example 2:<br />
+>Input: root = []<br />
+>Output: []<br />
+	
+>Example 3:<br />
+>Input: root = [1]<br />
+>Output: [1]<br />
+ 
+* Constraints: The number of the nodes in the tree is in the range `[0, 100]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void postorderTraversal(TreeNode *root, vector<int> &ans){
+    if (root == NULL)return;
+    postorderTraversal(root->left, ans);
+    postorderTraversal(root->right, ans);
+    ans.push_back(root->val);
+}
+
+vector<int> postorderTraversal(TreeNode *root){
+    vector<int> ans;
+    postorderTraversal(root, ans);
+    return ans;
+    }
+};
+```
