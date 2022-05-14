@@ -3879,3 +3879,265 @@ public:
     }
 };
 ```
+
+					     
+					     
+					     
+					     
+<br /> <br /> <br />**[77. Combinations](https://leetcode.com/problems/combinations/)**<br />
+Given two integers `n` and `k`, return _all possible combinations of k numbers out of the range_ `[1, n]`.<br />
+You may return the answer in **any order**.<br />
+
+>Example 1:<br />
+>Input: n = 4, k = 2<br />
+>Output:<br />
+<pre>
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+</pre><br />
+	
+>Example 2:<br />
+>Input: n = 1, k = 1<br />
+>Output: [[1]]<br />
+
+* Constraints: `1 <= n <= 20`<br />
+`1 <= k <= n`<br />
+	
+```cpp
+class Solution {
+public:
+    void Solve(int number,int n,int k,vector<vector<int>> &ans,vector<int> temp){
+        if(k==0){                   // if no more numbers are needed --> add combination to answer
+            ans.push_back(temp);
+            return ;                // return from function once added 
+        }
+        if(number>n || (n-number+1 < k) ) return ;  // number not in range : [1,n] or 
+        //k numbers can't be taken from left our numbers 
+        Solve(number+1,n,k,ans,temp);               //Solving without taking number n 
+        temp.push_back(number);                     // adding the number to temp (combination)
+        Solve(number+1,n,k-1,ans,temp);             // Solving with number taken 
+}   
+
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;                //ans --> stores all accepted combinations
+        Solve(1,n,k,ans,{});                    //Solve() called with initial number =1 , ans and temp as empty vectors
+        return ans;
+    }
+};
+```
+		
+		
+	
+<br /> <br /> <br />**[784. Letter Case Permutation](https://leetcode.com/problems/letter-case-permutation/)**<br />
+Given a string `s`, you can transform every letter individually to be lowercase or uppercase to create another string.<br />
+Return _a list of all possible strings we could create_. Return the output in **any order**.<br />
+
+>Example 1:<br />
+>Input: s = "a1b2"<br />
+>Output: ["a1b2","a1B2","A1b2","A1B2"]<br />
+		
+>Example 2:<br />
+>Input: s = "3z4"<br />
+>Output: ["3z4","3Z4"]<br />
+ 
+* Constraints: `1 <= s.length <= 12`<br />
+`s` consists of lowercase English letters, uppercase English letters, and digits.<br />
+
+```cpp
+class Solution {
+    vector<string>v;
+public:
+    void solve(string ip, string &op) {
+    if(ip.length() == 0) {
+        v.push_back(op);
+        return;
+    }
+    
+    string op1 = op;
+    string op2 = op;
+    char c = ip[0];
+    if(isalpha(c)) {
+        op1.push_back(tolower(c));
+        op2.push_back(toupper(c));
+        ip.erase(ip.begin()+0);
+        solve(ip, op1);
+        solve(ip, op2);
+    } else {
+        string op1=op;
+        op1.push_back(c);
+        ip.erase(ip.begin()+0);
+        solve(ip, op1);
+    }
+}
+
+    vector<string> letterCasePermutation(string s) {
+        string op="";
+        solve(s, op);
+        return v;
+    }
+};
+```
+		
+		
+		
+		
+<br /> <br /> <br />**[102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)**<br />
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg"><br />
+>Input: root = [3,9,20,null,null,15,7]<br />
+>Output: [[3],[9,20],[15,7]]<br />
+	
+>Example 2:<br />
+>Input: root = [1]<br />
+>Output: [[1]]<br />
+	
+>Example 3:<br />
+>Input: root = []<br />
+>Output: []<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 2000]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        // it is storing our final ans
+        vector<vector<int>> ans;
+        // initializing queue for doing the BFS traversal
+        queue<TreeNode*> q;
+        // if our root is not null only then we will going to do BFS traversal
+        if(root!=NULL) q.push(root);
+        // BFS
+        while(!q.empty()){
+            // just extracting the size of current level (size of queue)
+            // and initialize a 1D vector for storing each level individually
+            int size = q.size();
+            vector<int> tmp;
+            // this part of code is storing the level elements into tmp vector
+            for(int i=0;i<size;i++){
+                // take out the front element from the queue and push it into our tmp
+                auto top = q.front();
+                q.pop();
+                tmp.push_back(top->val);
+                // if there is left and right exist for current value then push them into queue
+                if(top->left)q.push(top->left);
+                if(top->right)q.push(top->right);
+            }
+            // after storing the level in our tmp vector , we need to give it our final 2D vector ans
+            ans.push_back(tmp);
+        }
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[101. Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)**<br />
+Given the `root` of a binary tree,_ check whether it is a mirror of itself_ (i.e., symmetric around its center).<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/02/19/symtree1.jpg"><br />
+>Input: root = [1,2,2,3,4,4,3]<br />
+>Output: true<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/02/19/symtree2.jpg"><br />
+>Input: root = [1,2,2,null,3,null,3]<br />
+>Output: false<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[1, 1000]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+      bool isMirror(TreeNode* root1, TreeNode* root2){
+          if (root1 == NULL && root2 == NULL)return true;
+			    //For two trees to be mirror images, the following three conditions must be true :
+			    // 1.) Their root node's key must be same
+			   // 2.) left subtree of left tree and right subtree of right tree have to be mirror images
+			  // 3.) right subtree of left tree and left subtree of right tree have to be mirror images
+          if (root1 && root2 && root1->val == root2->val)
+              return isMirror(root1->left, root2->right) && isMirror(root1->right, root2->left);
+          return false;
+      }
+      bool isSymmetric(TreeNode* root){
+        return isMirror(root, root);
+      }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[1356. Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/)**<br />
+You are given an integer array `arr`. Sort the integers in the array in ascending order by the number of `1`'s in their binary representation and in case of two or more integers have the same number of `1`'s you have to sort them in ascending order.<br />
+Return _the array after sorting it_.<br />
+
+>Example 1:<br />
+>Input: arr = [0,1,2,3,4,5,6,7,8]<br />
+>Output: [0,1,2,4,8,3,5,6,7]<br />
+>Explantion: [0] is the only integer with 0 bits.<br />
+>[1,2,4,8] all have 1 bit.<br />
+>[3,5,6] have 2 bits.<br />
+>[7] has 3 bits.<br />
+>The sorted array by bits is [0,1,2,4,8,3,5,6,7]<br />
+	
+>Example 2:<br />
+>Input: arr = [1024,512,256,128,64,32,16,8,4,2,1]<br />
+>Output: [1,2,4,8,16,32,64,128,256,512,1024]<br />
+>Explantion: All integers have 1 bit in the binary representation, you should just sort them in ascending order.<br />
+	
+* Constraints: `1 <= arr.length <= 500`<br />
+`0 <= arr[i] <= 10^4`<br />
+	
+```cpp
+class Solution {
+public:
+    static bool comp(int a,int b){
+        if(__builtin_popcount(a) < __builtin_popcount(b))
+            return true;
+        if(__builtin_popcount(a) == __builtin_popcount(b))
+            return a<b;
+        return false;
+    }
+    
+    vector<int> sortByBits(vector<int>& arr) {
+        stable_sort(arr.begin(),arr.end(),comp);
+        return arr; 
+    }
+};
+```
