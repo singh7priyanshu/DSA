@@ -9,13 +9,13 @@ In one shift operation:<br />
 Return the 2D grid after applying shift operation `k` times.<br />
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e1.png"><br />
+><img src="https://assets.leetcode.com/uploads/2019/11/05/e1.png"><br />
 >Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1 <br />
 >Output: [[9,1,2],[3,4,5],[6,7,8]] <br /> 
 
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e2.png"><br />
+><img src="https://assets.leetcode.com/uploads/2019/11/05/e2.png"><br />
 >Input: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4 <br /> 
 >Output: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]] <br /> 
 
@@ -68,13 +68,13 @@ The next state is created by applying the above rules simultaneously to every ce
  
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e3.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/12/26/grid1.jpg"><br />
 >Input: board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]<br />
 >Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]<br />
 
 >Example 2: <br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e4.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/12/26/grid2.jpg"><br />
 >Input: board = [[1,1],[1,0]]<br />
 >Output: [[1,1],[1,1]]<br />
 
@@ -195,7 +195,7 @@ public:
 Given a positive integer `n`, generate an `n x n matrix` filled with elements from `1` to n<sup>2</sup> in spiral order.
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e5.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg"><br />
 >Input: n = 3<br /> 
 >Output: [[1,2,3],[8,9,4],[7,6,5]]<br /> 
 
@@ -235,13 +235,13 @@ Find the node in the BST that the node's value equals `val` and return the subtr
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e6.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2021/01/12/tree1.jpg"><br />
 >Input: root = [4,2,7,1,3], val = 2<br /> 
 >Output: [2,1,3]<br /> 
 	
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e7.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2021/01/12/tree2.jpg"><br />
 >Input: root = [4,2,7,1,3], val = 5<br /> 
 >Output: []<br /> 
 	
@@ -286,13 +286,13 @@ Return the root of the trimmed binary search tree. Note that the root may change
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e8.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/09/09/trim1.jpg"><br />
 >Input: root = [1,0,2], low = 1, high = 2<br />
 >Output: [1,null,2]<br />
 
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e9.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/09/09/trim2.jpg"><br />
 >Input: root = [3,0,4,null,2,null,null,1], low = 1, high = 3<br />
 >Output: [3,2,null,1]<br />
 	
@@ -336,7 +336,7 @@ As a reminder, a binary search tree is a tree that satisfies these constraints:<
     
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e10.png"><br />
+><img src="https://assets.leetcode.com/uploads/2019/05/02/tree.png"><br />
 >Input: root = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]<br />
 >Output: [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]<br />
 
@@ -384,13 +384,13 @@ Given the `root` of a binary search tree, rearrange the tree in `in-order` so th
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e11.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/11/17/ex1.jpg"><br />
 >Input: root = [5,3,6,2,4,null,8,1,null,null,null,7,9]<br /> 
 >Output: [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]<br /> 
 
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e12.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/11/17/ex2.jpg"><br />
 >Input: root = [5,1,7]<br />
 >Output: [1,null,5,null,7]<br />
 	
@@ -435,13 +435,13 @@ Given the `root` of a binary search tree, and an integer `k`, return the `kth` s
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e13.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2021/01/28/kthtree1.jpg"><br />
 >Input: root = [3,1,4,null,2], k = 1<br />
 >Output: 1<br />
 
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e14.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2021/01/28/kthtree2.jpg"><br />
 >Input: root = [5,3,6,2,4,null,null,1], k = 3<br />
 >Output: 3<br />
 	
@@ -484,14 +484,14 @@ You are given the `root` of a binary search tree (BST), where the values of **ex
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e15.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/28/recover1.jpg"><br />
 >Input: root = [1,3,null,null,2]<br /> 
 >Output: [3,1,null,null,2]<br /> 
 >Explanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.<br /> 
 	
 >Example 2: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e16.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/28/recover2.jpg"><br />
 >Input: root = [3,1,4,null,null,2]<br /> 
 >Output: [2,1,4,null,null,3]<br /> 
 >Explanation: 2 cannot be in the right subtree of 3 because 2 < 3. Swapping 2 and 3 makes the BST valid.<br /> 
@@ -549,7 +549,7 @@ You may assume that `next()` calls will always be valid. That is, there will be 
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e17.png"><br />
+><img src="https://assets.leetcode.com/uploads/2018/12/25/bst-tree.png"><br />
 >Input:<br />
 >["BSTIterator", "next", "next", "hasNext", "next", "hasNext", "next", "hasNext", "next", "hasNext"]<br />
 >[[[7, 3, 15, null, null, 9, 20]], [], [], [], [], [], [], [], [], []]<br />
@@ -1118,12 +1118,12 @@ Return the _minimum cost to make all points connected_. All points are connected
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e18.png"><br />
+><img src="https://assets.leetcode.com/uploads/2020/08/26/d.png"><br />
 >Input: points = [[0,0],[2,2],[3,10],[5,2],[7,0]]<br />
 >Output: 20<br />
 >Explanation:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e19.png"><br />
+><img src="https://assets.leetcode.com/uploads/2020/08/26/c.png"><br />
 >We can connect the points as shown above to get the minimum cost of 20.<br />
 Notice that there is a unique path between every pair of points.<br />
 
@@ -1263,7 +1263,7 @@ Return _the **minimum effort** required to travel from the top-left cell to the 
 	
 >Example 1:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e20.png"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/04/ex1.png"><br />
 >Input: heights = [[1,2,2],[3,8,2],[5,3,5]]<br />
 >Output: 2<br />
 >Explanation: The route of [1,3,5,3,5] has a maximum absolute difference of 2 in consecutive cells.<br />
@@ -1271,14 +1271,14 @@ Return _the **minimum effort** required to travel from the top-left cell to the 
 	
 >Example 2:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e21.png"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/04/ex2.png"><br />
 >Input: heights = [[1,2,3],[3,8,4],[5,3,5]]<br />
 >Output: 1<br />
 >Explanation: The route of [1,2,3,4,5] has a maximum absolute difference of 1 in consecutive cells, which is better than route [1,3,5,3,5].<br />
 	
 >Example 3:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e22.png"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/04/ex3.png"><br />
 >Input: heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]<br />
 >Output: 0<br />
 >Explanation: This route does not require any effort.<br />
@@ -1354,14 +1354,14 @@ Return `true` _if and only if it is **bipartite**_.<br />
 	
 >Example 1:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e23.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/21/bi2.jpg"><br />
 >Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]<br />
 >Output: false<br />
 >Explanation: There is no way to partition the nodes into two independent sets such that every edge connects a node in one and a node in the other.<br />
 
 >Example 2:<br />
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/leetcode%20daily/source/e24.jpg"><br />
+><img src="https://assets.leetcode.com/uploads/2020/10/21/bi1.jpg"><br />
 >Input: graph = [[1,3],[0,2],[1,3],[0,2]]<br />
 >Output: true<br />
 >Explanation: We can partition the nodes into two sets: {0, 2} and {1, 3}.<br />
