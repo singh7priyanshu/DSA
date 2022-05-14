@@ -558,7 +558,7 @@ Return _an array `answer`, where `answer[j]` is the answer to the `jth` query_.<
 
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/interview%20questions/source%20images/iq1.png"><br />
+><img src="https://assets.leetcode.com/uploads/2021/03/25/chrome_2021-03-25_22-34-16.png"><br />
 >Input: points = [[1,3],[3,3],[5,3],[2,2]], queries = [[2,3,1],[4,3,1],[1,1,2]]<br /> 
 >Output: [3,2,2]<br /> 
 >Explanation: The points and circles are shown above.<br /> 
@@ -566,7 +566,7 @@ Return _an array `answer`, where `answer[j]` is the answer to the `jth` query_.<
  
 >Example 1: <br /> 
 ><div align="left">
-><img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/interview%20questions/source%20images/iq2.png"><br />
+><img src="https://assets.leetcode.com/uploads/2021/03/25/chrome_2021-03-25_22-42-07.png"><br />
 >Input: points = [[1,1],[2,2],[3,3],[4,4],[5,5]], queries = [[1,2,2],[2,2,2],[4,3,2],[4,3,3]]<br /> 
 >Output: [2,3,2,4]<br /> 
 >Explanation: The points and circles are shown above.<br /> 
