@@ -4141,3 +4141,336 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+<br /> <br /> <br />**[1603. Design Parking System](https://leetcode.com/problems/design-parking-system/)**<br />
+Design a parking system for a parking lot. The parking lot has three kinds of parking spaces: big, medium, and small, with a fixed number of slots for each size.
+Implement the `ParkingSystem` class:<br />
+ * `ParkingSystem(int big, int medium, int small)` Initializes object of the `ParkingSystem` class. The number of slots for each parking space are given as part of the constructor.<br />
+ * `bool addCar(int carType)` Checks whether there is a parking space of `carType` for the car that wants to get into the parking lot. `carType` can be of three kinds: big, medium, or small, which are represented by `1`, `2`, and `3` respectively. **A car can only park in a parking space of its** `carType`. If there is no space available, return `false`, else park the car in that size space and return `true`.<br /><br />
+ 
+>Example 1:<br />
+>Input<br />
+>["ParkingSystem", "addCar", "addCar", "addCar", "addCar"]<br />
+>[[1, 1, 0], [1], [2], [3], [1]]<br />
+>Output<br />
+>[null, true, true, false, false]<br />
+>Explanation<br />
+>ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);<br />
+>parkingSystem.addCar(1); // return true because there is 1 available slot for a big car<br />
+>parkingSystem.addCar(2); // return true because there is 1 available slot for a medium car<br />
+>parkingSystem.addCar(3); // return false because there is no available slot for a small car<br />
+>parkingSystem.addCar(1); // return false because there is no available slot for a big car. It is already occupied.<br />
+ 
+* Constraints: `0 <= big, medium, small <= 1000`<br />
+`carType` is `1`, `2`, or `3`<br />
+At most `1000` calls will be made to `addCar`<br />
+	
+```cpp
+class ParkingSystem {
+public:
+    int s[3];
+    ParkingSystem(int big, int medium, int small) {
+        s[0]=big;
+        s[1]=medium;
+        s[2]=small;
+    }
+    
+    bool addCar(int carType) {
+        carType--;
+        if(s[carType]==0)
+            return false;
+        s[carType]--;
+        return true;
+        
+    }
+};
+/**
+ * Your ParkingSystem object will be instantiated and called as such:
+ * ParkingSystem* obj = new ParkingSystem(big, medium, small);
+ * bool param_1 = obj->addCar(carType);
+ */
+```
+
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[303. Range Sum Query - Immutable](https://leetcode.com/problems/range-sum-query-immutable/)**<br />
+Given an integer array `nums`, handle multiple queries of the following type:<br />
+ 1. Calculate the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** where `left <= right`.<br />
+Implement the `NumArray` class:<br />
+ * `NumArray(int[] nums)` Initializes the object with the integer array `nums`.<br />
+ * `int sumRange(int left, int right)` Returns the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** (i.e. `nums[left] + nums[left + 1] + ... + nums[right]`).<br />
+ 
+>Example 1:<br />
+>Input<br />
+>["NumArray", "sumRange", "sumRange", "sumRange"]<br />
+>[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]<br />
+>Output<br />
+>[null, 1, -1, -3]<br />
+>Explanation<br />
+>NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);<br />
+>numArray.sumRange(0, 2); // return (-2) + 0 + 3 = 1<br />
+>numArray.sumRange(2, 5); // return 3 + (-5) + 2 + (-1) = -1<br />
+>numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3<br />
+ 
+* Constraints: `1 <= nums.length <= 10^4`<br />
+`-10^5 <= nums[i] <= 10^5`<br />
+`0 <= left <= right < nums.length`<br />
+At most `10^4` calls will be made to `sumRange`.<br />
+
+```cpp
+class NumArray {
+public:
+    vector<int>nums2;
+    NumArray(vector<int>& nums) {
+        for(auto i : nums)nums2.push_back(i);
+    }
+    
+    int sumRange(int left, int right) {
+        int sum = 0;
+        for(int i = left ; i <= right ; i++)sum += nums2[i];
+        return sum;
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(left,right);
+ */
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[226. Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)**<br />
+Given the root of a binary tree, invert the tree, and return its root.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/03/14/invert1-tree.jpg"><br />
+>Input: root = [4,2,7,1,3,6,9]<br />
+>Output: [4,7,2,9,6,3,1]<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/03/14/invert2-tree.jpg"><br />
+>Input: root = [2,1,3]<br />
+>Output: [2,3,1]<br />
+	
+>Example 3:<br />
+>Input: root = []<br />
+>Output: []<br />
+
+* Constraints:<br />
+The number of nodes in the tree is in the range `[0, 100]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        TreeNode* tmp;
+        if (! root) return NULL;
+        tmp = invertTree(root->left);
+        root->left = invertTree(root->right);
+        root->right = tmp;
+        return root;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[112. Path Sum](https://leetcode.com/problems/path-sum/)**<br />
+Given the `root` of a binary tree and an integer `targetSum`, return `true` if the tree has a **root-to-leaf** path such that adding up all the values along the path equals `targetSum`.<br />
+A **leaf** is a node with no children.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/01/18/pathsum1.jpg"><br />
+>Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22<br />
+>Output: true<br />
+>Explanation: The root-to-leaf path with the target sum is shown.<br />
+	
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2021/01/18/pathsum2.jpg"><br />
+>Input: root = [1,2,3], targetSum = 5<br />
+>Output: false<br />
+>Explanation: There two root-to-leaf paths in the tree:<br />
+>(1 --> 2): The sum is 3.<br />
+>(1 --> 3): The sum is 4.<br />
+>There is no root-to-leaf path with sum = 5.<br />
+	
+>Example 3:<br />
+>Input: root = [], targetSum = 0<br />
+>Output: false<br />
+>Explanation: Since the tree is empty, there are no root-to-leaf paths.<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 5000]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+`-1000 <= targetSum <= 1000`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root == NULL) return false;
+        if(root->left ==  NULL && root->right == NULL && root->val - targetSum == 0)return true;
+       return hasPathSum(root->left, targetSum-root->val) || hasPathSum(root->right, targetSum-root->val);
+    }
+};
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)**<br />
+You are climbing a staircase. It takes `n` steps to reach the top.<br />
+Each time you can either climb `1` or `2` steps. In how many distinct ways can you climb to the top?<br />
+
+>Example 1:<br />
+>Input: n = 2<br />
+>Output: 2<br />
+>Explanation: There are two ways to climb to the top.<br />
+>1. 1 step + 1 step<br />
+>2. 2 steps<br />
+	
+>Example 2:<br />
+>Input: n = 3<br />
+>Output: 3<br />
+>Explanation: There are three ways to climb to the top.<br />
+>1. 1 step + 1 step + 1 step<br />
+>2. 1 step + 2 steps<br />
+>3. 2 steps + 1 step<br />
+ 
+* Constraints:` 1 <= n <= 45`<br />
+
+```cpp
+class Solution {
+public:
+    int helper(int ind, vector<int> &dp){
+        if(ind==0)return dp[ind]+=1;
+        if(dp[ind]!=0)return  dp[ind];
+        if(ind>2)return dp[ind]=helper(ind-1,dp)+helper(ind-2,dp);
+        return 0;
+    }
+    
+    int climbStairs(int n) {
+        if(n<=2)return n;
+        vector<int> dp(n+1,0);
+        dp[0]=0;
+        dp[1]=1;
+        dp[2]=2;
+        helper(n,dp);
+        return dp[n];
+    }
+};
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[198. House Robber](https://leetcode.com/problems/house-robber/)**<br />
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and **it will automatically contact the police if two adjacent houses were broken into on the same night**.<br />
+Given an integer array `nums` representing _the amount of money of each house, return the maximum amount of money you can rob tonight **without alerting the police**_.<br />
+	
+>Example 1:<br />
+>Input: nums = [1,2,3,1]<br />
+>Output: 4<br />
+>Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).<br />
+>Total amount you can rob = 1 + 3 = 4.<br />
+	
+>Example 2:<br />
+>Input: nums = [2,7,9,3,1]<br />
+>Output: 12<br />
+>Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).<br />
+>Total amount you can rob = 2 + 9 + 1 = 12.<br />
+ 
+* Constraints: `1 <= nums.length <= 100`<br />
+`0 <= nums[i] <= 400`<br />
+
+```cpp
+class Solution {
+    public:
+    const static int N = 110;
+    int dp[N];
+    int helper(vector<int>& nums, int ind) {
+        if(ind<0) return 0;
+        if(dp[ind]!=-1) return dp[ind];
+        return dp[ind] = max(nums[ind] + helper(nums, ind - 2), helper(nums, ind - 1));
+    }
+    int rob(vector<int>& nums) {
+        memset(dp, -1, sizeof(dp));
+        return helper(nums, nums.size() - 1);
+    }      
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[120. Triangle](https://leetcode.com/problems/triangle/)**<br />
+Given a `triangle` array, return _the minimum path sum from top to bottom_.<br />
+For each step, you may move to an adjacent number of the row below. More formally, if you are on index `i` on the current row, you may move to either index `i` or index `i + 1` on the next row.<br />
+
+>Example 1:<br />
+>Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]<br />
+>Output: 11<br />
+>Explanation: The triangle looks like:<br />
+<pre>
+   2
+  3 4
+ 6 5 7
+4 1 8 3
+</pre>
+>The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).<br />
+	
+>Example 2:<br />
+>Input: triangle = [[-10]]<br />
+>Output: -10<br />
+
+* Constraints: `1 <= triangle.length <= 200`<br />
+`triangle[0].length == 1`<br />
+`triangle[i].length == triangle[i - 1].length + 1`<br />
+`-10^4 <= triangle[i][j] <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        for(int i=triangle.size()-2;i>=0;i--)
+            for(int j=0;j<=i;j++)
+                triangle[i][j]+=min(triangle[i+1][j],triangle[i+1][j+1]);
+        return triangle[0][0];
+    }
+};
+```
