@@ -4633,3 +4633,63 @@ public:
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[98. Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)**<br />
+Given the `root` of a binary tree, _determine if it is a valid binary search tree (BST)._<br />
+A **valid BST** is defined as follows:<br />
+	
+ * The left subtree of a node contains only nodes with keys **less than** the node's key.<br />
+ * The right subtree of a node contains only nodes with keys **greater than** the node's key.<br />
+ * Both the left and right subtrees must also be binary search trees.<br />
+ 
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/12/01/tree1.jpg"><br />
+Input: root = [2,1,3]<br />
+Output: true<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/12/01/tree2.jpg"><br />
+Input: root = [5,1,4,null,null,3,6]<br />
+Output: false<br />
+Explanation: The root node's value is 5 but its right child's value is 4.<br />
+	
+* Constraints: The number of nodes in the tree is in the range `[1, 10^4]`.<br />
+`-2^31 <= Node.val <= 2^31 - 1`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int>v;
+    
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        v.push_back(root->val);
+        inorder(root->right);
+        
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        inorder(root);
+        for(int i=0;i<v.size()-1;i++) 
+            if(v[i]>=v[i+1]) 
+               return false;
+        return true;
+    }
+};
+```
