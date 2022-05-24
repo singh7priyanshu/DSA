@@ -4474,3 +4474,35 @@ public:
     }
 };
 ```
+				 
+				 
+				 
+<br /> <br /> <br />**[231. Power of Two](https://leetcode.com/problems/power-of-two/)**<br />
+Given an integer `n`, return `true` _if it is a power of two. Otherwise, return `false`_.<br />
+An integer `n` is a power of two, if there exists an integer `x` such that `n == 2^x`.<br />
+
+>Example 1:<br />
+Input: n = 1<br />
+Output: true<br />
+Explanation: 20 = 1<br />
+	
+>Example 2:<br />
+Input: n = 16<br />
+Output: true<br />
+Explanation: 24 = 16<br />
+
+>Example 3:<br />
+Input: n = 3<br />
+Output: false<br />
+ 
+* Constraints: `-2^31 <= n <= 2^31 - 1`<br />
+	
+```cpp
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n<=0) return false;
+        return ((n&(n-1))==0);
+    }
+};
+```
