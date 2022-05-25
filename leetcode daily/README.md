@@ -2579,11 +2579,445 @@ public:
 	
 	
 
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
-<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[1192. Critical Connections in a Network](https://leetcode.com/problems/critical-connections-in-a-network/)**<br />
+There are `n` servers numbered from `0` to `n - 1` connected by undirected server-to-server `connections` forming a network where `connections[i] = [ai, bi]` represents a connection between servers `ai` and `bi`. Any server can reach other servers directly or indirectly through the network.<br />
+A _critical connection_ is a connection that, if removed, will make some servers unable to reach some other server.<br />
+Return all critical connections in the network in any order.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2019/09/03/1537_ex1_2.png"><br />
+Input: n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]<br />
+Output: [[1,3]]<br />
+Explanation: [[3,1]] is also accepted.<br />
+	
+>Example 2:<br />
+Input: n = 2, connections = [[0,1]]<br />
+Output: [[0,1]]<br />
+ 
+* Constraints: `2 <= n <= 10^5`<br />
+`n - 1 <= connections.length <= 10^5`<br />
+`0 <= ai, bi <= n - 1`<br />
+`ai != bi`<br />
+There are no repeated connections.<br />
+
+```cpp
+class Solution {
+public:
+    //use find the bridges in a graph approach to get all critical connections
+	//Tarjans Algorithm / DFS
+    void dfs(int node, int parent, vector<int> &tin, vector<int> &low, vector<int> &vis, vector<int> graph[], vector<vector<int>> &ans, int &time)
+    {
+        //when we visite node first time, tin and low of the node are equal to the time
+        tin[node]=low[node]=time++;
+        vis[node] = 1; //mark node as visited
+        
+        for(auto it : graph[node])
+        {
+            if(it == parent) continue; //to avoid backtracking
+            
+            //if node is not visited, call the dfs function
+            if(!vis[it])
+            {
+                dfs(it, node, tin, low, vis, graph, ans, time);
+                
+                //when we return, low of the node is equal to the minimum of low of its child and low of itself
+                low[node] = min(low[node], low[it]);
+                
+                //when we get low of child is greater than tin of the node
+                //it means there is only path to cover child that's why {node, it} will be our critical connections or bridge 
+                if(low[it] > tin[node])
+                    ans.push_back({node, it});
+            }
+            
+            //if node is already visited and tin of the child is less than the low of itself
+            //we assign tin of the child to the low of the node
+            else
+                low[node] = min(low[node], tin[it]);
+            
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) 
+    {
+        //tin - time of insertion at the node
+        //low - lowest time of insertion at the node
+        //vis - mark visited node 
+        vector<int> tin(n, -1), low(n, -1), vis(n, 0);
+        vector<vector<int>> ans;
+        vector<int> graph[n]; //stores connections in the form of graph
+        int time=0;
+        
+        for(auto it: connections)
+        {
+            graph[it[0]].push_back(it[1]);
+            graph[it[1]].push_back(it[0]);
+        }
+        
+        //call dfs function
+        dfs(0, -1, tin, low, vis, graph, ans, time);
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[329. Longest Increasing Path in a Matrix](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/)**<br />
+Given an `m x n` integers `matrix`, return _the length of the longest increasing path in `matrix`_.<br />
+From each cell, you can either move in four directions: left, right, up, or down. You **may not** move **diagonally** or move **outside the boundary** (i.e., wrap-around is not allowed).<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/01/05/grid1.jpg"><br />
+Input: matrix = [[9,9,4],[6,6,8],[2,1,1]]<br />
+Output: 4<br />
+Explanation: The longest increasing path is [1, 2, 6, 9].<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/01/27/tmp-grid.jpg"><br />
+Input: matrix = [[3,4,5],[3,2,6],[2,2,1]]<br />
+Output: 4<br />
+Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.<br />
+
+>Example 3:<br />
+Input: matrix = [[1]]<br />
+Output: 1<br />
+
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 200`<br />
+`0 <= matrix[i][j] <= 2^31 - 1`<br />
+
+```cpp
+class Solution {
+    
+    //possible moving directions {up, left, right, down}
+    vector<vector<int>> dirs = {
+            {-1,0},
+    {0,-1},        {0,1},
+            {1,0}
+    };
+    
+    int dfs(vector<vector<int>>& matrix, int r, int c, vector<vector<int>>& dp, int prev) 
+    {
+        //boundary conditon
+        if(r<0 || r>=matrix.size() || c<0 || c>=matrix[0].size()) return 0;
+        
+        //if current value is less than or equal to the previous value return 0;
+        if(matrix[r][c] <= prev) return 0;
+        
+        //if we have already the path length of the cell, we return it (dp concept)
+        if(dp[r][c] != -1) return dp[r][c];
+        int best = 0; //store best path length
+        
+        //moving in all 4 directions and call dfs function
+        for(auto dir : dirs) {
+            int next_r = dir[0] + r;
+            int next_c = dir[1] + c;
+            int cur = dfs(matrix, next_r, next_c, dp, matrix[r][c]);
+            best = max(best, cur); //store max. path length
+        }
+        
+        return dp[r][c] = best + 1; //return path length of the cell
+    }
+    
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) 
+    {
+        //getting no. of row and col of the matrix
+        int row = matrix.size(), col = matrix[0].size();
+        
+        //for dp, create mxn matrix and initialize it with -1
+        vector<vector<int>> dp(row, vector<int>(col, -1));
+        
+        //store longest path
+        int longest_path = 0;
+        
+        //traverse through the matrix
+        for(int i=0; i<row; i++) 
+        {
+            for(int j=0; j<col; j++) 
+            {
+                int path = dfs(matrix, i, j, dp, -1000000); //call dfs function
+                longest_path = max(longest_path, path); //store the maximum path
+            }
+        }
+        
+        return longest_path; //return maximum path
+    }
+};
+```
+<br /> <br /> <br />**[63. Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)**<br />
+You are given an `m x n` integer array `grid`. There is a robot initially located at the **top-left corner** (i.e., `grid[0][0]`). The robot tries to move to the **bottom-right corner** (i.e., `grid[m-1][n-1]`). The robot can only move either down or right at any point in time.<br />
+An obstacle and space are marked as `1` or `0` respectively in `grid`. A path that the robot takes cannot include **any** square that is an obstacle.<br />
+Return _the number of possible unique paths that the robot can take to reach the bottom-right corner._<br />
+The testcases are generated so that the answer will be less than or equal to `2 * 10^9`.<br />
+	
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/11/04/robot1.jpg"><br />
+>Input: obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]<br />
+>Output: 2<br />
+>Explanation: There is one obstacle in the middle of the 3x3 grid above.<br />
+>There are two ways to reach the bottom-right corner:<br />
+>1. Right -> Right -> Down -> Down<br />
+>2. Down -> Down -> Right -> Right<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/11/04/robot2.jpg"><br />
+Input: obstacleGrid = [[0,1],[0,0]]<br />
+Output: 1<br />
+
+* Constraints: `m == obstacleGrid.length`<br />
+`n == obstacleGrid[i].length`<br />
+`1 <= m, n <= 100`<br />
+`obstacleGrid[i][j]` is `0` or `1`.<br />
+
+```cpp
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size() , n = obstacleGrid[0].size();
+        vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+        dp[0][1] = 1;
+        for(int i = 1 ; i <= m ; ++i)
+            for(int j = 1 ; j <= n ; ++j)
+                if(!obstacleGrid[i-1][j-1])
+				//2 way is possible go right or down
+                    dp[i][j] = dp[i-1][j]+dp[i][j-1];
+        return dp[m][n];
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[322. Coin Change](https://leetcode.com/problems/coin-change/)**<br />
+You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money.<br />
+Return _the fewest number of coins that you need to make up that amount_. If that amount of money cannot be made up by any combination of the coins, return `-1`.<br />
+You may assume that you have an infinite number of each kind of coin.<br />
+
+>Example 1:<br />
+Input: coins = [1,2,5], amount = 11<br />
+Output: 3<br />
+Explanation: 11 = 5 + 5 + 1<br />
+	
+>Example 2:<br />
+Input: coins = [2], amount = 3<br />
+Output: -1<br />
+	
+>Example 3:<br />
+Input: coins = [1], amount = 0<br />
+Output: 0<br />
+
+* Constraints: `1 <= coins.length <= 12`<br />
+`1 <= coins[i] <= 2^31 - 1`<br />
+`0 <= amount <= 10^4`<br />
+	
+```cpp
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        
+        //dp with coins as rows and amount as columns
+        vector<vector<int>> dp(coins.size() + 1, vector<int>(amount + 1, 0));
+        
+        for(int i = 0; i <= coins.size(); i++){
+            for(int j = 0; j <= amount; j++){
+                
+                if(j == 0)
+                    dp[i][j] = 0;
+                
+                else if(i == 0)
+                    dp[i][j] = 1e5;
+                
+                else if(coins[i - 1] > j)
+                    dp[i][j] = dp[i - 1][j];
+                
+                else
+                    dp[i][j] = min(1 + dp[i][j - coins[i-1]], dp[i - 1][j]);
+            }
+        }
+        
+        int ans = dp[coins.size()][amount];
+        
+        if(ans > 1e4)
+            return -1;
+        
+        else
+            return ans;
+    }
+};
+```
+	
+<br /> <br /> <br />**[647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)**<br />
+Given a string `s`, return _the number of **palindromic substrings** in it_.<br />
+A string is a **palindrome** when it reads the same backward as forward.<br />
+A **substring** is a contiguous sequence of characters within the string.<br />
+
+>Example 1:<br />
+Input: s = "abc"<br />
+Output: 3<br />
+Explanation: Three palindromic strings: "a", "b", "c".<br />
+	
+>Example 2:<br />
+Input: s = "aaa"<br />
+Output: 6<br />
+Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".<br />
+ 
+* Constraints: `1 <= s.length <= 1000`<br />
+`s` consists of lowercase English letters.<br />
+
+```cpp
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+        int ans = 0;
+        for(int len=1;len<=n;len++){
+            for(int i=0;i<n-len+1;i++){
+                if(len==1) dp[i][i] = 1;
+                else if(len==2){
+                    if(s[i]==s[i+1]) dp[i][i+1] = 1;
+                    else dp[i][i+1] = 0;
+                }
+                else if(s[i]==s[i+len-1] && dp[i+1][i+len-2]>0) dp[i][i+len-1] = 1;
+                else dp[i][i+len-1] = 0;
+                ans += dp[i][i+len-1];
+            }
+        }
+        return ans;
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes/)**<br />
+You are given an array of binary strings `strs` and two integers `m` and `n`.<br />
+Return _the size of the largest subset of `strs` such that there are **at most** `m` `0's` and `n` `1's` in the subset_.<br />
+A set `x` is a **subset** of a set `y` if all elements of `x` are also elements of `y`.<br />
+
+>Example 1:<br />
+Input: strs = ["10","0001","111001","1","0"], m = 5, n = 3<br />
+Output: 4<br />
+Explanation: The largest subset with at most 5 0's and 3 1's is {"10", "0001", "1", "0"}, so the answer is 4.<br />
+Other valid but smaller subsets include {"0001", "1"} and {"10", "1", "0"}.<br />
+{"111001"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.<br />
+
+>Example 2:<br />
+Input: strs = ["10","0","1"], m = 1, n = 1<br />
+Output: 2<br />
+Explanation: The largest subset is {"0", "1"}, so the answer is 2.<br />
+ 
+* Constraints: `1 <= strs.length <= 600`<br />
+`1 <= strs[i].length <= 100`<br />
+`strs[i]` consists only of digits `'0'` and `'1'`.<br />
+`1 <= m, n <= 100`<br />
+
+```cpp
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+         vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+        
+        for(auto& s : strs) { 
+            
+            int zeros = count(s.begin(), s.end(), '0');
+            int ones = s.size();
+            
+            for(int i = m; i >= zeros; i--) 
+                for(int j = n; j >= (ones - zeros); j--) 
+                    dp[i][j] = max(dp[i][j], 1 + dp[i - zeros][j - ones + zeros]);
+        }
+        
+        return dp[m][n];
+    }
+};
+```
+<br /> <br /> <br />**[32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses/)**<br />
+Given a string containing just the characters `'('` and `')'`, find the length of the longest valid (well-formed) parentheses substring.<br />
+
+>Example 1:<br />
+Input: s = "(()"<br />
+Output: 2<br />
+Explanation: The longest valid parentheses substring is "()".<br />
+	
+>Example 2:<br />
+Input: s = ")()())"<br />
+Output: 4<br />
+Explanation: The longest valid parentheses substring is "()()".<br />
+	
+>Example 3:<br />
+Input: s = ""<br />
+Output: 0<br />
+ 
+* Constraints: `0 <= s.length <= 3 * 10^4`<br />
+`s[i]` is `'('`, or `')'`.<br />
+
+```cpp
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        if(s.length() == 0){
+            return 0;
+        }
+        vector<int>stack={-1};
+        int ans =  0;
+        for (int i=0;i<s.length();i++){
+            if(s[i]=='(') stack.push_back(i);
+            else if (stack.size()== 1) stack[0]=i;
+            else{
+                stack.pop_back();
+                ans = max(ans,i-stack.back());
+            }
+        }
+        return ans;
+    }
+};
+```
+					
+					
+					
+					
+<br /> <br /> <br />**[354. Russian Doll Envelopes](https://leetcode.com/problems/russian-doll-envelopes/)**<br />
+You are given a 2D array of integers `envelopes` where `envelopes[i] = [wi, hi]` represents the width and the height of an envelope.<br />
+One envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope's width and height.<br />
+Return _the maximum number of envelopes you can Russian doll (i.e., put one inside the other)_.<br />
+**Note**: You cannot rotate an envelope.<br />
+
+Example 1:<br />
+Input: envelopes = [[5,4],[6,4],[6,7],[2,3]]<br />
+Output: 3<br />
+Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).<br />
+
+Example 2:<br />
+Input: envelopes = [[1,1],[1,1],[1,1]]<br />
+Output: 1<br />
+ 
+Constraints: `1 <= envelopes.length <= 10^5`<br />
+`envelopes[i].length == 2`<br />
+`1 <= wi, hi <= 10^5`<br />
+
+```cpp
+class Solution {
+public:
+    static bool cmp(vector<int>& a, vector<int>& b){
+        if(a[0]==b[0]) return a[1] > b[1];
+        return a[0] < b[0];
+    }
+    
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int n = envelopes.size();
+        sort(envelopes.begin(), envelopes.end(), cmp);
+        vector<int>list;
+        for(int i = 0;i<n;i++){
+            int ele = envelopes[i][1];
+            int index = lower_bound(list.begin(), list.end(), ele)- list.begin();
+            
+            if(index>=list.size())list.push_back(ele);
+            else list[index] = ele;
+        }
+        return list.size();
+    }
+};
+```
