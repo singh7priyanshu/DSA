@@ -2425,3 +2425,165 @@ public:
 };
 ```
 	
+
+	
+	
+	
+<br /> <br /> <br />**[1091. Shortest Path in Binary Matrix](https://leetcode.com/problems/shortest-path-in-binary-matrix/)**<br />
+Given an `n x n` binary matrix `grid`, return _the length of the shortest **clear path** in the matrix_. If there is no clear path, return `-1`.<br />
+A **clear path** in a binary matrix is a path from the **top-left cell** (i.e., `(0, 0)`) to the **bottom-right** cell (i.e., `(n - 1, n - 1)`) such that:<br />
+ * All the visited cells of the path are `0`.<br />
+ * All the adjacent cells of the path are **8-directionally** connected (i.e., they are different and they share an edge or a corner).<br />
+The **length of a clear path** is the number of visited cells of this path.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/18/example1_1.png"><br />
+Input: grid = [[0,1],[1,0]]<br />
+Output: 2<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/18/example2_1.png"><br />
+Input: grid = [[0,0,0],[1,1,0],[1,1,0]]<br />
+Output: 4<br />
+	
+>Example 3:<br />
+Input: grid = [[1,0,0],[1,1,0],[1,1,0]]<br />
+Output: -1<br />
+ 
+
+* Constraints: `n == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= n <= 100`<br />
+`grid[i][j] is 0 or 1`<br />	
+	
+```cpp
+/*Use BFS approach to find shortest path like we solve for graph problems. You can think of adjacent cells with value = 0 having an undirected edge between them.
+Apply BFS and update counter at everly level.
+To track levels I have used nodesPushed. It is equal to number of nodes in current level.
+If you are able to reach (n-1, n-1) return its level otherwise return -1.
+Little Optimization : Rather than keeping visited vector, after we have pushed a node in the queue make its value in grid equal to 1. This would make it unavailable to process next time we encounter it. However this method will corrupt the memory.
+DP will not work here because the way we traverse the matrix in DP will not lead to formulation of correct solution or rather the optimal path. However, BFS will lead to an optimal path.
+We can also get our answer by DFS but it would be computationaly more expensive and might give TLE on large inputs.*/
+class Solution {
+public:
+    
+    bool isValid(vector<vector<int>>& grid, int i, int j, int n, vector<vector<bool>>& visited){
+        
+        return (i>=0 and i<n and j>=0 and j<n and grid[i][j]==0 and !visited[i][j]);
+        
+    }
+    
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        
+        int n = grid.size();
+        vector<vector<bool>> visited(n, vector<bool> (n, false));
+        queue<pair<int, int>> q;
+        int ans = 0;
+        int nodesPushed;
+        
+        if(grid[0][0] == 0){
+            q.push({0, 0});
+            visited[0][0] = true;
+        }
+                
+        while(!q.empty()){
+            
+            nodesPushed = q.size();
+            ans++;
+            
+            for(int cnt = 0; cnt < nodesPushed; cnt++){
+                
+                pair<int, int> frontNode = q.front();
+                q.pop();
+            
+                int i = frontNode.first, j = frontNode.second;
+
+                if(i==n-1 and j==n-1) return ans;
+
+                for(int k = i - 1; k <= i + 1 ; k++){
+                    for(int l = j - 1; l <= j + 1; l++){
+                        if(isValid(grid, k, l, n, visited)){
+                            q.push({k, l});
+                            visited[k][l] = true;
+                        }
+                    }
+                }                
+                
+            }            
+            
+        }
+        
+        return -1;
+        
+    }
+};
+```
+	
+	
+	
+<br /> <br /> <br />**[1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree](https://leetcode.com/problems/find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree/)**<br />
+Given two binary trees `original` and `cloned` and given a reference to a node `target` in the original tree.<br />
+The `cloned` tree is a **copy of** the `original` tree.<br />
+_Return a reference to the same node_ in the `cloned` tree.<br />
+**Note** that you are **not allowed** to change any of the two trees or the `target` node and the answer **must be** a reference to a node in the `cloned` tree. <br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/02/21/e1.png"><br />
+Input: tree = [7,4,3,null,null,6,19], target = 3<br />
+Output: 3<br />
+Explanation: In all examples the original and cloned trees are shown. The target node is a green node from the original tree. The answer is the yellow node from the cloned tree.<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/02/21/e2.png"><br />
+Input: tree = [7], target =  7<br />
+Output: 7<br />
+	
+>Example 3:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/02/21/e3.png"><br />
+Input: tree = [8,null,6,null,5,null,4,null,3,null,2,null,1], target = 4<br />
+Output: 4<br />
+
+* Constraints: The number of nodes in the tree is in the range `[1, 10^4]`.<br />
+The values of the nodes of the `tree` are unique.<br />
+`target` node is a node from the `original` tree and is not `null`.<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    void dfs(TreeNode* og, TreeNode* copy, TreeNode* target, TreeNode*& ans) {
+        if(!og) return;
+        if(og == target)ans = copy;
+        dfs(og->left, copy->left, target, ans);
+        dfs(og->right, copy->right, target, ans);
+        return;
+    }
+    
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        TreeNode* ans = nullptr;
+        dfs(original, cloned, target, ans);
+        return ans;
+    }
+};
+```
+	
+	
+	
+
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[]()**<br />
