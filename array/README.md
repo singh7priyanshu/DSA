@@ -2011,19 +2011,19 @@ Given an array of positive and negative numbers. Find if there is a **subarray**
 >Example 1:<br />
 Input:<br />
 5<br />
-4 2 -3 1 6<br />
-Output: <br /><br />
-Yes<br />
-Explanation:<br /><br /> 
+4 2 -3 1 6<br /><br />
+Output: <br />
+Yes<br /><br />
+Explanation:<br />
 2, -3, 1 is the subarray with sum 0.<br />
 
 >Example 2:<br />
 Input:<br />
 5<br />
-4 2 0 1 6<br />
-Output: <br /><br />
-Yes<br />
-Explanation:<br /><br /> 
+4 2 0 1 6<br /><br />
+Output: <br />
+Yes<br /><br />
+Explanation:<br />
 0 is one of the element n the array so there exist a subarray with sum 0.<br />
 
 Your Task:<br />
