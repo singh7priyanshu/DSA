@@ -1004,12 +1004,204 @@ int x = arr[n-1], i;
 
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 8:
+**[Kadane's Algorithm](https://practice.geeksforgeeks.org/problems/kadanes-algorithm-1587115620/1)**<br />
+Given an array `Arr[]` of `N` integers. Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5<br />
+Arr[] = {1,2,3,-2,5}<br />
+Output:<br />
+9<br />
+Explanation:<br />
+Max subarray sum is 9 of elements (1, 2, 3, -2, 5) which is a contiguous subarray.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 4<br />
+Arr[] = {-1,-2,-3,-4}<br />
+Output:<br />
+-1<br />
+Explanation:<br />
+Max subarray sum is -1 of element (-1)<br />
+
+Your Task:<br />
+You don't need to read input or print anything. The task is to complete the function `maxSubarraySum()` which takes Arr[] and N as input parameters and returns the sum of subarray with maximum sum.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre><br />
+
+* Constraints: `1 ≤ N ≤ 10^6`<br />
+`-10^7 ≤ A[i] ≤ 10^7`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    long long maxSubarraySum(int arr[], int n){
+        long long maxh = 0, maxf = arr[0];
+        for(int i=0;i<n;i++){
+                maxh+=arr[i];
+                if(maxf<maxh)maxf=maxh; 
+                if(maxh<0)maxh=0;
+        }
+        return maxf;
+    }
+};
+        
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t,n;
+    
+    cin>>t; //input testcases
+    while(t--) //while testcases exist
+    {
+        
+        cin>>n; //input size of array
+        
+        int a[n];
+        
+        for(int i=0;i<n;i++)
+            cin>>a[i]; //inputting elements of array
+            
+        Solution ob;
+        
+        cout << ob.maxSubarraySum(a, n) << endl;
+    }
+}
+```
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 9:
+**[Minimise the maximum difference between heights [V.IMP]](https://practice.geeksforgeeks.org/problems/minimize-the-heights3351/1)**<br />
+Given an array `arr[]` denoting heights of `N` towers and a positive integer `K`, you `have to` modify the height of each tower either by increasing or decreasing them by `K` only `once`. After modifying, height should be a `non-negative` integer. <br />
+Find out the minimum possible difference of the height of shortest and longest towers after you have modified each tower.<br />
+
+Note: It is compulsory to increase or decrease by K to each tower.<br />
+
+>Example 1:<br />
+Input:<br />
+K = 2, N = 4<br />
+Arr[] = {1, 5, 8, 10}<br />
+Output:<br />
+5<br />
+Explanation:<br />
+The array can be modified as {3, 3, 6, 8}. The difference between the largest and the smallest is 8-3 = 5.<br />
+
+>Example 2:<br />
+Input:<br />
+K = 3, N = 5<br />
+Arr[] = {3, 9, 12, 16, 20}<br />
+Output:<br />
+11<br />
+Explanation:<br />
+The array can be modified as {6, 12, 9, 13, 17}. The difference between the largest and the smallest is 17-6 = 11. <br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `getMinDiff()` which takes the `arr[]`, `n` and `k` as input parameters and returns an integer denoting the minimum difference.<br />
+
+<pre>
+Expected Time Complexity: O(N*logN)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints : `1 ≤ K ≤ 10^4`<br />
+`1 ≤ N ≤ 10^5`<br />
+`1 ≤ Arr[i] ≤ 10^5`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function template for C++
+
+class Solution {
+  public:
+    int getMinDiff(int arr[], int n, int k) {
+        // code here
+        vector<pair<int, int>> v;
+        vector<int> taken(n);
+
+        // we will store all possible heights in a vector
+        for (int i = 0; i < n; i++) {
+            if (arr[i] - k >= 0) {
+                v.push_back({arr[i] - k, i});
+            }
+            v.push_back({arr[i] + k, i});
+        }
+        sort(v.begin(), v.end());
+        int elements_in_range = 0;
+        int left = 0;
+        int right = 0;
+
+        // By two pointer we will traverse v and whenever we will get a range
+        // in which all towers are included, we will update the answer.
+        while (elements_in_range < n && right < v.size()) {
+            if (taken[v[right].second] == 0) {
+                elements_in_range++;
+            }
+            taken[v[right].second]++;
+            right++;
+        }
+        int ans = v[right - 1].first - v[left].first;
+        while (right < v.size()) {
+            if (taken[v[left].second] == 1) {
+                elements_in_range--;
+            }
+            taken[v[left].second]--;
+            left++;
+
+            while (elements_in_range < n && right < v.size()) {
+                if (taken[v[right].second] == 0) {
+                    elements_in_range++;
+                }
+                taken[v[right].second]++;
+                right++;
+            }
+
+            if (elements_in_range == n) {
+                ans = min(ans, v[right - 1].first - v[left].first);
+            } else {
+                break;
+            }
+        }
+        return ans;
+    
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, k;
+        cin >> k;
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.getMinDiff(arr, n, k);
+        cout << ans << "\n";
+    }
+    return 0;
+}  
+```
+
+
 
 <br /><br /><br />
 ## Problem n:
