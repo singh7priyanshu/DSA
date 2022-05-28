@@ -1204,13 +1204,145 @@ int main() {
 
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 10:
+**[Minimum no. of Jumps to reach end of an array](https://practice.geeksforgeeks.org/problems/minimum-number-of-jumps-1587115620/1)**<br />
+Given an array of `N` integers `arr[]` where each element represents the max number of steps that can be made forward from that element. Find the minimum number of jumps to reach the end of the array (starting from the first element). If an element is `0`, then you cannot move through that element.<br />
+**Note**: Return -1 if you can't reach the end of the array.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 11 <br />
+arr[] = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9} <br />
+Output: 3 <br />
+Explanation: <br />
+First jump from 1st element to 2nd element with value 3. Now, from here we jump to 5th element with value 9, and from here we will jump to last. <br />
+
+>Example 2:<br />
+Input :<br />
+N = 6<br />
+arr = {1, 4, 3, 2, 6, 7}<br />
+Output: 2 <br />
+Explanation: First we jump from the 1st to 2nd element and then jump to the last element.<br />
+
+Your task:<br />
+You don't need to read input or print anything. Your task is to complete function `minJumps()` which takes the array `arr` and it's size `N` as input parameters and returns the minimum number of jumps. If not possible returns -1.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Space Complexity: O(1)
+</pre><br />
+
+* Constraints: `1 ≤ N ≤ 10^7`<br />
+`0 ≤ arri ≤ 10^7`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+// Function to return minimum number of jumps to end of array
+
+class Solution{
+  public:
+    int minJumps(int arr[], int n){
+        if(n<=1)return 0;
+        if(arr[0]==0)return -1;
+        int maxreach = arr[0];
+        int step = arr[0];
+        int jump = 1;
+        for(int i=1;i<n;i++){
+            if(i==n-1)return jump;
+            maxreach = max(maxreach,i+arr[i]);
+            step--;
+            if(step==0){
+                jump++;
+                if(i>=maxreach)return -1;
+                step = maxreach -i ;
+            }
+        }
+        return -1;
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n,i,j;
+        cin>>n;
+        int arr[n];
+        for(int i=0; i<n; i++)
+            cin>>arr[i];
+        Solution obj;
+        cout<<obj.minJumps(arr, n)<<endl;
+    }
+    return 0;
+}
+```
 
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 11:
+**[find duplicate in an array of N+1 Integers](https://leetcode.com/problems/find-the-duplicate-number/)**<br />
+Given an array of integers `nums` containing `n + 1` integers where each integer is in the range `[1, n]` inclusive.<br />
+There is `only` **one repeated number** in `nums`, return _this repeated number_.<br />
+You must solve the problem **without** modifying the array `nums` and uses only constant extra space.<br />
+
+>Example 1:<br />
+Input: nums = [1,3,4,2,2]<br />
+Output: 2<br />
+
+>Example 2:<br />
+Input: nums = [3,1,3,4,2]<br />
+Output: 3<br />
+
+* Constraints: `1 <= n <= 10^5`<br />
+`nums.length == n + 1`<br />
+`1 <= nums[i] <= n`<br />
+All the integers in `nums` appear only **once** except for **precisely one integer** which appears **two or more** times.<br />
+
+```cpp
+class Solution {
+public:
+     // Tortoise and hare Method   TC - O(N)  SC - O(1)
+	int findDuplicate(vector<int>& arr) 
+	{
+		int slow, fast;
+		slow = arr[0], fast = arr[0];
+		do {
+			slow = arr[slow];   
+			fast = arr[arr[fast]];
+		}while(slow != fast);
+		fast = arr[0];
+		while(slow != fast) {   
+			slow = arr[slow];
+			fast = arr[fast];
+		}
+		return slow;
+	}
+/*
+ // Hashing Technique  TC - O(N)  SC - O(N)
+	int findDuplicate(vector<int>& arr) 
+	{
+		map<int,int>mp;
+		for(int i = 0; i < arr.size(); i++) {
+			if(mp.find(arr[i]) == mp.end()) {
+				mp[arr[i]]++;
+			}
+			else
+				return arr[i];
+		}
+		return -1;
+	}
+    */
+```
+
 
 <br /><br /><br />
 ## Problem n:
