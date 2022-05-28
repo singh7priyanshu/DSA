@@ -1450,39 +1450,636 @@ int main() {
 ```
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 13:
+**[56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)**<br />
+Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return _an array of the non-overlapping intervals that cover all the intervals in the input_.<br />
+
+>Example 1:<br />
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]<br />
+Output: [[1,6],[8,10],[15,18]]<br />
+Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].<br />
+
+>Example 2:<br />
+Input: intervals = [[1,4],[4,5]]<br />
+Output: [[1,5]]<br />
+Explanation: Intervals [1,4] and [4,5] are considered overlapping.<br />
+ 
+* Constraints: `1 <= intervals.length <= 10^4`<br />
+`intervals[i].length == 2`<br />
+`0 <= starti <= endi <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+
+        vector<vector<int>> merged;
+        for (auto interval : intervals) {
+            // if the list of merged intervals is empty or if the current
+            // interval does not overlap with the previous, simply append it.
+            if (merged.empty() || merged.back()[1] < interval[0]) {
+                merged.push_back(interval);
+            }
+            // otherwise, there is overlap, so we merge the current and previous
+            // intervals.
+            else {
+                merged.back()[1] = max(merged.back()[1], interval[1]);
+            }
+        }
+        return merged;
+    }
+};
+```
+
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 14:
+**[31. Next Permutation](https://leetcode.com/problems/next-permutation/)**<br />
+A **permutation** of an array of integers is an arrangement of its members into a sequence or linear order. <br />
+ * For example, for `arr = [1,2,3]`, the following are considered permutations of `arr: [1,2,3]`, `[1,3,2]`, `[3,1,2]`, `[2,3,1]`.<br />
+ 
+The **next permutation** of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the `next permutation` of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).<br />
+ * For example, the next permutation of `arr = [1,2,3]` is `[1,3,2]`.<br />
+ * Similarly, the next permutation of `arr = [2,3,1]` is `[3,1,2]`.<br />
+ * While the next permutation of `arr = [3,2,1]` is `[1,2,3]` because `[3,2,1]` does not have a lexicographical larger rearrangement.<br />
+ 
+Given an array of integers `nums`, _find the next permutation of `nums`_.<br />
+The replacement must be `in place` and use only constant extra memory.<br />
+
+>Example 1:<br />
+Input: nums = [1,2,3]<br />
+Output: [1,3,2]<br />
+
+>Example 2:<br />
+Input: nums = [3,2,1]<br />
+Output: [1,2,3]<br />
+
+>Example 3:<br />
+Input: nums = [1,1,5]<br />
+Output: [1,5,1]<br />
+ 
+* Constraints: `1 <= nums.length <= 100`<br />
+`0 <= nums[i] <= 100`<br />
+
+```cpp
+class Solution {
+public:
+    void reverse(vector<int>& nums, int low, int high) {
+        while(low < high) {
+            swap(nums[low], nums[high]);
+            low++;
+            high--;
+        }
+    }
+    
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = n-1 ; i>=0; i--) {
+            while(i>0 && nums[i] <= nums[i-1])
+                i--;
+            if(i==0) {
+                sort(nums.begin(), nums.end());
+                return;
+            }
+            
+            int j;
+            for(j = n-1; j>i ; j--)
+                if(nums[i-1] < nums[j]) 
+                    break;
+            
+            swap(nums[i-1], nums[j]);
+            reverse(nums, i, n-1);
+            return;
+        }
+        
+    }
+};
+```
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 15:
+**[Count Inversions](https://practice.geeksforgeeks.org/problems/inversion-of-array-1587115620/1)**<br />
+Given an array of integers. Find the Inversion Count in the array. <br />
+**Inversion Count**: For an array, inversion count indicates how far (or close) the array is from being sorted. If array is already sorted then the inversion count is 0. If an array is sorted in the reverse order then the inversion count is the maximum. 
+Formally, two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j.<br />
+
+>Example 1:<br />
+Input: N = 5, arr[] = {2, 4, 1, 3, 5}<br />
+Output: 3<br />
+Explanation: The sequence 2, 4, 1, 3, 5 has three inversions (2, 1), (4, 1), (4, 3).<br />
+
+>Example 2:<br />
+Input: N = 5<br />
+arr[] = {2, 3, 4, 5, 6}<br />
+Output: 0<br />
+Explanation: As the sequence is already sorted so there is no inversion count.<br />
+
+>Example 3:<br />
+Input: N = 3, arr[] = {10, 10, 10}<br />
+Output: 0<br />
+Explanation: As all the elements of array are same, so there is no inversion count.<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `inversionCount()` which takes the array arr[] and the size of the array as inputs and returns the inversion count of the given array.<br />
+
+<pre>
+Expected Time Complexity: O(NLogN).
+Expected Auxiliary Space: O(N).
+</pre><br />
+
+* Constraints: `1 ≤ N ≤ 5*10^5`<br />
+`1 ≤ arr[i] ≤ 10^18`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+  public:
+    
+    long long my_counter = 0;
+    
+    // arr[]: Input Array
+    // N : Size of the Array arr[]
+    // Function to count inversions in the array.
+    
+    void mergeSort(long long a[], long long p, long long r){
+        if(p<r){
+            long long q = (p+r)/2;
+            mergeSort(a, p, q);
+            mergeSort(a, q+1, r);
+            merge(a, p, q, r);
+        }
+    }
+    
+    void merge(long long a[], long long p, long long q, long long r){
+        long long l = q-p+1;
+        long long a1[l];
+        long long l2 = r-q;
+        long long a2[l2];
+        for(long long i = 0;i<l;i++){
+            a1[i] = a[i+p];
+        }
+        for(long long i = 0;i<l2;i++){
+            a2[i] = a[q+i+1];
+        }
+        long long left = 0, right = 0, k = p;
+        while(left<l && right < l2){
+            if(a1[left] <= a2[right]){
+                a[k] = a1[left];
+                left++;
+            }
+            else{
+                a[k] = a2[right];
+                right++;
+                my_counter += (l-left);
+            }
+            k++;
+        }
+        while(left<l){
+            a[k++] = a1[left++];
+        }
+        while(right < l2){
+            a[k++] = a2[right++];
+        }
+    }
+    
+    long long int inversionCount(long long arr[], long long N)
+    {
+        // Your Code Here
+        mergeSort(arr,0,N-1);
+        long long int res = my_counter;
+        my_counter = 0;
+        return res;
+    }
+
+};
+
+// { Driver Code Starts.
+
+int main() {
+    
+    long long T;
+    cin >> T;
+    
+    while(T--){
+        long long N;
+        cin >> N;
+        
+        long long A[N];
+        for(long long i = 0;i<N;i++){
+            cin >> A[i];
+        }
+        Solution obj;
+        cout << obj.inversionCount(A,N) << endl;
+    }
+    
+    return 0;
+}
+```
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 16:
+**[121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)**<br />
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.<br />
+You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.<br />
+Return the _maximum profit you can achieve from this transaction_. If you cannot achieve any profit, return `0`.<br />
+ 
+>Example 1:<br />
+>Input: prices = [7,1,5,3,6,4]<br />
+>Output: 5<br />
+>Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.<br />
+>Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.<br />
+ 
+>Example 2:<br />
+>Input: prices = [7,6,4,3,1]<br />
+>Output: 0<br />
+>Explanation: In this case, no transactions are done and the max profit = 0.<br />
+
+* Constraints: `1 <= prices.length <= 10^5`<br />
+`0 <= prices[i] <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0, minPrice = INT_MAX;
+        for(int i = 0;i<prices.size();i++){
+            if(prices[i]<minPrice)minPrice = prices[i];
+            else if(prices[i]-minPrice > profit)profit = prices[i]-minPrice;
+        }
+        return profit;
+    }
+};
+```
+<br />
+
+
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 17:
+**[find all pairs on integer array whose sum is equal to given number](https://practice.geeksforgeeks.org/problems/count-pairs-with-given-sum5022/1)**<br />
+Given an array of `N` integers, and an integer `K`, find the number of pairs of elements in the array whose sum is equal to `K`.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4, K = 6<br />
+arr[] = {1, 5, 7, 1}<br />
+Output: 2<br />
+Explanation: <br />
+arr[0] + arr[1] = 1 + 5 = 6<br /> 
+and arr[1] + arr[3] = 5 + 1 = 6.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 4, K = 2<br />
+arr[] = {1, 1, 1, 1}<br />
+Output: 6<br />
+Explanation: <br />
+Each 1 will produce sum 2 with any 1.<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `getPairsCount()` which takes `arr[]`, `n` and `k` as input parameters and returns the number of pairs that have sum K.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+</pre><br />
+
+* Constraints: `1 <= N <= 10^5`<br />
+`1 <= K <= 10^8`<br />
+`1 <= Arr[i] <= 10^6`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+//User function template for C++
+
+class Solution{   
+public:
+    int getPairsCount(int arr[], int n, int k) {
+        // code here
+        unordered_map<int, int>m;
+        for(int i = 0;i<n;i++)m[arr[i]]++;
+        int doublecount = 0;
+        for(int i = 0;i<n;i++){
+            doublecount += m[k-arr[i]];
+            if(k-arr[i] == arr[i]) doublecount--;
+        }
+        return doublecount/2;
+    }
+};
+
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+        int arr[n];
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.getPairsCount(arr, n, k);
+        cout << ans << "\n";
+    }
+    
+    return 0;
+}
+```
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 18:
+**[find common elements In 3 sorted arrays](https://practice.geeksforgeeks.org/problems/common-elements1132/1)**<br />
+Given three arrays sorted in increasing order. Find the elements that are common in all three arrays.<br />
+
+>Example 1:<br />
+Input:<br />
+n1 = 6; A = {1, 5, 10, 20, 40, 80}<br />
+n2 = 5; B = {6, 7, 20, 80, 100}<br />
+n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}<br />
+Output: 20 80<br />
+Explanation: 20 and 80 are the only common elements in A, B and C.<br />
+ 
+Your Task:  <br />
+You don't need to read input or print anything. Your task is to complete the function **commonElements()** which take the 3 arrays A[], B[], C[] and their respective sizes n1, n2 and n3 as inputs and returns an array containing the common element present in all the 3 arrays in sorted order.<br /> 
+If there are no such elements return an empty array. In this case the output will be printed as -1.<br />
+
+<pre>
+Expected Time Complexity: O(n1 + n2 + n3)
+Expected Auxiliary Space: O(n1 + n2 + n3)
+</pre><br />
+
+* Constraints: `1 <= n1, n2, n3 <= 10^5`<br />
+The array elements can be both `positive` or `negative` integers.<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:    
+       vector <int> commonElements (int A[], int B[], int C[], int n1, int n2, int n3){
+           int i =0, j=0, k=0;
+           vector<int>sol;
+           int check = INT_MIN;
+           while(i<n1 && j<n2 && k<n3){
+               if(A[i]==B[j] && A[i]==C[k] && A[i]!=check){
+                   sol.push_back(A[i]);
+                   check = A[i];
+                   i++;j++;k++;
+               }
+               else if(min({A[i],B[j],C[k]}) == A[i])i++;
+               else if(min({A[i],B[j],C[k]}) == B[j])j++;
+               else k++;
+           }
+           return sol;
+        }
+
+};
+
+
+int main ()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        int n1, n2, n3; 
+        cin >> n1 >> n2 >> n3;
+        int A[n1];
+        int B[n2];
+        int C[n3];
+        
+        for (int i = 0; i < n1; i++) cin >> A[i];
+        for (int i = 0; i < n2; i++) cin >> B[i];
+        for (int i = 0; i < n3; i++) cin >> C[i];
+        
+        Solution ob;
+        
+        vector <int> res = ob.commonElements (A, B, C, n1, n2, n3);
+        if (res.size () == 0) 
+            cout << -1;
+        for (int i = 0; i < res.size (); i++) 
+            cout << res[i] << " "; 
+        cout << endl;
+    }
+}
+```
+
+
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 19:
+**[Rearrange array in alternating positive & negative items with O(1) extra space](https://www.geeksforgeeks.org/rearrange-array-alternating-positive-negative-items-o1-extra-space/)**<br />
+Given an array of positive and negative numbers, arrange them in an alternate fashion such that every positive number is followed by negative and vice-versa maintaining the order of appearance.<br /> 
+Number of positive and negative numbers need not be equal. If there are more positive numbers they appear at the end of the array. If there are more negative numbers, they too appear in the end of the array.<br />
+Examples : 
+<pre>
+Input:  arr[] = {1, 2, 3, -4, -1, 4}
+Output: arr[] = {-4, 1, -1, 2, 3, 4}
+
+Input:  arr[] = {-5, -2, 5, 2, 4, 7, 1, 8, 0, -8}
+output: arr[] = {-5, 5, -2, 2, -8, 4, 7, 1, 8, 0}
+</pre><br />
+
+### Naive Approach : 
+The above problem can be easily solved if O(n) extra space is allowed. It becomes interesting due to the limitations that O(1) extra space and order of appearances. 
+The idea is to process array from left to right. While processing, find the first out of place element in the remaining unprocessed array. An element is out of place if it is negative and at odd index (0 based index), or it is positive and at even index (0 based index) . Once we find an out of place element, we find the first element after it with opposite sign. We right rotate the subarray between these two elements (including these two).<br />
+
+```cpp
+/* C++ program to rearrange
+positive and negative integers
+in alternate fashion while keeping
+the order of positive and negative numbers. */
+#include <assert.h>
+#include <iostream>
+using namespace std;
+
+// Utility function to right rotate all elements between
+// [outofplace, cur]
+void rightrotate(int arr[], int n, int outofplace, int cur)
+{
+	char tmp = arr[cur];
+	for (int i = cur; i > outofplace; i--)
+		arr[i] = arr[i - 1];
+	arr[outofplace] = tmp;
+}
+
+void rearrange(int arr[], int n)
+{
+	int outofplace = -1;
+
+	for (int index = 0; index < n; index++)
+	{
+		if (outofplace >= 0)
+		{
+			// find the item which must be moved into the
+			// out-of-place entry if out-of-place entry is
+			// positive and current entry is negative OR if
+			// out-of-place entry is negative and current
+			// entry is negative then right rotate
+			//
+			// [...-3, -4, -5, 6...] --> [...6, -3, -4,
+			// -5...]
+			//	 ^						 ^
+			//	 |						 |
+			//	 outofplace	 -->	 outofplace
+			//
+			if (((arr[index] >= 0) && (arr[outofplace] < 0))
+				|| ((arr[index] < 0)
+					&& (arr[outofplace] >= 0)))
+			{
+				rightrotate(arr, n, outofplace, index);
+
+				// the new out-of-place entry is now 2 steps
+				// ahead
+				if (index - outofplace >= 2)
+					outofplace = outofplace + 2;
+				else
+					outofplace = -1;
+			}
+		}
+
+		// if no entry has been flagged out-of-place
+		if (outofplace == -1) {
+			// check if current entry is out-of-place
+			if (((arr[index] >= 0) && (!(index & 0x01)))
+				|| ((arr[index] < 0) && (index & 0x01))) {
+				outofplace = index;
+			}
+		}
+	}
+}
+
+// A utility function to print an array 'arr[]' of size 'n'
+void printArray(int arr[], int n)
+{
+	for (int i = 0; i < n; i++)
+		cout << arr[i] << " ";
+	cout << endl;
+}
+
+// Driver code
+int main()
+{
+	
+	int arr[] = { -5, -2, 5, 2,
+				4, 7, 1, 8, 0, -8 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+
+	cout << "Given array is \n";
+	printArray(arr, n);
+
+	rearrange(arr, n);
+
+	cout << "Rearranged array is \n";
+	printArray(arr, n);
+
+	return 0;
+}
+```
+Output : <br />
+<pre>
+Given array is 
+-5 -2 5 2 4 7 1 8 0 -8 
+Rearranged array is 
+-5 5 -2 2 -8 4 7 1 8 0 
+</pre>
+
+* Time Complexity : O(N^2), as we are using a loop to traverse N times and calling function rightrotate each time which will cost O (N).
+* Space Complexity : O(1), as we are not using any extra space.
+
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 20:
+**[Find if there is any subarray with sum equal to 0](https://practice.geeksforgeeks.org/problems/subarray-with-0-sum-1587115621/1)**<br />
+Given an array of positive and negative numbers. Find if there is a **subarray** (of size at-least one) with **0 sum**.<br />
+
+>Example 1:<br />
+Input:<br />
+5<br />
+4 2 -3 1 6<br />
+Output: <br /><br />
+Yes<br />
+Explanation:<br /><br /> 
+2, -3, 1 is the subarray with sum 0.<br />
+
+>Example 2:<br />
+Input:<br />
+5<br />
+4 2 0 1 6<br />
+Output: <br /><br />
+Yes<br />
+Explanation:<br /><br /> 
+0 is one of the element n the array so there exist a subarray with sum 0.<br />
+
+Your Task:<br />
+You only need to complete the function `subArrayExists()` that takes `array and n` as `parameters` and `returns` true or false depending upon whether there is a subarray present with 0-sum or not. Printing will be taken care by the drivers code.<br />
+
+<pre>
+Expected Time Complexity: O(n).
+Expected Auxiliary Space: O(n).
+</pre><br />
+
+* Constraints: `1 <= n <= 10^4`<br />
+`-10^5 <= a[i] <= 10^5`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    bool subArrayExists(int arr[], int n){
+        unordered_map<int,bool>map;
+        int sum = 0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            if(sum == 0 || map[sum] == true)return true;
+            map[sum] = true;
+        }
+        return false;
+    }
+};
+ 
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int arr[n];
+	    for(int i=0;i<n;i++)
+	    cin>>arr[i];
+	    Solution obj;
+	    	if (obj.subArrayExists(arr, n))
+		cout << "Yes\n";
+	else
+		cout << "No\n";
+	}
+	return 0;
+}
+```
+
+
 
 <br /><br /><br />
-## Problem n:
+## Problem 21:
 **[]()**<br />
 
 <br /><br /><br />
