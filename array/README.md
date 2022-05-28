@@ -1289,7 +1289,7 @@ int main()
 
 <br /><br /><br />
 ## Problem 11:
-**[find duplicate in an array of N+1 Integers](https://leetcode.com/problems/find-the-duplicate-number/)**<br />
+**[287. find duplicate in an array of N+1 Integers](https://leetcode.com/problems/find-the-duplicate-number/)**<br />
 Given an array of integers `nums` containing `n + 1` integers where each integer is in the range `[1, n]` inclusive.<br />
 There is `only` **one repeated number** in `nums`, return _this repeated number_.<br />
 You must solve the problem **without** modifying the array `nums` and uses only constant extra space.<br />
