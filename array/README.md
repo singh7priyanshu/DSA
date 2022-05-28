@@ -843,12 +843,165 @@ Output: <br />
 The order of elements does not matter here.<br />
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 6:
+**[Union of two arrays](https://practice.geeksforgeeks.org/problems/union-of-two-arrays3538/1)**<br />
+Given two arrays `a[]` and `b[]` of size `n` and `m` respectively. The task is to find union between these two arrays.<br />
+Union of the two arrays can be defined as the set containing distinct elements from both the arrays. If there are repetitions, then only one occurrence of element should be printed in the union.<br />
+
+>Example 1:<br />
+Input:<br />
+5 3<br />
+1 2 3 4 5<br />
+1 2 3<br />
+Output: <br />
+5<br />
+Explanation: <br />
+1, 2, 3, 4 and 5 are the elements which comes in the union set of both arrays. So count is 5.<br />
+
+>Example 2:<br />
+Input:<br />
+6 2 <br />
+85 25 1 32 54 6<br />
+85 2 <br />
+Output: <br />
+7<br />
+Explanation: <br />
+85, 25, 1, 32, 54, 6, and 2 are the elements which comes in the union set of both arrays. So count is 7.<br />
+
+Your Task:<br />
+Complete `doUnion` funciton that takes `a`, `n`, `b`, `m` `as parameters and returns` the count of union elements of the two arrays. The `printing` is done by the `driver` code.<br />
+
+* Constraints: `1 ≤ n, m ≤ 10^5`<br />
+`0 ≤ a[i], b[i] < 10^5`<br />
+
+<pre>
+Expected Time Complexity : O((n+m)log(n+m))
+Expected Auxilliary Space : O(n+m)
+</pre><br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function template in C++
+
+class Solution{
+    public:
+    //Function to return the count of number of elements in union of two arrays.
+    int doUnion(int a[], int n, int b[], int m)  {
+        //code here
+        //using set to store the elements.
+        unordered_set<int> s;
+    	    
+    	//we insert all the elements of first array in set.
+    	for(int i = 0;i<n;i++)
+    	   s.insert(a[i]);
+    	    
+    	 //we insert all the elements of second array in set.
+    	 //Set does not contain duplicates.
+    	 for(int i = 0;i<m;i++)
+    	    s.insert(b[i]);
+    	    
+    	  //returning the size of set which is total number of elements in set.
+    	  return s.size() ;
+    	    
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+	
+	int t;
+	cin >> t;
+	
+	while(t--){
+	    
+	    int n, m;
+	    cin >> n >> m;
+	    int a[n], b[m];
+	   
+	    for(int i = 0;i<n;i++)
+	       cin >> a[i];
+	       
+	    for(int i = 0;i<m;i++)
+	       cin >> b[i];
+	    Solution ob;
+	    cout << ob.doUnion(a, n, b, m) << endl;
+	    
+	}
+	
+	return 0;
+} 
+```
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 7:
+**[Cyclically rotate an array by one](https://practice.geeksforgeeks.org/problems/cyclically-rotate-an-array-by-one2614/1)**<br />
+Given an array, rotate the array by one position in clock-wise direction.<br />
+ 
+>Example 1:<br />
+Input:<br />
+N = 5<br />
+A[] = {1, 2, 3, 4, 5}<br />
+Output:<br />
+5 1 2 3 4<br />
+ 
+>Example 2:<br />
+Input:<br />
+N = 8<br />
+A[] = {9, 8, 7, 6, 4, 2, 1, 3}<br />
+Output:<br />
+3 9 8 7 6 4 2 1<br />
+ 
+Your Task:  <br />
+You don't need to read input or print anything. Your task is to complete the function `rotate()` which takes the array `A[]` and its size `N` as inputs and modify the array.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre><br />
+
+* Constraints: `1<=N<=10^5`<br />
+`0<=a[i]<=10^5`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+void rotate(int arr[], int n);
+
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        int n;
+        scanf("%d",&n);
+        int a[n] , i;
+        for(i=0;i<n;i++)
+        scanf("%d",&a[i]);
+        rotate(a, n);
+        for (i = 0; i < n; i++)
+            printf("%d ", a[i]);
+        printf("\n");
+    }
+        return 0;
+}
+// } Driver Code Ends
+
+
+//User function Template for C++
+
+void rotate(int arr[], int n)
+{
+int x = arr[n-1], i;
+   for (i = n-1; i > 0; i--)arr[i] = arr[i-1];
+   arr[0] = x;
+}
+```
+
 
 <br /><br /><br />
 ## Problem n:
