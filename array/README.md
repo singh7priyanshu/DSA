@@ -142,7 +142,7 @@ Reversed array is
 6 5 4 3 2 1 
 </pre><br />
 
-* Time Complexity : O(n)<br />
+* Time Complexity : O(n)<br /><br /><br /><br />
 
 
 
@@ -437,4 +437,112 @@ Minimum element is 1
 Maximum element is 3000
 </pre><br />
 * Time Complexity: O(n)<br />
-* Auxiliary Space: O(1) as no extra space was needed.<br />
+* Auxiliary Space: O(1) as no extra space was needed.<br /><br /><br /><br />
+
+
+## Problem 3:
+**[Kth smallest element](https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1)**<br />
+Given an array `arr[]` and an integer `K` where K is smaller than size of array, the task is to find the `Kth smallest` element in the given array. It is given that all array elements are distinct.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 6<br />
+arr[] = 7 10 4 3 20 15<br />
+K = 3<br />
+Output : 7<br />
+Explanation :<br />
+3rd smallest element in the given <br />
+array is 7.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 5<br />
+arr[] = 7 10 4 20 15<br />
+K = 4<br />
+Output : 15<br />
+Explanation :<br />
+4th smallest element in the given 
+array is 15.<br />
+
+Your Task:<br />
+You don't have to read input or print anything. Your task is to complete the function `kthSmallest()` which takes the array `arr[]`, integers `l` and `r` denoting the `starting` and `ending` index of the array and an integer `K` as input and returns the `Kth` smallest element.<br />
+ 
+<pre>
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(log(n))
+</pre><br />
+* Constraints: `1 <= N <= 10^5`<br />
+`1 <= arr[i] <= 10^5`<br />
+`1 <= K <= N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution{
+    public:
+    void swap(int *a, int *b){
+        int temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+    int randomPartition(int arr[], int l, int r){
+        int n = r-l+1;
+        int pivot = rand()%n;
+        swap(&arr[l+pivot],&arr[r]);
+        return partition(arr,l,r);
+    }
+    int kthSmallest(int arr[], int l, int r, int k) {
+        if(k>0 && k<=r-l+1){
+            int pos = randomPartition(arr,l,r);
+            if(pos-l == k-1){
+                return arr[pos];
+            }
+            if(pos-l>k-1){
+                return kthSmallest(arr,l,pos-1,k);
+            }
+            return kthSmallest(arr,pos+1,r,k-pos+l-1);
+        }
+        return INT_MAX;
+    }
+    int partition(int arr[],int l, int r){
+        int x = arr[r],i=l;
+        for (int j=l;j<=r-1;j++){
+            if(arr[j]<=x){
+                swap(&arr[i], &arr[j]);
+                i++;
+            }
+        }
+        swap(&arr[i],&arr[r]);
+        return i;
+    }
+};
+
+// { Driver Code Starts.
+ 
+int main()
+{
+    int test_case;
+    cin>>test_case;
+    while(test_case--)
+    {
+        int number_of_elements;
+        cin>>number_of_elements;
+        int a[number_of_elements];
+        
+        for(int i=0;i<number_of_elements;i++)
+            cin>>a[i];
+            
+        int k;
+        cin>>k;
+        Solution ob;
+        cout<<ob.kthSmallest(a, 0, number_of_elements-1, k)<<endl;
+    }
+    return 0;
+}
+```
+
+<br /><br /><br />
