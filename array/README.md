@@ -2080,83 +2080,299 @@ int main()
 
 <br /><br /><br />
 ## Problem 21:
+**[Factorials of large numbers](https://practice.geeksforgeeks.org/problems/factorials-of-large-numbers2508/1)**<br />
+Given an integer N, find its factorial.<br />
+
+>Example 1:<br />
+Input: N = 5<br />
+Output: 120<br />
+Explanation : 5! = 1*2*3*4*5 = 120<br />
+
+>Example 2:<br />
+Input: N = 10<br />
+Output: 3628800<br />
+Explanation :<br />
+10! = 1*2*3*4*5*6*7*8*9*10 = 3628800<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Complete the function `factorial()` that takes integer `N` as input parameter and returns _a list of integers denoting the digits that make up the factorial of N_.<br />
+
+<pre>
+Expected Time Complexity : O(N^2)
+Expected Auxilliary Space : O(1)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 1000`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> factorial(int N){
+        vector<int>number;
+        number.push_back(1);
+        for(int i = 2;i<=N;i++){
+            multiply(i,number);
+        }
+        reverse(number.begin(),number.end());
+        return number;
+    }
+    
+    void multiply(int n, vector<int>&number){
+        int carry = 0;
+        for(int i = 0;i<number.size();i++){
+            int num = n*number[i];
+            number[i] = (char)((num+carry)%10);
+            carry = (num+carry)/10;
+        }
+        while(carry){
+            number.push_back(carry%10);
+            carry /= 10;
+        }
+    }
+};
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        cin >> N;
+        Solution ob;
+        vector<int> result = ob.factorial(N);
+        for (int i = 0; i < result.size(); ++i){
+            cout<< result[i];
+        }
+        cout << endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+<br /><br /><br />
+## Problem 22:
+**[Maximum Product Subarray](https://practice.geeksforgeeks.org/problems/maximum-product-subarray3604/1)**<br />
+Given an array `Arr[]` that contains `N` integers (may be `positive`, `negative` or `zero`). Find the product of the maximum product subarray.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5<br />
+Arr[] = {6, -3, -10, 0, 2}<br />
+Output: 180<br />
+Explanation: Subarray with maximum product is [6, -3, -10] which gives product as 180.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 6<br />
+Arr[] = {2, 3, 4, 5, -1, 0}<br />
+Output: 120<br />
+Explanation: Subarray with maximum product is [2, 3, 4, 5] which gives product as 120.<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `maxProduct()` which takes the array of integers `arr` and `n` as parameters and returns an integer denoting the answer.<br />
+**Note**: Use 64-bit integer data type to avoid overflow.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre><br />
+
+* Constraints: `1 ≤ N ≤ 500`<br />
+`-10^2 ≤ Arri ≤ 10^2`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+	// Function to find maximum product subarray
+	long long maxProduct(vector<int> arr, int n) {
+	    long long minVal = arr[0];
+	    long long maxVal = arr[0];
+	    long long maxProduct = arr[0];
+	    for(int i = 1;i<n;i++){
+	        if(arr[i]<0)swap(maxVal,minVal);
+	        maxVal = max((long long)arr[i], maxVal*arr[i]);
+	        minVal = min((long long)arr[i], minVal*arr[i]);
+	        maxProduct = max(maxProduct, maxVal);
+	    }
+	    return maxProduct;
+	}
+};
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, i;
+        cin >> n;
+        vector<int> arr(n);
+        for (i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.maxProduct(arr, n);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+```
+
+
+
+<br /><br /><br />
+## Problem 23:
+**[Longest consecutive subsequence](https://practice.geeksforgeeks.org/problems/longest-consecutive-subsequence2449/1)**<br />
+Given an array of positive integers. Find the length of the longest sub-sequence such that elements in the subsequence are consecutive integers, the **consecutive numbers can be in any order**.<br />
+ 
+>Example 1:<br />
+Input:<br />
+N = 7<br />
+a[] = {2,6,1,9,4,5,3}<br />
+Output:<br />
+6<br />
+Explanation:<br />
+The consecutive numbers here are 1, 2, 3, 4, 5, 6. These 6 numbers form the longest consecutive subsquence.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 7<br />
+a[] = {1,9,3,10,4,20,2}<br />
+Output:<br />
+4<br />
+Explanation:<br />
+1, 2, 3, 4 is the longest consecutive subsequence.<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `findLongestConseqSubseq()` which takes the array `arr[]` and the size of the array as inputs and returns _the length of the longest subsequence of consecutive integers_.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+</pre>
+
+* Constraints: `1 <= N <= 10^5` <br />
+`0 <= a[i] <= 10^5` <br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int findLongestConseqSubseq(int arr[], int N){
+        unordered_set<int>S;
+        int ans = 0;
+        for(int i = 0;i<N;i++){
+            S.insert(arr[i]);
+        }
+        for(int i = 0;i<N;i++){
+            if(S.find(arr[i] - 1)==S.end()){
+                int j = arr[i];
+                while(S.find(j) != S.end())j++;
+                ans = max(ans, j-arr[i]);
+            }
+        }
+        return ans;
+    }
+};
+
+
+int main()
+{
+ int  t,n,i,a[100001];
+ cin>>t;
+ while(t--)
+ {
+  cin>>n;
+  for(i=0;i<n;i++)
+  cin>>a[i];
+  Solution obj;
+  cout<<obj.findLongestConseqSubseq(a, n)<<endl;
+ }
+      
+    return 0;
+}
+```
+
+
+
+<br /><br /><br />
+## Problem 24:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 25:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 26:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 27:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem n:
-**[]()**<br />
-<br /><br /><br />
-## Problem n:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem n:
+## Problem 28:
 **[]()**<br />
 
 
 <br /><br /><br />
-## Problem n:
+## Problem 29:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 30:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 31:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 32:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 33:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 34:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 35:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 36:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 37:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 38:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 39:
 **[]()**<br />
 
 <br /><br /><br />
-## Problem n:
+## Problem 40:
 **[]()**<br />
+
 <br /><br /><br />
-## Problem n:
+## Problem 41:
 **[]()**<br />
