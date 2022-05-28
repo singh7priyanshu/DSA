@@ -1345,8 +1345,109 @@ public:
 
 
 <br /><br /><br />
-## Problem n:
-**[]()**<br />
+## Problem 12:
+**[Merge 2 sorted arrays without using Extra space.](https://practice.geeksforgeeks.org/problems/merge-two-sorted-arrays5135/1)**<br />
+Given two sorted arrays arr1[] of size N and arr2[] of size M. Each array is sorted in non-decreasing order. Merge the two arrays into one sorted array in non-decreasing order without using any extra space.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4, M = 5<br />
+arr1[] = {1, 3, 5, 7}<br />
+arr2[] = {0, 2, 6, 8, 9}<br />
+Output: 0 1 2 3 5 6 7 8 9<br />
+Explanation: Since you can't use any extra space, modify the given arrays to form <br />
+arr1[] = {0, 1, 2, 3}<br />
+arr2[] = {5, 6, 7, 8, 9}<br />
+
+>Example 2:<br />
+Input:<br />
+N = 2, M = 3<br />
+arr1[] = {10, 12}<br />
+arr2[] = {5, 18, 20}<br />
+Output: 5 10 12 18 20<br />
+Explanation: Since you can't use any extra space, modify the given arrays to form <br />
+arr1[] = {5, 10}<br />
+arr2[] = {12, 18, 20}<br />
+ 
+Your Task:<br />
+You don't need to read input or print anything. Complete the function `merge()` which takes the two arrays arr1[], arr2[] and their sizes n and m, as input parameters. The function does not return anything. Use the given arrays to sort and merge arr1[] and arr2[] in-place. <br />
+Note: The generated output will print all the elements of arr1[] followed by all the elements of arr2[].<br />
+
+<pre>
+Expected Time Complexity: O((n+m)*log(n+m))
+Expected Auxiliary Space: O(1)
+</pre><br />
+
+* Constraints: `1 <= N, M <= 5*10^4`<br />
+`0 <= arr1i, arr2i <= 10^6`<br />
+
+```cpp
+class Solution{
+public:
+int nextGap(int gap){
+		if(gap<=1)
+			return 0;
+		return (gap/2)+(gap%2);
+}
+	void merge(int arr1[], int arr2[], int n, int m) {
+	    // code here
+	    //already done in array part 
+	    int i, j, gap = n+m;
+		for(gap = nextGap(gap); gap>0; gap=nextGap(gap)){
+			// comparing elements in the first array itself with difference in
+			// index equal to the value of the gap.
+			for(i = 0; i + gap < n; i++)
+				// if element at ith index is greater than element at
+				// (i+gap)th index, we swap them.
+				if(arr1[i]>arr1[i+gap])
+					swap(arr1[i],arr1[i+gap]);
+			// now comparing elements in both arrays with help of two pointers.
+			// the loop stops whenever any pointer exceeds the size of its array.
+			for(j = gap > n? gap-n : 0 ; i < n&&j < m; i++, j++)
+				// if element in the first array is greater than element in
+				// second array, we swap them.
+				if(arr1[i] > arr2[j])
+					swap(arr1[i], arr2[j]);
+			if(j<m){
+				// at last, comparing elements in the second array itself with 
+				// difference in index equal to the value of the gap.
+				for(j = 0 ; j+gap < m ; j++)
+					// if element at jth index is greater than element at
+					// (j+gap)th index, we swap them.
+					if(arr2[j]>arr2[j+gap])
+						swap(arr2[j],arr2[j+gap]);
+				}
+			}
+	}
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m, i;
+        cin >> n >> m;
+        int arr1[n], arr2[m];
+        for (i = 0; i < n; i++) {
+            cin >> arr1[i];
+        }
+        for (i = 0; i < m; i++) {
+            cin >> arr2[i];
+        }
+        Solution ob;
+        ob.merge(arr1, arr2, n, m);
+        for (i = 0; i < n; i++) {
+            cout << arr1[i] << " ";
+        }
+        for (i = 0; i < m; i++) {
+            cout << arr2[i] << " ";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 <br /><br /><br />
 ## Problem n:
