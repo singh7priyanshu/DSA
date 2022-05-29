@@ -2906,11 +2906,163 @@ Auxiliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 26:
-**[]()**<br />
+**[Find whether an array is a subset of another array](https://practice.geeksforgeeks.org/problems/array-subset-of-another-array2317/1)**<br />
+Given two arrays: `a1[0..n-1]` of size `n` and `a2[0..m-1]` of size `m`. Task is to check whether `a2[]` is a subset of `a1[]` or not. Both the arrays can be `sorted or unsorted`.<br /> 
+ 
+>Example 1:<br />
+Input:<br />
+a1[] = {11, 1, 13, 21, 3, 7}<br />
+a2[] = {11, 3, 7, 1}<br />
+Output:<br />
+Yes<br />
+Explanation: a2[] is a subset of a1[]<br />
+
+>Example 2:<br />
+Input:<br />
+a1[] = {1, 2, 3, 4, 5, 6}<br />
+a2[] = {1, 2, 4}<br />
+Output:<br />
+Yes<br />
+Explanation: a2[] is a subset of a1[]<br />
+
+>Example 3:<br />
+Input:<br />
+a1[] = {10, 5, 2, 23, 19}<br />
+a2[] = {19, 5, 3}<br />
+Output:<br />
+No<br />
+Explanation: a2[] is not a subset of a1[]<br />
+
+Your Task:  <br />
+You don't need to read input or print anything. Your task is to complete the function `isSubset()` which takes the array `a1[]`, `a2[]`, its size `n` and `m` as inputs and return `"Yes"` if arr2 is subset of arr1 else return `"No"` if arr2 is not subset of arr1.
+ 
+<pre>
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(n)
+</pre>
+
+* Constraints: `1 <= n,m <= 10^5`<br />
+`1 <= a1[i], a2[j] <= 10^5`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+string isSubset(int a1[], int a2[], int n, int m) ;
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int a1[n], a2[m];
+
+        for (int i = 0; i < n; i++) {
+            cin >> a1[i];
+        }
+        for (int i = 0; i < m; i++) {
+            cin >> a2[i];
+        }
+
+        cout << isSubset(a1, a2, n, m) << endl;
+    }
+    return 0;
+}
+
+string isSubset(int a1[], int a2[], int n, int m) {
+    unordered_map<int, int>um, um2;
+    for(int i = 0;i<n;i++)um[a1[i]]++;
+    for(int i = 0;i<m;i++)um2[a2[i]]++;
+    int count = 0;
+    for(auto it = um2.begin(); it != um2.end(); it++){
+        if(um[it->first] >= it->second){
+            count++;
+        }
+    }
+    if (count == m)return "Yes";
+    else return "No";
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 27:
-**[]()**<br />
+**[Find the triplet that sum to a given value](https://practice.geeksforgeeks.org/problems/triplet-sum-in-array-1587115621/1)**<br />
+Given an array `arr` of size `n` and an integer `X`. Find if there's a triplet in the array which sums up to the given integer `X`.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 6, X = 13<br />
+arr[] = [1 4 45 6 10 8]<br />
+Output:<br />
+1<br />
+Explanation: The triplet {1, 4, 8} in the array sums up to 13.<br />
+
+>Example 2:<br />
+Input:<br />
+n = 5, X = 10<br />
+arr[] = [1 2 4 3 6]<br />
+Output:<br />
+1<br />
+Explanation: The triplet {1, 3, 6} in the array sums up to 10.<br />
+
+Your Task:<br />
+You don't need to read input or print anything. Your task is to complete the function `find3Numbers()` which takes the array `arr[]`, the size of the array `(n)` and the sum `(X)` as inputs and returns `True` if there exists a triplet in the array arr[] which sums up to X and `False` otherwise.<br />
+
+<pre>
+Expected Time Complexity: O(n^2)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ n ≤ 10^3`<br />
+`1 ≤ A[i] ≤ 10^5`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    bool find3Numbers(int A[], int n, int X){
+        sort(A,A+n);
+        int l, r;
+        for(int i = 0; i<n-2; i++){
+            l = i+1;
+            r = n-1;
+            while(l<r){
+                if(A[i]+A[l]+A[r] == X)return -1;
+                else if(A[i]+A[l]+A[r]<X)l++;
+                else r--;
+            }
+        }
+        return 0;
+    }
+};
+ 
+int main()
+{
+	int T;
+	cin>>T;
+	while(T--)
+	{
+		int n,X;
+		cin>>n>>X;
+		int i,A[n];
+		for(i=0;i<n;i++)
+			cin>>A[i];
+		Solution ob;
+        cout <<  ob.find3Numbers(A, n, X) << endl;
+    }
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 28:
