@@ -3139,3 +3139,111 @@ public:
     }
 };
 ```
+
+				   
+				   
+				   
+<br /> <br /> <br />**[318. Maximum Product of Word Lengths](https://leetcode.com/problems/maximum-product-of-word-lengths/)**<br />
+Given a string array `words`, return _the maximum value of `length(word[i]) * length(word[j])` where the two words do not share common letters_. If no such two words exist, return `0`.<br />
+
+>Example 1:<br />
+Input: words = ["abcw","baz","foo","bar","xtfn","abcdef"]<br />
+Output: 16<br />
+Explanation: The two words can be "abcw", "xtfn".<br />
+	
+>Example 2:<br />
+Input: words = ["a","ab","abc","d","cd","bcd","abcd"]<br />
+Output: 4<br />
+Explanation: The two words can be "ab", "cd".<br />
+	
+>Example 3:<br />
+Input: words = ["a","aa","aaa","aaaa"]<br />
+Output: 0<br />
+Explanation: No such pair of words.<br />
+ 
+* Constraints: `2 <= words.length <= 1000`<br />
+`1 <= words[i].length <= 1000`<br />
+`words[i]` consists only of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+     
+    int maxProduct(vector<string>& words) {
+        int ans=0;
+        vector<vector<int>>dp(words.size(),vector<int>(26));
+        for(int i=0;i<words.size();i++){
+            for(int j=0;j<words[i].size();j++){
+                dp[i][words[i][j]-'a']++;
+            }
+        }
+        
+                    
+        for(int i=0;i<words.size();i++){
+            for(int j=i+1;j<words.size();j++){   
+                bool iscommon=true;
+                for(int k=0;k<26;k++){
+                    if(dp[i][k]>0 && dp[j][k]>0){
+                        iscommon=false;
+                    }
+                }
+                if(iscommon){
+                    int cur=words[i].size()*words[j].size();
+                    ans=max(ans,cur);
+                }
+            }
+        }
+    
+        return ans;
+    }
+};
+	
+	
+/*Using Bitset/HashMap
+Time Complexity : O(n*n) , where n is the length of words
+Space Complexity :O(n)
+*/
+class Solution {
+public:
+    bool checkCommon(bitset<26> &a, bitset<26> &b){ // function to check if two bitset are common
+        for(int i=0;i<26;i++) if(a[i] && b[i]) return true; // if any of the bits are true, return true
+        return false; // otherwise return false
+    }
+    int maxProduct(vector<string>& words) { // function to find the maximum product
+        int n = words.size(); // number of words
+        int ans=0; // initialize the answer
+        vector<bitset<26>> chars(n); // vector of bitset
+        for(int i=0;i<n;i++){ // iterate over all the words 
+            for(auto &ch:words[i]) // iterate over all the characters in the words[i]
+                chars[i][ch-'a'] =1; // set the bitset to 1
+            for(int j=0;j<i;j++) // now check with all the other words
+                if(!checkCommon(chars[i],chars[j])) // if the two words are not common
+                    ans = max(ans, (int)words[i].size()*(int)words[j].size()); // update the answer
+        }
+        return ans; // return the answer
+    }
+};
+
+
+
+/*Using BitMasking 
+Time Complexity : O(n*n)
+Space Complexity :O(n)
+*/
+class Solution {
+public:
+    int maxProduct(vector<string>& words) {     // function to get the max product of two words
+	int n = words.size(), ans = 0;       // n is the number of words and ans is the max product
+	vector<int> mask(n);               // mask is the vector of bit masks
+	for(int i = 0; i < n; i++) {      // loop to get the bit mask of each word
+		for(auto& ch : words[i])     // for each character in the word          
+			mask[i] |= 1 << (ch - 'a');   // hash the word
+		for(int j = 0; j < i; j++) // loop to check if the word is a subset of another word
+			if((mask[i] & mask[j]) == 0)    // if no common set bit is found in the hash of words[i] and words[j]
+				ans = max(ans, int(size(words[i]) * size(words[j]))); // update the max product
+	}    
+	return ans; // return the max product
+}
+};
+
+```
