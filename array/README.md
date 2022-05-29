@@ -3345,7 +3345,7 @@ int main() {
 **[Three way partitioning of an array around a given value](https://practice.geeksforgeeks.org/problems/three-way-partitioning/1)**<br />
 Given an array of size `n` and a range `[a, b]`. The task is to partition the array around the range such that array is divided into three parts.<br />
  1) All elements smaller than `a` come first.<br />
- 2) All elements in range a to `b` come next.<br />
+ 2) All elements in range `a` to `b` come next.<br />
  3) All elements greater than `b` appear in the end.<br />
  
 The individual elements of three sets can appear in any order. You are required to return the modified array.<br />
