@@ -3164,15 +3164,322 @@ int main(){
 
 <br /><br /><br />
 ## Problem 29:
-**[]()**<br />
+**[Chocolate Distribution Problem](https://practice.geeksforgeeks.org/problems/chocolate-distribution-problem3825/1)**<br />
+Given an array `A[ ]` of positive integers of size `N`, where each value represents the number of chocolates in a packet. Each packet can have a variable number of chocolates. There are `M` students, the task is to distribute chocolate packets among `M` students such that :<br />
+ 1. Each student gets exactly `one` packet.<br />
+ 2. The difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student is `minimum`.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 8, M = 5<br />
+A = {3, 4, 1, 9, 56, 7, 9, 12}<br />
+Output: 6<br />
+Explanation: The minimum difference between maximum chocolates and minimum chocolates is 9 - 3 = 6 by choosing following M packets :<br />
+{3, 4, 9, 7, 9}.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 7, M = 3<br />
+A = {7, 3, 2, 4, 9, 12, 56}<br />
+Output: 2<br />
+Explanation: The minimum difference between maximum chocolates and minimum chocolates is 4 - 2 = 2 by choosing following M packets :<br />
+{3, 2, 4}.<br />
+
+Your Task:<br />
+You don't need to take any input or print anything. Your task is to complete the function `findMinDiff()` which takes array `A[ ]`, `N` and `M` as input parameters and returns the minimum possible difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student.<br />
+
+<pre>
+Expected Time Complexity: O(N*Log(N))
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ T ≤ 100`<br />
+`1 ≤ N ≤ 10^5`<br />
+`1 ≤ Ai ≤ 10^9`<br />
+`1 ≤ M ≤ N`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    long long findMinDiff(vector<long long> a, long long n, long long m){
+        sort(a.begin(),a.end());
+        long long start = 0, end = 0;
+        long long mind = LONG_LONG_MAX;
+        for(long long i = 0;i+m-1<n;i++){
+            long long diff = a[i+m-1]-a[i];
+            if(mind>diff){
+                mind = diff;
+                start = i;
+                end = i+m-1;
+            }
+        }
+        return a[end]-a[start];
+    }   
+};
+
+int main() {
+	long long t;
+	cin>>t;
+	while(t--)
+	{
+		long long n;
+		cin>>n;
+		vector<long long> a;
+		long long x;
+		for(long long i=0;i<n;i++)
+		{
+			cin>>x;
+			a.push_back(x);
+		}
+		
+		long long m;
+		cin>>m;
+		Solution ob;
+		cout<<ob.findMinDiff(a,n,m)<<endl;
+	}
+	return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 30:
-**[]()**<br />
+**[Smallest Subarray with sum greater than a given value](https://practice.geeksforgeeks.org/problems/smallest-subarray-with-sum-greater-than-x5651/1)**<br />
+Given an array of integers `(A[])`  and a number `x`, find the smallest subarray with `sum` greater than the given value.
+Note: The answer always exists. It is guaranteed that `x` doesn't exceed the `summation of a[i] (from 1 to N)`.
+
+>Example 1:<br />
+Input:<br />
+A[] = {1, 4, 45, 6, 0, 19}<br />
+x  =  51<br />
+Output: 3<br />
+Explanation: Minimum length subarray is <br />
+{4, 45, 6}<br />
+
+>Example 2:<br />
+Input:<br />
+A[] = {1, 10, 5, 2, 7}<br />
+   x  = 9<br />
+Output: 1<br />
+Explanation: Minimum length subarray is {10}<br />
+ 
+Your Task:  <br />
+You don't need to read input or print anything. Your task is to complete the function `smallestSubWithSum()` which takes the array `A[]`, its size `N` and an integer `X` as inputs and returns the required ouput.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ N, x ≤ 10^5`<br />
+`1 ≤ A[] ≤ 10^4`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+
+    int smallestSubWithSum(int arr[], int n, int x)
+    {
+        // Initialize current sum and minimum length
+        int curr_sum = 0, min_len = n+1;
+     
+        // Initialize starting and ending indexes
+        int start = 0, end = 0;
+        while (end < n)
+        {
+            // Keep adding array elements while current sum
+            // is smaller than x
+            while (curr_sum <= x && end < n)
+                curr_sum += arr[end++];
+     
+            // If current sum becomes greater than x.
+            while (curr_sum > x && start < n)
+            {
+                // Update minimum length if needed
+                if (end - start < min_len)
+                    min_len = end - start;
+     
+                curr_sum -= arr[start++];
+            }
+        }
+        
+    	if(min_len>n)
+    	return 0;
+        return min_len;  
+    }
+};
+
+int main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n,x;
+		cin>>n>>x;
+		int a[n];
+		for(int i=0;i<n;i++)
+		cin>>a[i];
+		Solution obj;
+		cout<<obj.smallestSubWithSum(a,n,x)<<endl;
+	}
+	return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 31:
-**[]()**<br />
+**[Three way partitioning of an array around a given value](https://practice.geeksforgeeks.org/problems/three-way-partitioning/1)**<br />
+Given an array of size `n` and a range `[a, b]`. The task is to partition the array around the range such that array is divided into three parts.<br />
+ 1) All elements smaller than `a` come first.<br />
+ 2) All elements in range a to `b` come next.<br />
+ 3) All elements greater than `b` appear in the end.<br />
+The individual elements of three sets can appear in any order. You are required to return the modified array.<br />
+
+>Example 1:<br />
+Input: <br />
+n = 5<br />
+A[] = {1, 2, 3, 3, 4}<br />
+[a, b] = [1, 2]<br />
+Output: 1<br />
+Explanation: One possible arrangement is:<br /> 
+{1, 2, 3, 3, 4}. If you return a valid arrangement, output will be 1.<br />
+
+>Example 2:<br />
+Input: <br />
+n = 3 <br />
+A[] = {1, 2, 3}<br />
+[a, b] = [1, 3]<br />
+Output: 1<br />
+Explanation: One possible arrangement is: <br />
+{1, 2, 3}. If you return a valid arrangement, output will be 1.<br />
+
+Your Task:<br />
+You dont need to read input or print anything. The task is to complete the function `threeWayPartition()` which takes the `array[]`, `a` and `b` as input parameters and modifies the array in-place according to the given conditions.<br />
+Note: The generated output is `1` if you modify the given array successfully.<br />
+
+<pre>
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 <= n <= 10^6`<br />
+`1 <= A[i] <= 10^6`<br />
+
+```cpp
+#include <bits/stdc++.h>
+#include <unordered_map>
+using namespace std;
+
+class Solution{   
+public:
+    void threeWayPartition(vector<int>& array,int a, int b){
+        int start = 0, end = array.size()-1;
+        for(int i = 0;i<=end;){
+            if(array[i]<a)swap(&array[i++], &array[start++]);
+            else if(array[i]>b)swap(&array[i], &array[end--]);
+            else i++;
+        }
+    }
+    void swap(int *xp, int *yp){
+        int temp = *xp;
+        *xp = *yp;
+        *yp = temp;
+    }
+};
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        
+        vector<int> array(N);
+        unordered_map<int,int> ump;
+        
+        for(int i=0;i<N;i++){
+            cin>>array[i];
+            ump[array[i]]++;
+        }
+        
+        int a,b;
+        cin>>a>>b;
+        
+        vector<int> original = array;
+
+        int k1=0,k2=0,k3=0;
+        int kk1=0;int kk2=0;int kk3=0;
+        
+        for(int i=0; i<N; i++)
+        {
+            if(original[i]>b)
+                k3++;
+            else if(original[i]<=b and original[i]>=a)
+                k2++;
+            else if(original[i]<b)
+                k1++;
+        }
+        
+        Solution ob;
+        ob.threeWayPartition(array,a,b);
+      
+        for(int i=0;i<k1;i++)
+        {
+            if(array[i]<b)
+            kk1++;
+        }
+        
+        for(int i=k1;i<k1+k2;i++)
+        {
+            if(array[i]<=b and array[i]>=a)
+            kk2++;
+            
+        }
+        
+        for(int i=k1+k2;i<k1+k2+k3;i++)
+        {
+            if(array[i]>b)
+            kk3++;
+        }
+        bool ok = 0;
+        if(k1==kk1 and k2 ==kk2 and k3 == kk3)
+            ok = 1;
+        
+        for(int i=0;i<array.size();i++)
+            ump[array[i]]--;
+        
+        for(int i=0;i<array.size();i++)
+            if(ump[array[i]]!=0)
+                ok=0;
+        
+        if(ok)
+            cout<<1<<endl;
+        else
+            cout<<0<<endl;
+        
+    }
+    
+    return 0;
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 32:
