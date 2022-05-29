@@ -3484,40 +3484,1052 @@ int main() {
 
 <br /><br /><br />
 ## Problem 32:
-**[]()**<br />
+**[Minimum swaps required bring elements less equal K together](https://practice.geeksforgeeks.org/problems/minimum-swaps-required-to-bring-all-elements-less-than-or-equal-to-k-together4847/1)**<br />
+Given an array `arr` of `n` positive integers and a number `k`. One can apply a swap operation on the array any number of times, i.e choose any two index `i` and `j` (i < j) and swap `arr[i]` , `arr[j]` . Find the `minimum` number of swaps required to bring all the numbers less than or equal to k together, i.e. make them a contiguous subarray.<br />
+
+>Example 1:<br />
+Input : <br />
+arr[ ] = {2, 1, 5, 6, 3} <br />
+K = 3<br />
+Output : <br />
+1<br />
+Explanation: To bring elements 2, 1, 3 together, swap index 2 with 4 (0-based indexing), i.e. element arr[2] = 5 with arr[4] = 3 such that final array will be- <br />
+arr[] = {2, 1, 3, 6, 5}<br />
+
+>Example 2:<br />
+Input : <br />
+arr[ ] = {2, 7, 9, 5, 8, 7, 4} <br />
+K = 6 <br />
+Output :  <br />
+2 <br />
+Explanation: To bring elements 2, 5, 4 together, swap index 0 with 2 (0-based indexing) and index 4 with 6 (0-based indexing) such that final array will be- <br />
+arr[] = {9, 7, 2, 5, 4, 7, 8}<br />
+ 
+Your Task:<br />
+This is a function problem. The input is already taken care of by the driver code. You only need to complete the function `minSwap()` that takes an array `(arr)`, sizeOfArray `(n)`, an integer `K`, and return the minimum swaps required. The driver code takes care of the printing.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`1 ≤ Arri, K ≤10^7`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int minSwap(int arr[], int n, int k){
+        int count = 0;
+        for(int i = 0;i<n;i++){
+            if(arr[i] <= k)count++;
+        }
+        int bad = 0;
+        for(int i = 0;i<count;i++){
+            if(arr[i]>k)bad++;
+        }
+        int ans = bad;
+        for(int i = 0, j = count; j<n; i++,j++){
+            if(arr[i]>k)--bad;
+            if(arr[j]>k)++bad;
+            ans = min(ans,bad);
+        }
+        return ans;
+    }
+};
+
+int main() {
+
+	int t,n,k;
+	cin>>t;
+	while(t--)
+    {
+        cin>>n;
+        int arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        cin>>k;
+        Solution ob;
+        cout << ob.minSwap(arr, n, k) << "\n";
+    }
+	return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 33:
-**[]()**<br />
+**[Palindromic Array](https://practice.geeksforgeeks.org/problems/palindromic-array-1587115620/1)**<br />
+Given a Integer array `A[]` of `n` elements. Your task is to complete the function `PalinArray`. Which will return `1` if all the elements of the Array are palindrome otherwise it will return `0`.<br />
+
+>Example:<br />
+Input:<br />
+2<br />
+5<br />
+111 222 333 444 555<br />
+3<br />
+121 131 20<br /><br />
+Output:<br />
+1<br />
+0<br /><br />
+Explanation:<br />
+For First test case.<br />
+n=5;<br />
+A[0] = 111    //which is a palindrome number.<br />
+A[1] = 222   //which is a palindrome number.<br />
+A[2] = 333   //which is a palindrome number.<br />
+A[3] = 444  //which is a palindrome number.<br />
+A[4] = 555  //which is a palindrome number.<br />
+As all numbers are palindrome so This will return 1.<br />
+
+* Constraints: `1 <=T<= 50`<br />
+`1 <=n<= 20`<br />
+`1 <=A[]<= 10000`<br />
+
+```cpp
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class Solution {
+public:
+    bool isPalindrome(int x){
+        int copy = x;
+        int rem = 0;
+        int rev = 0;
+        while(copy!=0){
+            rem = copy%10;
+            rev = rev*10+rem;
+            copy/=10;
+        }
+        if(x!=rev)return false;
+        return true;
+    }
+    int PalinArray(int a[], int n){
+        for(int i = 0;i<n;i++){
+            if(!isPalindrome(a[i]))return 0;
+        }
+        return 1;
+    }
+};
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		int a[n];
+		for(int i = 0; i < n; i++)
+			cin>>a[i];
+		Solution obj;
+		cout<<obj.PalinArray(a,n)<<endl;
+	}
+}
+```
+
+
 
 <br /><br /><br />
 ## Problem 34:
-**[]()**<br />
+**[Find minimum number of merge operations to make an array palindrome](https://www.geeksforgeeks.org/find-minimum-number-of-merge-operations-to-make-an-array-palindrome/)**<br />
+Given an array of positive integers. We need to make the given array a ‘Palindrome’. The only allowed operation is”merging” (of two adjacent elements). Merging two adjacent elements means replacing them with their sum. The task is to find the minimum number of merge operations required to make the given array a ‘Palindrome’.<br />
+To make any array a palindrome, we can simply apply merge operation n-1 times where n is the size of the array (because a single-element array is always palindromic, similar to single-character string). In that case, the size of array will be reduced to 1. But in this problem, we are asked to do it in the minimum number of operations.<br />
+
+Example : <br />
+<pre>
+Input : arr[] = {15, 4, 15}
+Output : 0
+Array is already a palindrome. So we
+do not need any merge operation.
+
+Input : arr[] = {1, 4, 5, 1}
+Output : 1
+We can make given array palindrome with
+minimum one merging (merging 4 and 5 to
+make 9)
+
+Input : arr[] = {11, 14, 15, 99}
+Output : 3
+We need to merge all elements to make
+a palindrome.
+</pre>
+<pre>
+The expected time complexity is O(n).
+</pre>
+ 
+Let f(i, j) be minimum merging operations to make subarray `arr[i..j]` a palindrome. If `i == j` answer is `0`. We start `i` from `0` and `j` from `n-1`.<br />
+
+ 1. If `arr[i] == arr[j]`, then there is no need to do any merging operations at index `i` or index `j`. Our answer in this case will be `f(i+1, j-1)`.<br />
+ 2. Else, we need to do merging operations. Following cases arise.<br />
+  	* If `arr[i] > arr[j]`, then we should do merging operation at index `j`. We merge index `j-1` and `j`, and update `arr[j-1] = arr[j-1] + arr[j]`. Our answer in this case will be `1 + f(i, j-1)`.<br />
+  	* For the case when `arr[i] < arr[j]`, update `arr[i+1] = arr[i+1] + arr[i]`. Our answer in this case will be `1 + f(i+1, j)`.<br />
+ 3. Our answer will be `f(0, n-1)`, where `n` is the size of array `arr[]`.<br />
+
+Therefore this problem can be solved iteratively using `two pointers` (`first` pointer pointing to `start` of the array and `second` pointer pointing to the `last` element of the array) method and keeping count of total merging operations done till now.<br />
+Below is an implementation of the above idea.<br />
+
+```cpp
+// C++ program to find number of operations
+// to make an array palindrome
+#include <bits/stdc++.h>
+using namespace std;
+
+// Returns minimum number of count operations
+// required to make arr[] palindrome
+int findMinOps(int arr[], int n)
+{
+	int ans = 0; // Initialize result
+
+	// Start from two corners
+	for (int i=0,j=n-1; i<=j;)
+	{
+		// If corner elements are same,
+		// problem reduces arr[i+1..j-1]
+		if (arr[i] == arr[j])
+		{
+			i++;
+			j--;
+		}
+
+		// If left element is greater, then
+		// we merge right two elements
+		else if (arr[i] > arr[j])
+		{
+			// need to merge from tail.
+			j--;
+			arr[j] += arr[j+1] ;
+			ans++;
+		}
+
+		// Else we merge left two elements
+		else
+		{
+			i++;
+			arr[i] += arr[i-1];
+			ans++;
+		}
+	}
+
+	return ans;
+}
+
+int main()
+{
+	int arr[] = {1, 4, 5, 9, 1};
+	int n = sizeof(arr)/sizeof(arr[0]);
+	cout << "Count of minimum operations is "
+		<< findMinOps(arr, n) << endl;
+	return 0;
+}
+```
+Output : <br />
+<pre>
+Count of minimum operations is 1
+</pre>
+<pre>
+The time complexity for the given program is: O(n)
+</pre>
+
+
+
+
 
 <br /><br /><br />
 ## Problem 35:
-**[]()**<br />
+**[Median of two sorted arrays of same size](https://www.geeksforgeeks.org/median-of-two-sorted-arrays/)**<br />
+There are 2 sorted arrays `A` and `B` of size `n` each. Write an algorithm to find the median of the array obtained after merging the above 2 arrays(i.e. array of length 2n). The complexity should be `O(log(n))`.
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/median-of-two-arrays.jpg"><br />
+Note: Since the size of the set for which we are looking for the median is even (`2n`), we need to take the `average` of the middle two numbers and return the `floor` of the average.<br />
+### Method 1: Simply count while merging
+Use the merge procedure of `merge sort`. Keep track of count while comparing elements of two arrays. If count becomes `n(For 2n elements)`, we have reached the `median`. Take the average of the elements at indexes `n-1` and `n` in the merged array. <br />
+See the below implementation. <br />
+```cpp
+// A Simple Merge based O(n)
+// solution to find median of
+// two sorted arrays
+#include <bits/stdc++.h>
+using namespace std;
+
+/* This function returns
+median of ar1[] and ar2[].
+Assumptions in this function:
+Both ar1[] and ar2[]
+are sorted arrays
+Both have n elements */
+int getMedian(int ar1[],
+			int ar2[], int n)
+{
+	int i = 0; /* Current index of
+				i/p array ar1[] */
+	int j = 0; /* Current index of
+				i/p array ar2[] */
+	int count;
+	int m1 = -1, m2 = -1;
+
+	/* Since there are 2n elements,
+	median will be average of elements
+	at index n-1 and n in the array
+	obtained after merging ar1 and ar2 */
+	for (count = 0; count <= n; count++)
+	{
+		/* Below is to handle case where
+		all elements of ar1[] are
+		smaller than smallest(or first)
+		element of ar2[]*/
+		if (i == n)
+		{
+			m1 = m2;
+			m2 = ar2[0];
+			break;
+		}
+
+		/*Below is to handle case where
+		all elements of ar2[] are
+		smaller than smallest(or first)
+		element of ar1[]*/
+		else if (j == n)
+		{
+			m1 = m2;
+			m2 = ar1[0];
+			break;
+		}
+		/* equals sign because if two
+		arrays have some common elements */
+		if (ar1[i] <= ar2[j])
+		{
+			/* Store the prev median */
+			m1 = m2;
+			m2 = ar1[i];
+			i++;
+		}
+		else
+		{
+			/* Store the prev median */
+			m1 = m2;
+			m2 = ar2[j];
+			j++;
+		}
+	}
+
+	return (m1 + m2)/2;
+}
+
+int main()
+{
+	int ar1[] = {1, 12, 15, 26, 38};
+	int ar2[] = {2, 13, 17, 30, 45};
+
+	int n1 = sizeof(ar1) / sizeof(ar1[0]);
+	int n2 = sizeof(ar2) / sizeof(ar2[0]);
+	if (n1 == n2)
+		cout << "Median is "
+			<< getMedian(ar1, ar2, n1) ;
+	else
+		cout << "Doesn't work for arrays"
+			<< " of unequal size" ;
+	getchar();
+	return 0;
+}
+```
+Output : <br />
+<pre>
+Median is 16
+</pre>
+<pre>
+Time Complexity : O(n)
+Auxiliary Space: O(1)
+</pre>
+
+### Method 2: By commparing the medians of the two array
+This method works by first getting medians of the two `sorted` arrays and then `comparing` them.<br />
+Let `ar1` and `ar2` be the input arrays. <br />
+Algorithm :  <br />
+<pre>
+1) Calculate the medians m1 and m2 of the input arrays ar1[] 
+   and ar2[] respectively.
+2) If m1 and m2 both are equal then we are done.
+     return m1 (or m2)
+3) If m1 is greater than m2, then median is present in one 
+   of the below two subarrays.
+    a)  From first element of ar1 to m1 (ar1[0...|_n/2_|])
+    b)  From m2 to last element of ar2  (ar2[|_n/2_|...n-1])
+4) If m2 is greater than m1, then median is present in one    
+   of the below two subarrays.
+   a)  From m1 to last element of ar1  (ar1[|_n/2_|...n-1])
+   b)  From first element of ar2 to m2 (ar2[0...|_n/2_|])
+5) Repeat the above process until size of both the subarrays 
+   becomes 2.
+6) If size of the two arrays is 2 then use below formula to get 
+  the median.
+    Median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+</pre>
+Examples: <br />
+<pre>
+  ar1[] = {1, 12, 15, 26, 38}
+  ar2[] = {2, 13, 17, 30, 45}
+</pre>
+For above two arrays m1 = 15 and m2 = 17 <br />
+For the above `ar1[]` and `ar2[]`, `m1` is smaller than `m2`. So median is present in one of the following two subarrays. 
+<pre>
+   [15, 26, 38] and [2, 13, 17]
+</pre>
+Let us repeat the process for above two subarrays:  <br />
+<pre>
+    m1 = 26 m2 = 13.
+</pre>
+`m1` is greater than `m2`. So the subarrays become  <br />
+<pre>
+  [15, 26] and [13, 17]
+Now size is 2, so median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+                       = (max(15, 13) + min(26, 17))/2 
+                       = (15 + 17)/2
+                       = 16
+</pre>
+```cpp
+// A divide and conquer based
+// efficient solution to find
+// median of two sorted arrays
+// of same size.
+#include<bits/stdc++.h>
+using namespace std;
+
+/* to get median of a
+sorted array */
+int median(int [], int);
+
+/* This function returns median
+of ar1[] and ar2[].
+Assumptions in this function:
+	Both ar1[] and ar2[] are
+	sorted arrays
+	Both have n elements */
+int getMedian(int ar1[],
+			int ar2[], int n)
+{
+	/* return -1 for
+	invalid input */
+	if (n <= 0)
+		return -1;
+	if (n == 1)
+		return (ar1[0] +
+				ar2[0]) / 2;
+	if (n == 2)
+		return (max(ar1[0], ar2[0]) +
+				min(ar1[1], ar2[1])) / 2;
+
+	/* get the median of
+	the first array */
+	int m1 = median(ar1, n);
+	
+	/* get the median of
+	the second array */
+	int m2 = median(ar2, n);
+
+	/* If medians are equal then
+	return either m1 or m2 */
+	if (m1 == m2)
+		return m1;
+
+	/* if m1 < m2 then median must
+	exist in ar1[m1....] and
+				ar2[....m2] */
+	if (m1 < m2)
+	{
+		if (n % 2 == 0)
+			return getMedian(ar1 + n / 2 - 1,
+							ar2, n - n / 2 + 1);
+		return getMedian(ar1 + n / 2,
+						ar2, n - n / 2);
+	}
+
+	/* if m1 > m2 then median must
+	exist in ar1[....m1] and
+				ar2[m2...] */
+	if (n % 2 == 0)
+		return getMedian(ar2 + n / 2 - 1,
+						ar1, n - n / 2 + 1);
+	return getMedian(ar2 + n / 2,
+					ar1, n - n / 2);
+}
+
+/* Function to get median
+of a sorted array */
+int median(int arr[], int n)
+{
+	if (n % 2 == 0)
+		return (arr[n / 2] +
+				arr[n / 2 - 1]) / 2;
+	else
+		return arr[n / 2];
+}
+
+int main()
+{
+	int ar1[] = {1, 2, 3, 6};
+	int ar2[] = {4, 6, 8, 10};
+	int n1 = sizeof(ar1) /
+			sizeof(ar1[0]);
+	int n2 = sizeof(ar2) /
+			sizeof(ar2[0]);
+	if (n1 == n2)
+		cout << "Median is "
+			<< getMedian(ar1, ar2, n1);
+	else
+		cout << "Doesn't work for arrays "
+			<< "of unequal size";
+	return 0;
+}
+```
+
+Output : <br />
+<pre>
+Median is 5
+</pre>
+<pre>
+Time Complexity : O(logn) 
+Auxiliary Space: O(1)
+Algorithmic Paradigm: Divide and Conquer 
+</pre>
+
+### Method 3: By taking union without extra space
+This method works by taking the `union` of `two arrays` without extra space and then sorting them.<br />
+Algorithm : <br />
+<pre>
+1) Take the union of the input arrays ar1[] and ar2[].
+2) Sort ar1[] and ar2[] respectively.
+3) The median will be the last element of ar1[] + the first
+   element of ar2[] divided by 2. [(ar1[n-1] + ar2[0])/2].
+</pre>
+
+Implementation : <br />
+```cpp
+// CPP program for the above approach
+#include <bits/stdc++.h>
+using namespace std;
+
+/* This function returns
+median of ar1[] and ar2[].
+Assumptions in this function:
+Both ar1[] and ar2[]
+are sorted arrays
+Both have n elements */
+int getMedian(int ar1[], int ar2[], int n)
+{
+	int j = 0;
+	int i = n - 1;
+	while (ar1[i] > ar2[j] && j < n && i > -1)
+		swap(ar1[i--], ar2[j++]);
+	sort(ar1, ar1 + n);
+	sort(ar2, ar2 + n);
+	return (ar1[n - 1] + ar2[0]) / 2;
+}
+
+// Driver Code
+int main()
+{
+	int ar1[] = { 1, 12, 15, 26, 38 };
+	int ar2[] = { 2, 13, 17, 30, 45 };
+
+	int n1 = sizeof(ar1) / sizeof(ar1[0]);
+	int n2 = sizeof(ar2) / sizeof(ar2[0]);
+	if (n1 == n2)
+		cout << "Median is " << getMedian(ar1, ar2, n1);
+	else
+		cout << "Doesn't work for arrays"
+			<< " of unequal size";
+	getchar();
+	return 0;
+}
+```
+Output:<br />
+<pre>
+Median is 16
+</pre>
+<pre>
+Time Complexity: O(nlogn)
+Auxiliary Space: O(1)
+</pre>
+
+
+
+
 
 <br /><br /><br />
 ## Problem 36:
-**[]()**<br />
+**[Median of two sorted arrays of different sizes](https://www.geeksforgeeks.org/median-of-two-sorted-arrays-of-different-sizes/)**<br />
+Given two sorted arrays, `a[]` and `b[]`, the task is to find the median of these sorted arrays, in `O(log n + log m)` time complexity, when `n` is the number of elements in the `first array`, and `m` is the number of elements in the `second array`. <br />
+Example: <br />
+<pre>
+Input: ar1[] = {-5, 3, 6, 12, 15}
+        ar2[] = {-12, -10, -6, -3, 4, 10}
+Output : The median is 3.
+Explanation : The merged array is :
+        ar3[] = {-12, -10, -6, -5 , -3,
+                 3, 4, 6, 10, 12, 15},
+       So the median of the merged array is 3
 
-<br /><br /><br />
-## Problem 37:
-**[]()**<br />
+Input: ar1[] = {2, 3, 5, 8}
+        ar2[] = {10, 12, 14, 16, 18, 20}
+Output : The median is 11.
+Explanation : The merged array is :
+        ar3[] = {2, 3, 5, 8, 10, 12, 14, 16, 18, 20}
+        if the number of the elements are even, 
+        so there are two middle elements,
+        take the average between the two :
+        (10 + 12) / 2 = 11.
+</pre>
 
-<br /><br /><br />
-## Problem 38:
-**[]()**<br />
+### Method 1: Using Linear Approach
+Algorithm:<br />
+ 1. Given two arrays are sorted. So they can be merged in O(m+n) time. Create a variable count to have a count of elements in the output array.<br />
+ 2. If the value of (m+n) is odd then there is only one median else the median is the average of elements at index (m+n)/2 and ((m+n)/2 – 1).<br />
+ 3. To merge the both arrays, keep two indices i and j initially assigned to 0. Compare the ith index of 1st array and jth index of second, increase the index of the smallest element and increase the count. <br />
+ 4. Store (m+n)/2 and (m+n)/2-1 in two variables (In the below C++ code, m1 and m2 are used for this purpose).<br />
+ 5. Check if the count reached (m+n) / 2. If (m+n) is odd return m1, If even return (m1+m2)/2.<br />
 
-<br /><br /><br />
-## Problem 39:
-**[]()**<br />
+```cpp
+// A Simple Merge based O(n) solution to find
+// median of two sorted arrays
+#include <bits/stdc++.h>
+using namespace std;
 
-<br /><br /><br />
-## Problem 40:
-**[]()**<br />
+/* This function returns median of ar1[] and ar2[].
+Assumption in this function:
+Both ar1[] and ar2[] are sorted arrays */
+int getMedian(int ar1[], int ar2[], int n, int m)
+{
+	int i = 0; /* Current index of input array ar1[] */
+	int j = 0; /* Current index of input array ar2[] */
+	int count;
+	int m1 = -1, m2 = -1;
+	/*loop till (m+n)/2*/
+	for (count = 0; count <= (m + n)/2; count++)
+	{
+		//store (n+m)/2-1 in m2
+		m2=m1;
+		if(i != n && j != m)
+		{
+			m1 = (ar1[i] > ar2[j]) ? ar2[j++] : ar1[i++];
+		}
+		else if(i < n)
+		{
+			m1 = ar1[i++];
+		}
+		// for case when j<m,
+		else
+		{
+			m1 = ar2[j++];
+		}
+	}
+	// Since there are (n+m) elements,
+	// There are following two cases
+	// if n+m is odd then the middle
+	// index is median i.e. (m+n)/2
+	// other wise median will be average of elements
+	// at index ((m+n)/2 - 1) and (m+n)/2
+	// in the array obtained after merging ar1 and ar2
+	if((m + n) % 2 == 1){
+		return m1;
+	}
+	else{
+		return (m1+m2)/2;
+	}
+}
 
-<br /><br /><br />
-## Problem 41:
-**[]()**<br />
+int main()
+{
+	int ar1[] = {900};
+	int ar2[] = {5,8,10,20};
+	int n1 = sizeof(ar1)/sizeof(ar1[0]);
+	int n2 = sizeof(ar2)/sizeof(ar2[0]);
+	cout << getMedian(ar1, ar2, n1, n2);
+}
+```
+
+Output: <br />
+<pre>
+10
+</pre>
+<pre>
+Complexity Analysis: 
+Time Complexity: O(m + n). 
+To merge both the arrays O(m+n) time is needed.
+Space Complexity: O(1). 
+No extra space is required.
+</pre>
+
+### Efficient Approach:
+Approach:The idea is simple, calculate the median of both the arrays and discard one half of each array. <br />
+Now, there are some basic corner cases. For array size less than or equal to 2 <br />
+Algorithm :<br />
+
+ 1. Create a recursive function that takes two arrays and the sizes of both the arrays.<br />
+ 2. Take care of the base cases for the size of arrays less than 2. (previously discussed in Approach).Note: The first array is always the smaller array.<br />
+ 3. Find the middle elements of both the arrays. i.e element at (n – 1)/2 and (m – 1)/2 of first and second array respectively. Compare both the elements.<br />
+ 4. If the middle element of the smaller array is less than the middle element of the larger array then the first half of the smaller array is bound to lie strictly in the first half of the merged array. It can also be stated that there is an element in the first half of the larger array and the second half of the smaller array which is the median. So, reduce the search space to the first half of the larger array and the second half of the smaller array.<br />
+ 5. Similarly, If the middle element of the smaller array is greater than the middle element of the larger array then reduce the search space to the first half of the smaller array and second half of the larger array.<br />
+ 
+Implementation:<br />
+```cpp
+// A C++ program to find median of two sorted arrays of
+// unequal sizes
+#include <bits/stdc++.h>
+using namespace std;
+
+// A utility function to find median of two integers
+float MO2(int a, int b)
+{ return ( a + b ) / 2.0; }
+
+// A utility function to find median of three integers
+float MO3(int a, int b, int c)
+{
+	return a + b + c - max(a, max(b, c))
+					- min(a, min(b, c));
+}
+
+// A utility function to find a median of four integers
+float MO4(int a, int b, int c, int d)
+{
+	int Max = max( a, max( b, max( c, d ) ) );
+	int Min = min( a, min( b, min( c, d ) ) );
+	return ( a + b + c + d - Max - Min ) / 2.0;
+}
+
+// Utility function to find median of single array
+float medianSingle(int arr[], int n)
+{
+if (n == 0)
+	return -1;
+if (n%2 == 0)
+		return (double)(arr[n/2] + arr[n/2-1])/2;
+return arr[n/2];
+}
+
+// This function assumes that N is smaller than or equal to M
+// This function returns -1 if both arrays are empty
+float findMedianUtil( int A[], int N, int B[], int M )
+{
+	// If smaller array is empty, return median from second array
+	if (N == 0)
+	return medianSingle(B, M);
+
+	// If the smaller array has only one element
+	if (N == 1)
+	{
+		// Case 1: If the larger array also has one element,
+		// simply call MO2()
+		if (M == 1)
+			return MO2(A[0], B[0]);
+
+		// Case 2: If the larger array has odd number of elements,
+		// then consider the middle 3 elements of larger array and
+		// the only element of smaller array. Take few examples
+		// like following
+		// A = {9}, B[] = {5, 8, 10, 20, 30} and
+		// A[] = {1}, B[] = {5, 8, 10, 20, 30}
+		if (M & 1)
+			return MO2( B[M/2], MO3(A[0], B[M/2 - 1], B[M/2 + 1]) );
+
+		// Case 3: If the larger array has even number of element,
+		// then median will be one of the following 3 elements
+		// ... The middle two elements of larger array
+		// ... The only element of smaller array
+		return MO3( B[M/2], B[M/2 - 1], A[0] );
+	}
+
+	// If the smaller array has two elements
+	else if (N == 2)
+	{
+		// Case 4: If the larger array also has two elements,
+		// simply call MO4()
+		if (M == 2)
+			return MO4(A[0], A[1], B[0], B[1]);
+
+		// Case 5: If the larger array has odd number of elements,
+		// then median will be one of the following 3 elements
+		// 1. Middle element of larger array
+		// 2. Max of first element of smaller array and element
+		// just before the middle in bigger array
+		// 3. Min of second element of smaller array and element
+		// just after the middle in bigger array
+		if (M & 1)
+			return MO3 ( B[M/2],
+						max(A[0], B[M/2 - 1]),
+						min(A[1], B[M/2 + 1])
+					);
+
+		// Case 6: If the larger array has even number of elements,
+		// then median will be one of the following 4 elements
+		// 1) & 2) The middle two elements of larger array
+		// 3) Max of first element of smaller array and element
+		// just before the first middle element in bigger array
+		// 4. Min of second element of smaller array and element
+		// just after the second middle in bigger array
+		return MO4 ( B[M/2],
+					B[M/2 - 1],
+					max( A[0], B[M/2 - 2] ),
+					min( A[1], B[M/2 + 1] )
+				);
+	}
+
+	int idxA = ( N - 1 ) / 2;
+	int idxB = ( M - 1 ) / 2;
+
+	/* if A[idxA] <= B[idxB], then median must exist in
+		A[idxA....] and B[....idxB] */
+	if (A[idxA] <= B[idxB] )
+	return findMedianUtil(A + idxA, N/2 + 1, B, M - idxA );
+
+	/* if A[idxA] > B[idxB], then median must exist in
+	A[...idxA] and B[idxB....] */
+	return findMedianUtil(A, N/2 + 1, B + idxA, M - idxA );
+}
+
+// A wrapper function around findMedianUtil(). This function
+// makes sure that smaller array is passed as first argument
+// to findMedianUtil
+float findMedian( int A[], int N, int B[], int M )
+{
+	if (N > M)
+	return findMedianUtil( B, M, A, N );
+
+	return findMedianUtil( A, N, B, M );
+}
+
+int main()
+{
+	int A[] = {900};
+	int B[] = {5, 8, 10, 20};
+
+	int N = sizeof(A) / sizeof(A[0]);
+	int M = sizeof(B) / sizeof(B[0]);
+
+	printf("%f", findMedian( A, N, B, M ) );
+	return 0;
+}
+```
+Output:<br />
+<pre>
+10.000000
+</pre>
+<pre>
+Complexity Analysis: 
+Time Complexity: O(min(log m, log n)). 
+In each step one half of each array is discarded. So the algorithm takes O(min(log m, log n)) time to reach the median value.
+Space Complexity: O(1). 
+No extra space is required.
+</pre>
+
+### Mathematical Approach
+Algorithm:<br />
+<pre>
+1. Merge the two given arrays into one array.
+2. Then sort the third(merged) array
+3. If the length of the third array is even then :
+    divide the length of array by 2
+    return arr[value]  + arr[value - 1] / 2
+    
+4. If the length of the third array is odd then :
+    divide the length of array by 2
+    round that value 
+    return the arr[value] 
+</pre>
+```cpp
+// C++ program for the above approach
+#include <bits/stdc++.h>
+using namespace std;
+
+int Solution(int arr[], int n)
+{
+
+	// If length of array is even
+	if (n % 2 == 0)
+	{
+	int z = n / 2;
+	int e = arr[z];
+	int q = arr[z - 1];
+	int ans = (e + q) / 2;
+	return ans;
+	}
+	
+	// If length if array is odd
+	else
+	{
+	int z = round(n / 2);
+	return arr[z];
+	}
+}
+
+// Driver Code
+int main() {
+	
+		// TODO Auto-generated method stub
+		int arr1[] = { -5, 3, 6, 12, 15 };
+		int arr2[] = { -12, -10, -6, -3, 4, 10 };
+
+		int i = sizeof(arr1) / sizeof(arr1[0]);
+		int j = sizeof(arr2) / sizeof(arr2[0]);
+
+		int arr3[i+j];
+		int l = i+j;
+		// Merge two array into one array
+		for(int k=0;k<i;k++)
+		{
+			arr3[k]=arr1[k];
+		}
+		
+		int a=0;
+		for(int k=i;k<l;k++)
+		{
+			arr3[k]=arr2[a++];
+		}
+
+		// Sort the merged array
+		sort(arr3,arr3+l);
+
+		// calling the method
+		cout<<"Median = " << Solution(arr3, l);
+}
+```
+Output: <br />
+<pre>
+Median = 3
+</pre>
+<pre>
+Complexity Analysis :
+Time Complexity: O((n+m) Log (n+m))
+Space Complexity: O(n+m). Since we are creating a new array of size n+m.
+</pre>
+
+### Binary Search Approach:
+Algorithm:<br />
+<pre>
+1. Lets assume that there are two arrays A and B with array A having the minimum number of elements.
+   If this is not the case then swap A and B to make A having small size.
+2. The edge cases like one array is empty or both are empty will be handled.
+3. let n be the size of A and m be the size of B.
+   Now think of an idea that if we have to find the median than we have to divide the whole merged array into two parts
+   namely left and right parts.
+   Now since we are given the size of left part (i.e (n+m+1)/2), Now look at below given example.
+   
+       A-> 1,2,3,4,5     n = 5
+       B-> 1,2,3,4,5,6   m = 6
+   
+    Here merged array will look like :- 1,1,2,2,3,3,4,4,5,5,6 and median then is 3
+    
+    Now we can see our left part which is underlined. We divide A and B into two parts such that the 
+    sum of left part of both A and B will result in left part of merged array.
+    
+    A-> 1,2,3,4,5     // pointers l =0 and r = n-1 hence mid = (l+r)/2;
+       B -> 1,2,3,4,5,6
+
+    we can see that left part of A is given as n/2 and since total length of left part in merged array
+    is (m+n+1)/2, so left part of B = (m+n+1)/2-n/2;
+    
+    Now we just have to confirm if our left and right partitions in A and B are correct or not.
+    
+4. Now we have 4 variables indicating four values two from array A and two from array B.
+    leftA -> Rightmost element in left part of A = 2
+    leftb -> Rightmost element in left part of B = 4
+    rightA -> Leftmost element in right part of A = 3
+    rightB -> Leftmost element in right part of B = 5
+    
+    Hence to confirm that partition is correct we have to check the following conditions.
+    leftA<=rightB and leftB<=rightA  // This is the case when the sum of two parts of A and B results in left part of merged array
+    
+    if our partition not works that means we have to  find other mid point in A and then left part in B
+    This is seen when
+     
+    leftA > rightB    //means we have to dec size of A's partition
+    so do r = mid-1;
+    else
+        do l =mid+1;
+    
+    Hence repeat the above steps with new partitions till we get the answers.
+5. If leftA<=rightB and leftB<=rightA
+    then we get correct partition and our answer depends on the total size of merged array (i.e. m+n)
+    
+    If (m+n)%2==0
+     ans is max(leftA,leftB)+min(rightA,rightB)/2; // max of left part is nearest to median and min of right part is nearest to medain
+    else
+     ans is max(leftA,leftB);
+</pre>
+Hence the above algorithm can be coded as<br />
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Method to find median
+double Median(vector<int>& A, vector<int>& B)
+{
+	int n = A.size();
+	int m = B.size();
+	if (n > m)
+		return Median(B, A); // Swapping to make A smaller
+
+	int start = 0;
+	int end = n;
+	int realmidinmergedarray = (n + m + 1) / 2;
+
+	while (start <= end) {
+		int mid = (start + end) / 2;
+		int leftAsize = mid;
+		int leftBsize = realmidinmergedarray - mid;
+		int leftA
+			= (leftAsize > 0)
+				? A[leftAsize - 1]
+				: INT_MIN; // checking overflow of indices
+		int leftB
+			= (leftBsize > 0) ? B[leftBsize - 1] : INT_MIN;
+		int rightA
+			= (leftAsize < n) ? A[leftAsize] : INT_MAX;
+		int rightB
+			= (leftBsize < m) ? B[leftBsize] : INT_MAX;
+
+		// if correct partition is done
+		if (leftA <= rightB and leftB <= rightA) {
+			if ((m + n) % 2 == 0)
+				return (max(leftA, leftB)
+						+ min(rightA, rightB))
+					/ 2.0;
+			return max(leftA, leftB);
+		}
+		else if (leftA > rightB) {
+			end = mid - 1;
+		}
+		else
+			start = mid + 1;
+	}
+	return 0.0;
+}
+
+// Driver code
+int main()
+{
+	vector<int> arr1 = { -5, 3, 6, 12, 15 };
+	vector<int> arr2 = { -12, -10, -6, -3, 4, 10 };
+	cout << "Median of the two arrays are" << endl;
+	cout << Median(arr1, arr2);
+	return 0;
+}
+```
+Output:<br />
+<pre>
+Median of the two arrays are
+3
+</pre>
+<pre>
+Time Complexity: O(min(log m, log n)) : Since binary search is being applied on the smaller of the 2 arrays
+Auxiliary Space: O(1)
+</pre>
