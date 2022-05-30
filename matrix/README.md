@@ -1,151 +1,209 @@
-# Competitive-Programming-Essentials-Master-Algorithms-2022
-## Coding Exercise 1:
-**First Unique Character in a String**<br />
-Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return `-1`.<br />
-* Constraints:<br />`1 <= s.length <= 10^5`<br /> 
-`s` consists of only lowercase English letters.<br />
->Example 1: <br /> Input: s = "codingminutes" <br /> 
->Output: 0 <br /> <br />
->Example 2: <br /> Input: s = "aabb"<br /> 
->Output: -1 <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+# Love Babbar Sheet 450 - Matrix
+## Problem 1:
+**[Spirally traversing a matrix](https://practice.geeksforgeeks.org/problems/spirally-traversing-a-matrix-1587115621/1)**<br />
+Given a matrix of size `r*c`. Traverse the matrix in spiral form.<br />
 
-int firstUniqChar(string s) {
-    unordered_map<char, int>count;
-    int n = s.size();
-    for(int i = 0;i<n;i++)count[s[i]]++;
-    for(int i = 0;i<n;i++)if(count[s[i]]==1)return i;
-    return -1;
-}
-```
-## Coding Exercise 2:
-**Kth Largest Element**<br />
-Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
-* Constraints:<br />`1 <= k <= nums.length <= 10^4`<br />
- `-10^4 <= nums[i] <= 10^4`<br />
->Input: nums = [3, 2, 3, 1, 2, 4, 5, 5, 6], k = 4 <br />
->Output: 4<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-int findKthLargest(vector<int> nums, int k) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int num: nums){
-        pq.push(num);
-        if(pq.size()>k)pq.pop();
-    }
-    return pq.top();
-}
-```
-## Coding Exercise 3:
-**One Integer**<br />
-You are given a list of integers `nums`. You can reduce the length of `nums` by taking any two integers, removing them, and appending their sum to the end. The cost of doing this is the sum of the two integers you removed.<br />
-Return the minimum total cost of reducing `nums` to one integer.<br />
->Note : Cost can be negative also.<br />
-* Constraints: <br /> `n <= 100,000` where `n` is length of `nums`.<br />
->Example 1 <br />
->Input: nums : [1, 2, 3, 4, 5]<br />
->Output: 33<br />
->Explanation<br />
-> * We take `1` and `2` out to get `[3, 4, 5, 3]`<br />
-> * We take `3` and `3` out to get `[4, 5, 6]`<br />
-> * We take `4` and `5` out to get `[6, 9]`<br />
-> * We take `6` and `9` out to get `[15]`<br />
-> * The sum is `33 = 1 + 2 + 3 + 3 + 4 + 5 + 6 + 9`<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+>Example 1:<br />
+>Input:<br />
+>r = 4, c = 4<br />
+<pre>
+matrix[][] = {{1, 2, 3, 4},
+             {5, 6, 7, 8},
+             {9, 10, 11, 12},
+             {13, 14, 15,16}}
+           </pre>
+>Output: <br />
+>1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10<br />
+>Explanation:<br />
+><img src = "https://www.geeksforgeeks.org/wp-content/uploads/spiral-matrix.png"><br />
 
-int solve(vector<int> nums) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int i = 0;i<nums.size();i++)pq.push(nums[i]);
-    int a, b, sum, ans=0;
-    while(pq.size() > 1){
-        a = pq.top(); pq.pop();
-        b = pq.top(); pq.pop();
-        sum = a+b; 
-        ans += sum;
-        pq.push(sum);
-    }
-    return ans;
-}
-```
-## Coding Exercise 4:
-**Maximum Score From Removing Stones**<br />
-You are playing a solitaire game with three piles of stones of sizes `a`, `b`, and `c` respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).<br />
-Given three integers `a`, `b`, and `c`, return the maximum score you can get.<br />
-* Constraints:<br />`1 <= a, b, c <= 10^5` <br />
->Example:<br />
->Input: a = 2, b = 4, c = 6 <br />
->Output: 6 <br />
->Explanation: The starting state is (2, 4, 6). One optimal set of moves is: <br />
->- Take from `1st` and `3rd` piles, state is now `(1, 4, 5)` <br />
->- Take from `1st` and `3rd` piles, state is now `(0, 4, 4)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 3, 3)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 2, 2)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 1, 1)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 0, 0)` <br />
->There are fewer than two non-empty piles, so the game ends. Total: `6` points. <br />
+>Example 2:<br />
+Input:<br />
+r = 3, c = 4<br />  
+<pre>
+matrix[][] = {{1, 2, 3, 4},
+              {5, 6, 7, 8},
+             {9, 10, 11, 12}}
+</pre>
+Output: <br />
+1 2 3 4 8 12 11 10 9 5 6 7<br />
+Explanation:<br />
+Applying same technique as shown above, output for the 2nd testcase will be<br /> 
+1 2 3 4 8 12 11 10 9 5 6 7.<br />
+
+Your Task:<br />
+You dont need to read input or print anything. Complete the function `spirallyTraverse()` that takes matrix, `r` and `c` as input parameters and returns a `list` of integers denoting the spiral traversal of matrix. <br />
+
+<pre>
+Expected Time Complexity: O(r*c)
+Expected Auxiliary Space: O(r*c), for returning the answer only.
+</pre>
+
+* Constraints: `1 <= r, c <= 100`<br />
+`0 <= matrixi <= 100` <br />
+
 ```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-int maximumScore(int a, int b, int c) {
-    priority_queue<int>q;
-    q.push(a);
-    q.push(b);
-    q.push(c);
-    int ans = 0;
-    while(q.size()>1){
-        int x = q.top(); q.pop();
-        int y = q.top(); q.pop();
-        x--; y--;
-        if(x) q.push(x);
-        if(y) q.push(y);
-        ans++;
+class Solution
+{   
+    public: 
+    //Function to return a list of integers denoting spiral traversal of matrix.
+    vector<int> spirallyTraverse(vector<vector<int> > matrix, int r, int c) 
+    {
+        // code here 
+        int row = 0;
+        int col = 0;
+        vector<int> output;
+        
+        while(row<r && col<c)
+        {
+           //storing the elements of 1st row from the remaining rows, in a list.
+           for(int i=col; i<c; i++)
+               output.push_back(matrix[row][i]);
+           row++;
+           
+           //storing elements of last column from remaining columns, in list.
+           for(int i=row; i<r; i++)
+               output.push_back(matrix[i][c-1]);
+           c--;
+           
+           //storing the elements of last row from remaining rows, in a list.
+            if(row<r)
+            {
+                for(int i=c-1; i>=col; --i)
+                    output.push_back( matrix[r-1][i]);
+                r--;
+            }
+           //storing elements of 1st column from the remaining columns, in list.
+            if(col<c)
+            {
+                for(int i=r-1; i>=row; --i)
+                    output.push_back( matrix[i][col]);
+                col++;    
+            }   
+           
+        }
+        //returning the list.
+        return output;
     }
-    return ans;
-}
-```
-## Coding Exercise 5:
-**Find K Closest Elements**
-Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
-An integer `a` is closer to `x` than an integer `b` if: <br />
-* `|a - x| < |b - x|`, or <br />
-* `|a - x| == |b - x|` and `a < b` <br />
-* Constraints: <br />
-`1 <= k <= arr.length` <br />
-`1 <= arr.length <= 10^4` <br />
-`arr` is sorted in ascending order. <br />
-`-10^4 <= arr[i], x <= 10^4` <br />
->Example :<br />
->Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
->Output: [1,2,3,4] <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+};
 
-bool compare(int a, int b){return a<b;}
+int main() {
+    int t;
+    cin>>t;
+    
+    while(t--) 
+    {
+        int r,c;
+        cin>>r>>c;
+        vector<vector<int> > matrix(r); 
 
-vector<int> findClosestElements(vector<int> arr, int k, int x) {
-    vector<int>ans;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>q;
-    int n = arr.size();
-    for(int i = 0;i<n;i++){
-        int diff = abs(arr[i]-x);
-        q.push({diff, arr[i]});
+        for(int i=0; i<r; i++)
+        {
+            matrix[i].assign(c, 0);
+            for( int j=0; j<c; j++)
+            {
+                cin>>matrix[i][j];
+            }
+        }
+
+        Solution ob;
+        vector<int> result = ob.spirallyTraverse(matrix, r, c);
+        for (int i = 0; i < result.size(); ++i)
+                cout<<result[i]<<" ";
+        cout<<endl;
     }
-    while(k--){
-        ans.push_back(q.top().second);
-        q.pop();
-    }
-    sort(ans.begin(), ans.end(), compare);
-    return ans;
+    return 0;
 }
 ```
 
 
 
-     
+
+<br /><br /><br />
+## Problem 2:
+**[74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/)**<br /> 
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:<br />
+Integers in each row are sorted from left to right.<br />
+The first integer of each row is greater than the last integer of the previous row.<br />
+
+>Example 1:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/05/mat.jpg"><br />
+>Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3<br />
+>Output: true<br />
+ 
+>Example 2:<br />
+><img src = "https://assets.leetcode.com/uploads/2020/10/05/mat2.jpg"><br />
+>Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13<br />
+>Output: false<br />
+
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 100`<br />
+`-10^4 <= matrix[i][j], target <= 10^4`<br />
+ 
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int lx = 0, rx = matrix.size();
+        int midx = (lx + rx) / 2;
+        while (lx < rx) { // Searching vector that may include our target
+            if (matrix[midx].back() >= target && matrix[midx][0] <= target) {
+                int ly = 0, ry = matrix[midx].size();
+                int midy = (ly + ry) / 2;
+                while (ly < ry) { // Searching our target
+                    if (matrix[midx][midy] == target) return true;
+                    if (matrix[midx][midy] < target) {
+                        ly = midy + 1;
+                    } else {
+                        ry = midy;
+                    }
+                    midy = (ly + ry) / 2;
+                }
+                return false; // If there is no number equals to target, 
+				              // than it can't be anywhere else so returning false
+            }
+            if (matrix[midx].back() < target) {
+                lx = midx + 1;
+            } else if (matrix[midx][0] > target) {
+                rx = midx;
+            }
+            midx = (lx + rx) / 2;
+        }
+        return false;
+        
+    }
+};
+```
+
+<br /><br /><br />
+## Problem 3:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 4:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 5:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 6:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 7:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 8:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 9:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 10:
+**[]()**<br />
