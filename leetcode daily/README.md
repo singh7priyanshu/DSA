@@ -3302,3 +3302,42 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1461. Check If a String Contains All Binary Codes of Size K](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/)**<br />
+Given a binary string `s` and an integer `k`, return `true` _if every binary code of length `k` is a substring of `s`_. Otherwise, return `false`.<br />
+
+>Example 1:<br />
+Input: s = "00110110", k = 2<br />
+Output: true<br />
+Explanation: The binary codes of length 2 are "00", "01", "10" and "11". They can be all found as substrings at indices 0, 1, 3 and 2 respectively.<br />
+
+>Example 2:<br />
+Input: s = "0110", k = 1<br />
+Output: true<br />
+Explanation: The binary codes of length 1 are "0" and "1", it is clear that both exist as a substring. <br />
+
+>Example 3:<br />
+Input: s = "0110", k = 2<br />
+Output: false<br />
+Explanation: The binary code "00" is of length 2 and does not exist in the array.<br />
+ 
+* Constraints: 1 <= s.length <= `5 * 10^5`<br />
+`s[i]` is either '`0`' or '`1`'.<br />
+`1 <= k <= 20`<br />
+	
+```cpp
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        if(s.size()<k)return false;
+        unordered_set<string>sol;
+        for(int i = 0;i<=s.size()-k;i++)sol.insert(s.substr(i, k));
+        return sol.size() == pow(2, k);
+    }
+};
+```
