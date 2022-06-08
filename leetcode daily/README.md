@@ -3654,3 +3654,116 @@ int solve(vector<bool>& col, vector<bool>& diag, vector<bool>& anti_diag, int ro
 }
 };
 ```
+
+				       
+				       
+				       
+				     
+<br /> <br /> <br />**[160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/)**<br />
+Given the heads of two singly linked-lists `headA` and `headB`, return _the node at which the two lists intersect_. If the two linked lists have no intersection at all, return `null`.<br />
+
+For example, the following two linked lists begin to intersect at node c1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/03/05/160_statement.png"><br />
+	
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.<br />
+
+**Note** that the linked lists must **retain their original structure** after the function returns.<br />
+
+**Custom Judge:**<br />
+
+The inputs to the **judge** are given as follows (your program is **not** given these inputs):<br />
+
+* `intersectVal` - The value of the node where the intersection occurs. This is `0` if there is no intersected node.<br />
+* `listA` - The first linked list.<br />
+* `listB` - The second linked list.<br />
+* `skipA` - The number of nodes to skip ahead in `listA` (starting from the head) to get to the intersected node.<br />
+* `skipB` - The number of nodes to skip ahead in `listB` (starting from the head) to get to the intersected node.<br />
+	
+The judge will then create the linked structure based on these inputs and pass the two heads, `headA` and `headB` to your program. If you correctly return the intersected node, then your solution will be **accepted**.<br />
+
+ 
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/03/05/160_example_1_1.png"><br />
+<pre>
+Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
+Output: Intersected at '8'
+Explanation: The intersected node's value is 8 (note that this must not be 0 if the two lists intersect).
+From the head of A, it reads as [4,1,8,4,5]. From the head of B, it reads as [5,6,1,8,4,5]. There are 2 nodes before the intersected node in A; There are 3 nodes before the intersected node in B.
+</pre>
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/03/05/160_example_2.png"><br />
+<pre>
+Input: intersectVal = 2, listA = [1,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+Output: Intersected at '2'
+Explanation: The intersected node's value is 2 (note that this must not be 0 if the two lists intersect).
+From the head of A, it reads as [1,9,1,2,4]. From the head of B, it reads as [3,2,4]. There are 3 nodes before the intersected node in A; There are 1 node before the intersected node in B.
+</pre>
+
+>Example 3:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/03/05/160_example_3.png"><br />
+<pre>
+Input: intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+Output: No intersection
+Explanation: From the head of A, it reads as [2,6,4]. From the head of B, it reads as [1,5]. Since the two lists do not intersect, intersectVal must be 0, while skipA and skipB can be arbitrary values.
+Explanation: The two lists do not intersect, so return null.
+</pre>
+ 
+
+* Constraints: The number of nodes of `listA` is in the `m`.<br />
+The number of nodes of `listB` is in the `n`.<br />
+`1 <= m, n <= 3 * 10^4`<br />
+`1 <= Node.val <= 10^5`<br />
+`0 <= skipA < m`<br />
+`0 <= skipB < n`<br />
+`intersectVal` is `0` if `listA` and `listB` do not intersect.<br />
+`intersectVal == listA[skipA] == listB[skipB]` if `listA` and `listB` intersect.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* t1=headA;
+        ListNode* t2=headB;
+        int l1=1;
+        int l2=1;
+        while (t1->next){
+            l1+=1;
+            t1=t1->next;
+        }
+        while (t2->next){
+            l2+=1;
+            t2=t2->next;
+        }
+        if (t1!=t2){
+            return NULL;
+        }
+        int move1 = max(0,l1-l2);
+        int move2 = max(0,l2-l1);
+        while (move1>0){
+            headA=headA->next;
+            move1--;
+        }
+        while (move2>0){
+            headB=headB->next;
+            move2--;
+        }
+        while (headA!=headB){
+            headB=headB->next;
+            headA=headA->next;
+        }
+        return headA;
+    }
+};
+```
+	
