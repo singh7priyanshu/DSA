@@ -3347,28 +3347,62 @@ public:
 							      
 							
 <br /> <br /> <br />**[142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)**<br />
-Given the `head` of a linked list, return _the node where the cycle begins. If there is no cycle, return `null`_.
-There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to (**0-indexed**). It is `-1` if there is no cycle. **Note that** `pos` **is not passed as a parameter**``.
-Do not modify the linked list.
+Given the `head` of a linked list, return _the node where the cycle begins. If there is no cycle, return `null`_.<br />
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to (**0-indexed**). It is `-1` if there is no cycle. **Note that** `pos` **is not passed as a parameter**``.<br />
+Do **not modify** the linked list.<br />
 
->Example 1:
-<img src = "">
-Input: head = [3,2,0,-4], pos = 1
-Output: tail connects to node index 1
-Explanation: There is a cycle in the linked list, where tail connects to the second node.
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png"><br />
+Input: head = [3,2,0,-4], pos = 1<br />
+Output: tail connects to node index 1<br />
+Explanation: There is a cycle in the linked list, where tail connects to the second node.<br />
 
->Example 2:
-<img src = "">
-Input: head = [1,2], pos = 0
-Output: tail connects to node index 0
-Explanation: There is a cycle in the linked list, where tail connects to the first node.
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png"><br />
+Input: head = [1,2], pos = 0<br />
+Output: tail connects to node index 0<br />
+Explanation: There is a cycle in the linked list, where tail connects to the first node.<br />
 
->Example 3:
-<img src = "">
-Input: head = [1], pos = -1
-Output: no cycle
-Explanation: There is no cycle in the linked list.
+>Example 3:<br />
+<img src = "https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png"><br />
+Input: head = [1], pos = -1<br />
+Output: no cycle<br />
+Explanation: There is no cycle in the linked list.<br />
 
-* Constraints: The number of the nodes in the list is in the range [0, 10^4].
--105 <= Node.val <= 105
-pos is -1 or a valid index in the linked-list.
+* Constraints: The number of the nodes in the list is in the range `[0, 10^4]`.<br />
+`-10^5 <= Node.val <= 10^5`<br />
+`pos` is `-1` or a **valid index** in the linked-list.<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(!head) return NULL;
+        
+        ListNode *slow=head,*fast=head;
+        do{
+            slow = slow->next;
+            if(!slow) break;
+            fast= fast->next;
+            if(!fast) break;
+            fast = fast->next;
+            if(!fast) break;            
+            
+        }while(slow!=fast);
+        if(!slow or !fast)
+            return NULL;
+        fast = head;
+        while(fast !=slow)
+            fast=fast->next, slow=slow->next;
+        return fast;
+    }
+};
+```
