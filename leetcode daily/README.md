@@ -3406,3 +3406,251 @@ public:
     }
 };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[1480. Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/)**<br />
+Given an array `nums`. We define a running sum of an array as `runningSum[i] = sum(nums[0]…nums[i])`.<br />
+Return the running sum of `nums`.<br />
+
+>Example 1:<br />
+Input: nums = [1,2,3,4]<br />
+Output: [1,3,6,10]<br />
+Explanation: Running sum is obtained as follows: [1, 1+2, 1+2+3, 1+2+3+4].<br />
+
+>Example 2:<br />
+Input: nums = [1,1,1,1,1]<br />
+Output: [1,2,3,4,5]<br />
+Explanation: Running sum is obtained as follows: [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1].<br />
+
+>Example 3:<br />
+Input: nums = [3,1,2,10,1]<br />
+Output: [3,4,6,16,17]<br />
+ 
+* Constraints: `1 <= nums.length <= 1000`<br />
+`-10^6 <= nums[i] <= 10^6`<br />
+	
+```cpp
+class Solution {
+public:
+    vector<int> runningSum(vector<int>& nums) {
+        vector<int>run_sum;
+        int sum = 0;
+        for(int i = 0;i<nums.size();i++){
+            sum += nums[i];
+            run_sum.push_back(sum);
+        }
+        return run_sum;
+    }
+};
+```
+					  
+					  
+					  
+					  
+<br /> <br /> <br />**[867. Transpose Matrix](https://leetcode.com/problems/transpose-matrix/)**<br />					  
+Given a 2D integer array `matrix`, return _the **transpose** of_ `matrix`.<br />
+The **transpose** of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/10/hint_transpose.png"><br />
+
+>Example 1:<br />
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]<br />
+Output: [[1,4,7],[2,5,8],[3,6,9]]<br />
+
+>Example 2:<br />
+Input: matrix = [[1,2,3],[4,5,6]]<br />
+Output: [[1,4],[2,5],[3,6]]<br />
+ 
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 1000`<br />
+`1 <= m * n <= 10^5`<br />
+`-10^9 <= matrix[i][j] <= 10^9`<br />
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> transpose(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+        vector<vector<int>> res(m,vector<int> (n,0)); 
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                res[j][i] = matrix[i][j]; 
+            }
+        }
+        return res;
+    }
+};
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[304. Range Sum Query 2D - Immutable](https://leetcode.com/problems/range-sum-query-2d-immutable/)**<br />	
+Given a 2D matrix `matrix`, handle multiple queries of the following type:<br />
+ * Calculate the **sum** of the elements of `matrix` inside the rectangle defined by its **upper left corner** `(row1, col1)` and **lower right corner** `(row2, col2)`.<br />
+	
+Implement the `NumMatrix` class:<br />
+	
+ * `NumMatrix(int[][] matrix)` Initializes the object with the integer matrix `matrix`.<br />
+ * `int sumRegion(int row1, int col1, int row2, int col2)` Returns the **sum** of the elements of `matrix` inside the rectangle defined by its **upper left corner** `(row1, col1)` and **lower right corner** `(row2, col2)`.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/03/14/sum-grid.jpg"><br />
+<pre>
+Input
+["NumMatrix", "sumRegion", "sumRegion", "sumRegion"]
+[[[[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]], [2, 1, 4, 3], [1, 1, 2, 2], [1, 2, 2, 4]]
+Output
+[null, 8, 11, 12]
+
+Explanation
+NumMatrix numMatrix = new NumMatrix([[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]);
+numMatrix.sumRegion(2, 1, 4, 3); // return 8 (i.e sum of the red rectangle)
+numMatrix.sumRegion(1, 1, 2, 2); // return 11 (i.e sum of the green rectangle)
+numMatrix.sumRegion(1, 2, 2, 4); // return 12 (i.e sum of the blue rectangle)
+</pre><br />
+
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 200`<br />
+`-10^5 <= matrix[i][j] <= 10^5`<br />
+`-10^9 <= sum(matrix[i][j]) <= 10^9`<br />
+`0 <= row1 <= row2 < m`<br />
+`0 <= col1 <= col2 < n`<br />
+At most `10^4` calls will be made to `sumRegion`.<br />
+	
+```cpp
+class NumMatrix {
+public:
+    vector<vector<int>> sum;
+    NumMatrix(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        sum = vector<vector<int>>(m + 1, vector<int>(n + 1)); // sum[i][j] is sum of all elements inside the rectangle [0,0,i,j]
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i - 1][j - 1];
+            }
+        }
+    }
+    int sumRegion(int r1, int c1, int r2, int c2) {
+		// Since our `sum` starts by 1 so we need to increase r1, c1, r2, c2 by 1
+        r1++; c1++; r2++; c2++; 
+        return sum[r2][c2] - sum[r2][c1 - 1] - sum[r1 - 1][c2] + sum[r1 - 1][c1 - 1];
+    }
+};
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix* obj = new NumMatrix(matrix);
+ * int param_1 = obj->sumRegion(row1,col1,row2,col2);
+ */
+```
+	
+	
+	
+<br /> <br /> <br />**[51. N-Queens](https://leetcode.com/problems/n-queens/)**<br />
+The **n-queens** puzzle is the problem of placing `n` queens on an `n x n` chessboard such that no two queens attack each other.<br />
+Given an integer `n`, return _all distinct solutions to the **n-queens puzzle**_. You may return the answer in **any order**.<br />
+Each solution contains a distinct board configuration of the n-queens' placement, where `'Q'` and `'.'` both indicate a queen and an empty space, respectively.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/11/13/queens.jpg"><br />
+Input: n = 4<br />
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]<br />
+Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above<br />
+
+>Example 2:<br />
+Input: n = 1<br />
+Output: [["Q"]]<br />
+
+* Constraints: `1 <= n <= 9`<br />
+
+```cpp
+class Solution {
+public:
+    vector<vector<string> > sols; // 2D vector of strings to store the solutions
+    vector<vector<string>> solveNQueens(int n) {    
+	    vector<string> board(n, string(n, '.'));  // creating an empty board
+	    solve(board, 0); // calling the recursive function
+	    return sols; 
+    }
+    bool isSafe(vector<string>& board, int row, int col) {
+	    int n = size(board);
+	    for(int i = 0; i < n; i++) {
+			// checking if there is a queen in the same column
+		    if(board[i][col] == 'Q') return false; 
+		    // checking if there is a queen in the same diagonal (left to right)
+		    if(row - i >= 0 && col - i >= 0 && board[row - i][col - i] == 'Q') return false;
+		    if(row - i >= 0 && col + i <  n && board[row - i][col + i] == 'Q') return false;
+		    // No need to traverse more since the lower rows below current row attribute will always be safe.
+			/* if(row + i <  n && col - i >= 0 && board[row + i][col - i] == 'Q') return false;
+			if(row + i <  n && col + i <  n && board[row + i][col + i] == 'Q') return false; */
+	    }
+	    return true;
+    }
+    // Recursive Function (solve) - It basically tries all possible placement of queen for the current row & recurses for it's next row
+    void solve(vector<string>& board, int row) {
+	// Base condition. 
+    // We reached the last row, so we have a solution so we add it to the solution vector
+	    if(row == size(board)) { 
+		    sols.push_back(board);
+		    return;
+    	}            
+	    // Try placing a queen on each column for a given row. 
+        // Explore next row by placing Q at each valid column for the current row
+	    for(int col = 0; col < size(board); col++){
+		    if(isSafe(board, row, col)) {
+			    board[row][col] = 'Q';    // Queen placed on a valid cell
+			    solve(board, row + 1);    // Exploring next row
+			    board[row][col] = '.';    // Backtracking to get all possible solutions
+		    }
+        }
+    }
+};
+```
+					       
+					       
+					       
+					      
+<br /> <br /> <br />**[52. N-Queens II](https://leetcode.com/problems/n-queens-ii/)**<br />
+The **n-queens** puzzle is the problem of placing `n` queens on an `n x n` chessboard such that no two queens attack each other.<br />
+Given an integer `n`, return _the number of distinct solutions to the **n-queens puzzle**_.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/11/13/queens.jpg"><br />
+Input: n = 4<br />
+Output: 2<br />
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown.<br />
+
+>Example 2:<br />
+Input: n = 1<br />
+Output: 1<br />
+
+* Constraints: `1 <= n <= 9`<br />
+	
+```cpp
+class Solution {
+public:
+    int totalNQueens(int n) {
+	vector<bool> col(n), diag(2*n-1), anti_diag(2*n-1);
+	return solve(col, diag, anti_diag, 0);
+}
+   
+int solve(vector<bool>& col, vector<bool>& diag, vector<bool>& anti_diag, int row) {
+	int n = size(col), count = 0;
+    if(row == n) return 1;
+	for(int column = 0; column < n; column++)           
+		if(!col[column] && !diag[row + column] && !anti_diag[row - column + n - 1]){ 
+			col[column] = diag[row + column] = anti_diag[row - column + n - 1] = true;
+			count += solve(col, diag, anti_diag, row + 1); 
+			col[column] = diag[row + column] = anti_diag[row - column + n - 1] = false; 
+		}                                
+	return count;
+}
+};
+```
