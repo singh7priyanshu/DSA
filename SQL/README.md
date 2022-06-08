@@ -26,7 +26,7 @@ Return the result table in `any order`.<br />
 The query result format is in the following example.<br />
 
 >Example 1:<br />
-><pre>
+<pre>
 Input: 
 World table:
 +-------------+-----------+---------+------------+--------------+
@@ -86,7 +86,7 @@ Return the result table in **any order**.<br />
 The query result format is in the following example.<br /> 
 
 >Example 1:<br />
-><pre>
+<pre>
 Input: 
 Products table:
 +-------------+----------+------------+
