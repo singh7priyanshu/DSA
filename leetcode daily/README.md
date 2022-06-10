@@ -3859,7 +3859,7 @@ Step 2: "   -42" ('-' is read, so the result should be negative)
 Step 3: "   -42" ("42" is read in)
                ^
 The parsed integer is -42.
-Since -42 is in the range [-231, 231 - 1], the final result is -42.
+Since -42 is in the range [-2^31, 2^31 - 1], the final result is -42.
 </pre>
 	
 >Example 3:<br />
@@ -3874,7 +3874,7 @@ Step 2: "4193 with words" (no characters read because there is neither a '-' nor
 Step 3: "4193 with words" ("4193" is read in; reading stops because the next character is a non-digit)
              ^
 The parsed integer is 4193.
-Since 4193 is in the range [-231, 231 - 1], the final result is 4193.
+Since 4193 is in the range [-2^31, 2^31 - 1], the final result is 4193.
 </pre>
 
 * Constraints: `0 <= s.length <= 200`<br />
