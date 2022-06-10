@@ -113,3 +113,75 @@ select product_id
 from Products 
 where low_fats = 'Y' and recyclable = 'Y'
 ```
+
+
+
+
+<br /> <br /> <br /> **[584. Find Customer Referee](https://leetcode.com/problems/find-customer-referee/)**<br />
+Table: `Customer`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| referee_id  | int     |
++-------------+---------+
+id is the primary key column for this table.
+Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
+</pre><br />
+Write an SQL query to report the names of the customer that are **not referred by** the customer with `id = 2`.<br />
+Return the result table in `any order`.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Customer table:
++----+------+------------+
+| id | name | referee_id |
++----+------+------------+
+| 1  | Will | null       |
+| 2  | Jane | null       |
+| 3  | Alex | 2          |
+| 4  | Bill | null       |
+| 5  | Zack | 1          |
+| 6  | Mark | 2          |
++----+------+------------+
+Output: 
++------+
+| name |
++------+
+| Will |
+| Jane |
+| Bill |
+| Zack |
++------+
+</pre><br />
+
+```sql
+select name 
+from Customer
+where referee_id != '2' OR referee_id is NULL
+
+-- most efficient
+-- The IFNULL() function returns a specified value if the expression is NULL. If the expression is NOT NULL, this function returns the expression.
+select name 
+from Customer 
+where INFULL(referee_id, 0) <> 2
+
+-- using COALESCE function
+-- The COALESCE() function returns the first non-null value in a list.
+select name 
+from Customer 
+where COALESCE(referee_id, 0) <> 2
+
+-- using nested query 
+select name 
+from Customer 
+where id NOT IN (
+    select id 
+    from Customer 
+    where referee_id = 2
+    )
+```
