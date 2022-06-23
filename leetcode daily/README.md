@@ -3914,3 +3914,54 @@ class Solution {
         }
     };
 ```
+
+	
+	
+	
+<br /> <br /> <br />**[1658. Minimum Operations to Reduce X to Zero](https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/)**<br />
+You are given an integer array `nums` and an integer `x`. In one operation, you can either remove the leftmost or the rightmost element from the array `nums` and subtract its value from `x`. Note that this **modifies** the array for future operations.<br />
+Return _the **minimum number** of operations to reduce `x` to **exactly** `0` if it is possible, otherwise, return `-1`_.
+
+>Example 1:<br />
+Input: nums = [1,1,4,2,3], x = 5<br />
+Output: 2<br />
+Explanation: The optimal solution is to remove the last two elements to reduce x to zero.<br />
+
+>Example 2:<br />
+Input: nums = [5,6,7,8,9], x = 4<br />
+Output: -1<br />
+	
+>Example 3:<br />
+Input: nums = [3,2,20,1,1,3], x = 10<br />
+Output: 5<br />
+Explanation: The optimal solution is to remove the last three elements and the first two elements (5 operations in total) to reduce x to zero.<br />
+ 
+* Constraints: `1 <= nums.length <= 10^5`<br />
+`1 <= nums[i] <= 10^4`<br />
+`1 <= x <= 10^9`<br />
+	
+```cpp
+class Solution {
+   public:
+    int minOperations(vector<int>& nums, int x) {
+        int sum = 0, n = nums.size();
+        for (int i : nums) sum += i;
+        int target = sum - x;
+        int curr_sum = 0, max_len = 0;
+        int start_idx = 0;
+        bool found = false;
+        for (int end_idx = 0; end_idx < n; end_idx++) {
+            curr_sum += nums[end_idx];
+            while (start_idx <= end_idx && curr_sum > target) {
+                curr_sum -= nums[start_idx];
+                start_idx += 1;
+            }
+            if (curr_sum == target) {
+                found = true;
+                max_len = max(max_len, end_idx - start_idx + 1);
+            }
+        }
+        return found ? n - max_len : -1;
+    }
+};
+```
