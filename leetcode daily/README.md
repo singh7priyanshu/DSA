@@ -3965,3 +3965,54 @@ class Solution {
     }
 };
 ```
+
+	
+	
+
+<br /> <br /> <br />**[1695. Maximum Erasure Value](https://leetcode.com/problems/maximum-erasure-value/)**<br />
+You are given an array of positive integers `nums` and want to erase a subarray containing **unique elements**. The **score** you get by erasing the subarray is equal to the **sum** of its elements.<br />
+Return _the **maximum score** you can get by erasing **exactly one** subarray_.<br />
+An array `b` is called to be a subarray of `a` if it forms a contiguous subsequence of `a`, that is, if it is equal to `a[l],a[l+1],...,a[r]` for some `(l,r)`.<br />
+
+>Example 1:<br />
+Input: nums = [4,2,4,5,6]<br />
+Output: 17<br />
+Explanation: The optimal subarray here is [2,4,5,6].<br />
+
+>Example 2:<br />
+Input: nums = [5,2,1,2,5,2,1,2,5]<br />
+Output: 8<br />
+Explanation: The optimal subarray here is [5,2,1] or [1,2,5].<br />
+	
+* Constraints: `1 <= nums.length <= 10^5`<br />
+`1 <= nums[i] <= 10^4`<br />
+	
+```cpp
+class Solution {
+public:
+    int maximumUniqueSubarray(vector<int>& nums) {
+        int curr_sum=0, res=0;
+		
+		//set to store the elements
+        unordered_set<int> st;
+        
+        int i=0,j=0;
+        while(j<nums.size()) {
+            while(st.count(nums[j])>0) {
+				//Removing the ith element untill we reach the repeating element
+                st.erase(nums[i]);
+                curr_sum-=nums[i];
+                i++;
+            }
+			//Add the current element to set and curr_sum value
+            curr_sum+=nums[j];
+            st.insert(nums[j++]);
+			
+			//res variable to keep track of largest curr_sum encountered till now...
+            res = max(res, curr_sum);
+        }
+        
+        return res;
+    }
+};
+```
