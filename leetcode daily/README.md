@@ -4053,3 +4053,59 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1048. Longest String Chain](https://leetcode.com/problems/longest-string-chain/)**<br />
+You are given an array of `words` where each word consists of lowercase English letters.<br />
+`wordA` is a **predecessor** of `wordB` if and only if we can insert **exactly one** letter anywhere in `wordA` **without changing the order of the other characters** to make it equal to `wordB`.<br />
+ * For example, `"abc"` is a **predecessor** of `"abac"`, while `"cba"` is not a **predecessor** of `"bcad"`.<br />
+	
+A **word chain** is a sequence of words `[word1, word2, ..., wordk]` with `k >= 1`, where `word1` is a **predecessor** of `word2`, `word2` is a **predecessor** of `word3`, and so on. A single word is trivially a **word chain** with `k == 1`.<br />
+Return _the **length** of the **longest possible word chain** with words chosen from the given list of_ `words`.<br />
+	
+>Example 1:<br />
+Input: words = ["a","b","ba","bca","bda","bdca"]<br />
+Output: 4<br />
+Explanation: One of the longest word chains is ["a","ba","bda","bdca"].<br />
+
+>Example 2:<br />
+Input: words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]<br />
+Output: 5<br />
+Explanation: All the words can be put in a word chain ["xb", "xbc", "cxbc", "pcxbc", "pcxbcf"].<br />
+
+>Example 3:<br />
+Input: words = ["abcd","dbqca"]<br />
+Output: 1<br />
+Explanation: The trivial word chain ["abcd"] is one of the longest word chains.<br />
+["abcd","dbqca"] is not a valid word chain because the ordering of the letters is changed.<br />
+ 
+* Constraints: `1 <= words.length <= 1000`<br />
+`1 <= words[i].length <= 16`<br />
+`words[i]` only consists of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    int longestStrChain(vector<string>& words) {
+        std::sort(words.begin(), words.end(), [](const std::string& first, const std::string& second){
+            return first.size() < second.size();
+        });
+        map<string,int> m;
+        int res = 0;
+        for(string word:words){
+            int longest =0;
+            for(int i = 0;i<word.length();i++){
+                string sub = word.substr(0,i) + word.substr(i+1,word.length()+1);
+                longest = max(longest,m[sub]+1);   
+            }        
+            m[word] = longest;
+            res = max(res,longest);
+        }
+        return res;
+    }
+};
+```
