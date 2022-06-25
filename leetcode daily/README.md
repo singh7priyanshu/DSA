@@ -4181,3 +4181,80 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+<br /> <br /> <br />**[968. Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/)**<br />
+You are given the `root` of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children.<br />
+Return _the minimum number of cameras needed to monitor all nodes of the tree_.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2018/12/29/bst_cameras_01.png"><br />
+Input: root = [0,0,null,0,0]<br />
+Output: 1<br />
+Explanation: One camera is enough to monitor all nodes if placed as shown.<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2018/12/29/bst_cameras_02.png"><br />
+Input: root = [0,0,null,0,null,0,null,null,0]<br />
+Output: 2<br />
+Explanation: At least two cameras are needed to monitor all nodes of the tree. The above image shows one of the valid configurations of camera placement.<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[1, 1000]`.<br />
+`Node.val == 0`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    int camera(TreeNode* root){
+        if (root->left==NULL && root->right==NULL){
+            root->val=1;
+            return 0;
+        }
+        int res=0,l=2,r=2;
+        if (root->left){
+            res += camera(root->left);
+            l = root->left->val;
+        }
+        if (root->right){
+            res += camera(root->right);
+            r = root->right->val;
+        }
+		// children are unwatched so camera needed
+        if (l==1 || r==1){
+            root->val = 3;
+            return (res+1);
+        }
+		// camera present
+        if (l==3 || r==3){
+            root->val = 2;
+            return res;
+        }
+		// current node is unwatched, so it will be watched from its parent node
+        root->val=1;
+        return res;
+    }
+    
+    int minCameraCover(TreeNode* root) {
+        int res = camera(root);
+        if (root->val == 1){
+            res++;
+        }
+        return res;
+    }
+};
+```
+	
