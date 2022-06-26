@@ -4258,3 +4258,130 @@ public:
 };
 ```
 	
+
+	
+	
+	
+	
+<br /> <br /> <br />**[745. Prefix and Suffix Search](https://leetcode.com/problems/prefix-and-suffix-search/)**<br />
+Design a special dictionary that searches the words in it by a prefix and a suffix.<br />
+Implement the `WordFilter` class:<br />
+	
+* `WordFilter(string[] words)` Initializes the object with the `words` in the dictionary.<br />
+* `f(string prefix, string suffix)` Returns _the index of the word in the dictionary_, which has the prefix `prefix` and the suffix `suffix`. If there is more than one valid index, return **the largest** of them. If there is no such word in the dictionary, return `-1`.<br />
+ 
+>Example 1:<br />
+Input<br />
+["WordFilter", "f"]<br />
+[[["apple"]], ["a", "e"]]<br />
+Output<br />
+[null, 0]<br /><br />
+Explanation<br />
+WordFilter wordFilter = new WordFilter(["apple"]);<br />
+wordFilter.f("a", "e"); // return 0, because the word at index 0 has prefix = "a" and suffix = 'e".<br />
+ 
+* Constraints: `1 <= words.length <= 15000`<br />
+`1 <= words[i].length <= 10`<br />
+`1 <= prefix.length, suffix.length <= 10`<br />
+`words[i]`, `prefix` and `suffix` consist of lower-case English letters only.<br />
+At most `15000` calls will be made to the function `f`.<br />
+	
+```cpp
+class WordFilter {
+public:
+    unordered_map<string, int> mp; //stores preffix and suffix sequence in it
+    
+    WordFilter(vector<string>& words) {
+        int n = words.size(); 
+        for(int i=0; i<n; i++) //cover each word in words
+        {
+            string word = words[i]; 
+            int wordsize = word.size();
+            
+            //storing all possible sequence of prefix and suffix of a word in the hashmap
+            for(int j=1; j<=wordsize; j++) //for preffix 
+            {
+                string pre = word.substr(0,j);
+                
+                for(int k=0; k<wordsize; k++) //for suffix
+                {
+                    string suff = word.substr(k, wordsize);
+                    mp[pre + "|" + suff] = i+1; //set index i+1 for all possible sequence of a word
+                    //we set i+1 to handle i=0 because by-default map initialized with 0 
+                }
+            }
+        }
+    }
+    
+    int f(string prefix, string suffix) 
+    {
+        string s = prefix + "|" + suffix;
+        return mp[s]-1; //if sequence found in hashmap we return its index
+    }
+};
+/**
+ * Your WordFilter object will be instantiated and called as such:
+ * WordFilter* obj = new WordFilter(words);
+ * int param_1 = obj->f(prefix,suffix);
+ */
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[1268. Search Suggestions System](https://leetcode.com/problems/search-suggestions-system/)**<br />
+You are given an array of strings `products` and a string `searchWord`.<br />
+Design a system that suggests at most three product names from `products` after each character of `searchWord` is typed. Suggested products should have common prefix with `searchWord`. If there are more than three products with a common prefix return the three lexicographically minimums products.<br />
+Return _a list of lists of the suggested products after each character of `searchWord` is typed_.<br />
+
+>Example 1:<br />
+Input: products = ["mobile","mouse","moneypot","monitor","mousepad"], searchWord = "mouse"<br />
+Output: [<br />
+["mobile","moneypot","monitor"],<br />
+["mobile","moneypot","monitor"],<br />
+["mouse","mousepad"],<br />
+["mouse","mousepad"],<br />
+["mouse","mousepad"]<br />
+]<br />
+Explanation: products sorted lexicographically = ["mobile","moneypot","monitor","mouse","mousepad"]<br />
+After typing m and mo all products match and we show user ["mobile","moneypot","monitor"]<br />
+After typing mou, mous and mouse the system suggests ["mouse","mousepad"]<br />
+
+>Example 2:<br />
+Input: products = ["havana"], searchWord = "havana"<br />
+Output: [["havana"],["havana"],["havana"],["havana"],["havana"],["havana"]]<br />
+
+>Example 3:<br />
+Input: products = ["bags","baggage","banner","box","cloths"], searchWord = "bags"<br />
+Output: [["baggage","bags","banner"],["baggage","bags","banner"],["baggage","bags"],["bags"]]<br />
+ 
+* Constraints: `1 <= products.length <= 1000`<br />
+`1 <= products[i].length <= 3000`<br />
+`1 <= sum(products[i].length) <= 2 * 10^4`<br />
+All the strings of `products` are **unique**.<br />
+`products[i]` consists of lowercase English letters.<br />
+`1 <= searchWord.length <= 1000`<br />
+`searchWord` consists of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        sort(products.begin(),products.end());
+        int l=0,r=products.size()-1;
+        vector<vector<string>> ans;
+        for(int i=0;i<searchWord.size();i++){
+            char ch=searchWord[i];
+            vector<string>temp;
+            while(l<=r && products[l][i]!=ch)
+                l++;
+            while(l<=r && products[r][i]!=ch)
+                r--;
+            for(int j=l;j<l+min(3,r-l+1);j++)
+                temp.push_back(products[j]);
+            ans.push_back(temp);
+        }
+        return ans;
+    }  
+};
+```
