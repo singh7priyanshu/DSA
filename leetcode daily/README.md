@@ -4531,3 +4531,111 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+
+<br /> <br /> <br />**[215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/)**<br />
+Given an integer array `nums` and an integer `k`, return _the `kth` largest element in the array_.<br />
+Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
+	
+>Example 1:<br />
+Input: nums = [3,2,1,5,6,4], k = 2<br />
+Output: 5<br />
+	
+>Example 2:<br />
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4<br />
+Output: 4<br />
+ 
+* Constraints: `1 <= k <= nums.length <= 10^4`<br />
+`-10^4 <= nums[i] <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for(int i=0;i<k;i++) pq.push(nums[i]);
+        for(int i=k;i<nums.size();i++) {
+            if(pq.top()<nums[i]) {
+                pq.pop();
+                pq.push(nums[i]);
+            }
+        }
+        return pq.top();
+    }
+};
+```
+				 
+				 
+				 
+				 
+<br /> <br /> <br />**[630. Course Schedule III](https://leetcode.com/problems/course-schedule-iii/)**<br />
+There are `n` different online courses numbered from `1` to `n`. You are given an array `courses` where `courses[i] = [durationi, lastDayi]` indicate that the `ith` course should be taken **continuously** for `durationi` days and must be finished before or on `lastDayi`.<br />
+You will start on the `1st` day and you cannot take two or more courses simultaneously.<br />
+Return _the maximum number of courses that you can take_.<br />
+
+>Example 1:<br />
+Input: courses = [[100,200],[200,1300],[1000,1250],[2000,3200]]<br />
+Output: 3<br />
+Explanation: <br />
+There are totally 4 courses, but you can take 3 courses at most:<br />
+First, take the 1st course, it costs 100 days so you will finish it on the 100th day, and ready to take the next course on the 101st day.<br />
+Second, take the 3rd course, it costs 1000 days so you will finish it on the 1100th day, and ready to take the next course on the 1101st day. <br />
+Third, take the 2nd course, it costs 200 days so you will finish it on the 1300th day. <br />
+The 4th course cannot be taken now, since you will finish it on the 3300th day, which exceeds the closed date.<br />
+
+>Example 2:<br />
+Input: courses = [[1,2]]<br />
+Output: 1<br />
+
+>Example 3:<br />
+Input: courses = [[3,2],[4,3]]<br />
+Output: 0<br />
+ 
+* Constraints: `1 <= courses.length <= 10^4`<br />
+`1 <= durationi, lastDayi <= 10^4`<br />
+	
+```cpp
+class Solution
+{
+public:
+    //comparartor function to comare if the lastday of a course
+    static bool comp(vector<int> &a, vector<int> &b){
+        return a[1] < b[1];
+    }
+    
+    int scheduleCourse(vector<vector<int>> &courses){
+        
+        //soring according to lastday in increasing order.
+        sort(courses.begin(), courses.end(), comp);
+        
+        //priority queue to store duration of couses
+        priority_queue<int> maxD;
+
+        int time = 0; // time to store the total time taken
+        for (auto course : courses){
+            
+            //if total time taken including this course is lesser than or equak to the last day then add couse to queue and add the time to total time
+            if (time + course[0] <= course[1]){
+                time += course[0];
+                maxD.push(course[0]);
+            }
+            
+            //else if there are element in priority queue then check if current course is shorter than the max previous couse then just replace that with current
+            else if (!maxD.empty() && maxD.top() >= course[0]){
+                time = time - maxD.top() + course[0]; //replacing max previous course with current in toytal time
+                maxD.pop();                           //taking out max previous
+                maxD.push(course[0]);                 //adding current course
+            }
+        }
+        
+        //as queue only contains the courses taken so size of queue is the number of courses.
+        return maxD.size();
+    }
+};
+```
+	
+	
