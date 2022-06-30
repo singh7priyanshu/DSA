@@ -4804,3 +4804,211 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+
+<br /> <br /> <br />**[1689. Partitioning Into Minimum Number Of Deci-Binary Numbers](https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers/)**<br />
+A decimal number is called **deci-binary** if each of its digits is either `0` or `1` without any leading zeros. For example, `101` and `1100` are **deci-binary**, while `112` and `3001` are not.<br />
+Given a string `n` that represents a positive decimal integer, return _the **minimum** number of positive **deci-binary** numbers needed so that they sum up to_ `n`.<br />
+
+>Example 1:<br />
+Input: n = "32"<br />
+Output: 3<br />
+Explanation: 10 + 11 + 11 = 32<br />
+
+>Example 2:<br />
+Input: n = "82734"<br />
+Output: 8<br />
+
+>Example 3:<br />
+Input: n = "27346209830709182346"<br />
+Output: 9<br />
+ 
+* Constraints: `1 <= n.length <= 10^5`<br />
+`n` consists of only digits.<br />
+`n` does not contain any leading zeros and represents a positive integer.<br />
+	
+```cpp
+class Solution {
+public:
+    int minPartitions(string n) {
+        sort(n.begin(), n.end());
+        char lastcharacter = n.back();
+        lastcharacter -= '0';
+        return lastcharacter;
+    }
+};
+
+// OR
+-
+class Solution {
+public:
+    int minPartitions(string n) {
+        int len = n.length();
+        int max_digit_in_string = 0;
+        
+        for(auto element : n)
+        {
+            // convert the string number into integer number by subtracting the ascii value.
+            int digit = element - '0';
+            max_digit_in_string = max(max_digit_in_string,digit);
+        }
+        
+        return max_digit_in_string;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1647. Minimum Deletions to Make Character Frequencies Unique](https://leetcode.com/problems/minimum-deletions-to-make-character-frequencies-unique/)**<br />
+A string `s` is called **good** if there are no two different characters in `s` that have the same **frequency**.<br />
+Given a string `s`, return _the **minimum** number of characters you need to delete to make `s` **good**_.<br />
+The **frequency** of a character in a string is the number of times it appears in the string. For example, in the string `"aab"`, the **frequency** of `'a'` is `2`, while the **frequency** of `'b'` is `1`.<br />
+
+>Example 1:<br />
+Input: s = "aab"<br />
+Output: 0<br />
+Explanation: s is already good.<br />
+
+>Example 2:<br />
+Input: s = "aaabbbcc"<br />
+Output: 2<br />
+Explanation: You can delete two 'b's resulting in the good string "aaabcc".<br />
+Another way it to delete one 'b' and one 'c' resulting in the good string "aaabbc".<br />
+
+>Example 3:<br />
+Input: s = "ceabaacb"<br />
+Output: 2<br />
+Explanation: You can delete both 'c's resulting in the good string "eabaab".<br />
+Note that we only care about characters that are still in the string at the end (i.e. frequency of 0 is ignored).<br />
+ 
+* Constraints: `1 <= s.length <= 10^5`<br />
+`s` contains only lowercase English letters.<br />
+
+```cpp
+class Solution {
+public:
+    int minDeletions(string s) {
+        unordered_map<int,int>charcnt;
+        unordered_map<int,int>uniquefreq;
+        int count=0;
+        for(int i=0;i<s.size();i++){
+            charcnt[s[i]-'a']++;
+        }
+        for(auto &it : charcnt){
+            int x= it.second;
+            if(uniquefreq[x]!=0){
+                while(x>0 && uniquefreq[x]!=0){
+                    x--;
+                    count++;
+                }
+            }
+            if(x>0)uniquefreq[x]++;
+        }
+        return count;
+    }
+};
+```
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[406. Queue Reconstruction by Height](https://leetcode.com/problems/queue-reconstruction-by-height/)**<br />
+You are given an array of people, `people`, which are the attributes of some people in a queue (not necessarily in order). Each `people[i] = [hi, ki]` represents the `ith` person of height `hi` with **exactly** `ki` other people in front who have a height greater than or equal to `hi`.<br />
+Reconstruct and return _the queue that is represented by the input array_ `people`. The returned queue should be formatted as an array `queue`, where `queue[j] = [hj, kj]` is the attributes of the `jth` person in the queue (`queue[0]` is the person at the front of the queue).<br />
+
+>Example 1:<br />
+Input: people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]<br />
+Output: [[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]<br />
+Explanation:<br />
+Person 0 has height 5 with no other people taller or the same height in front.<br />
+Person 1 has height 7 with no other people taller or the same height in front.<br />
+Person 2 has height 5 with two persons taller or the same height in front, which is person 0 and 1.<br />
+Person 3 has height 6 with one person taller or the same height in front, which is person 1.<br />
+Person 4 has height 4 with four people taller or the same height in front, which are people 0, 1, 2, and 3.<br />
+Person 5 has height 7 with one person taller or the same height in front, which is person 1.<br />
+Hence [[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]] is the reconstructed queue.<br />
+
+>Example 2:<br />
+Input: people = [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]<br />
+Output: [[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]<br />
+ 
+* Constraints: `1 <= people.length <= 2000`<br />
+`0 <= hi <= 10^6`<br />
+`0 <= ki < people.length`<br />
+It is guaranteed that the queue can be reconstructed.<br />
+
+```cpp
+class Solution {
+public:
+    static bool compare(vector<int>& a, vector<int> & b){
+        if(a[0] == b[0])return a[1] < b[1];
+        return a[0] > b[0];
+    }
+
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {   
+        int n = people.size();
+        sort(people.begin(), people.end(), compare);
+        vector<vector<int>> res; 
+        for(int i = 0; i < n; i++){
+            int idx = people[i][1];
+            res.insert(res.begin() + idx, people[i]);
+        }
+        return res;   
+    }
+};
+```
+	
+<br /> <br /> <br />**[462. Minimum Moves to Equal Array Elements II](https://leetcode.com/problems/minimum-moves-to-equal-array-elements-ii/)**<br />
+Given an integer array `nums` of size `n`, return _the minimum number of moves required to make all array elements equal_.<br />
+In one move, you can increment or decrement an element of the array by `1`.<br />
+Test cases are designed so that the answer will fit in a **32-bit** integer.<br />
+
+>Example 1:<br />
+Input: nums = [1,2,3]<br />
+Output: 2<br />
+Explanation:<br />
+Only two moves are needed (remember each move increments or decrements one element):<br />
+[1,2,3]  =>  [2,2,3]  =>  [2,2,2]<br />
+
+>Example 2:<br />
+Input: nums = [1,10,2,9]<br />
+Output: 16<br />
+	
+* Constraints: `n == nums.length`<br />
+`1 <= nums.length <= 10^5`<br />
+`-10^9 <= nums[i] <= 10^9`<br />
+
+```cpp
+/*There is a function with syntax nth_element (RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last);
+The function of this is that it rearranges the array in such a way such that the element at the nth position is the one which should be at that position if we sort the list from the first to last iterator. It uses the quick select method for this. For more details google it.
+
+In this problem we don't need full array sorted we just need the median which is the n/2 th element in the sorted array. So this can be achived by nth_element(nums.begin(), nums.begin()+(n/2), nums.end()). After that continue as in first approach.
+
+The advantage of this approach is that the time complexity becomes O(n) as nth_element is O(n) fuction unlike sort.
+
+Time Complexity : O(n) for finding median + O(n) for loop = O(n), Space complexity : O(1)
+*/
+
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n = nums.size(), steps = 0;
+        nth_element(nums.begin(), nums.begin()+(n/2), nums.end());
+        int median = nums[n/2];
+        for(int i=0; i<n; i++){
+            steps += abs(nums[i] - median);
+        }
+        return steps;
+    }
+};
+```
