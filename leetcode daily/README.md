@@ -4385,3 +4385,86 @@ public:
     }  
 };
 ```
+
+					      
+					      
+					      
+					     
+<br /> <br /> <br />**[820. Short Encoding of Words](https://leetcode.com/problems/short-encoding-of-words/)**<br />
+A **valid encoding** of an array of `words` is any reference string `s` and array of indices `indices` such that:<br />
+	
+ * `words.length == indices.length`<br />
+ * The reference string s ends with the `'#'` character.<br />
+ * For each index `indices[i]`, the **substring** of `s` starting from `indices[i]` and up to (but not including) the next `'#'` character is equal to `words[i]`.<br />
+	
+Given an array of `words`, return _the **length of the shortest reference string** `s` possible of any **valid encoding** of_ `words`.<br />
+
+>Example 1:<br />
+Input: words = ["time", "me", "bell"]<br />
+Output: 10<br />
+Explanation: A valid encoding would be s = "time#bell#" and indices = [0, 2, 5].<br />
+words[0] = "time", the substring of s starting from indices[0] = 0 to the next '#' is underlined in "time#bell#"<br />
+words[1] = "me", the substring of s starting from indices[1] = 2 to the next '#' is underlined in "time#bell#"<br />
+words[2] = "bell", the substring of s starting from indices[2] = 5 to the next '#' is underlined in "time#bell#"<br />
+
+>Example 2:<br />
+Input: words = ["t"]<br />
+Output: 2<br />
+Explanation: A valid encoding would be s = "t#" and indices = [0].<br />
+ 
+* Constraints: `1 <= words.length <= 2000`<br />
+`1 <= words[i].length <= 7`<br />
+`words[i]` consists of only lowercase letters.<br />
+
+```cpp
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        string ans;
+        sort(words.begin(),words.end(),[](string &a,string &b){return a.size() > b.size();});
+        for(string &s:words)
+            if(ans.find(s + "#") == string::npos) ans += s + "#";
+        return ans.size();
+    }
+};
+	
+// C++ program to demonstrate the use
+// of string::npos
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function that using string::npos
+// to find the index of the occurrence
+// of any string in the given string
+void fun(string s1, string s2)
+{
+	// Find position of string s2
+	int found = s1.find(s2);
+
+	// Check if position is -1 or not
+	if (found != string::npos) {
+
+		cout << "first " << s2
+			<< " found at: "
+			<< (found) << endl;
+	}
+
+	else
+		cout << s2 << " is not in"
+			<< "the string" << endl;
+}
+
+// Driver Code
+int main()
+{
+	// Given strings
+	string s1 = "geeksforgeeks";
+	string s2 = "for";
+	string s3 = "no";
+
+	// Function Call
+	fun(s1, s2);
+
+	return 0;
+}
+```
