@@ -4713,3 +4713,47 @@ public:
     }
 };
 ```
+
+	
+	
+	
+
+<br /> <br /> <br />**[665. Non-decreasing Array](https://leetcode.com/problems/non-decreasing-array/)**<br />
+Given an array `nums` with `n` integers, your task is to check if it could become non-decreasing by modifying **at most one element**.<br />
+We define an array is non-decreasing if `nums[i] <= nums[i + 1]` holds for every `i` (**0-based**) such that (`0 <= i <= n - 2`).<br />
+
+>Example 1:<br />
+Input: nums = [4,2,3]<br />
+Output: true<br />
+Explanation: You could modify the first 4 to 1 to get a non-decreasing array.<br />
+
+>Example 2:<br />
+Input: nums = [4,2,1]<br />
+Output: false<br />
+Explanation: You can't get a non-decreasing array by modify at most one element.<br />
+ 
+* Constraints: `n == nums.length`<br />
+`1 <= n <= 10^4`<br />
+`-10^5 <= nums[i] <= 10^5`<br />
+
+```cpp
+class Solution {
+public:
+    bool checkPossibility(vector<int>& nums) {
+        int count = 0;
+        for(int i = 1;i<nums.size();i++){
+            if(nums[i-1]>nums[i]){
+                if(i == 1)count++;
+                else{
+                    if(nums[i]<nums[i-2] && (i<nums.size()-1 && nums[i+1]<=nums[i-1]))return false;
+                    else count++;
+                }
+            }
+            if(count>1)return false;;
+        }
+        return true;
+    }
+};
+```
+	
+	
