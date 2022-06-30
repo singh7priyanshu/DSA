@@ -4468,3 +4468,66 @@ int main()
 	return 0;
 }
 ```
+
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1642. Furthest Building You Can Reach](https://leetcode.com/problems/furthest-building-you-can-reach/)**<br />
+You are given an integer array `heights` representing the heights of buildings, some `bricks`, and some `ladders`.<br />
+You start your journey from building 0 and move to the next building by possibly using bricks or ladders.<br />
+While moving from building `i` to building `i+1` (**0-indexed**),<br />
+
+ * If the current building's height is **greater than or equal** to the next building's height, you do **not** need a ladder or bricks.<br />
+ * If the current building's height is **less than** the next building's height, you can either use **one ladder** or `(h[i+1] - h[i])` **bricks**.<br />
+
+Return _the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally_.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/10/27/q4.gif"><br />
+Input: heights = [4,2,7,6,9,14,12], bricks = 5, ladders = 1<br />
+Output: 4<br />
+Explanation: Starting at building 0, you can follow these steps:<br />
+- Go to building 1 without using ladders nor bricks since 4 >= 2.<br />
+- Go to building 2 using 5 bricks. You must use either bricks or ladders because 2 < 7.<br />
+- Go to building 3 without using ladders nor bricks since 7 >= 6.<br />
+- Go to building 4 using your only ladder. You must use either bricks or ladders because 6 < 9.<br />
+It is impossible to go beyond building 4 because you do not have any more bricks or ladders.<br />
+											       
+>Example 2:<br />
+Input: heights = [4,12,2,7,3,18,20,3,19], bricks = 10, ladders = 2<br />
+Output: 7<br />
+											       
+>Example 3:<br />
+Input: heights = [14,3,19,3], bricks = 17, ladders = 0<br />
+Output: 3<br />
+
+* Constraints: `1 <= heights.length <= 10^5`<br />
+`1 <= heights[i] <= 10^6`<br />
+`0 <= bricks <= 10^9`<br />
+`0 <= ladders <= heights.length`<br />
+		
+```cpp
+class Solution {
+public:
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+	
+        int n = heights.size();
+        int brickSum = 0;
+        for(int i = 1; i < n; i++) {
+            int diff = heights[i] - heights[i-1];
+            if(diff <= 0) continue;
+            
+            pq.push(diff);
+            if(pq.size() > ladders) {
+                brickSum += pq.top();
+                pq.pop();
+            }   
+            if(brickSum > bricks) return i - 1;
+        }
+        return n-1;    
+    }
+};
+```
