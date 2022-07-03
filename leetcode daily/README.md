@@ -5184,3 +5184,101 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[131. Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)**<br />
+Given a string `s`, partition `s` such that every substring of the partition is a **palindrome**. Return all possible palindrome partitioning of `s`.<br />
+A **palindrome** string is a string that reads the same backward as forward.<br />
+
+>Example 1:<br />
+Input: s = "aab"<br />
+Output: [["a","a","b"],["aa","b"]]<br />
+
+>Example 2:<br />
+Input: s = "a"<br />
+Output: [["a"]]<br />
+ 
+* Constraints: `1 <= s.length <= 16`<br />
+`s` contains only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> result;
+        vector<string> path;
+        partition(s, 0, path, result);//dfs calls
+        return result;
+    }
+private: 
+    //DFS steps
+    void partition(string& s, int start, vector<string>& path, vector<vector<string>>& result) {
+        int n = s.length();
+        if (start == n) {
+            result.push_back(path);
+        } else {
+            for (int i = start; i < n; i++) {
+                if (isPalindrome(s, start, i)) {
+                    path.push_back(s.substr(start, i - start + 1));
+                    partition(s, i + 1, path, result);
+                    path.pop_back();
+                }
+            }
+        }
+    }
+    //helper function to safe check whether a substr is palindrome or not
+    bool isPalindrome(string& s, int l, int r) {
+        while (l < r) {
+            if (s[l++] != s[r--]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[67. Add Binary](https://leetcode.com/problems/add-binary/)**<br />
+Given two binary strings `a` and `b`, return _their sum as a binary string_.<br />
+
+>Example 1:<br />
+Input: a = "11", b = "1"<br />
+Output: "100"<br />
+
+>Example 2:<br />
+Input: a = "1010", b = "1011"<br />
+Output: "10101"<br />
+ 
+* Constraints: `1 <= a.length, b.length <= 10^4`<br />
+`a` and `b` consist only of `'0'` or `'1'` characters.<br />
+Each string does not contain leading zeros except for the zero itself.<br />
+	
+```cpp
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string result = "";
+        int i = a.size()-1 ; int j = b.size()-1;
+        int sum , carry = 0;
+        while(i>=0 || j>=0){
+            sum = carry;
+            if(i>= 0) sum += a[i--] - '0';
+            if(j>= 0) sum += b[j--] - '0';
+            result += to_string(sum % 2);
+            carry = sum /2;
+        }
+        if(carry != 0) result +='1';
+        reverse(result.begin(),result.end());
+        return result;
+    }
+};
+```
