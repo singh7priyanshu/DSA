@@ -5066,3 +5066,74 @@ public:
     }
 };
 ```
+
+	
+	
+	
+
+<br /> <br /> <br />**[1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts](https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts/)**<br />
+You are given a rectangular cake of size `h x w` and two arrays of integers `horizontalCuts` and `verticalCuts` where:<br />
+	
+ * `horizontalCuts[i]` is the distance from the top of the rectangular cake to the `ith` horizontal cut and similarly, and<br />
+ * `verticalCuts[j]` is the distance from the left of the rectangular cake to the `jth` vertical cut.<br />
+	
+Return _the maximum area of a piece of cake after you cut at each horizontal and vertical position provided in the arrays_ `horizontalCuts` and `verticalCuts`. Since the answer can be a large number, return this **modulo** `10^9 + 7`.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/05/14/leetcode_max_area_2.png"><br />
+Input: h = 5, w = 4, horizontalCuts = [1,2,4], verticalCuts = [1,3]<br />
+Output: 4 <br />
+Explanation: The figure above represents the given rectangular cake. Red lines are the horizontal and vertical cuts. After you cut the cake, the green piece of cake has the maximum area.<br />
+
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/05/14/leetcode_max_area_3.png"><br />
+Input: h = 5, w = 4, horizontalCuts = [3,1], verticalCuts = [1]<br />
+Output: 6<br />
+Explanation: The figure above represents the given rectangular cake. Red lines are the horizontal and vertical cuts. After you cut the cake, the green and yellow pieces of cake have the maximum area.<br />
+
+>Example 3:<br />
+Input: h = 5, w = 4, horizontalCuts = [3], verticalCuts = [3]<br />
+Output: 9<br />
+ 
+* Constraints: `2 <= h, w <= 10^9`<br />
+`1 <= horizontalCuts.length <= min(h - 1, 10^5)`<br />
+`1 <= verticalCuts.length <= min(w - 1, 10^5)`<br />
+`1 <= horizontalCuts[i] < h`<br />
+`1 <= verticalCuts[i] < w`<br />
+All the elements in `horizontalCuts` are distinct.<br />
+All the elements in `verticalCuts` are distinct.<br />
+	
+```cpp
+class Solution {
+public:
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
+        
+        horizontalCuts.push_back(0);
+        horizontalCuts.push_back(h);
+        sort(horizontalCuts.begin(),horizontalCuts.end());
+        
+        
+        verticalCuts.push_back(0);
+        verticalCuts.push_back(w);
+        sort(verticalCuts.begin(),verticalCuts.end());
+        
+        
+        long long int maxh=0, maxw=0;
+        
+        for(int i=0;i<horizontalCuts.size()-1;i++){
+            if(maxh<(horizontalCuts[i+1]-horizontalCuts[i])){
+                maxh = (horizontalCuts[i+1]-horizontalCuts[i])%1000000007;
+            }
+        }
+        
+         for(int i=0;i<verticalCuts.size()-1;i++){
+            if(maxw<(verticalCuts[i+1]-verticalCuts[i])){
+                maxw = (verticalCuts[i+1]-verticalCuts[i])%1000000007;
+            }
+        }
+  
+        return (maxh*maxw)%1000000007;
+    }
+};
+```
+
