@@ -5137,3 +5137,50 @@ public:
 };
 ```
 
+
+	
+	
+	
+
+<br /> <br /> <br />**[997. Find the Town Judge](https://leetcode.com/problems/find-the-town-judge/)**<br />
+In a town, there are `n` people labeled from `1` to `n`. There is a rumor that one of these people is secretly the town judge.
+If the town judge exists, then:<br />
+	
+ 1. The town judge trusts nobody.<br />
+ 2. Everybody (except for the town judge) trusts the town judge.<br />
+ 3. There is exactly one person that satisfies properties `1` and `2`.<br />
+	
+You are given an array `trust` where `trust[i] = [ai, bi]` representing that the person labeled `ai` trusts the person labeled `bi`.<br />
+Return _the label of the town judge if the town judge exists and can be identified, or return_ `-1` _otherwise_.<br />
+
+>Example 1:<br />
+Input: n = 2, trust = [[1,2]]<br />
+Output: 2<br />
+
+>Example 2:<br />
+Input: n = 3, trust = [[1,3],[2,3]]<br />
+Output: 3<br />
+
+>Example 3:<br />
+Input: n = 3, trust = [[1,3],[2,3],[3,1]]<br />
+Output: -1<br />
+ 
+* Constraints: `1 <= n <= 1000`<br />
+`0 <= trust.length <= 10^4`<br />
+`trust[i].length == 2`<br />
+All the pairs of `trust` are **unique**.<br />
+`ai != bi`<br />
+`1 <= ai, bi <= n`<br />
+	
+```cpp
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        vector<int> a(n+1,0), b(n+1, 0); // a -> b
+        for (auto p : trust)a[p[0]]++, b[p[1]]++;
+        if (count(a.begin() + 1, a.end(), 0) != 1)return -1;
+        if (count(b.begin() + 1, b.end(), n - 1) != 1)return -1;
+        return find(a.begin() + 1, a.end(), 0) - a.begin();  
+    }
+};
+```
