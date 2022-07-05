@@ -5522,3 +5522,63 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)**<br />
+Given an unsorted array of integers `nums`, return _the length of the longest consecutive elements sequence_.<br />
+You must write an algorithm that runs in `O(n)` time.<br />
+
+>Example 1:<br />
+Input: nums = [100,4,200,1,3,2]<br />
+Output: 4<br />
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.<br />
+
+>Example 2:<br />
+Input: nums = [0,3,7,2,5,8,4,6,0,1]<br />
+Output: 9<br />
+ 
+* Constraints: `0 <= nums.length <= 10^5`<br />
+`-10^9 <= nums[i] <= 10^9`<br />
+
+```cpp
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> s(nums.begin(),nums.end()); // this is faster
+        
+        // for(int i = 0; i<nums.size(); i++)
+        // {
+        //     s.insert(nums[i]);
+        // }
+        
+        int longest_sequence = 0;
+        
+        for(int i=0; i<nums.size(); i++)
+        {
+            if(s.find(nums[i] - 1)!=s.end())
+                continue;
+            
+            else
+            {
+                int count = 0;
+                int current_element = nums[i];
+                
+                while(s.find(current_element) != s.end())
+                {
+                    count++;
+                    current_element++;
+                }
+                
+                longest_sequence = max(longest_sequence,count);
+            }
+        }
+        
+        return longest_sequence;
+    }
+};
+```
