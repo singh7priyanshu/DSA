@@ -1,4 +1,4 @@
-# Leetcode daily medium question 
+# Leetcode daily medium questions 
 **[289. Game of Life](https://leetcode.com/problems/game-of-life/)**<br />
 According to `Wikipedia's article`: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."<br />
 
