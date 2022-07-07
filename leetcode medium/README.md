@@ -3503,3 +3503,64 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+<br /> <br /> <br />**[97. Interleaving String](https://leetcode.com/problems/interleaving-string/)**<br />
+Given strings `s1`, `s2`, and `s3`, find whether `s3` is formed by an **interleaving** of `s1` and `s2`.<br />
+An **interleaving** of two strings `s` and `t` is a configuration where they are divided into **non-empty** substrings such that:<br />
+
+ * `s = s1 + s2 + ... + sn`<br />
+ * `t = t1 + t2 + ... + tm`<br />
+ * `|n - m| <= 1`<br />
+ * The **interleaving** is `s1 + t1 + s2 + t2 + s3 + t3 + ...` or `t1 + s1 + t2 + s2 + t3 + s3 + ...`<br />
+	   
+**Note:** `a + b` is the concatenation of strings `a` and `b`.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/09/02/interleave.jpg"><br />
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"<br />
+Output: true<br />
+
+>Example 2:<br />
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"<br />
+Output: false<br />
+
+>Example 3:<br />
+Input: s1 = "", s2 = "", s3 = ""<br />
+Output: true<br />
+ 
+* Constraints: `0 <= s1.length, s2.length <= 100`<br />
+`0 <= s3.length <= 200`<br />
+`s1`, `s2`, and `s3` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int m=s1.size();
+        int n=s2.size();
+        if(m==0 && n==0 && s3.size()==0)return true;
+        if(m+n !=s3.size())return false;
+        if(m==0 && n==0)return false;
+        vector<vector<bool>> dp(m+1 , vector<bool>(n+1 , false));
+        dp[0][0]=true;
+        for(int i=1;i<=m;i++){
+            if(s1[i-1]==s3[i-1] && dp[i-1][0]==true)dp[i][0]=true;
+        }
+        for(int i=1;i<=n;i++){
+            if(s2[i-1]==s3[i-1] && dp[0][i-1]==true)dp[0][i]=true;
+        }
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                int k=i+j-1;
+                if(s1[i-1]==s3[k] && dp[i-1][j]==true) dp[i][j]=true;
+                if(s2[j-1]==s3[k] && dp[i][j-1]==true)dp[i][j]=true;
+            }
+        }
+        return dp[m][n];
+    }
+};
+```
