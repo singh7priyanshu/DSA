@@ -13,7 +13,7 @@ Table: `World`
 +-------------+---------+
 name is the primary key column for this table.
 Each row of this table gives information about the name of a country, the continent to which it belongs, its area, the population, and its GDP value.
-</pre><br />
+</pre>
 
 A country is **big** if:<br />
  * it has an area of at least three million (i.e., `3000000 km^2`), or<br />
@@ -44,7 +44,7 @@ Output:
 | Afghanistan | 25500100   | 652230  |
 | Algeria     | 37100000   | 2381741 |
 +-------------+------------+---------+
-</pre><br />
+</pre>
 
 ```sql
 -- simple method
@@ -77,7 +77,7 @@ Table: `Products`<br />
 product_id is the primary key for this table.
 low_fats is an ENUM of type ('Y', 'N') where 'Y' means this product is low fat and 'N' means it is not.
 recyclable is an ENUM of types ('Y', 'N') where 'Y' means this product is recyclable and 'N' means it is not.
-</pre><br />
+</pre>
 Write an SQL query to find the ids of products that are both low fat and recyclable.<br />
 
 Return the result table in **any order**.<br />
@@ -128,7 +128,7 @@ Table: `Customer`<br />
 +-------------+---------+
 id is the primary key column for this table.
 Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
-</pre><br />
+</pre>
 Write an SQL query to report the names of the customer that are **not referred by** the customer with `id = 2`.<br />
 Return the result table in `any order`.<br />
 The query result format is in the following example.<br />
@@ -156,7 +156,7 @@ Output:
 | Bill |
 | Zack |
 +------+
-</pre><br />
+</pre>
 
 ```sql
 select name 
@@ -200,7 +200,7 @@ Table: `Customers`<br />
 +-------------+---------+
 id is the primary key column for this table.
 Each row of this table indicates the ID and name of a customer.
-</pre><br />
+</pre>
 Table: `Orders`<br />
 <pre>
 +-------------+------+
@@ -212,7 +212,7 @@ Table: `Orders`<br />
 id is the primary key column for this table.
 customerId is a foreign key of the ID from the Customers table.
 Each row of this table indicates the ID of an order and the ID of the customer who ordered it.
-</pre><br />
+</pre>
 Write an SQL query to report all customers who never order anything.<br />
 Return the result table in **any order**.<br />
 The query result format is in the following example.<br />
@@ -242,7 +242,7 @@ Output:
 | Henry     |
 | Max       |
 +-----------+
-</pre><br />
+</pre>
 
 ```sql
 -- using left join 
@@ -274,7 +274,7 @@ Table: `Employees`<br />
 +-------------+---------+
 employee_id is the primary key for this table.
 Each row of this table indicates the employee ID, employee name, and salary.
-</pre><br />
+</pre>
 Write an SQL query to calculate the bonus of each employee. The bonus of an employee is `100%` of their salary if the ID of the employee is **an odd number** and **the employee name does not start with the character** `'M'`. The bonus of an employee is `0` otherwise.<br />
 Return the result table ordered by `employee_id`.<br />
 The query result format is in the following example.<br />
@@ -306,7 +306,7 @@ Explanation:
 The employees with IDs 2 and 8 get 0 bonus because they have an even employee_id.
 The employee with ID 3 gets 0 bonus because their name starts with 'M'.
 The rest of the employees get a 100% bonus.
-</pre><br />
+</pre>
 
 
 ```sql
@@ -410,7 +410,7 @@ Table: `Salary`<br />
 id is the primary key for this table.
 The sex column is ENUM value of type ('m', 'f').
 The table contains information about an employee.
-</pre><br />
+</pre>
 Write an SQL query to swap all `'f'` and `'m'` values (i.e., change all `'f'` values to `'m'` and vice versa) with a **single update statement** and no intermediate temporary tables.<br />
 Note that you must write a single update statement, **do not** write any select statement for this problem.<br />
 The query result format is in the following example.<br />
@@ -438,7 +438,7 @@ Output:
 Explanation: 
 (1, A) and (3, C) were changed from 'm' to 'f'.
 (2, B) and (4, D) were changed from 'f' to 'm'.
-</pre><br />
+</pre>
 
 ```sql
 -- using if/else 
