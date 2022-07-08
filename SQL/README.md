@@ -1,5 +1,4 @@
 # Leetcode SQL
-## SQL Exercise 1:
 **[595. Big Countries](https://leetcode.com/problems/big-countries/)**<br />
 Table: `World`
 <pre>
@@ -254,4 +253,139 @@ SELECT name as Customers FROM Customers c
 
 -- using not in 
 SELECT name as Customers FROM Customers WHERE id not in (SELECT customerId FROM Orders);
+```
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1873. Calculate Special Bonus](https://leetcode.com/problems/calculate-special-bonus/)**<br />
+Table: `Employees`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| name        | varchar |
+| salary      | int     |
++-------------+---------+
+employee_id is the primary key for this table.
+Each row of this table indicates the employee ID, employee name, and salary.
+</pre><br />
+Write an SQL query to calculate the bonus of each employee. The bonus of an employee is `100%` of their salary if the ID of the employee is **an odd number** and **the employee name does not start with the character** `'M'`. The bonus of an employee is `0` otherwise.<br />
+Return the result table ordered by `employee_id`.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Employees table:
++-------------+---------+--------+
+| employee_id | name    | salary |
++-------------+---------+--------+
+| 2           | Meir    | 3000   |
+| 3           | Michael | 3800   |
+| 7           | Addilyn | 7400   |
+| 8           | Juan    | 6100   |
+| 9           | Kannon  | 7700   |
++-------------+---------+--------+
+Output: 
++-------------+-------+
+| employee_id | bonus |
++-------------+-------+
+| 2           | 0     |
+| 3           | 0     |
+| 7           | 7400  |
+| 8           | 0     |
+| 9           | 7700  |
++-------------+-------+
+Explanation: 
+The employees with IDs 2 and 8 get 0 bonus because they have an even employee_id.
+The employee with ID 3 gets 0 bonus because their name starts with 'M'.
+The rest of the employees get a 100% bonus.
+</pre><br />
+
+
+```sql
+/*
+According to the Problem we need employee_id and bonus as output but, we aren't having any bonus column. 
+In this scenario we will use CASE to create bonus for the output table using conditions given in the problem 
+where "M%" is a wildcard stating anything starting with M. If conditions are matched it is same as salary ie 100% else it is 0
+
+<> is not equal to in sql
+
+METACHARACTER	DESCRIPTION	EXAMPLE	EXAMPLES MATCHES
+^	    Start the match at the beginning of a string	        ^c%	cat, car, chain
+|	    Alternation (either of two alternatives)	            c(a|o)%	can, corn, cop
+()	    Group items in a single logical item	                c(a|o)%	can, corn, cop
+_	    Any single character (using LIKE and SIMILAR TO)	    c_	co, fico, pico
+%	    Any string (using LIKE and SIMILAR TO)	                c%	chart, articulation, crate
+.	    Any single character (using POSIX)	                    c.	co, fico, pico
+.*	    Any string (using POSIX)	                            c.*	chart, articulation, crate
++	    Repetition of the previous item one or more times	    co+	coo, cool
+
+There are three ways to use regex comparisons in SQL:
+
+LIKE
+SIMILAR TO
+POSIX comparators
+LIKE and SIMILAR TO are used for basic comparisons where you are looking for a matching string. LIKE and SIMILAR TO 
+both look and compare string patterns, the only difference is that SIMILAR TO uses the SQL99 definition for regular 
+expressions and LIKE uses PSQL’s definition for regular expressions.
+
+Syntax: [String or Column name] LIKE/SIMILAR TO [Regex]
+
+EXPRESSION	RETURNS
+‘char’ LIKE ‘char’	                True
+‘char’ LIKE ‘c%’	                True
+‘char’ LIKE ‘ha’	                True
+‘char’ LIKE ‘c’	                    False
+‘char’ SIMILAR TO ‘char’	        True
+‘char’ SIMILAR TO ‘%(h|g)%’	        True
+‘char’ SIMILAR TO ‘h’	            False
+‘char’ SIMILAR TO ‘(a|b)%’	        False
+
+
+*/
+# Syntax for IF clause :
+
+# SELECT column1, column2
+# IF(condition, Result if condition is true, Result if condition is false) AS alias_name
+# FROM table_name
+
+# SOLUTION USING IF CLAUSE: 
+SELECT employee_id,
+If(employee_id%2 != 0 AND name NOT LIKE 'M%', salary, 0) AS bonus
+FROM Employees
+ORDER BY employee_id;
+
+
+# Syntax for CASE clause :
+# SELECT column1, column2,
+# CASE
+# WHEN condition1 THEN result1
+# WHEN condition2 THEN result2
+# WHEN condition3 THEN result3
+# ELSE result
+# END AS alias_name
+# FROM table_name
+
+# SOLUTION USING CASE CLAUSE:
+SELECT employee_id,
+CASE
+WHEN employee_id % 2 != 0 AND name NOT LIKE 'M%' THEN salary
+ELSE 0
+END AS bonus
+FROM Employees
+ORDER BY employee_id
+
+
+# using union 
+select employee_id,salary as bonus from Employees where mod(employee_id,2) =1 and name not like 'M%' 
+union 
+select employee_id, 0 as bonus from Employees where mod(employee_id,2) =0 or name like 'M%'
+order by employee_id
 ```
