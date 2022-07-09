@@ -461,3 +461,103 @@ UPDATE Salary SET sex = (
   END
 )
 ```
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[196. Delete Duplicate Emails](https://leetcode.com/problems/delete-duplicate-emails/)**<br />
+Table: `Person`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| email       | varchar |
++-------------+---------+
+id is the primary key column for this table.
+Each row of this table contains an email. The emails will not contain uppercase letters.
+</pre>
+Write an SQL query to **delete** all the duplicate emails, keeping only one unique email with the smallest `id`. Note that you are supposed to write a `DELETE` statement and not a `SELECT` one.<br />
+After running your script, the answer shown is the `Person` table. The driver will first compile and run your piece of code and then show the `Person` table. The final order of the `Person` table **does not matter**.<br />
+The query result format is in the following example.<br />
+>Example 1:<br />
+<pre>
+Input: 
+Person table:
++----+------------------+
+| id | email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
+| 3  | john@example.com |
++----+------------------+
+Output: 
++----+------------------+
+| id | email            |
++----+------------------+
+| 1  | john@example.com |
+| 2  | bob@example.com  |
++----+------------------+
+Explanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.
+</pre>
+
+```sql
+-- using delete operator 
+DELETE p1 FROM Person as p1, Person as p2 WHERE p1.Email = p2.Email AND p1.Id > p2.Id;
+
+-- using min operator 
+with t as (select min(id) as min_id from person group by email) delete from person where id not in (select min_id from t);
+
+-- using order by, join
+DELETE FROM Person WHERE id IN(
+SELECT
+t.id
+FROM
+(
+SELECT e1.id
+FROM Person e1
+JOIN Person e2 ON(e1.email = e2.email)
+WHERE e1.id <> e2.id AND e1.id > e2.id
+ORDER BY e1.id DESC
+)AS t
+)
+
+-- using group by 
+DELETE FROM Person
+WHERE Id NOT IN(
+    SELECT * 
+    FROM(
+        SELECT MIN(Id)
+        FROM Person
+        GROUP BY Email
+    )
+    as p
+)
+
+-- using partition by  
+/*
+We use SQL PARTITION BY to divide the result set into partitions and perform computation on each subset of partitioned data
+*/
+WITH myCTE AS(
+SELECT *, ROW_NUMBER() OVER(PARTITION BY email ORDER BY id ASC) DuplicateCount
+FROM Person) 
+DELETE FROM myCTE WHERE DuplicateCount > 1
+
+/*
+we do a self-join when we need to compare the value within a table vertically, as when we do the self-join the table with itself, each row can be compared with all rows.
+*/
+
+-- using join 
+DELETE tb1
+FROM Person tb1
+JOIN Person tb2 ON tb1.email = tb2.email
+WHERE tb1.id > tb2.id
+
+-- using not 
+delete from Person where Id not in(select MIN(Id) from Person group by email)
+```
