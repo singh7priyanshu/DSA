@@ -1072,3 +1072,144 @@ on o.p=tree.id
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[176. Second Highest Salary](https://leetcode.com/problems/second-highest-salary/)**<br />
+Table: `Employee`<br />
+<pre>
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+id is the primary key column for this table.
+Each row of this table contains information about the salary of an employee.
+</pre>
+Write an SQL query to report the second highest salary from the `Employee` table. If there is no second highest salary, the query should report `null`.<br />
+The query result format is in the following example.<br />
+>Example 1:<br />
+<pre>
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
+| 2  | 200    |
+| 3  | 300    |
++----+--------+
+Output: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| 200                 |
++---------------------+
+</pre>
+>Example 2:<br />
+<pre>
+Input: 
+Employee table:
++----+--------+
+| id | salary |
++----+--------+
+| 1  | 100    |
++----+--------+
+Output: 
++---------------------+
+| SecondHighestSalary |
++---------------------+
+| null                |
++---------------------+
+</pre>
+
+```sql
+SELECT MAX(Salary) AS SecondHighestSalary 
+FROM Employee 
+WHERE Salary NOT IN 
+(
+    SELECT MAX(Salary) 
+    FROM Employee
+)
+
+
+SELECT MAX(salary) as SecondHighestSalary
+FROM 
+( 
+    SELECT salary FROM Employee
+    WHERE salary < (select max(salary) from employee)
+) as Emp
+
+
+# if the table has only 1 record, and you select where rank=2 which will give an error
+SELECT MAX(salary) AS SecondHighestSalary
+FROM (SELECT salary, dense_rank() over(ORDER BY salary DESC) AS rnk
+     FROM Employee) ranks
+WHERE rnk = 2
+
+
+Select(Select distinct salary from employee 
+order by salary desc
+limit 1,1) as 'SecondHighestSalary' ;
+
+
+with tempTable as (select dense_rank() over(order by salary desc) rownum,salary from Employee)
+select max(tb.SecondHighestSalary) as SecondHighestSalary from (select salary as SecondHighestSalary 
+            from tempTable where rownum=2
+union
+
+select null from tempTable group by salary having count(distinct salary)=1) tb
+
+
+-- Used Distinct to handle the case if there are more than 1 employee with same salary.
+-- Used dense_ranke() to get the right sorting in case the hightest salary repeatedf
+-- Used Max_RN to get the highest salary
+-- Used CNT to get the count of the records
+SELECT DISTINCT CASE WHEN (RN = 2) THEN SALARY
+ELSE NULL
+END AS SecondHighestSalary
+FROM(
+SELECT SALARY,CNT,RN,MAX(RN) OVER() AS MAX_RN
+FROM(
+SELECT SALARY,DENSE_RANK() OVER(ORDER BY SALARY DESC) RN,COUNT(1) OVER() CNT
+FROM Employee
+) DETAILS
+)FINAL
+WHERE FINAL.CNT = 1 OR (FINAL.CNT > 1 AND (FINAL.RN = 2 OR MAX_RN = 1))
+
+
+SELECT
+    IF
+        (MAX(salary) != MIN(salary),
+        (SELECT DISTINCT salary
+        FROM Employee
+        ORDER BY salary DESC LIMIT 1 OFFSET 1),
+        NULL)
+    AS SecondHighestSalary
+FROM Employee;
+
+
+# CTE was introduced in SQL Server 2005, the common table expression (CTE) is a temporary named result
+# set that you can reference within a SELECT, INSERT, UPDATE, or DELETE statement. 
+# You can also use a CTE in a CREATE a view, as part of the view's SELECT query.
+with cte as
+(
+select
+salary,
+dense_rank()over(order by salary desc) as rnk
+from employee
+)
+select
+case when (select distinct salary from cte where rnk=2) is null then null
+else (select distinct salary from cte where rnk=2)
+end as SecondHighestSalary
+```
