@@ -843,6 +843,11 @@ WHERE employee_id not in (SELECT employee_id FROM Salaries))
 SELECT employee_id from CTE
 ORDER BY employee_id;
 
+# The SQL server's Coalesce function is used to handle the Null values. 
+# The null values are replaced with user-defined values during the expression evaluation process. 
+# This function evaluates arguments in a particular order from the provided arguments list 
+# and always returns the first non-null value.
+
 SELECT COALESCE(e.employee_id, s.employee_id) AS employee_id
 FROM Employees e FULL JOIN Salaries s
 ON e.employee_id = s.employee_id
