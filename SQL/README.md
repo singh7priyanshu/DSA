@@ -940,4 +940,135 @@ order by product_id
 
 
 
-<br /> <br /> <br /> **[]()**<br />
+<br /> <br /> <br /> **[608. Tree Node](https://leetcode.com/problems/tree-node/)**<br />
+Table: `Tree`<br />
+<pre>
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| p_id        | int  |
++-------------+------+
+id is the primary key column for this table.
+Each row of this table contains information about the id of a node and the id of its parent node in a tree.
+The given structure is always a valid tree.
+</pre>
+Each node in the tree can be one of three types:<br />
+
+ * "Leaf": if the node is a leaf node.<br />
+ * "Root": if the node is the root of the tree.<br />
+ * "Inner": If the node is neither a leaf node nor a root node.<br />
+
+Write an SQL query to report the type of each node in the tree.<br />
+Return the result table **ordered** by `id` **in ascending order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/10/22/tree1.jpg"><br />
+<pre>
+Input: 
+Tree table:
++----+------+
+| id | p_id |
++----+------+
+| 1  | null |
+| 2  | 1    |
+| 3  | 1    |
+| 4  | 2    |
+| 5  | 2    |
++----+------+
+Output: 
++----+-------+
+| id | type  |
++----+-------+
+| 1  | Root  |
+| 2  | Inner |
+| 3  | Leaf  |
+| 4  | Leaf  |
+| 5  | Leaf  |
++----+-------+
+Explanation: 
+Node 1 is the root node because its parent node is null and it has child nodes 2 and 3.
+Node 2 is an inner node because it has parent node 1 and child node 4 and 5.
+Nodes 3, 4, and 5 are leaf nodes because they have parent nodes and they do not have child nodes.
+</pre>
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/10/22/tree2.jpg"><br />
+<pre>
+Input: 
+Tree table:
++----+------+
+| id | p_id |
++----+------+
+| 1  | null |
++----+------+
+Output: 
++----+-------+
+| id | type  |
++----+-------+
+| 1  | Root  |
++----+-------+
+Explanation: If there is only one node on the tree, you only need to output its root attributes.
+</pre>
+
+```sql
+select id,
+case when p_id is null then "Root"
+when id in (select p_id from tree) then "Inner"
+else "Leaf" end as type
+from tree
+
+
+SELECT
+    id,
+    CASE
+        WHEN p_id IS NULL THEN 'Root'
+        WHEN id IN 
+            (SELECT
+                p_id 
+             FROM Tree 
+             WHERE NOT p_id IS NULL) THEN 'Inner'
+    ELSE 'Leaf'
+    END AS type
+FROM Tree
+
+
+select id, 
+case 
+    when p_id is null then 'Root'
+    when id in (select p_id from Tree) then 'Inner'
+    else 'Leaf'
+end 
+as type 
+from Tree
+
+
+SELECT id, CASE 
+WHEN p_id IS NULL THEN 'Root'
+WHEN id IN (SELECT p_id FROM Tree) THEN 'Inner'
+ELSE 'Leaf' END type
+FROM Tree
+
+
+SELECT id, (CASE
+    WHEN t.p_id IS NULL THEN 'Root'
+    WHEN t.id IN (SELECT p_id FROM Tree) THEN 'Inner'
+    ELSE 'Leaf'
+    END
+) AS type FROM Tree t 
+    ORDER BY t.id
+
+
+select id, if(p_id is null, 'Root', if(id in (select p_id from Tree), 'Inner', 'Leaf'))as type from Tree order by id
+
+
+select tree.id,case when tree.p_id is Null then 'Root'
+when cnt>=1 then 'Inner'
+else 'Leaf' end as type
+from tree left join (
+select k.p_id as p,count(*) as cnt from tree t join tree k on t.id=k.p_id group by k.p_id
+)o
+on o.p=tree.id
+```
+
+
