@@ -757,3 +757,110 @@ select patient_id, patient_name,conditions
 from Patients
 where conditions like 'DIAB1%' or conditions like '% DIAB1%';
 ```
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1965. Employees With Missing Information](https://leetcode.com/problems/employees-with-missing-information/)**<br />
+Table: `Employees`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| name        | varchar |
++-------------+---------+
+employee_id is the primary key for this table.
+Each row of this table indicates the name of the employee whose ID is employee_id.
+</pre>
+Table: `Salaries`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| salary      | int     |
++-------------+---------+
+employee_id is the primary key for this table.
+Each row of this table indicates the salary of the employee whose ID is employee_id.
+</pre>
+Write an SQL query to report the IDs of all the employees with **missing information**. The information of an employee is missing if:<br />
+
+ * The employee's `name` is missing, or<br />
+ * The employee's `salary` is missing.<br />
+
+Return the result table ordered by `employee_id` **in ascending order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Employees table:
++-------------+----------+
+| employee_id | name     |
++-------------+----------+
+| 2           | Crew     |
+| 4           | Haven    |
+| 5           | Kristian |
++-------------+----------+
+Salaries table:
++-------------+--------+
+| employee_id | salary |
++-------------+--------+
+| 5           | 76071  |
+| 1           | 22517  |
+| 4           | 63539  |
++-------------+--------+
+Output: 
++-------------+
+| employee_id |
++-------------+
+| 1           |
+| 2           |
++-------------+
+Explanation: 
+Employees 1, 2, 4, and 5 are working at this company.
+The name of employee 1 is missing.
+The salary of employee 2 is missing.
+</pre>
+
+```sql
+WITH CTE (employee_id)
+AS 
+(
+SELECT employee_id
+FROM Salaries
+WHERE employee_id not in (SELECT employee_id FROM Employees)
+UNION
+SELECT employee_id
+FROM Employees
+WHERE employee_id not in (SELECT employee_id FROM Salaries))
+SELECT employee_id from CTE
+ORDER BY employee_id;
+
+SELECT COALESCE(e.employee_id, s.employee_id) AS employee_id
+FROM Employees e FULL JOIN Salaries s
+ON e.employee_id = s.employee_id
+WHERE e.employee_id IS NULL OR s.employee_id IS NULL
+ORDER BY employee_id;
+
+select employee_id from Employees where employee_id not in (select employee_id from Salaries)
+union
+select employee_id from Salaries where employee_id not in (select employee_id from Employees) order by employee_id;
+
+SELECT e.employee_id
+FROM Employees e
+LEFT JOIN Salaries s ON e.employee_id = s.employee_id
+WHERE s.employee_id IS NULL
+UNION
+SELECT s.employee_id
+FROM Employees e
+RIGHT JOIN Salaries s ON e.employee_id = s.employee_id
+WHERE e.employee_id IS NULL
+ORDER BY employee_id
+```
