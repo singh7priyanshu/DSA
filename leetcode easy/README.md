@@ -1240,9 +1240,110 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
 	
 	
 	
+<br /> <br /> <br />**[746. Min Cost Climbing Stairs](https://leetcode.com/problems/min-cost-climbing-stairs/)**<br />
+You are given an integer array `cost` where `cost[i]` is the cost of `ith` step on a staircase. Once you pay the cost, you can either climb one or two steps.<br />
+You can either start from the step with index `0`, or the step with index `1`.<br />
+Return _the minimum cost to reach the top of the floor_.<br />
+
+>Example 1:<br />
+Input: cost = [10,15,20]<br />
+Output: 15<br />
+Explanation: You will start at index 1.<br />
+- Pay 15 and climb two steps to reach the top.<br />
+The total cost is 15.<br />
+
+>Example 2:<br />
+Input: cost = [1,100,1,1,1,100,1,1,100,1]<br />
+Output: 6<br />
+Explanation: You will start at index 0.<br />
+- Pay 1 and climb two steps to reach index 2.<br />
+- Pay 1 and climb two steps to reach index 4.<br />
+- Pay 1 and climb two steps to reach index 6.<br />
+- Pay 1 and climb one step to reach index 7.<br />
+- Pay 1 and climb two steps to reach index 9.<br />
+- Pay 1 and climb one step to reach the top.<br />
+The total cost is 6.<br />
+ 
+* Constraints: `2 <= cost.length <= 1000`<br />
+`0 <= cost[i] <= 999`<br />
+	
+```cpp
+
+//Recursive solutions
+//it give tle
+class Solution {
+public:
+int f(vector<int> a, int i){
+        if(i<=1)    return a[i];
+        int pick =  f(a, i-1);
+        int nonpick = f(a, i-2);
+        return  a[i] + min(pick, nonpick);
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        return min(f(cost, n-1), f(cost, n-2));
+    }
+};
+
+//Memoization
+class Solution {
+public:
+int f(vector<int> a, int i, vector<int>&dp){
+        if(i<=1)    return dp[i] = a[i];
+        if(dp[i]!=-1)   return dp[i];
+        int pick =  f(a, i-1, dp);
+        int nonpick = f(a, i-2, dp);
+        return dp[i] = a[i] + min(pick, nonpick);
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n+1, -1);
+        return min(f(cost, n-1, dp), f(cost, n-2, dp));
+    }
+};
+
+//Tabulation
+class Solution {
+public:
+int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n + 1); 
+        for (int i = 2; i <= n; i++) {
+            int jumpOneStep = dp[i - 1] + cost[i - 1];  
+            int jumpTwoStep = dp[i - 2] + cost[i - 2];  
+            dp[i] = min(jumpOneStep, jumpTwoStep);
+        }
+        return dp[n];
+    }
+};
+
+//Space-Optimization
+class Solution {
+public:
+int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        int prev = 0, sec_prev = 0; 
+        for (int i = 2; i <= n; i++) {
+            int jumpOneStep = prev + cost[i - 1];  
+            int jumpTwoStep = sec_prev + cost[i - 2]; 
+            sec_prev = prev;
+            prev = min(jumpOneStep, jumpTwoStep);
+            
+        }
+       return prev;
+    }
+};
+```
