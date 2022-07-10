@@ -3564,3 +3564,57 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1696. Jump Game VI](https://leetcode.com/problems/jump-game-vi/)**<br />
+You are given a **0-indexed** integer array `nums` and an integer `k`.<br />
+You are initially standing at index `0`. In one move, you can jump at most `k` steps forward without going outside the boundaries of the array. That is, you can jump from index `i` to any index in the range `[i + 1, min(n - 1, i + k)]` **inclusive**.<br />
+You want to reach the last index of the array (index `n - 1`). Your **score** is the **sum** of all `nums[j]` for each index `j` you visited in the array.<br />
+Return _the **maximum score** you can get_.<br />
+
+>Example 1:<br />
+Input: nums = [1,-1,-2,4,-7,3], k = 2<br />
+Output: 7<br />
+Explanation: You can choose your jumps forming the subsequence [1,-1,4,3] (underlined above). The sum is 7.<br />
+
+>Example 2:<br />
+Input: nums = [10,-5,-2,4,0,3], k = 3<br />
+Output: 17<br />
+Explanation: You can choose your jumps forming the subsequence [10,4,3] (underlined above). The sum is 17.<br />
+
+>Example 3:<br />
+Input: nums = [1,-5,-20,4,-1,3,-6,-3], k = 2<br />
+Output: 0<br />
+ 
+* Constraints: `1 <= nums.length, k <= 10^5`<br />
+`-10^4 <= nums[i] <= 10^4`<br />
+
+```cpp
+#define pii pair<int, int>
+class Solution {
+public:
+    int maxResult(vector<int>& nums, int k)
+    {
+        int n=nums.size();
+        int score[n];
+        priority_queue<pii> pq;
+        
+        for(int i=n-1 ; i>=0 ; i--){
+            while(pq.size() && pq.top().second>i+k)pq.pop();        
+            score[i]=nums[i];
+            score[i]+=(pq.size() ? pq.top().first : 0);
+            pq.push({score[i], i});
+        }
+        
+        return score[0];
+    }
+};
+```
