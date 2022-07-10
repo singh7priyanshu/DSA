@@ -561,3 +561,143 @@ WHERE tb1.id > tb2.id
 -- using not 
 delete from Person where Id not in(select MIN(Id) from Person group by email)
 ```
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1667. Fix Names in a Table](https://leetcode.com/problems/fix-names-in-a-table/)**<br />
+Table: `Users`<br />
+<pre>
++----------------+---------+
+| Column Name    | Type    |
++----------------+---------+
+| user_id        | int     |
+| name           | varchar |
++----------------+---------+
+user_id is the primary key for this table.
+This table contains the ID and the name of the user. The name consists of only lowercase and uppercase characters.
+</pre>
+Write an SQL query to fix the names so that only the first character is uppercase and the rest are lowercase.<br />
+Return the result table ordered by `user_id`.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Users table:
++---------+-------+
+| user_id | name  |
++---------+-------+
+| 1       | aLice |
+| 2       | bOB   |
++---------+-------+
+Output: 
++---------+-------+
+| user_id | name  |
++---------+-------+
+| 1       | Alice |
+| 2       | Bob   |
++---------+-------+
+</pre>
+
+```sql
+# SUBSTR(string_name , start_index ,end_index)
+SELECT user_id,CONCAT(UPPER(SUBSTR(name,1,1)),LOWER(SUBSTR(name,2,length(name)))) AS name
+FROM Users ORDER BY user_id;
+
+# second method 
+SELECT user_id, concat(upper(LEFT(name, 1)), lower(RIGHT(name, length(name)-1))) as name
+FROM users
+ORDER BY user_id;
+
+# INITCAP returns char , with the first letter of each word in uppercase, all other letters in lowercase. 
+# Words are delimited by white space or characters that are not alphanumeric. char can be of any of the
+# datatypes CHAR , VARCHAR2 , NCHAR , or NVARCHAR2 . The return value is the same datatype as char .
+SELECT user_id, INITCAP(name) AS name FROM Users
+    ORDER BY user_id;
+```
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1484. Group Sold Products By The Date](https://leetcode.com/problems/group-sold-products-by-the-date/)**<br />
+Table `Activities`:<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| sell_date   | date    |
+| product     | varchar |
++-------------+---------+
+There is no primary key for this table, it may contain duplicates.
+Each row of this table contains the product name and the date it was sold in a market.
+</pre>
+Write an SQL query to find for each date the number of different products sold and their names.<br />
+The sold products names for each date should be sorted lexicographically.<br />
+Return the result table ordered by `sell_date`.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Activities table:
++------------+------------+
+| sell_date  | product     |
++------------+------------+
+| 2020-05-30 | Headphone  |
+| 2020-06-01 | Pencil     |
+| 2020-06-02 | Mask       |
+| 2020-05-30 | Basketball |
+| 2020-06-01 | Bible      |
+| 2020-06-02 | Mask       |
+| 2020-05-30 | T-Shirt    |
++------------+------------+
+Output: 
++------------+----------+------------------------------+
+| sell_date  | num_sold | products                     |
++------------+----------+------------------------------+
+| 2020-05-30 | 3        | Basketball,Headphone,T-shirt |
+| 2020-06-01 | 2        | Bible,Pencil                 |
+| 2020-06-02 | 1        | Mask                         |
++------------+----------+------------------------------+
+Explanation: 
+For 2020-05-30, Sold items were (Headphone, Basketball, T-shirt), we sort them lexicographically and separate them by a comma.
+For 2020-06-01, Sold items were (Pencil, Bible), we sort them lexicographically and separate them by a comma.
+For 2020-06-02, the Sold item is (Mask), we just return it.
+</pre>
+
+```sql
+# GROUP CONCAT is the function in mySQL which returns the row values in the comma separated fashion.
+SELECT sell_date, COUNT(DISTINCT product) as 'num_sold',
+    GROUP_CONCAT(DISTINCT product ORDER BY product) AS 'products'
+    FROM Activities
+    GROUP BY sell_date
+    ORDER BY sell_date
+    
+SELECT TO_CHAR(sell_date, 'YYYY-MM-DD') AS "sell_date", 
+    COUNT(DISTINCT(product)) AS "num_sold",
+    LISTAGG(DISTINCT(product), ',') WITHIN GROUP (ORDER BY product) AS "products"
+    FROM activities 
+    GROUP BY sell_date 
+    ORDER BY sell_date;
+    
+SELECT TO_CHAR(sell_date, 'YYYY-MM-DD') AS "sell_date", 
+    COUNT(DISTINCT(product)) AS "num_sold",
+    LISTAGG(product, ',') WITHIN GROUP (ORDER BY product) AS "products"
+    FROM (
+        SELECT DISTINCT product, sell_date 
+        FROM activities
+    ) 
+    GROUP BY sell_date 
+    ORDER BY sell_date;
+```
