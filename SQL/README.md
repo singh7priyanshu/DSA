@@ -1213,3 +1213,109 @@ case when (select distinct salary from cte where rnk=2) is null then null
 else (select distinct salary from cte where rnk=2)
 end as SecondHighestSalary
 ```
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[175. Combine Two Tables](https://leetcode.com/problems/combine-two-tables/)**<br />
+Table: `Person`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| personId    | int     |
+| lastName    | varchar |
+| firstName   | varchar |
++-------------+---------+
+personId is the primary key column for this table.
+This table contains information about the ID of some persons and their first and last names.
+</pre>
+Table: `Address`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| addressId   | int     |
+| personId    | int     |
+| city        | varchar |
+| state       | varchar |
++-------------+---------+
+addressId is the primary key column for this table.
+Each row of this table contains information about the city and state of one person with ID = PersonId.
+</pre>
+Write an SQL query to report the first name, last name, city, and state of each person in the `Person` table. If the address of a `personId` is not present in the `Address` table, report `null` instead.<br />
+Return the result table in **any order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Person table:
++----------+----------+-----------+
+| personId | lastName | firstName |
++----------+----------+-----------+
+| 1        | Wang     | Allen     |
+| 2        | Alice    | Bob       |
++----------+----------+-----------+
+Address table:
++-----------+----------+---------------+------------+
+| addressId | personId | city          | state      |
++-----------+----------+---------------+------------+
+| 1         | 2        | New York City | New York   |
+| 2         | 3        | Leetcode      | California |
++-----------+----------+---------------+------------+
+Output: 
++-----------+----------+---------------+----------+
+| firstName | lastName | city          | state    |
++-----------+----------+---------------+----------+
+| Allen     | Wang     | Null          | Null     |
+| Bob       | Alice    | New York City | New York |
++-----------+----------+---------------+----------+
+Explanation: 
+There is no address in the address table for the personId = 1 so we return null in their city and state.
+addressId = 1 contains information about the address of personId = 2.
+</pre>
+
+```sql
+SELECT FirstName, LastName, City, State FROM Person LEFT JOIN Address ON Person.PersonId = Address.PersonId;
+
+
+select p1.firstName, p1.lastName, a1.city, a1.state from person as p1
+left join address as a1 on p1.personId = a1.personId
+
+
+P.lastName as lastName,
+nvl(A.city,null) as city,
+nvl(A.state,null) as state
+from Person P left join Address A
+on P.personId = A.personId  
+
+
+select ps.firstname, ps.lastname, (select city from address where ps.personid = address.personid) as city, (select state from address where ps.personid = address.personid) as state from person as ps
+
+
+select p.firstname,p.lastname,c.city,c.state
+from person p, address c
+where p.personid=c.personid
+union
+select p.firstname,p.lastname,null as city,null as state
+from person as p
+where p.personid not in (select personid from address);
+
+
+SELECT 
+    p.firstName, 
+    p.lastName, 
+    a.city, 
+    a.state 
+FROM 
+    Person AS p 
+LEFT JOIN 
+    Address AS a 
+ON 
+    p.personId=a.personId;
+```
