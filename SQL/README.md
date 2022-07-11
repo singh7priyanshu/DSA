@@ -1431,3 +1431,65 @@ FROM Visits
 WHERE visit_id NOT IN (SELECT visit_id FROM Transactions)
 GROUP BY customer_id;
 ```
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1148. Article Views I](https://leetcode.com/problems/article-views-i/)**<br />
+Table: `Views`<br />
+<pre>
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| article_id    | int     |
+| author_id     | int     |
+| viewer_id     | int     |
+| view_date     | date    |
++---------------+---------+
+There is no primary key for this table, it may have duplicate rows.
+Each row of this table indicates that some viewer viewed an article (written by some author) on some date. 
+Note that equal author_id and viewer_id indicate the same person.
+</pre>
+Write an SQL query to find all the authors that viewed at least one of their own articles.
+Return the result table sorted by `id` in ascending order.
+The query result format is in the following example.
+
+>Example 1:<br />
+<pre>
+Input: 
+Views table:
++------------+-----------+-----------+------------+
+| article_id | author_id | viewer_id | view_date  |
++------------+-----------+-----------+------------+
+| 1          | 3         | 5         | 2019-08-01 |
+| 1          | 3         | 6         | 2019-08-02 |
+| 2          | 7         | 7         | 2019-08-01 |
+| 2          | 7         | 6         | 2019-08-02 |
+| 4          | 7         | 1         | 2019-07-22 |
+| 3          | 4         | 4         | 2019-07-21 |
+| 3          | 4         | 4         | 2019-07-21 |
++------------+-----------+-----------+------------+
+Output: 
++------+
+| id   |
++------+
+| 4    |
+| 7    |
++------+
+</pre>
+
+```sql
+select author_id as id from views 
+where author_id = viewer_id 
+group by author_id 
+order by author_id;
+
+
+select distinct author_id as id from Views where author_id = viewer_id order by author_id
+```
