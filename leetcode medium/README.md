@@ -3618,3 +3618,81 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[199. Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view/)**<br />
+Given the `root` of a binary tree, imagine yourself standing on the **right side** of it, return _the values of the nodes you can see ordered from top to bottom_.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/14/tree.jpg"><br />
+Input: root = [1,2,3,null,5,null,4]<br />
+Output: [1,3,4]<br />
+
+>Example 2:<br />
+Input: root = [1,null,3]<br />
+Output: [1,3]<br />
+
+>Example 3:<br />
+Input: root = []<br />
+Output: []<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 100]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+
+**APPROACH with no extra space**
+
+Maintain an array / vector.
+
+ * TRAVERSAL -> ROOT ->RIGHT -> LEFT This is the way traversal is done in array so that rightmost node at i level is visited first.
+ * When at i level, check in array/vector, if there is an element already present at indexi in the array.
+[ index represents the level in tree ]->[element at index i is rightmost node at level i]
+ * If at that level, element is present,, just continue the traversal.
+ * Else if no element is present at index i -> add that node to answer [res] at the i index.
+	
+<img src = "https://assets.leetcode.com/users/images/34815618-d722-485c-a276-94e1d7aa5caf_1657511962.541216.png">
+
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    vector<int> solve(TreeNode* root, vector<int> res, int lvl){
+        if (root==NULL){
+            return res;
+        }
+        if (res.size()==lvl){                 // root
+            res.push_back(root->val);
+        }
+        res = solve(root->right , res , lvl + 1);     // right
+        res = solve(root->left , res , lvl + 1);       // left
+        return res;
+    }
+    
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        res = solve( root , res , 0 );
+        return res;
+    }
+};
+```
