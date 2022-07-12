@@ -1493,3 +1493,69 @@ order by author_id;
 
 select distinct author_id as id from Views where author_id = viewer_id order by author_id
 ```
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[197. Rising Temperature](https://leetcode.com/problems/rising-temperature/)**<br />
+Table: `Weather`<br />
+<pre>
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+id is the primary key for this table.
+This table contains information about the temperature on a certain day.
+</pre>
+Write an SQL query to find all dates' `Id` with higher temperatures compared to its previous dates (yesterday).<br />
+Return the result table in **any order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Weather table:
++----+------------+-------------+
+| id | recordDate | temperature |
++----+------------+-------------+
+| 1  | 2015-01-01 | 10          |
+| 2  | 2015-01-02 | 25          |
+| 3  | 2015-01-03 | 20          |
+| 4  | 2015-01-04 | 30          |
++----+------------+-------------+
+Output: 
++----+
+| id |
++----+
+| 2  |
+| 4  |
++----+
+Explanation: 
+In 2015-01-02, the temperature was higher than the previous day (10 -> 25).
+In 2015-01-04, the temperature was higher than the previous day (20 -> 30).
+</pre>
+
+```sql
+-- Using ADDDATE : -
+select w2.id from weather w1 
+inner join weather w2 where w2.recordDate = ADDDATE(w1.recordDate, 1)
+and w1.temperature < w2.temperature;
+
+
+-- Using SUBDATE : -
+select w2.id from weather w1 
+inner join weather w2 where w1.recordDate = SUBDATE(w2.recordDate, 1)
+and w1.temperature < w2.temperature;
+
+
+-- Using DATEDIFF : -
+select w2.id from weather w1 
+inner join weather w2 where DATEDIFF(w2.recordDate, w1.recordDate)
+and w1.temperature < w2.temperature;
+```
