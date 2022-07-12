@@ -209,7 +209,7 @@ M = [[1], [2], [3]]
 Output: 2
 </pre>
 
-**Your Task:  **<br />
+**Your Task:**<br />
 You don't need to read input or print anything. Your task is to complete the function `median()` which takes the integers `R` and `C` along with the 2D matrix as input parameters and returns the median of the matrix.<br />
 
 <pre>
