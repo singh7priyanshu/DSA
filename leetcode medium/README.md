@@ -3696,3 +3696,163 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[473. Matchsticks to Square](https://leetcode.com/problems/matchsticks-to-square/)**<br />
+You are given an integer array `matchsticks` where `matchsticks[i]` is the length of the `ith` matchstick. You want to use **all the matchsticks** to make one square. You **should not break** any stick, but you can link them up, and each matchstick must be used **exactly one time**.<br />
+Return `true` if you can make this square and `false` otherwise.<br />
+	
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/04/09/matchsticks1-grid.jpg"><br />
+Input: matchsticks = [1,1,2,2,2]<br />
+Output: true<br />
+Explanation: You can form a square with length 2, one side of the square came two sticks with length 1.<br />
+
+>Example 2:<br />
+Input: matchsticks = [3,3,3,3,4]<br />
+Output: false<br />
+Explanation: You cannot find a way to form a square with all the matchsticks.<br />
+ 
+Constraints: `1 <= matchsticks.length <= 15`<br />
+`1 <= matchsticks[i] <= 10^8`<br />
+
+```cpp
+# backtracking 
+class Solution {
+	// a,b,c,d are four sides of square
+    int a,b,c,d;
+    bool fun(vector<int>& matchsticks,int i){
+        //Base Case
+        if(i==matchsticks.size()){
+            if(a==0 && b==0 && c==0 && d==0) return true;
+            else return false;
+        }
+        
+		//Now we will explore for all side for given index
+		
+		// if matchstick size is less than side(a or b or c or d)  size , then in that case we will not explore that because that will cause negative side which is not possible
+        if(matchsticks[i]<=a){
+            a-=matchsticks[i];
+            if(fun(matchsticks,i+1)) return true;
+            a+=matchsticks[i];      // backtrack step
+        }
+        
+        if(matchsticks[i]<=b){
+            b-=matchsticks[i];
+            if(fun(matchsticks,i+1)) return true;
+            b+=matchsticks[i];        // backtrack step                    
+        }
+        
+        if(matchsticks[i]<=c){
+            c-=matchsticks[i];
+            if(fun(matchsticks,i+1)) return true;
+            c+=matchsticks[i];         // backtrack step
+        }
+        
+        if(matchsticks[i]<=d){
+            d-=matchsticks[i];
+            if(fun(matchsticks,i+1)) return true;
+            d+=matchsticks[i];         // backtrack step
+        }
+		
+		//If none of the explored option retuen true then  we have to return false
+        return false;
+    }
+public:
+    bool makesquare(vector<int>& matchsticks) {
+		//  if less than four number present in array , then we can not make square
+        if(matchsticks.size()<4) return false;
+        
+		// if sum of all number of array is not divisible by 4 , then we can not create a square
+		int sum = accumulate(matchsticks.begin(), matchsticks.end(),0);
+        if(sum % 4 != 0) return false;
+        
+		int sizeSum=sum/4;
+        a=sizeSum,b=sizeSum,c=sizeSum,d=sizeSum;
+        
+		// here we sort our array in reverse order to escape more cases
+		sort(matchsticks.rbegin(), matchsticks.rend());
+        
+		return fun(matchsticks,0);
+    }
+};
+```
+
+
+<br />
+	
+```python 
+# dfs cache backtracking
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        value = sum(matchsticks)
+        if value < 4:
+            return False
+        if value % 4 != 0:
+            return False
+        edge = value // 4
+        matchsticks.sort(reverse=True)
+        @cache
+        def findedges(l1, l2, l3, l4, i):
+            nonlocal edge
+            if l1 == l2 == l3 == l4 == edge:
+                return True
+            if i > len(matchsticks) - 1:
+                return False
+            if l1 > edge or l2 > edge or l3 > edge or l4 > edge:
+                return False
+            return findedges(l1 + matchsticks[i], l2, l3, l4, i + 1) or findedges(l1, l2 + matchsticks[i] , l3, l4, i + 1) or findedges(l1, l2, l3 + matchsticks[i], l4, i + 1) or findedges(l1, l2, l3, l4 + matchsticks[i] , i + 1)
+        return findedges(0, 0, 0, 0, 0)
+```
+	
+<br /><br />
+	
+```cpp
+# recursive and dp optmised 
+class Solution {
+private:
+    bool canMake ( int index , int bucketsize , vector<int> &matchsticks , vector<int> &bucket){ 
+        if ( index == matchsticks.size()) 
+            return bucket[0]==bucket[1] and bucket[1]==bucket[2] and bucket[2]==bucket[3] ;
+        
+        for ( int i = 0 ; i < 4 ; i ++ ){
+            if ( bucket[i] + matchsticks.at(index) > bucketsize) continue ;  
+           
+            int j = i ;
+            while ( --j >= 0) 
+                if ( bucket[i] == bucket[j]) break;
+            
+            if ( j != -1 ) continue ;
+            
+            bucket.at(i) += matchsticks.at(index);
+            if ( canMake ( index + 1 , bucketsize , matchsticks , bucket )) return true;
+            bucket.at(i) -= matchsticks.at(index);
+        }
+        
+        return false;
+    }
+    
+public:
+    bool makesquare(vector<int>& matchsticks) {
+       
+        int sum = 0 ;
+        
+        for ( int i : matchsticks) sum += i ;
+        if ( sum == 0 or sum % 4 ) return false;
+         
+        sort( matchsticks.begin() , matchsticks.end() , greater<int>());
+        
+        vector<int> bucket(4, 0 );
+        return canMake( 0 , sum / 4 , matchsticks , bucket);
+    }
+};
+```
