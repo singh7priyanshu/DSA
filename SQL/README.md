@@ -1823,3 +1823,59 @@ FROM
     DailySales
 GROUP BY 1,2;
 ```
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1729. Find Followers Count](https://leetcode.com/problems/find-followers-count/)**<br />
+Table: `Followers`<br />
+<pre>
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| user_id     | int  |
+| follower_id | int  |
++-------------+------+
+(user_id, follower_id) is the primary key for this table.
+This table contains the IDs of a user and a follower in a social media app where the follower follows the user.
+</pre>
+Write an SQL query that will, for each user, return the number of followers.<br />
+Return the result table ordered by `user_id`.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Followers table:
++---------+-------------+
+| user_id | follower_id |
++---------+-------------+
+| 0       | 1           |
+| 1       | 0           |
+| 2       | 0           |
+| 2       | 1           |
++---------+-------------+
+Output: 
++---------+----------------+
+| user_id | followers_count|
++---------+----------------+
+| 0       | 1              |
+| 1       | 1              |
+| 2       | 2              |
++---------+----------------+
+Explanation: 
+The followers of 0 are {1}
+The followers of 1 are {0}
+The followers of 2 are {0,1}
+</pre>
+
+```sql
+Select user_id, count(distinct follower_id) as followers_count
+from Followers
+group by user_id;
+```
