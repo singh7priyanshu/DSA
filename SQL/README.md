@@ -1879,3 +1879,80 @@ Select user_id, count(distinct follower_id) as followers_count
 from Followers
 group by user_id;
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[586. Customer Placing the Largest Number of Orders](https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/)**<br />
+Table: `Orders`<br />
+<pre>
++-----------------+----------+
+| Column Name     | Type     |
++-----------------+----------+
+| order_number    | int      |
+| customer_number | int      |
++-----------------+----------+
+order_number is the primary key for this table.
+This table contains information about the order ID and the customer ID.
+</pre>
+Write an SQL query to find the `customer_number` for the customer who has placed **the largest number of orders**.<br />
+The test cases are generated so that **exactly one customer** will have placed more orders than any other customer.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Orders table:
++--------------+-----------------+
+| order_number | customer_number |
++--------------+-----------------+
+| 1            | 1               |
+| 2            | 2               |
+| 3            | 3               |
+| 4            | 3               |
++--------------+-----------------+
+Output: 
++-----------------+
+| customer_number |
++-----------------+
+| 3               |
++-----------------+
+Explanation: 
+The customer with number 3 has two orders, which is greater than either customer 1 or 2 because each of them only has one order. 
+So the result is customer_number 3.
+</pre>
+**Follow up:** What if more than one customer has the largest number of orders, can you find all the `customer_number` in this case?<br />
+
+```sql
+SELECT customer_number AS 'customer_number'
+FROM Orders
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1
+
+
+SELECT customer_number AS 'customer_number'
+FROM OrderS
+GROUP BY customer_number 
+HAVING COUNT(order_number) = (SELECT MAX(Max_Order)
+FROM (
+SELECT COUNT(*) AS 'Max_Order'
+FROM Orders 
+GROUP BY customer_number ) 
+AS New_Table)
+
+
+SELECT customer_number
+FROM orders
+GROUP BY customer_number
+ORDER BY COUNT(order_number) DESC
+LIMIT 1
+```
