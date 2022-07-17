@@ -1747,3 +1747,79 @@ select activity_date as day, count(distinct user_id) as active_users from activi
 where activity_date> dateadd(day, -30, '2019-07-27') and activity_date<= '2019-07-27'
 group by activity_date
 ```
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[1693. Daily Leads and Partners](https://leetcode.com/problems/daily-leads-and-partners/)**<br />
+Table: `DailySales`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| date_id     | date    |
+| make_name   | varchar |
+| lead_id     | int     |
+| partner_id  | int     |
++-------------+---------+
+This table does not have a primary key.
+This table contains the date and the name of the product sold and the IDs of the lead and partner it was sold to.
+The name consists of only lowercase English letters.
+</pre>
+Write an SQL query that will, for each `date_id` and `make_name`, return the number of **distinct** `lead_id`'s and **distinct** `partner_id`'s.
+Return the result table in **any order**.
+The query result format is in the following example.
+
+>Example 1:<br />
+<pre>
+Input: 
+DailySales table:
++-----------+-----------+---------+------------+
+| date_id   | make_name | lead_id | partner_id |
++-----------+-----------+---------+------------+
+| 2020-12-8 | toyota    | 0       | 1          |
+| 2020-12-8 | toyota    | 1       | 0          |
+| 2020-12-8 | toyota    | 1       | 2          |
+| 2020-12-7 | toyota    | 0       | 2          |
+| 2020-12-7 | toyota    | 0       | 1          |
+| 2020-12-8 | honda     | 1       | 2          |
+| 2020-12-8 | honda     | 2       | 1          |
+| 2020-12-7 | honda     | 0       | 1          |
+| 2020-12-7 | honda     | 1       | 2          |
+| 2020-12-7 | honda     | 2       | 1          |
++-----------+-----------+---------+------------+
+Output: 
++-----------+-----------+--------------+-----------------+
+| date_id   | make_name | unique_leads | unique_partners |
++-----------+-----------+--------------+-----------------+
+| 2020-12-8 | toyota    | 2            | 3               |
+| 2020-12-7 | toyota    | 1            | 2               |
+| 2020-12-8 | honda     | 2            | 2               |
+| 2020-12-7 | honda     | 3            | 2               |
++-----------+-----------+--------------+-----------------+
+Explanation: 
+For 2020-12-8, toyota gets leads = [0, 1] and partners = [0, 1, 2] while honda gets leads = [1, 2] and partners = [1, 2].
+For 2020-12-7, toyota gets leads = [0] and partners = [1, 2] while honda gets leads = [0, 1, 2] and partners = [1, 2].
+</pre>
+
+```sql
+SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners
+FROM dailysales
+GROUP BY date_id,make_name
+ORDER BY date_id
+
+
+SELECT 
+    date_id,
+    make_name,
+    COUNT(DISTINCT(lead_id)) AS unique_leads,
+    COUNT(DISTINCT(partner_id)) AS unique_partners 
+FROM 
+    DailySales
+GROUP BY 1,2;
+```
