@@ -4801,3 +4801,99 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)**<br />
+Given two integer arrays `preorder` and `inorder` where `preorder` is the preorder traversal of a binary tree and `inorder` is the inorder traversal of the same tree, construct and return _the binary tree_.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/19/tree.jpg"><br />
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]<br />
+Output: [3,9,20,null,null,15,7]<br />
+	
+>Example 2:<br />
+Input: preorder = [-1], inorder = [-1]<br />
+Output: [-1]<br />
+
+* Constraints:<br />
+`1 <= preorder.length <= 3000`<br />
+`inorder.length == preorder.length`<br />
+`-3000 <= preorder[i], inorder[i] <= 3000`<br />
+`preorder` and `inorder` consist of **unique** values.<br />
+Each value of `inorder` also appears in `preorder`.<br />
+`preorder` is **guaranteed** to be the preorder traversal of the tree.<br />
+`inorder` is **guaranteed** to be the inorder traversal of the tree.<br />
+	
+<pre>
+Inorder Traversal -> LEFT -> ROOT ->RIGHT
+PreOrder Traversal -> ROOT -> LEFT -> RIGHT
+</pre>
+	
+We have two observations :<br />
+ * The first element in `preorder` is the root of the tree. Let it be `x`<br />
+ * Elements left to `x` in `inorder` form the **LEFT** subtree.<br />
+ * Elements right to `x` in `inorder` forms the **RIGHT** subtree.<br />
+	
+<img src = "https://assets.leetcode.com/users/images/81b4c4aa-69bd-4fdc-a6a2-a9b34f73b8ac_1657767778.6491113.png"><br />
+**Recursive Approach**<br />
+**BASE CASE** -> If the array `inorder` is empty. -> RETURN<br />
+**SELF WORK** -> Create a new node with the value `preorder[ start_pre ]` as first element is the root of the tree.<br />
+**Recursion** -><br />
+ * Let the `index` of `preorder[ start_pre ]` in `inorder` be `INDEX`.<br />
+ * Recursivly create **left** subtree by passing -> `preorder with first element removed` and the part of `inorder` array that lies to the left of `INDEX`. ->`inorder[:INDEX]`<br />
+_To be memory efficient, pass the vector by refernce and pass `start_in` and `end_in` as starting index and ending index for `inorder` array_.<br />
+ * Recursivly create **right** subtree by passing -> the part of `inorder` array that lies to the right of `INDEX`. ->`inorder[:INDEX]`<br />
+_To be memory efficient, pass the vector by refernce and pass `start_in` and `end_in` as starting index and ending index for `inorder` array._<br /><br />
+
+**start_pre** ->starting index of `preorder`<br />
+**start_in** ->starting index of `inorder`<br />
+**end_in** ->ending index of `inorder`<br />
+INDEX = index of `preorder [ start_pre ]` in vector `inorder`.<br />
+
+ * For **LEFT RECUSIVE CALL** `start_in remains same`, `end_in = INDEX - 1`, `start_pre = start_pre + 1`.
+ * For **RIGHT RECURSIVE CALL** `end_in remains same`, `start_in = INDEX + 1`, `start_pre = (start_pre + 1) + (index - start_in)`.
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* solve(int start_pre, int start_in, int end_in, vector<int>& preorder, vector<int>& inorder) 
+    {
+        
+        if(start_in > end_in || start_pre > preorder.size()-1) return NULL;
+        
+        TreeNode* root = new TreeNode(preorder[start_pre]);
+        
+        int index = 0;
+        for(int i = start_in; i <= end_in; i++)
+            if(root->val == inorder[i]) index = i;
+            
+        root->left = solve(start_pre+1, start_in, index-1, preorder, inorder);
+        root->right = solve(start_pre+index-start_in+1, index+1, end_in, preorder, inorder);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+       return solve(0, 0, inorder.size()-1, preorder, inorder);
+    }
+};
+```
