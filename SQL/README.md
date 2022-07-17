@@ -2518,3 +2518,80 @@ left outer join (select o.buyer_id, count(o.buyer_id) as total
      ) uo
 on u.user_id = uo.buyer_id;
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br /> **[182. Duplicate Emails](https://leetcode.com/problems/duplicate-emails/)**<br />
+Table: `Person`<br />
+<pre>
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| email       | varchar |
++-------------+---------+
+id is the primary key column for this table.
+Each row of this table contains an email. The emails will not contain uppercase letters.
+</pre>
+Write an SQL query to report all the duplicate emails.<br />
+Return the result table in **any order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Person table:
++----+---------+
+| id | email   |
++----+---------+
+| 1  | a@b.com |
+| 2  | c@d.com |
+| 3  | a@b.com |
++----+---------+
+Output: 
++---------+
+| Email   |
++---------+
+| a@b.com |
++---------+
+Explanation: a@b.com is repeated two times.
+</pre>
+
+```sql
+SELECT EMAIL FROM PERSON
+GROUP BY EMAIL
+HAVING COUNT(EMAIL) > 1
+
+
+select DISTINCT p1.email from Person p1 ,Person p2 where p1.email=p2.email and p1.id != p2.id;
+
+
+-- create a CTE that finds duplicate emails:
+WITH CTE AS (
+    SELECT
+        email,
+        ROW_NUMBER() OVER(PARTITION BY email ORDER BY email) AS row_num
+    FROM Person
+)
+
+
+SELECT
+    -- select distinct emails:
+    DISTINCT email AS Email
+-- from CTE:
+FROM CTE
+-- filter for rows greater than 1:
+WHERE row_num > 1;
+```
