@@ -3856,3 +3856,57 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[576. Out of Boundary Paths](https://leetcode.com/problems/out-of-boundary-paths/)**<br />
+There is an `m x n` grid with a ball. The ball is initially at the position `[startRow, startColumn]`. You are allowed to move the ball to one of the four adjacent cells in the grid (possibly out of the grid crossing the grid boundary). You can apply **at most** `maxMove` moves to the ball.<br />
+Given the five integers `m`, `n`, `maxMove`, `startRow`, `startColumn`, return the number of paths to move the ball out of the grid boundary. Since the answer can be very large, return it **modulo** `10^9 + 7`.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/04/28/out_of_boundary_paths_1.png"><br />
+Input: m = 2, n = 2, maxMove = 2, startRow = 0, startColumn = 0<br />
+Output: 6<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/04/28/out_of_boundary_paths_2.png"><br />
+Input: m = 1, n = 3, maxMove = 3, startRow = 0, startColumn = 1<br />
+Output: 12<br />
+	
+* Constraints: `1 <= m, n <= 50`<br />
+`0 <= maxMove <= 50`<br />
+`0 <= startRow < m`<br />
+`0 <= startColumn < n`<br />
+	
+```cpp
+class Solution {
+public:
+    int dp[55][55][55];
+    long long mod = 1e9 + 7;
+    
+    int dfs(int i, int j, int n, int m, int moves){
+        if(i < 0 || i >= n || j < 0 || j >= m)return 1;
+        if(moves <= 0)return 0;
+        if(dp[i][j][moves] != -1)return dp[i][j][moves];
+        int up = dfs(i - 1, j, n, m, moves - 1);
+        int down = dfs(i + 1, j, n, m, moves - 1);
+        int left = dfs(i, j - 1, n, m, moves - 1);
+        int right = dfs(i, j + 1, n, m, moves - 1);
+        return dp[i][j][moves] = (up % mod + down % mod + left % mod + right % mod) % mod;
+    }
+    
+    int findPaths(int n, int m, int maxMove, int startRow, int startColumn) {
+        memset(dp, -1, sizeof(dp));
+        return dfs(startRow, startColumn, n, m, maxMove);
+    }
+};
+```
