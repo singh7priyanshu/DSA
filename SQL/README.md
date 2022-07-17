@@ -2662,3 +2662,12 @@ select actor_id, director_id, count(timestamp) over (partition by actor_id,direc
 )
 select distinct actor_id, director_id from cte where countn>=3;
 ```
+
+
+
+
+
+
+
+
+
