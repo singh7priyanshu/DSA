@@ -2671,3 +2671,102 @@ select distinct actor_id, director_id from cte where countn>=3;
 
 
 
+
+<br /> <br /> <br /> **[1587. Bank Account Summary II](https://leetcode.com/problems/bank-account-summary-ii/)**<br />
+Table: `Users`<br />
+<pre>
++--------------+---------+
+| Column Name  | Type    |
++--------------+---------+
+| account      | int     |
+| name         | varchar |
++--------------+---------+
+account is the primary key for this table.
+Each row of this table contains the account number of each user in the bank.
+There will be no two users having the same name in the table.
+</pre>
+Table: `Transactions`<br />
+<pre>
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| trans_id      | int     |
+| account       | int     |
+| amount        | int     |
+| transacted_on | date    |
++---------------+---------+
+trans_id is the primary key for this table.
+Each row of this table contains all changes made to all accounts.
+amount is positive if the user received money and negative if they transferred money.
+All accounts start with a balance of 0.
+</pre>
+Write an SQL query to report the name and balance of users with a balance higher than `10000`. The balance of an account is equal to the sum of the amounts of all transactions involving that account.<br />
+Return the result table in **any order**.<br />
+The query result format is in the following example.<br />
+
+>Example 1:<br />
+<pre>
+Input: 
+Users table:
++------------+--------------+
+| account    | name         |
++------------+--------------+
+| 900001     | Alice        |
+| 900002     | Bob          |
+| 900003     | Charlie      |
++------------+--------------+
+Transactions table:
++------------+------------+------------+---------------+
+| trans_id   | account    | amount     | transacted_on |
++------------+------------+------------+---------------+
+| 1          | 900001     | 7000       |  2020-08-01   |
+| 2          | 900001     | 7000       |  2020-09-01   |
+| 3          | 900001     | -3000      |  2020-09-02   |
+| 4          | 900002     | 1000       |  2020-09-12   |
+| 5          | 900003     | 6000       |  2020-08-07   |
+| 6          | 900003     | 6000       |  2020-09-07   |
+| 7          | 900003     | -4000      |  2020-09-11   |
++------------+------------+------------+---------------+
+Output: 
++------------+------------+
+| name       | balance    |
++------------+------------+
+| Alice      | 11000      |
++------------+------------+
+Explanation: 
+Alice's balance is (7000 + 7000 - 3000) = 11000.
+Bob's balance is 1000.
+Charlie's balance is (6000 + 6000 - 4000) = 8000.
+</pre>
+
+```sql
+SELECT a.name, SUM(b.amount) balance
+FROM Users a
+JOIN Transactions b
+ON a.account = b.account
+GROUP BY a.account
+HAVING balance > 10000;
+
+
+WITH cte 
+AS (SELECT name, amount, u.account AS act 
+	FROM Users u 
+	JOIN Transactions t 
+	ON u.account=t.account) 
+SELECT name, SUM(amount) AS balance 
+FROM cte 
+GROUP BY act 
+HAVING SUM(amount)>10000;
+
+
+SELECT * FROM
+(
+    SELECT 
+    u.name AS "NAME", 
+    SUM(t.amount) AS "BALANCE" FROM users u
+    NATURAL JOIN
+    transactions t
+    GROUP BY account, u.name
+) WHERE balance > 10000;
+```
+
