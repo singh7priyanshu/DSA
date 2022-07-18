@@ -1104,3 +1104,70 @@ public:
     }
 };
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br />**[1074. Number of Submatrices That Sum to Target](https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/)**<br />
+Given a `matrix` and a `target`, return the number of non-empty submatrices that sum to target.<br />
+A submatrix `x1`, `y1`, `x2`, `y2` is the set of all cells `matrix[x][y]` with `x1 <= x <= x2` and `y1 <= y <= y2`.<br />
+Two submatrices `(x1, y1, x2, y2)` and `(x1', y1', x2', y2')` are different if they have some coordinate that is different: for example, if `x1 != x1'`.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/09/02/mate1.jpg"><br />
+Input: matrix = [[0,1,0],[1,1,1],[0,1,0]], target = 0<br />
+Output: 4<br />
+Explanation: The four 1x1 submatrices that only contain 0.<br />
+
+>Example 2:<br />
+Input: matrix = [[1,-1],[-1,1]], target = 0<br />
+Output: 5<br />
+Explanation: The two 1x2 submatrices, plus the two 2x1 submatrices, plus the 2x2 submatrix.<br />
+
+>Example 3:<br />
+Input: matrix = [[904]], target = 0<br />
+Output: 0<br />
+ 
+* Constraints: `1 <= matrix.length <= 100`<br />
+`1 <= matrix[0].length <= 100`<br />
+`-1000 <= matrix[i] <= 1000`<br />
+`-10^8 <= target <= 10^8`<br />
+
+```cpp
+//  Prefix-Sum || Sliding Window
+class Solution {
+public:
+    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        for (int i = 0; i < m; i++){
+            for (int j = 1; j < n; j++){
+                matrix[i][j] += matrix[i][j - 1];
+            }
+        }
+        int count = 0;        
+        for (int i = 0; i < n; i++){
+            for (int j = i; j < n; j++){
+                map<int, int> mp;
+                mp[0] = 1;
+                int sum = 0;
+                for (int k = 0; k < m; k++){
+                    sum += matrix[k][j] - (i > 0 ? matrix[k][i - 1] : 0);
+                    count += mp[sum - target];
+                    mp[sum]++;
+                }
+            }
+        }
+        return count;
+    }
+};
+```
