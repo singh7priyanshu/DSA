@@ -3910,3 +3910,161 @@ public:
     }
 };
 ```
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+<br /> <br /> <br />**[792. Number of Matching Subsequences](https://leetcode.com/problems/number-of-matching-subsequences/)**<br />
+Given a string `s` and an array of strings `words`, return _the number of `words[i]` that is a subsequence of `s`_.<br />
+A **subsequence** of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.<br />
+ * For example, `"ace"` is a subsequence of `"abcde"`.<br />
+
+>Example 1:<br />
+Input: s = "abcde", words = ["a","bb","acd","ace"]<br />
+Output: 3<br />
+Explanation: There are three strings in words that are a subsequence of s: "a", "acd", "ace".<br />
+
+>Example 2:<br />
+Input: s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]<br />
+Output: 2<br />
+ 
+* Constraints: `1 <= s.length <= 5 * 10^4`<br />
+`1 <= words.length <= 5000`<br />
+`1 <= words[i].length <= 50`<br />
+`s` and `words[i]` consist of only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    int binary_search(vector<int> &arr, int x){
+        int start = 0, end = arr.size()-1, ans = -1;
+        while (start <= end){
+            int mid = (start + end)/2;
+            if (arr[mid] <= x)start = mid + 1;  
+            else{
+                ans = mid;
+                end = mid - 1;
+            }
+        }
+        return ans==-1 ? ans : arr[ans];
+    }
+
+    int numMatchingSubseq(string s, vector<string>& words) {
+        unordered_map<char,vector<int>> mp;
+        for(int i=0;i<s.length();i++)mp[s[i]].push_back(i);
+        int count = words.size();
+        for(auto w : words){
+            int prev = -1;
+            for(int j=0;j<w.size();j++){
+                int x = binary_search(mp[w[j]],prev);
+                if(x == -1){
+                    count--;
+                    break;
+                }
+                else prev = x;
+            }
+        }
+        return count;
+    }
+};
+```
+<pre>
+can use C++ STL function upper bound instead of writing binary search code manually
+Time Complexity : O( M * S * log(N) )
+Space Complexity : O( N ) ,
+where M is length of words array, S is length of a word and N is length of given string
+</pre>
+	
+```cpp
+class Solution {
+public:
+    bool isSubsequence(string s1, string s2, int m, int n){
+        if(n == 0) return true;
+        if(m == 0) return false;
+        if(s1[m - 1] == s2[n - 1]) return isSubsequence(s1, s2, m - 1, n - 1);
+        else return isSubsequence(s1, s2, m - 1, n);
+    }
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int count = 0;
+        for(auto x: words)count += (isSubsequence(s, x, s.size(), x.size()) == true);
+        return count;
+    }
+};
+```
+
+```cpp
+class Solution {
+public:
+    bool isSubsequence(string s1, string s2, int m, int n){
+        int j = 0;
+        for(int i = 0; i < m && j < n; i++)if(s1[i] == s2[j]) j++;
+        return j == n;
+    }
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int count = 0;
+        for(auto x: words)count += (isSubsequence(s, x, s.size(), x.size()) == true);
+        return count;
+    }
+};
+```
+	
+```cpp
+class Solution {
+public:
+    bool isSubsequence(string s1, string s2, int m, int n){
+        int j = 0;
+        for(int i = 0; i < m && j < n; i++)if(s1[i] == s2[j])j++;
+        return j == n;
+    }
+    int numMatchingSubseq(string s, vector<string>& words) {
+        int count = 0;
+        map<string, bool> mp;
+        for(auto x: words){
+            if(mp.find(x) != mp.end()) {
+                if(mp[x] == true)count++; 		
+                continue;
+            }
+            mp[x] = isSubsequence(s, x, s.size(), x.size());
+            count += (mp[x] == true);
+        }
+        return count;
+    }
+};
+```
+	
+```cpp
+class Solution {
+public:
+	int numMatchingSubseq(string s, vector<string>& words){
+		vector<vector<int>>v(26);
+		for(int i=0;i<s.length();i++)v[s[i]-'a'].push_back(i); 
+		int ans=0;
+		for(int i=0;i<words.size();i++){
+			int last;                                             
+			if(v[words[i][0]-'a'].size()==0)continue;
+			else last=*v[words[i][0]-'a'].begin();
+			int flag=1;
+			for(int j=1;j<words[i].size();j++){
+				auto it=upper_bound(v[words[i][j]-'a'].begin(),v[words[i][j]-'a'].end(),last);       
+				if(it==v[words[i][j]-'a'].end()){                        
+					flag=0;
+					break;
+				}
+				else last=*upper_bound(v[words[i][j]-'a'].begin(),v[words[i][j]-'a'].end(),last); 
+			}
+			if(flag)ans++;                                      
+		}
+		return ans;  
+	}
+};
+```
