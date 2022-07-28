@@ -4956,3 +4956,71 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[86. Partition List](https://leetcode.com/problems/partition-list/)**<br />
+Given the `head` of a linked list and a value `x`, partition it such that all nodes **less than** `x` come before nodes **greater than or equal** to `x`.<br />
+You should **preserve** the original relative order of the nodes in each of the two partitions.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/01/04/partition.jpg"><br />
+Input: head = [1,4,3,2,5,2], x = 3<br />
+Output: [1,2,2,4,3,5]<br />
+	
+>Example 2:<br />
+Input: head = [2,1], x = 2<br />
+Output: [1,2]<br />
+ 
+* Constraints: The number of nodes in the list is in the range `[0, 200]`.<br />
+`-100 <= Node.val <= 100`<br />
+`-200 <= x <= 200`<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    
+    ListNode* partition(ListNode* head, int x) {
+        
+        ListNode* small = new ListNode(-1);
+        ListNode* large = new ListNode(-1);
+        ListNode* small_head = small;
+        ListNode* large_head = large;
+        
+        while (head){
+            if (head->val < x){
+                small->next = head;
+                small = small -> next;
+                head = head -> next;
+                small->next = NULL;
+            }
+            else{
+                large->next = head;
+                large = large -> next;
+                head = head -> next;
+                large -> next = NULL;
+            }
+        }
+        small -> next = large_head -> next;
+
+        return small_head -> next;
+    }
+};
+```
