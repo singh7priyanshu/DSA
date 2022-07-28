@@ -5024,3 +5024,75 @@ public:
     }
 };
 ```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)**<br />
+Given the `root` of a binary tree, flatten the tree into a "linked list":<br />
+
+ * The "linked list" should use the same `TreeNode` class where the `right` child pointer points to the next node in the list and the `left` child pointer is always `null`.<br />
+ * The "linked list" should be in the same order as a **pre-order traversal** of the binary tree.<br />
+ 
+>Example 1:<br />
+<img src ="https://assets.leetcode.com/uploads/2021/01/14/flaten.jpg"><br />
+Input: root = [1,2,5,3,4,null,6]<br />
+Output: [1,null,2,null,3,null,4,null,5,null,6]<br />
+
+>Example 2:<br />
+Input: root = []<br />
+Output: []<br />
+	
+>Example 3:<br />
+Input: root = [0]<br />
+Output: [0]<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 2000]`.<br />
+`-100 <= Node.val <= 100`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* rightmost(TreeNode* root){
+        if (root->right==NULL) return root;
+        return rightmost(root->right);
+    }
+    
+    void flatten(TreeNode* root) {
+        if (root==NULL) return;
+        TreeNode* nextright;
+        TreeNode* rightMOST;
+        
+        while (root){
+            
+            if (root->left){
+                rightMOST = rightmost(root->left);
+                nextright = root->right;
+                root->right = root->left;
+                root->left=NULL;
+                rightMOST->right=nextright;
+            }
+            root=root->right;
+        }
+    }
+};
+```
