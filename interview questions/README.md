@@ -5096,3 +5096,79 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)**<br />
+Write an efficient algorithm that searches for a value `target` in an `m x n` integer matrix `matrix`.<br />
+This matrix has the following properties:<br />
+
+ * Integers in each row are sorted in ascending from left to right.<br />
+ * Integers in each column are sorted in ascending from top to bottom.<br />
+ 
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/11/24/searchgrid2.jpg"><br />
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5<br />
+Output: true<br />
+	
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/11/24/searchgrid.jpg"><br />
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20<br />
+Output: false<br />
+
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= n, m <= 300`<br />
+`-10^9 <= matrix[i][j] <= 10^9`<br />
+All the integers in each row are **sorted** in ascending order.<br />
+All the integers in each column are **sorted** in ascending order.<br />
+`-10^9 <= target <= 10^9`<br />
+	
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size(), n = matrix[0].size(), i = m - 1, j = 0;
+        while (i>=0 && j<n){
+            if (matrix[i][j] == target) return true;
+            else if (matrix[i][j] < target) j++;
+            else i--;
+        }
+        return false;
+    }
+};
+
+//using binary search 
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& mat, int target) {
+        int m = mat.size();
+        int n = mat[0].size();
+        int lo, hi, mid;      
+        for (int i=0; i<m; i++){
+            if (mat[i][0]<=target && mat[i][n-1]>=target){
+                lo = 0;
+                hi = n - 1;
+				if (lo==hi && mat[i][lo]==target) return true;
+                while (lo < hi){
+                    mid = (lo + hi) / 2;
+                    if (mat[i][mid] == target) return true;
+                    else if (mat[i][mid] < target) lo = mid + 1;
+                    else hi = mid;
+                }
+            }
+        }
+        return false;
+    }
+};
+```
