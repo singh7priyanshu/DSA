@@ -1171,3 +1171,82 @@ public:
     }
 };
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br />**[315. Count of Smaller Numbers After Self](https://leetcode.com/problems/count-of-smaller-numbers-after-self/)**<br />
+You are given an integer array `nums` and you have to return a new `counts` array. The `counts` array has the property where `counts[i]` is the number of smaller elements to the right of `nums[i]`.<br />
+
+>Example 1:<br />
+Input: nums = [5,2,6,1]<br />
+Output: [2,1,1,0]<br />
+Explanation:<br />
+To the right of 5 there are 2 smaller elements (2 and 1).<br />
+To the right of 2 there is only 1 smaller element (1).<br />
+To the right of 6 there is 1 smaller element (1).<br />
+To the right of 1 there is 0 smaller element.<br />
+
+>Example 2:<br />
+Input: nums = [-1]<br />
+Output: [0]<br />
+
+>Example 3:<br />
+Input: nums = [-1,-1]<br />
+Output: [0,0]<br />
+ 
+* Constraints: `1 <= nums.length <= 10^5`<br />
+`-10^4 <= nums[i] <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    void merge(vector<int>& arr, int l, int mid, int r,vector<pair<int,int>>& v,vector<int>& count){
+        vector<pair<int,int>> temp(r-l+1);
+        int i = l;
+        int j= mid + 1;
+        int k = 0;
+        
+        while(i<=mid && j<=r){                                                    
+            if(v[i].first<=v[j].first) temp[k++] = v[j++];
+            else{
+                count[v[i].second] += r-j+1;
+                temp[k++] = v[i++];
+            }
+        }
+        
+        while(i<=mid)temp[k++] = v[i++];
+        while(j<=r)temp[k++] = v[j++];
+        
+        for(int i=l;i<=r;i++)v[i] = temp[i-l];
+        
+    }
+    void mergeSort(vector<int>& arr, int l, int r,vector<pair<int,int>>& v,vector<int>& count){
+        if(l>=r) return ;
+        int mid = (l+r)/2;
+        mergeSort(arr,l,mid,v,count);
+        mergeSort(arr,mid+1,r,v,count);
+        merge(arr,l,mid,r,v,count);
+    }
+    
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size();
+        vector<pair<int,int>> v(n);                                        
+        for(int i=0;i<n;i++) v[i] = {nums[i],i};
+        vector<int> count(n,0);                                       
+        mergeSort(nums,0,n-1,v,count);                                
+       // for(int i=0;i<n;i++) cout<<v[i].first<<" ";
+        return count;
+    }
+};
+//Time Complexity : O(nlongn)     //Due to merge sort
+//Space Complexity : O(n)         //For implementing vector of size n
+```
