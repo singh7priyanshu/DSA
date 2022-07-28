@@ -5235,3 +5235,87 @@ public:
     }
 };
 ```
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)**<br />
+Given an array of integers `nums` sorted in non-decreasing order, find the starting and ending position of a given `target` value.<br />
+If `target` is not found in the array, return `[-1, -1]`.<br />
+You must write an algorithm with `O(log n)` runtime complexity.<br />
+
+>Example 1:<br />
+Input: nums = [5,7,7,8,8,10], target = 8<br />
+Output: [3,4]<br />
+
+>Example 2:<br />
+Input: nums = [5,7,7,8,8,10], target = 6<br />
+Output: [-1,-1]<br />
+
+>Example 3:<br />
+Input: nums = [], target = 0<br />
+Output: [-1,-1]<br />
+ 
+* Constraints: `0 <= nums.length <= 10^5`<br />
+`-10^9 <= nums[i] <= 10^9`<br />
+`nums` is a non-decreasing array.<br />
+`-10^9 <= target <= 10^9`<br />
+
+```cpp
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        auto low = lower_bound(nums.begin(),nums.end(),target);
+        auto up = upper_bound(nums.begin(),nums.end(),target);
+        
+        if(!binary_search(nums.begin(),nums.end(),target))    return {-1,-1};
+        
+        int first = low - nums.begin();
+        int last = up - nums.begin()-1;
+        
+        return {first ,last};
+    }
+};
+
+// not using upper bound and lower bound function
+class Solution {
+public:
+    int getIndex(vector<int>& nums, int target, bool getFirst){
+        int s = 0;
+        int e = nums.size()-1;
+        int ans = -1;
+        while(s<=e) {
+            int mid = s + (e-s)/2;
+            if(nums[mid] == target){
+                ans = mid;          
+                if(getFirst)  e = mid - 1;     
+                else	s = mid + 1;                
+            }
+            else if(nums[mid] > target) e = mid - 1;
+            else   s= mid + 1;
+        }
+        return ans;   
+    }
+
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int>  v(2 , -1);
+
+        int first = getIndex(nums, target, true);
+        if(first == -1)  return v;
+        int last = getIndex(nums, target, false);
+        v[0] = first;
+        v[1] = last;
+        return v;
+    }
+};
+```
