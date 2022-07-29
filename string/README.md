@@ -2586,7 +2586,77 @@ Auxiliary Space: O(n), Linear complexity for the above code.
 
 <br /><br /><br />
 ## Problem 21:
-**[]()**<br />
+**[Minimum number of bracket reversals needed to make an expression balanced](https://practice.geeksforgeeks.org/problems/count-the-reversals0401/1)**<br />
+Given a string **S** consisting of only opening and closing curly brackets **'{'** and **'}'**, find out the minimum number of reversals required to convert the string into a balanced expression.<br />
+A reversal means changing **'{'** to **'}'** or vice-versa.<br />
+
+>Example 1:<br />
+Input:<br />
+S = "}{{}}{{{"<br />
+Output: 3<br />
+Explanation: One way to balance is:<br />
+"{{{}}{}}". There is no balanced sequence that can be formed in lesser reversals.<br />
+
+>Example 2:<br />
+Input: <br />
+S = "{{}{{{}{{}}{{"<br />
+Output: -1<br />
+Explanation: There's no way we can balance this sequence of braces.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function **countRev()** which takes the string `S` as input parameter and returns the minimum number of reversals required to balance the bracket sequence. If balancing is not possible, return `-1`. <br />
+
+<pre>
+Expected Time Complexity: O(|S|).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 ≤ |S| ≤ 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+int countRev (string s);
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        string s; cin >> s;
+        cout << countRev (s) << '\n';
+    }
+}
+
+int countRev (string s){
+    if(s.length() & 1)return -1;
+    int op = 0, cl = 0;
+    int res = 0;
+    for(int i = 0;i<s.length();i++){
+        if(s[i] == '{')op++;
+        else cl++;
+        if(cl>op){
+            res += cl-op;
+            swap(cl, op);
+        }
+    }
+    res += (abs(cl-op))/2;
+    return res;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 22:
