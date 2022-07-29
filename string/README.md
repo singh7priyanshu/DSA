@@ -1164,9 +1164,163 @@ Auxiliary Space: O(1), as no extra space is used
 
 
 
+
+
 <br /><br /><br />
 ## Problem 11:
-**[]()**<br />
+**[Permutations of a given string](https://practice.geeksforgeeks.org/problems/permutations-of-a-given-string2041/1)**<br />
+Given a string `S`. The task is to print all permutations of a given string in lexicographically sorted order.<br />
+
+>Example 1:<br />
+Input: ABC<br />
+Output:<br />
+ABC ACB BAC BCA CAB CBA<br />
+Explanation:<br />
+Given string ABC has permutations in 6 <br />
+forms as ABC, ACB, BAC, BCA, CAB and CBA .<br />
+
+>Example 2:<br />
+Input: ABSG<br />
+Output:<br />
+ABGS ABSG AGBS AGSB ASBG ASGB BAGS <br />
+BASG BGAS BGSA BSAG BSGA GABS GASB <br />
+GBAS GBSA GSAB GSBA SABG SAGB SBAG<br /> 
+SBGA SGAB SGBA<br />
+Explanation:<br />
+Given string ABSG has 24 permutations.<br />
+
+**Your Task:**<br />  
+You don't need to read input or print anything. Your task is to complete the function `find_permutaion()` which takes the string S as input parameter and returns a vector of string in lexicographical order.<br />
+
+<pre>
+Expected Time Complexity: O(n! * n)
+Expected Space Complexity: O(n)
+</pre>
+
+* Constraints: `1 <= length of string <= 5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+        vector<string>find_permutation(string S){
+            vector<string>res;
+            sort(S.begin(), S.end());
+            do{
+                res.push_back(S);
+            }while(next_permutation(S.begin(), S.end()));
+            return res;
+        }
+};
+
+int main(){
+    int tc;
+    cin >> tc;
+    while(tc--){
+        string str;
+        cin >> str;
+        Solution obj;
+        vector<string>ans = obj.find_permutation(str);
+        for(auto i: ans){
+            cout<<i<<" ";
+        }
+        cout<<endl;
+    }
+    return 0;
+} 
+```
+Here is a solution that is used as a basis in backtracking.<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/NewPermutation.gif"><br />
+```cpp
+// C++ program to print all
+// permutations with duplicates allowed
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// Function to print permutations of string
+// This function takes three parameters:
+// 1. String
+// 2. Starting index of the string
+// 3. Ending index of the string.
+void permute(string a, int l, int r)
+{
+	// Base case
+	if (l == r)
+		cout<<a<<endl;
+	else
+	{
+		// Permutations made
+		for (int i = l; i <= r; i++)
+		{
+
+			// Swapping done
+			swap(a[l], a[i]);
+
+			// Recursion called
+			permute(a, l+1, r);
+
+			//backtrack
+			swap(a[l], a[i]);
+		}
+	}
+}
+
+// Driver Code
+int main()
+{
+	string str = "ABC";
+	int n = str.size();
+	permute(str, 0, n-1);
+	return 0;
+}
+```
+```cpp
+#include <bits/stdc++.h>
+#include <string>
+using namespace std;
+
+void permute(string s , string answer)
+{
+	if(s.length() == 0)
+	{
+		cout<<answer<<" ";
+		return;
+	}
+	for(int i=0 ; i<s.length() ; i++)
+	{
+		char ch = s[i];
+		string left_substr = s.substr(0,i);
+		string right_substr = s.substr(i+1);
+		string rest = left_substr + right_substr;
+		permute(rest , answer+ch);
+	}
+
+}
+
+int main()
+{
+	string s;
+	string answer="";
+
+	cout<<"Enter the string : ";
+	cin>>s;
+
+	cout<<"\nAll possible strings are : ";
+	permute(s , answer);
+	return 0;
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 12:
