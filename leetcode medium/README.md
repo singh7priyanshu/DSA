@@ -4068,3 +4068,165 @@ public:
 	}
 };
 ```
+
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+							    
+<br /> <br /> <br />**[890. Find and Replace Pattern](https://leetcode.com/problems/find-and-replace-pattern/)**<br />
+Given a list of strings `words` and a string `pattern`, return _a list of `words[i]` that match `pattern`_. You may return the answer in **any order**.<br />
+A word matches the pattern if there exists a permutation of letters `p` so that after replacing every letter `x` in the pattern with `p(x)`, we get the desired word.<br />
+Recall that a permutation of letters is a bijection from letters to letters: every letter maps to another letter, and no two letters map to the same letter.<br />
+
+>Example 1:<br />
+Input: words = ["abc","deq","mee","aqq","dkd","ccc"], pattern = "abb"<br />
+Output: ["mee","aqq"]<br />
+Explanation: "mee" matches the pattern because there is a permutation {a -> m, b -> e, ...}. <br />
+"ccc" does not match the pattern because {a -> c, b -> c, ...} is not a permutation, since a and b map to the same letter.<br />
+
+>Example 2:<br />
+Input: words = ["a","b","c"], pattern = "a"<br />
+Output: ["a","b","c"]<br />
+ 
+* Constraints: `1 <= pattern.length <= 20`<br />
+`1 <= words.length <= 50`<br />
+`words[i].length == pattern.length`<br />
+`pattern` and `words[i]` are lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    
+    vector<int> found_Pattern(string pattern)
+    {
+	   // if string is empty return empty vector.
+        if(pattern.size() == 0)
+            return {};
+        
+        vector<int> v;
+		
+		// ind variable for keeping track of unique characters
+        int ind = 0;
+		
+        unordered_map<char,int> mp;
+        for(int i = 0; i<pattern.size(); ++i)
+        {
+			// if character not present in map, insert the char with an index,
+			// increment index because for next unique character the index should be differnt.
+           if(mp.find(pattern[i]) == mp.end())
+           {
+               mp.insert({pattern[i],ind++});
+			   // also  push the index to v(numeric  pattern vector)
+			   // mp[pattern[i]] gives the key to that character, here key is ind(which we are giving to every unique character)
+               v.push_back(mp[pattern[i]]);
+           }
+            else
+            {
+				// if char is already in map than push index mapped to that character into the vector
+                v.push_back(mp[pattern[i]]);
+            }
+        }
+		// return numeric pattern
+        return v;
+    }
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+       
+		// store numeric patten of Pattern string in v
+        vector<int> v = found_Pattern(pattern);
+        
+        int n = words.size();
+        vector<string> ans;
+        
+		// iterating and comparing pattern of each word with v(numeric pattern of Pattern)
+        for(int i = 0; i<n; ++i)
+        {
+            vector<int> pattern_word = found_Pattern(words[i]);
+            
+			// if matched add words[i] to answer vector
+            if(v == pattern_word)
+                ans.push_back(words[i]);
+        }
+        
+        return ans;
+    }
+};
+
+
+// By using isomorphic string
+/*
+Two strings are isomorphic if one-to-one mapping is possible for every character of the 
+first string to every character of the second string. For example, consider the 
+two strings: “ACAB” and “XCXY”. 
+We can map the characters of the first string to the characters of the second string as follows: 'A' maps to 'X'.
+*/
+class Solution {
+public:
+    bool helper(string s,string t)
+    {
+        map<char,char>m;
+        for(int i=0;i<s.length();i++)
+        {
+            if(m.find(s[i])!=m.end())
+            {
+                if(m[s[i]]!=t[i])
+                    return false;
+            }
+            else
+            {
+                m[s[i]]=t[i];
+            }
+        }
+        return true;
+    }
+    bool isIsomorphic(string s,string t)
+    {
+        return helper(s,t) and helper(t,s);
+    }
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string>ans;
+        for(int i=0;i<words.size();i++)
+        {
+            if(isIsomorphic(words[i],pattern))
+            {
+                ans.push_back(words[i]);
+            }
+        }
+        return ans;
+    }
+};
+
+
+// in  O(1) Space O(n*length) Time
+ bool show(string &s1 , string &s2 , int &n)
+    {
+        vector<int> mappedvalue(26,-1) , visited(26,0);
+       for(int i=0;i<n;i++)
+       {
+             if(mappedvalue[s1[i]-'a']==-1) {
+                 mappedvalue[s1[i]-'a']= s2[i]-'a';
+                 if(visited[s2[i]-'a']++) return false; // if the character is already matched to some other character previously 
+             }
+              if(mappedvalue[s1[i]-'a'] != (s2[i]-'a')) return false;
+       }
+        return true;
+        
+    }
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> ans;
+        int n=pattern.length();
+        for(auto &it : words)
+        {
+            if(show(it, pattern , n)) ans.emplace_back(it);
+        }
+        return ans;
+    }
+```
