@@ -130,8 +130,7 @@ class gfg
 		
 		// Create an array of size 256 and fill
 		// count of every character in it
-		int *count = (int *)calloc(NO_OF_CHARS,
-									sizeof(int));
+		int *count = (int *)calloc(NO_OF_CHARS, sizeof(int));
 		fillCharCounts(str, count);
 
 		// Print characters having count more than 0
