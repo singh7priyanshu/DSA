@@ -749,7 +749,84 @@ public:
 
 <br /><br /><br />
 ## Problem 8:
-**[]()**<br />
+**[Longest Palindrome in a String](https://practice.geeksforgeeks.org/problems/longest-palindrome-in-a-string3411/1)**<br />
+Given a string `S`, find the longest palindromic substring in `S`. **Substring of string S:** `S[ i . . . . j ]` where `0 ≤ i ≤ j < len(S)`. **Palindrome string:** A string which reads the same backwards. More formally, `S` is palindrome if `reverse(S) = S`. Incase of conflict, return the substring which occurs first ( with the least starting index).<br />
+
+>Example 1:<br />
+Input:<br />
+S = "aaaabbaa"<br />
+Output: aabbaa<br />
+Explanation: The longest Palindromic substring is "aabbaa".<br />
+
+>Example 2:<br />
+Input: <br />
+S = "abc"<br />
+Output: a<br />
+Explanation: "a", "b" and "c" are the longest palindromes with same length.<br />
+The result is the one with the least starting index.<br />
+
+**Your Task**:<br />
+You dont need to read input or print anything. Your task is to complete the function **longestPalin()** which takes the string `S` as input and returns the longest palindromic substring of `S`.<br />
+<pre>
+Expected Time Complexity: O(|S|^2).
+Expected Auxiliary Space: O(1).
+</pre>	
+* Constraints: `1 ≤ |S| ≤ 10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    string longestPalin (string S) {
+        int i = 0, l, h = 0;
+        for(int i = 0;i<S.size();i++){
+            int length1 = helper(S, i, i);
+            int length2 = helper(S, i, i+1);
+            int length = max(length1, length2);
+            if(h-l < length-1){
+                l = i-(length-1)/2;
+                h = i+(length)/2;
+            }
+        }
+        return S.substr(l, h-l+1);
+    }
+    
+    int helper(string s, int l, int h){
+        while(l>=0 && h<s.size() && s[l]==s[h]){
+            l--;
+            h++;
+        }
+        return h-l-1;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string S; cin>>S;
+        Solution ob;
+        cout<<ob.longestPalin(S)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 9:
