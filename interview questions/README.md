@@ -1457,34 +1457,6 @@ public:
                                  
                                  
                                  
-<br /> <br /> <br />**[344. Reverse String](https://leetcode.com/problems/reverse-string/)**<br />
-Write a function that reverses a string. The input string is given as an array of characters `s`.<br /> 
-You must do this by modifying the input array `in-place` with `O(1)` extra memory.<br />
-
->Example 1:<br />
-Input: s = ["h","e","l","l","o"]<br />
-Output: ["o","l","l","e","h"]<br />       
- 
->Example 2:<br />
-Input: s = ["H","a","n","n","a","h"]<br />
-Output: ["h","a","n","n","a","H"]<br />  
- 
-* Constraints: `1 <= s.length <= 10^5`<br />
-s[i] is a `printable ascii character`.<br />  
- 
-```cpp
-class Solution {
-public:
-    void reverseString(vector<char>& s) {
-        int i=0;
-        int j=(s.size())-1;
-        for(int k=0;k<s.size()/2;k++){
-            swap(s[i],s[j]);
-            i++;j--;
-        }
-    }
-};
-```
                                        
                                       
 
