@@ -1799,7 +1799,105 @@ int main()
 
 <br /><br /><br />
 ## Problem 17:
-**[]()**<br />
+**[Word break Problem[ Very Imp]](https://practice.geeksforgeeks.org/problems/word-break1352/1)**<br />
+Given a string `A` and a dictionary of `n` words `B`, find out if `A` can be segmented into a space-separated sequence of dictionary words.<br />
+**Note:** From the dictionary `B` each word can be taken any number of times and in any order.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 12<br />
+B = { "i", "like", "sam",<br />
+"sung", "samsung", "mobile",<br />
+"ice","cream", "icecream",<br />
+"man", "go", "mango" }<br />
+A = "ilike"<br />
+Output:<br />
+1<br />
+Explanation:<br />
+The string can be segmented as "i like".<br />
+
+>Example 2:<br />
+Input:<br />
+n = 12<br />
+B = { "i", "like", "sam",<br />
+"sung", "samsung", "mobile",<br />
+"ice","cream", "icecream", <br />
+"man", "go", "mango" }<br />
+A = "ilikesamsung"<br />
+Output:<br />
+1<br />
+Explanation:<br />
+The string can be segmented as "i like samsung" or "i like sam sung".<br />
+
+Your Task:<br />
+Complete `wordBreak()` function which takes a `string` and `list of strings` as a parameter and returns `1` if it is possible to break words, else return `0`. You don't need to read any input or print any output, it is done by driver code.<br />
+
+<pre>
+Expected time complexity: O(s2)
+Expected auxiliary space: O(s) , where s = length of string A
+</pre>
+ 
+* Constraints: `1 ≤ N ≤ 12`<br />
+`1 ≤ s ≤ 1100` , where s = length of string `A`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+public:
+    int wordBreak(string A, vector<string> &B) {
+        int i, j, n = B.size();
+        set<string>mp;
+        for(i = 0;i<n;i++)mp.insert(B[i]);
+        int len = A.size();
+        vector<bool>dp(len+1, false);
+        dp[0] = true;
+        for(int i = 1;i<=len;i++){
+            for(int j = i-1;j>=0;j--){
+                if(dp[j] && mp.find(A.substr(j, i-j)) != mp.end()){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[len];
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<string> dict;
+        for(int i=0;i<n;i++){
+            string S;
+            cin>>S;
+            dict.push_back(S);
+        }
+        string line;
+        cin>>line;
+        Solution ob;
+        cout<<ob.wordBreak(line, dict)<<"\n";
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 18:
