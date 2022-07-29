@@ -2392,23 +2392,92 @@ We stop here as we have constructed the whole lps[].
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <br /><br /><br />
 ## Problem 19:
-**[]()**<br />
+**[Longest Prefix Suffix](https://practice.geeksforgeeks.org/problems/longest-prefix-suffix2527/1)**<br />
+Given a string of characters, find the length of the longest proper prefix which is also a proper suffix.<br />
+**NOTE:** Prefix and suffix can be overlapping but they should not be equal to the entire string.<br />
+
+>Example 1:<br />
+Input: s = "abab"<br />
+Output: 2<br />
+Explanation: "ab" is the longest proper prefix and suffix.<br /> 
+
+>Example 2:<br />
+Input: s = "aaaa"<br />
+Output: 3<br />
+Explanation: "aaa" is the longest proper prefix and suffix. <br />
+
+**Your task:**<br />
+You do not need to read any input or print anything. The task is to complete the function `lps()`, which takes a `string` as input and returns an `integer`.<br />
+
+<pre>
+Expected Time Complexity: O(|s|)
+Expected Auxiliary Space: O(|s|)
+</pre>
+
+* Constraints: `1 ≤ |s| ≤ 10^5`<br />
+`s` contains lower case English alphabets<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:       
+    int lps(string s) {
+        vector<int>A(s.size(), 0);
+        int j = 0, i = 1;
+        while(i<s.size()){
+            if(s[i]==s[j]){
+                A[i] = j+1;
+                j++;
+                i++;
+            }
+            else{
+                if(j==0)i++;
+                else j = A[j-1];
+            }
+        }
+        return A.back();
+    }
+};
+
+int main() 
+{
+   
+
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+   
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        string str;
+        cin >> str;
+
+        Solution ob;
+
+        cout << ob.lps(str) << "\n";
+    }
+
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 20:
