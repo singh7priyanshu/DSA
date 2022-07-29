@@ -36,7 +36,56 @@ public:
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br /> 
+**[Check whether a String is Palindrome or not](https://practice.geeksforgeeks.org/problems/palindrome-string0817/1)**<br />
+Given a string `S`, check if it is palindrome or not.<br />
+
+>Example 1:<br />
+Input: S = "abba"<br />
+Output: 1<br />
+Explanation: S is a palindrome<br />
+
+>Example 2:<br />
+Input: S = "abc" <br />
+Output: 0<br />
+Explanation: S is not a palindrome<br />
+ 
+**Your Task**:<br />
+You don't need to read input or print anything. Complete the function `isPalindrome()` which accepts string `S` and returns an integer value `1` or `0`.<br />
+
+<pre>
+Expected Time Complexity: O(Length of S)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 <= Length of S<= 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:     
+    int isPalindrome(string S){
+    for(int i=0;i<S.size()/2;i++){
+            if(S[i]!= S[S.size()-i-1])return 0;
+        }
+        return 1;
+    }
+};
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t; cin>>t;
+    while(t--){
+        string s; cin>>s;
+        Solution ob;
+        cout<<ob.isPalindrome(s)<<endl;
+    }
+    return 0;
+}
+```
 
 
 <br /><br /><br />
