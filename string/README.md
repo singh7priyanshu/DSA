@@ -2660,7 +2660,87 @@ int countRev (string s){
 
 <br /><br /><br />
 ## Problem 22:
-**[]()**<br />
+**[Count All Palindromic Subsequence in a given String](https://practice.geeksforgeeks.org/problems/count-palindromic-subsequences/1)**<br />
+Given a string `str` of length `N`, you have to find number of palindromic subsequence (need not necessarily be distinct) which could be formed from the string `str`.<br />
+**Note:** You have to return the answer module `10^9+7`;<br />
+
+>Example 1:<br />
+Input: <br />
+Str = "abcd"<br />
+Output: <br />
+4<br />
+Explanation:<br />
+palindromic subsequence are : "a" ,"b", "c" ,"d"<br />
+
+>Example 2:<br />
+Input: <br />
+Str = "aab"<br />
+Output: <br />
+4<br />
+Explanation:<br />
+palindromic subsequence are :"a", "a", "b", "aa"<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function **countPs()** which takes a string `str` as input parameter and returns the number of palindromic subsequence.<br />
+ 
+<pre>
+Expected Time Complexity: O(N*N)
+Expected Auxiliary Space: O(N*N)
+</pre>
+
+* Constraints: `1<=length of string str <=1000`
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    const long long int mod = 1000000007;
+    long long int  countPS(string str){
+        long long int N = str.length();
+        long long int cps[N+1][N+1];
+        memset(cps, 0, sizeof(cps));
+        for(long long int i = 0;i<N;i++)cps[i][i] = 1;
+        for(long long int L = 2;L<=N;L++){
+            for(long long int i = 0;i<=N-L;i++){
+                long long int k = L+i-1;
+                if(str[i]==str[k])cps[i][k] = add(cps[i][k-1], add(cps[i+1][k], 1LL))%mod;
+                else cps[i][k] = add(cps[i][k-1], sub(cps[i+1][k], cps[i+1][k-1]))%mod;
+           }
+       }
+       return cps[0][N-1]%mod;
+    }
+    long long int add(long long int x, long long int y){
+        return ((x%mod)+(y%mod))%mod;
+    }
+    long long int sub(long long int x, long long int y){
+        return ((x%mod)-(y%mod)+mod)%mod;
+    }
+     
+};
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string str;
+        cin>>str;
+        Solution ob;
+        long long int ans = ob.countPS(str);
+        cout<<ans<<endl;
+    } 
+}  
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 23:
