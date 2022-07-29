@@ -679,7 +679,72 @@ Since we are comparing the shuffled string with the other two strings, sorting a
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[38. Count and Say](https://leetcode.com/problems/count-and-say/)**<br />
+The **count-and-say** sequence is a sequence of digit strings defined by the recursive formula:<br />
+
+ * `countAndSay(1) = "1"`<br />
+ * `countAndSay(n)` is the way you would "say" the digit string from `countAndSay(n-1)`, which is then converted into a different digit string.<br />
+ 
+To determine how you "say" a digit string, split it into the **minimal** number of substrings such that each substring contains exactly **one** unique digit. Then for each substring, say the number of digits, then say the digit. Finally, concatenate every said digit.<br /><br />
+For example, the saying and conversion for digit string `"3322251"`:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/10/23/countandsay.jpg"><br />
+Given a positive integer `n`, return _the `nth` term of the **count-and-say** sequence_.<br /><br />
+
+>Example 1:<br />
+Input: n = 1<br />
+Output: "1"<br />
+Explanation: This is the base case.<br />
+
+>Example 2:<br />
+Input: n = 4<br />
+Output: "1211"<br />
+Explanation:<br />
+countAndSay(1) = "1"<br />
+countAndSay(2) = say "1" = one 1 = "11"<br />
+countAndSay(3) = say "11" = two 1's = "21"<br />
+countAndSay(4) = say "21" = one 2 + one 1 = "12" + "11" = "1211"<br />
+ 
+* Constraints: `1 <= n <= 30`<br />
+
+```cpp
+class Solution {
+public:
+    string countAndSay(int n) {
+        vector<string>v(31);
+        v[0]="0";
+        v[1]="1";
+        for(int i=2;i<=30;i++){
+            int x=i;
+            string temp = v[i-1],result = "";
+            int j=0;
+            while(j<temp.length()){
+                int count = 1;
+                while(j+1<temp.length() && temp[j] == temp[j+1]){
+                    count++;
+                    j++;
+                }
+                result+=to_string(count)+temp[j];
+                j++;
+            }
+            v[i] = result;
+        }
+        return v[n];
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <br /><br /><br />
