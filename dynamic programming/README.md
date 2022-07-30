@@ -862,8 +862,98 @@ Auxiliary Space: O(n^2)
 
   <br /><br /><br />
   ## Problem 7:
-  **[]()**<br />
+  **[Edit Distance](https://practice.geeksforgeeks.org/problems/edit-distance3702/1)**<br />
+Given two strings `s` and `t`. Return the minimum number of operations required to convert `s` to `t`.<br />
+The possible operations are permitted:<br />
 
+ 1. Insert a character at any position of the string.<br />
+ 2. Remove any character from the string.<br />
+ 3. Replace any character from the string with any other character.<br />
+ 
+>Example 1:<br />
+Input: <br />
+s = "geek", t = "gesek"<br />
+Output: 1<br />
+Explanation: One operation is required inserting 's' between two 'e's of str1.<br />
+
+>Example 2:<br />
+Input : <br />
+s = "gfg", t = "gfg"<br />
+Output: <br />
+0<br />
+Explanation: Both strings are same.<br />
+ 
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `editDistance()` which takes strings `s` and `t` as input parameters and returns the minimum number of operation to convert the string `s` to string `t`. <br />
+
+<pre>
+Expected Time Complexity: O(|s|*|t|)
+Expected Space Complexity: O(|s|*|t|)
+</pre>
+
+* Constraints: `1 ≤ Length of both strings ≤ 100`<br />
+Both the strings are in lowercase.<br />
+  
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int dp[102][102];
+    int fun(string s, string t, int pos1, int pos2){
+        if(pos1 == 0)return pos2;
+        if(pos2 == 0)return pos1;
+        int &ans = dp[pos1][pos2];
+        if(ans != -1)return ans;
+        if(s[pos1 - 1] == t[pos2-1])return ans = fun(s,t,pos1-1,pos2-1);
+        return ans = min({1+fun(s, t, pos1, pos2-1),
+                          1+fun(s, t, pos1-1, pos2),
+                          1+fun(s, t, pos1-1, pos2-1)
+        });
+    }
+    int editDistance(string s, string t){
+        memset(dp, -1, sizeof(dp));
+        int ans = fun(s, t, s.size(), t.size());
+        return ans;
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s, t;
+        cin>>s>>t;
+        Solution ob;
+        int ans = ob.editDistance(s, t);
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <br /><br /><br />
   ## Problem 8:
   **[]()**<br />
