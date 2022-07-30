@@ -549,7 +549,81 @@ int main(){
 
 <br /><br /><br />
 ## Problem 4:
-**[]()**<br />
+**[301. Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses/)**<br />
+Given a string `s` that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.<br />
+Return _all the possible results_. You may return the answer in **any order**.<br />
+
+>Example 1:<br />
+Input: s = "()())()"<br />
+Output: ["(())()","()()()"]<br />
+
+>Example 2:<br />
+Input: s = "(a)())()"<br />
+Output: ["(a())()","(a)()()"]<br />
+
+>Example 3:<br />
+Input: s = ")("<br />
+Output: [""]<br />
+ 
+* Constraints: `1 <= s.length <= 25`<br />
+`s` consists of lowercase English letters and parentheses `'('` and `')'`.<br />
+There will be at most `20` parentheses in `s`.<br />
+
+```cpp
+class Solution {
+public:
+    unordered_set<string> res, vis;
+    
+    int get_min(string &str){
+        int n = str.size();
+        stack<char> st;
+        int count = 0;
+        for(int i = 0; i < n; i++){
+            if(str[i] == '(')st.push(str[i]);
+            else if(str[i] == ')'){
+                if(st.empty()) count++;
+                else st.pop();
+            }
+        }
+        count += st.size();
+        return count;
+    }
+    void helper(string str, int min_removal){
+        if(vis.find(str) != vis.end())return;
+        vis.insert(str);
+        if(min_removal == 0){
+            res.insert(str);
+            return;
+        }
+        for(int i = 0; i < str.size(); i++){
+            if(str[i] == '(' || str[i] == ')'){
+                string left = str.substr(0, i);
+                string right = str.substr(i + 1);
+                helper(left + right, min_removal - 1);
+            }
+        }
+    }
+    
+    vector<string> removeInvalidParentheses(string str) {
+        int n = str.size();
+        int min_removal = get_min(str);
+        helper(str, min_removal);
+        vector<string> ans;
+        for(auto x : res){
+            if(get_min(x) == 0)ans.push_back(x);
+        }
+        return ans;
+    }
+};
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 5:
@@ -609,168 +683,4 @@ int main(){
 
 <br /><br /><br />
 ## Problem 19:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 20:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 21:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 22:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 23:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 24:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 25:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 26:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 27:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 28:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 29:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 30:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 31:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 32:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 33:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 34:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 35:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 36:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 37:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 38:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 39:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 40:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 41:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 42:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 43:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 44:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 45:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 46:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 47:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 48:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 49:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 50:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 51:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 52:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 53:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 54:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 55:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 56:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 57:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 58:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 59:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 60:
 **[]()**<br />
