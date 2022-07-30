@@ -144,7 +144,63 @@ int main(){
 
 <br /><br /><br />
 ## Problem 3:
-**[]()**<br />
+**[Binomial CoefficientProblem](https://practice.geeksforgeeks.org/problems/ncr1019/1)**<br />
+Given two integers `n` and `r`, find `nCr`. Since the answer may be very large, calculate the answer modulo `10^9+7`.<br />
+
+>Example 1:<br />
+Input: n = 3, r = 2<br />
+Output: 3<br />
+Explaination: 3C2 = 3. <br />
+
+>Example 2:<br />
+Input: n = 2, r = 4<br />
+Output: 0<br />
+Explaination: r is greater than n.<br />
+
+**Your Task:**<br />
+You do not need to take input or print anything. Your task is to complete the function `nCr()` which takes `n` and `r` as input parameters and returns `nCr` modulo 10^9+7..<br />
+
+<pre>
+Expected Time Complexity: O(n*r)
+Expected Auxiliary Space: O(r)
+</pre>
+
+* Constraints: `1 ≤ n ≤ 1000`<br />
+`1 ≤ r ≤ 800`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int nCr(int n, int r){
+        int mod = 1000000007;
+        int c[r+1];
+        memset(c, 0, sizeof(c));
+        c[0] = 1;
+        for(int i = 1;i<=n;i++){
+            for(int j = min(i, r); j>0;j--)c[j]=(c[j]+c[j-1])%mod;
+        }
+        return c[r]%mod;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, r;
+        cin>>n>>r;
+        Solution ob;
+        cout<<ob.nCr(n, r)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 4:
