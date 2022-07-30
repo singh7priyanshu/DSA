@@ -1612,7 +1612,75 @@ int main(){
 
   <br /><br /><br />
   ## Problem 13:
-  **[]()**<br />
+  **[Maximize The Cut Segments](https://practice.geeksforgeeks.org/problems/cutted-segments1642/1)**<br />
+Given an integer `N` denoting the Length of a line segment. You need to cut the line segment in such a way that the cut length of a line segment each time is either `x` , `y` or `z`. Here `x`, `y`, and `z` are integers.<br />
+After performing all the cut operations, your total number of cut segments must be maximum.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4<br />
+x = 2, y = 1, z = 1<br />
+Output: 4<br />
+Explanation:Total length is 4, and the cut lengths are 2, 1 and 1.  We can make<br /> 
+maximum 4 segments each of length 1.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 5<br />
+x = 5, y = 3, z = 2<br />
+Output: 2<br />
+Explanation: Here total length is 5, and the cut lengths are 5, 3 and 2. We can<br />
+make two segments of lengths 3 and 2.<br />
+
+**Your Task:**<br />
+You only need to complete the function `maximizeTheCuts()` that takes `n`, `x`, `y`, `z` as parameters and returns max number cuts.<br />
+
+<pre>
+Expected Time Complexity : O(N)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1 <= N, x, y, z <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    int maximizeTheCuts(int n, int x, int y, int z){
+        int arr[3];
+        arr[0]=x;
+        arr[1]=y;
+        arr[2]=z;
+        int dp[n+1];
+        memset(dp,0,sizeof(dp));
+        for(int j=0;j<3;j++){
+            for(int i=1;i<=n;i++){
+                if(i==arr[j] or (i>arr[j] and dp[i-arr[j]]>0))dp[i]=max(dp[i-arr[j]]+1,dp[i]);
+            }
+        }
+        return dp[n];
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int x, y, z; cin>>x>>y>>z;
+        Solution ob;
+        cout<<ob.maximizeTheCuts(n, x, y, z)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 14:
