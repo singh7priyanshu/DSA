@@ -5013,7 +5013,83 @@ Auxiliary Space: O(1).
 
 <br /><br /><br />
 ## Problem 42:
-**[]()**<br />
+**[Check if two given strings are isomorphic to each other](https://practice.geeksforgeeks.org/problems/isomorphic-strings-1587115620/1)**<br />
+Given two strings `'str1'` and `'str2'`, check if these two strings are isomorphic to each other.<br />
+Two strings `str1` and `str2` are called `isomorphic` if there is a one to one mapping possible for every character of `str1` to every character of `str2` while preserving the order.<br />
+**Note:** All occurrences of every character in `str1` should map to the same character in `str2`<br />
+
+>Example 1:<br />
+Input:<br />
+str1 = aab<br />
+str2 = xxy<br />
+Output: 1<br />
+Explanation: There are two different charactersin aab and xxy, i.e a and b<br />
+with frequency 2and 1 respectively.<br />
+
+>Example 2:<br />
+Input:<br />
+str1 = aab<br />
+str2 = xyz<br />
+Output: 0<br />
+Explanation: There are two different charactersin aab but there are three<br />
+different charactersin xyz. So there won't be one to one mapping between str1 and str2.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything.Your task is to complete the function `areIsomorphic()` which takes the string `str1` and string `str2` as input parameter and  check if two strings are `isomorphic`. The function returns `true` if strings are isomorphic else it returns `false`.<br />
+
+<pre>
+Expected Time Complexity: O(|str1|+|str2|).
+Expected Auxiliary Space: O(Number of different characters).
+Note: |s| represents the length of string s.
+</pre>
+
+* Constraints: `1 <= |str1|, |str2| <= 2*10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX_CHARS 256
+
+class Solution
+{
+    public:
+    bool areIsomorphic(string str1, string str2){
+        int m = str1.length(), n = str2.length();
+        if(m != n)return false;
+        int map[MAX_CHARS];
+        bool marked[MAX_CHARS]={false};
+        memset(map, -1, sizeof(map));
+        for(int i = 0;i<n;i++){
+            if(map[str1[i]] == -1){
+                if(marked[str2[i]] == true)return false;
+                marked[str2[i]] = true;
+                map[str1[i]] = str2[i];
+            }
+            else if(map[str1[i]] != str2[i])return false;
+        }
+        return true;
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s1, s2;
+        cin>>s1>>s2;
+        Solution ob;
+        cout<<ob.areIsomorphic(s1, s2)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
 
 
 <br /><br /><br />
