@@ -4563,7 +4563,73 @@ int main(){
 
 <br /><br /><br />
 ## Problem 38:
-**[]()**<br />
+**[Remove Consecutive Characters](https://practice.geeksforgeeks.org/problems/consecutive-elements2306/1)**<br />
+Given a string `S`. For each index `i(1<=i<=N-1)`, erase it if `s[i]` is equal to `s[i-1]` in the string.<br />
+
+>Example 1:<br />
+Input:<br />
+S = aabb<br />
+Output:  ab <br />
+Explanation: 'a' at 2nd position is appearing 2nd time consecutively.<br />
+Similiar explanation for b at 4th position.<br />
+
+>Example 2:<br />
+Input:<br />
+S = aabaa<br />
+Output:  aba<br />
+Explanation: 'a' at 2nd position is appearing 2nd time consecutively.<br />
+'a' at fifth position is appearing 2nd time consecutively.<br />
+ 
+**Your Task:**<br />
+You dont need to read input or print anything. Complete the function `removeConsecutiveCharacter()` which accepts a `string` as input parameter and returns modified string.<br />
+
+<pre>
+Expected Time Complexity: O(|S|).
+Expected Auxiliary Space: O(|S|).
+</pre>
+
+* Constraints: `1<=|S|<=10^5`<br />
+All characters are lowercase alphabets.<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    string removeConsecutiveCharacter(string S){
+        //only entering those elements in stack which are unique consecutively..
+        stack<char>st;
+        for(int i = 0;i<S.length();i++){
+            if((st.empty() == 0 && st.top() != S[i]) || st.empty() == 1)st.push(S[i]);
+        }
+        string res;
+        while(st.empty() == 0){
+            res += st.top();
+            st.pop();
+        }
+        // reversing the string because stack is a LIFO
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string s;
+        cin>>s;
+        Solution ob;
+        cout<<ob.removeConsecutiveCharacter(s)<<endl;
+    }
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 39:
