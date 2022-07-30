@@ -3040,7 +3040,76 @@ The Bad Character Heuristic may take `O(n/m)` in the best case. The best case oc
 
 <br /><br /><br />
 ## Problem 25:
-**[]()**<br />
+**[Roman Number to Integer](https://practice.geeksforgeeks.org/problems/roman-number-to-integer3201/1)**<br />
+Given a string in roman no format `(s)`  your task is to convert it to an integer . Various symbols and their values are given below.<br />
+<pre>
+I 	1
+V 	5
+X 	10
+L 	50
+C 	100
+D 	500
+M 	1000
+</pre>
+>Example 1:<br />
+Input:<br />
+s = V<br />
+Output: 5<br />
+
+>Example 2:<br />
+Input:<br />
+s = III <br />
+Output: 3<br />
+
+**Your Task:**<br />
+Complete the function `romanToDecimal()` which takes a `string` as input parameter and returns the equivalent decimal number.<br /> 
+<pre>
+Expected Time Complexity: O(|S|), |S| = length of string S.
+Expected Auxiliary Space: O(1)
+</pre>
+* Constraints: `1<=roman no range<=3999`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int romanToDecimal(string &str) {
+         int ans = 0, num = 0;
+        for (int i = str.size()-1; ~i; i--) {
+            switch(str[i]) {
+                case 'I': num = 1; break;
+                case 'V': num = 5; break;
+                case 'X': num = 10; break;
+                case 'L': num = 50; break;
+                case 'C': num = 100; break;
+                case 'D': num = 500; break;
+                case 'M': num = 1000; break;
+            }
+            if (4 * num < ans) ans -= num;
+            else ans += num;
+        }
+        return ans;
+    }
+};
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string s;
+        cin >> s;
+        Solution ob;
+        cout << ob.romanToDecimal(s) << endl;
+    }
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 26:
