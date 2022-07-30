@@ -2319,7 +2319,69 @@ Auxiliary Space: O(K*N)
 
   <br /><br /><br />
   ## Problem 21:
-  **[]()**<br />
+  **[Longest subsequence such that difference between adjacent is one](https://practice.geeksforgeeks.org/problems/longest-subsequence-such-that-difference-between-adjacents-is-one4724/1)**<br />
+Given an array `A[]` of size `N`, find the longest subsequence such that difference between adjacent elements is one.<br />
+
+>Example 1:<br />
+Input: N = 7<br />
+A[] = {10, 9, 4, 5, 4, 8, 6}<br />
+Output: 3<br />
+Explaination: The three possible subsequences {10, 9, 8} , {4, 5, 4} and {4, 5, 6}.<br />
+
+>Example 2:<br />
+Input: N = 5<br />
+A[] = {1, 2, 3, 4, 5}<br />
+Output: 5<br />
+Explaination: All the elements can be included in the subsequence.<br />
+
+`Your Task:`<br />
+You do not need to read input. Your task is to complete the function `longestSubseq()` which takes `N` and `A[]` as input parameters and returns the length of the longest such subsequence.<br />
+
+<pre>
+Expected Time Complexity: O(N^2)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^3`<br />
+`1 ≤ A[i] ≤ 10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int longestSubsequence(int N, int A[]){
+        int dp[N];
+        for(int i = 0;i<N;i++)dp[i] = 1;
+        for(int i = 1;i<N;i++){
+            for(int j = 0;j<i;j++){
+                if(abs(A[i]-A[j])==1)dp[i]=max(dp[i], dp[j]+1);
+            }
+        }
+        int ans = 1;
+        for(int i = 0;i<N;i++)ans=max(ans, dp[i]);
+        return ans;
+    }
+};
+
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n; int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.longestSubsequence(n, arr)<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 22:
