@@ -2551,7 +2551,89 @@ Auxiliary Space: O(n)
 
   <br /><br /><br />
   ## Problem 23:
-  **[]()**<br />
+  **[Egg Dropping Puzzle](https://practice.geeksforgeeks.org/problems/egg-dropping-puzzle-1587115620/1)**<br />
+You are given `N` identical eggs and you have access to a `K-floored` building from `1` to `K`.<br />
+There exists a floor `f` where `0 <= f <= K` such that any egg dropped at a floor higher than `f` will break, and any egg dropped `at or below` floor `f` will `not break`. There are few rules given below.<br />
+
+ * An egg that survives a fall can be used again.<br />
+ * A broken egg must be discarded.<br />
+ * The effect of a fall is the same for all eggs.<br />
+ * If the egg doesn't break at a certain floor, it will not break at any floor below.<br />
+ * If the eggs breaks at a certain floor, it will break at any floor above.<br />
+ 
+Return the minimum number of moves that you need to determine with certainty what the value of `f` is.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 1, K = 2<br />
+Output: 2<br />
+Explanation: <br />
+1. Drop the egg from floor 1. If it <br />
+   breaks, we know that f = 0.<br />
+2. Otherwise, drop the egg from floor 2.<br />
+   If it breaks, we know that f = 1.<br />
+3. If it does not break, then we know f = 2.<br />
+4. Hence, we need at minimum 2 moves to<br />
+   determine with certainty what the value of f is.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 2, K = 10<br />
+Output: 4<br />
+
+**Your Task:**<br />
+Complete the function `eggDrop()` which takes two positive integer `N` and `K` as input parameters and returns the minimum number of attempts you need in order to find the critical floor.<br />
+
+<pre>
+Expected Time Complexity : O(N*(K^2))
+Expected Auxiliary Space: O(N*K)
+</pre>
+
+* Constraints: `1<=N<=200`<br />
+`1<=K<=200`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    int eggDrop(int n, int k){
+        int eggFloor[n+1][k+1], res, i, j, x;
+        for(i = 1;i<=n;i++){
+            eggFloor[i][1] = 1;
+            eggFloor[i][0] = 0;
+        }
+        for(j = 1;j<=k;j++)eggFloor[1][j] = j;
+        for(i = 2;i<=n;i++){
+            for(j = 2;j<=k;j++){
+                eggFloor[i][j] = INT_MAX;
+                for(x = 1;x<=j;x++){
+                    res = 1+max(eggFloor[i-1][x-1], eggFloor[i][j-x]);
+                    if(res<eggFloor[i][j])eggFloor[i][j] = res;
+                }
+            }
+        }
+        return eggFloor[n][k];
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, k;
+        cin>>n>>k;
+        Solution ob;
+        cout<<ob.eggDrop(n, k)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 24:
