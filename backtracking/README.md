@@ -2510,7 +2510,85 @@ Output<br />
 
 <br /><br /><br />
 ## Problem 18:
-**[]()**<br />
+**[Partition of a set intoK subsets with equal sum](https://practice.geeksforgeeks.org/problems/partition-array-to-k-subsets/1)**<br />
+Given an integer array `a[ ]` of `N` elements and an integer `K`, the task is to check if the array `a[ ]` could be divided into `K` non-empty subsets with equal sum of elements.<br />
+**Note:** All elements of this array should be part of exactly one partition.<br />
+
+>Example 1:<br />
+Input: <br />
+N = 5<br />
+a[] = {2,1,4,5,6}<br />
+K = 3<br />
+Output: <br />
+1
+Explanation: we can divide above array into 3 parts with equal sum as (2, 4), (1, 5), (6)<br />
+
+>Example 2:<br />
+Input: <br />
+N = 5 <br />
+a[] = {2,1,5,5,6}<br />
+K = 3<br />
+Output: <br />
+0<br />
+Explanation: It is not possible to divide above array into 3 parts with equal sum.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `isKPartitionPossible()` which takes the array `a[]`, the size of the array `N`, and the value of `K` as inputs and returns `true`(same as 1) if possible, otherwise `false`(same as 0).<br />
+
+<pre>
+Expected Time Complexity: O(N*2N).
+Expected Auxiliary Space: O(2N).
+</pre>
+
+* Constraints: `1 ≤ K ≤ N ≤ 10`<br />
+`1 ≤ a[i] ≤ 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int dp[(1<<16)+2];
+    bool isKPartitionPossible(int nums[], int n, int k){
+        int sum = 0;
+        fill(dp, dp+(1<<16)+2, -1);
+        dp[0] = 0;
+        for (int i = 0; i < n; i++) sum += nums[i];
+        if (sum % k) return false;
+        int tar = sum/k;
+            
+        for (int mask = 0; mask < (1<<n); mask++) {
+            if (dp[mask] == -1) continue; 
+            for (int i = 0; i < n; i++) {
+                if (!(mask&(1<<i)) && dp[mask]+nums[i] <= tar) { 
+                    dp[mask|(1<<i)] = (dp[mask]+nums[i]) % tar;
+                }
+            }
+        }
+        return dp[(1<<n)-1] == 0;  
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int a[n];
+        for(int i = 0;i<n;i++)cin>>a[i];
+        int k; cin>>k;
+        Solution ob;
+        cout<<ob.isKPartitionPossible(a, n, k)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 19:
