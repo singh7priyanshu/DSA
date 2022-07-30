@@ -66,7 +66,81 @@ int main(){
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br />
+**[Knapsack Problem](https://practice.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1)**<br />
+You are given weights and values of `N` items, put these items in a knapsack of capacity `W` to get the maximum total value in the knapsack. Note that we have only one quantity of each item.<br />
+In other words, given two integer arrays `val[0..N-1]` and `wt[0..N-1]` which represent values and weights associated with `N` items respectively. Also given an integer `W` which represents knapsack capacity, find out the maximum value subset of `val[]` such that sum of the weights of this subset is smaller than or equal to `W`. You cannot break an item, either pick the complete item or dont pick it (0-1 property).<br />
+
+>Example 1:<br />
+Input:<br />
+N = 3<br />
+W = 4<br />
+values[] = {1,2,3}<br />
+weight[] = {4,5,1}<br />
+Output: 3<br />
+
+>Example 2:<br />
+Input:<br />
+N = 3<br />
+W = 3<br />
+values[] = {1,2,3}<br />
+weight[] = {4,5,6}<br />
+Output: 0<br />
+
+**Your Task:**<br />
+Complete the function `knapSack()` which takes maximum capacity `W`, weight array `wt[]`, value array `val[]`, and the number of items `n` as a parameter and returns the maximum possible value you can get.<br />
+
+<pre>
+Expected Time Complexity: O(N*W).
+Expected Auxiliary Space: O(N*W)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 1000`<br />
+`1 ≤ W ≤ 1000`<br />
+`1 ≤ wt[i] ≤ 1000`<br />
+`1 ≤ v[i] ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       // Your code here
+       int grid[n+1][W+1];
+       for(int i=0;i<=n;i++){
+           for(int j=0;j<=W;j++){
+               if(i==0 || j==0)grid[i][j] = 0;
+               else if(wt[i-1]<=j)grid[i][j] = max(val[i-1]+grid[i-1][j-wt[i-1]],grid[i-1][j]);
+               else grid[i][j] = grid[i-1][j];
+           }
+       }
+       return grid[n][W];
+    }
+};
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n, w;
+        cin>>n>>w;
+        int val[n];
+        int wt[n];
+        for(int i=0;i<n;i++)cin>>val[i];
+        for(int i=0;i<n;i++)cin>>wt[i];
+        Solution ob;
+        cout<<ob.knapSack(w,wt,val,n)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 3:
