@@ -2871,7 +2871,85 @@ int main(){
 
   <br /><br /><br />
   ## Problem 27:
-  **[]()**<br />
+  **[Maximum path sum in matrix](https://practice.geeksforgeeks.org/problems/path-in-matrix3805/1)**<br />
+Given a `NxN` matrix of positive integers. There are only `three` possible moves from a cell `Matrix[r][c]`.<br />
+
+ 1. Matrix [r+1] [c]<br />
+ 2. Matrix [r+1] [c-1]<br />
+ 3. Matrix [r+1] [c+1]<br />
+ 
+Starting from any column in row `0` return the largest sum of any of the paths up to row `N-1`.<br />
+
+>Example 1:<br />
+Input: N = 2<br />
+Matrix = {{348, 391},<br />
+          {618, 193}}<br />
+Output: 1009<br />
+Explaination: The best path is 391 -> 618. It gives the sum = 1009.<br />
+
+>Example 2:<br />
+Input: N = 2<br />
+Matrix = {{2, 2},<br />
+          {2, 2}}<br />
+Output: 4<br />
+Explaination: No matter which path is chosen, the output is 4.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `maximumPath()` which takes the size `N` and the `Matrix` as input parameters and returns the highest maximum path sum.<br />
+
+<pre>
+Expected Time Complexity: O(N*N)
+Expected Auxiliary Space: O(N*N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 500`<br />
+`1 ≤ Matrix[i][j] ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int maximumPath(int N, vector<vector<int>> Matrix){
+        int dp[N][N];
+        for(int i = 0;i < N;i++)dp[0][i] = Matrix[0][i];
+        for(int i = 1;i < N;i++){
+            for(int j = 0;j < N;j++){
+                if(j == 0 && j+1 < N)
+                    dp[i][j] = Matrix[i][j] + max(dp[i-1][j],dp[i-1][j+1]);
+                else if(j-1>=0 && j == N-1)
+                    dp[i][j] = Matrix[i][j] + max(dp[i-1][j],dp[i-1][j-1]);
+                else if(j > 0 && j+1 < N)
+                    dp[i][j] = Matrix[i][j] + max(dp[i-1][j],max(dp[i-1][j-1],dp[i-1][j+1]));
+                else
+                    dp[i][j] = Matrix[i][j] + dp[i-1][j];
+            }
+        }
+        int maxi = 0;
+        for(int i = 0;i < N;i++)
+            maxi = max(maxi, dp[N-1][i]);
+        return maxi;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<vector<int>>matrix(n, vector<int>(n, 0));
+        for(int i = 0;i<n*n;i++)cin>>matrix[(i/n)][i%n];
+        Solution ob;
+        cout<<ob.maximumPath(n, matrix)<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 28:
