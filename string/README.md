@@ -4633,7 +4633,143 @@ int main(){
 
 <br /><br /><br />
 ## Problem 39:
-**[]()**<br />
+**[String matching where one string contains wildcard characters](https://practice.geeksforgeeks.org/problems/wildcard-string-matching1126/1)**<br />
+Given two strings `wild` and `pattern` where wild string may contain wild card characters and pattern string is a normal string. Determine if the two strings match.<br /> 
+The following are the allowed wild card characters in first string :-<br />
+<pre>
+* --> This character in string wild can be replaced by any sequence of characters, it can also be replaced by an empty string.
+? --> This character in string wild can be replaced by any one character.
+</pre>
+
+>Example 1:
+<pre>
+Input: wild = ge*ks
+       pattern = geeks
+Output: Yes
+Explanation: Replace the '*' in wild string with 'e' to obtain pattern "geeks".
+</pre>
+
+>Example 2:
+<pre>
+Input: wild = ge?ks*
+       pattern = geeksforgeeks
+Output: Yes
+Explanation: Replace '?' and '*' in wild string with 'e' and 'forgeeks' respectively to obtain pattern
+"geeksforgeeks"
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `match()` which takes the string `wild` and `pattern` as input parameters and returns `true` if the string wild can be made equal to the string pattern, otherwise, returns `false`.<br />
+
+<pre>
+Expected Time Complexity: O(length of wild string * length of pattern string)
+Expected Auxiliary Space: O(length of wild string * length of pattern string)
+</pre>
+
+* Constraints: `1<=length of the two string<=10^3`<br /> 
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    bool recursion(string wild, int it1, int len1, string pattern, int it2, int len2)
+    {
+        if(it1 == len1 && it2 == len2)
+        return true;
+        
+        if(wild[it1] == '*'){
+            while(it1+1 < len1 && wild[it1+1] == '*')
+            it1++;
+        }
+        
+        if(wild[it1] == '*' && it1+1 != len1 && it2 == len2)
+        return false;
+        
+        if(wild[it1] == '?' || wild[it1] == pattern[it2])
+        return recursion(wild, it1+1, len1, pattern, it2+1, len2);
+        
+        if(wild[it1] == '*')
+        return recursion(wild, it1, len1, pattern, it2+1, len2) 
+                || recursion(wild, it1+1, len1, pattern, it2, len2);
+                
+        return false;
+    }
+    
+    bool match(string wild, string pattern)
+    {
+        int len1 = wild.size();
+        int len2 = pattern.size();
+        bool flag = recursion(wild, 0, len1, pattern, 0, len2);
+        return flag;
+    }
+};
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string wild, pattern;
+        cin>>wild>>pattern;
+        
+        Solution ob;
+        if(ob.match(wild, pattern))
+        cout<<"Yes\n";
+        else
+        cout<<"No\n";
+    }
+    return 0;
+}
+```
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int wildCard(string pattern,string str){
+        bool isFirst = true;
+        int trueVal = pattern.length();
+        int dp[str.length()+1][trueVal+1];
+        memset(dp, 0, sizeof dp);
+        dp[0][0] = true;
+        for(int i =1 ;i<=pattern.length();i++){
+            if(pattern[i-1] == '*')dp[0][i] = dp[0][i-1];
+        }
+        if(trueVal>0 && pattern[0]=='*')dp[0][1] = 1;
+        for(int i = 1;i<=str.length();i++){
+            for(int j = 1;j<=trueVal;j++){
+                if(pattern[j-1] == '?' || pattern[j-1] == str[i-1])dp[i][j] = dp[i-1][j-1];
+                else if(pattern[j-1] == '*')dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                else dp[i][j]=0;
+            }
+        }
+        return dp[str.length()][trueVal];
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string pat, text;
+        cin>>pat;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin>>text;
+        Solution ob;
+        cout<<ob.wildCard(pat, text)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 40:
