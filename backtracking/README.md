@@ -1784,7 +1784,121 @@ Length of shortest safe route is 13
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[Combinational Sum](https://practice.geeksforgeeks.org/problems/combination-sum-1587115620/1)**<br />
+Given an array of integers and a sum `B`, find all unique combinations in the array where the sum is equal to `B`. The same number may be chosen from the array any number of times to make `B`.<br />
+**Note:**<br />
+<pre>
+        1. All numbers will be positive integers.
+        2. Elements in a combination (a1, a2, …, ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+        3. The combinations themselves must be sorted in ascending order.
+</pre>
+
+>Example 1:<br />
+Input:<br />
+N = 4<br />
+arr[] = {7,2,6,5}<br />
+B = 16<br />
+Output:<br />
+(2 2 2 2 2 2 2 2)<br />
+(2 2 2 2 2 6)<br />
+(2 2 2 5 5)<br />
+(2 2 5 7)<br />
+(2 2 6 6)<br />
+(2 7 7)<br />
+(5 5 6)<br />
+
+>Example 2:<br />
+Input:<br />
+N = 11<br />
+arr[] = {6,5,7,1,8,2,9,9,7,7,9}<br />
+B = 6<br />
+Output:<br />
+(1 1 1 1 1 1)<br />
+(1 1 1 1 2)<br />
+(1 1 2 2)<br />
+(1 5)<br />
+(2 2 2)<br />
+(6)<br />
+
+**Your Task:**<br />
+Your task is to complete the function `combinationSum()` which takes the array `A` and a sum `B` as inputs and returns a list of list denoting the required combinations in the order specified in the problem description. The printing is done by the driver's code. If no set can be formed with the given set, then  "Empty" (without quotes) is printed.<br />
+
+<pre>
+Expected Time Complexity: O(X^2 * 2^N), where X is average of summation B/arri for every number in the array.
+Expected Auxiliary Space: O(X * 2^N)
+</pre>
+
+* Constraints: `1 <= N <= 30`<br />
+`1 <= A[i] <= 20`<br />
+`1 <= B <= 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution  {
+  public:
+    void combinationSumUtil(vector<int> &A, int sum, 
+        vector<vector<int>>&result, vector<int>current, int pos){
+        if(sum==0){ 
+            result.push_back(current);
+            return;
+        }
+        if(sum<0 || pos>=A.size()) return; 
+        current.push_back(A[pos]); 
+        combinationSumUtil(A, sum-A[pos], result,  current, pos );
+        current.pop_back(); 
+        combinationSumUtil(A, sum, result,  current, pos+1 ); 
+    }
+    vector<vector<int> > combinationSum(vector<int> &A, int B){
+        sort(A.begin(),A.end());
+        vector<vector<int> > result;
+        vector<int> current, C;
+        int i,j;
+        for(i=0;i<A.size();i++){
+            j=i+1;
+            while(j<A.size()&&A[i]==A[j])j++;
+            C.push_back(A[i]);
+            i=j-1;
+        }
+        combinationSumUtil(C, B, result, current,0);
+        return result;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int>A;
+        for(int i = 0;i<n;i++){
+            int x;
+            cin>>x;
+            A.push_back(x);
+        }
+        int sum;
+        cin>>sum;
+        Solution ob;
+        vector<vector<int>>result = ob.combinationSum(A, sum);
+        if(result.size() == 0)cout<<"Empty";
+        for(int i = 0;i<result.size();i++){
+            cout<<'(';
+            for(int j = 0;j<result[i].size();j++){
+                cout<<result[i][j];
+                if(j<result[i].size()-1)cout<<" ";
+            }
+            cout<<")";
+        }
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
