@@ -2802,7 +2802,72 @@ int main(){
 
   <br /><br /><br />
   ## Problem 26:
-  **[]()**<br />
+  **[Maximum sum of pairs with specific difference](https://practice.geeksforgeeks.org/problems/pairs-with-specific-difference1533/1)**<br />
+Given an array of integers, `arr[]` and a number, `K`.You can pair two numbers of the array if the difference between them is `strictly less than K`. The task is to find the maximum possible sum of such `disjoint pairs` (i.e., each element of the array can be used `at most` once). The Sum of `P` pairs is the sum of all `2P` elements of pairs.<br />
+
+>Example 1:<br />
+Input  : <br />
+arr[] = {3, 5, 10, 15, 17, 12, 9}<br />
+K = 4<br />
+Output : <br />
+62<br />
+Explanation :<br />
+Then disjoint pairs with difference less than K are, (3, 5), (10, 12), (15, 17)<br />
+max sum which we can get is 3 + 5 + 10 + 12 + 15 + 17 = 62<br />
+Note that an alternate way to form disjoint pairs is,(3, 5), (9, 12), (15, 17)<br />
+but this pairing produces less sum. <br />
+
+>Example 2:<br />
+Input  : <br />
+arr[] = {5, 15, 10, 300}<br />
+K = 12<br />
+Output : <br />
+25<br />
+ 
+**Your Task:**<br />
+You don't need to read, input, or print anything. Your task is to complete the function `maxSumPairWithDifferenceLessThanK()` which takes the array `arr[]`, its size `N`, and an integer `K` as inputs and returns the maximum possible sum of disjoint pairs.<br />
+
+<pre>
+Expected Time Complexity: O(N. log(N))
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`0 ≤ K ≤ 10^5`<br />
+`1 ≤ arr[i] ≤ 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    int maxSumPairWithDifferenceLessThanK(int arr[], int N, int K){
+        sort(arr, arr + N);
+        int ans = 0;
+        for (int i = N - 1; i > 0; i--) if (arr[i] - arr[i - 1] < K) ans += (arr[i] + arr[i - 1]), i--;
+        return ans;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        int k; cin>>k;
+        Solution ob;
+        cout<<ob.maxSumPairWithDifferenceLessThanK(arr, n, k)<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 27:
