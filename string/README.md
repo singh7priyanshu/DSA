@@ -3333,7 +3333,76 @@ int minFlips (string S){
 
 <br /><br /><br />
 ## Problem 29:
-**[Second most repeated string in a sequence]()**<br />
+**[Second most repeated string in a sequence](https://practice.geeksforgeeks.org/problems/second-most-repeated-string-in-a-sequence0534/1)**<br />
+Given a sequence of `strings`, the task is to find out the second most repeated (or frequent) string in the given sequence.<br />
+**Note:** No two strings are the second most repeated, there will be always a single string.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 6<br />
+arr[] = {aaa, bbb, ccc, bbb, aaa, aaa}<br />
+Output: bbb<br />
+Explanation: "bbb" is the second most occurring string with frequency 2.<br />
+
+>Example 2:<br />
+Input: <br />
+N = 6<br />
+arr[] = {geek, for, geek, for, geek, aaa}<br />
+Output: for<br />
+Explanation: "for" is the second most occurring string with frequency 2.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `secFrequent()` which takes the string array `arr[]` and its size `N` as inputs and returns the second most frequent string in the array.<br />
+
+<pre>
+Expected Time Complexity: O(N*max(|Si|).
+Expected Auxiliary Space: O(N*max(|Si|).
+</pre>
+
+* Constraints: `1<=N<=10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+  public:
+    string secFrequent (string arr[], int n){
+        unordered_map<string, int>m;
+        for(int i = 0;i<n;i++)m[arr[i]]++;
+        int mx1 = INT_MIN, mx2 = INT_MIN;
+        for(auto i : m){
+            if(i.second>mx1){
+                mx2 = mx1;
+                mx1 = i.second;
+            }
+            else if(i.second>mx2 && i.second != mx1)mx2 = i.second;
+        }
+        for(auto i : m){
+            if(i.second == mx2)return i.first;
+        }
+        return "";
+    }
+};
+
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        int n; cin >> n;
+        string arr[n];
+        for (int i = 0; i < n; ++i)
+            cin >> arr[i];
+        Solution ob;
+        cout << ob.secFrequent (arr, n) << endl;
+    }
+}
+```
+
+
+
 
 
 <br /><br /><br />
