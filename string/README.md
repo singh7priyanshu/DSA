@@ -2889,6 +2889,111 @@ Auxiliary Space: O(n*m)
 
 <br /><br /><br />
 ## Problem 24:
+**[Find the string in grid](https://practice.geeksforgeeks.org/problems/find-the-string-in-grid0111/1)**<br />
+Given a 2D grid of `n*m` of characters and a word, find all occurrences of given word in grid. A word can be matched in all 8 directions at any point. Word is said be found in a direction if all characters match in this direction (not in zig-zag form). The `8` directions are, horizontally left, horizontally right, vertically up, vertically down and 4 diagonal directions.<br />
+
+>Example 1:<br />
+Input: grid = {{a,b,c},{d,r,f},{g,h,i}},<br />
+word = "abc"<br />
+Output: {{0,0}}<br />
+Explanation: From (0,0) one can find "abc" in horizontally right direction.<br />
+
+>Example 2:<br />
+Input: grid = {{a,b,a,b},{a,b,e,b},{e,b,e,b}}<br />
+,word = "abe"<br />
+Output: {{0,0},{0,2},{1,0}}<br />
+Explanation: From (0,0) one can find "abe" in right-down diagonal.<br />
+From (0,2) one can find "abe" in left-down diagonal.<br />
+From (1,0) one can find "abe" in Horizontally right direction.<br />
+ 
+**Your Task:**<br />
+You don't need to read or print anyhting, Your task is to complete the function `searchWord()` which takes `grid` and `word` as input parameters and returns a `list` containg the positions from where the word originates in any direction. If there is no such position then returns an `empty` list.<br />
+
+**Note:** The returning list should be lexicographically smallest. If the word can be found in multiple directions strating from the same coordinates, the list should contain the coordinates only once.<br />
+ 
+<pre>
+Expected Time Complexity: O(n*m*k) where k is constant
+Exected Space Complexity: O(1)
+</pre> 
+
+* Constraints: `1 <= n <= m <= 100`<br />
+`1 <= |word| <= 10`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+
+    bool search2D(vector<vector<char>>grid, int row, int col, string word, vector<int>x, vector<int>y){
+        int R = grid.size();
+        int C = grid[0].size();
+        if(grid[row][col] != word[0])return false;
+        int len = word.size();
+        for(int dir = 0;dir<8;dir++){
+            int k, rd = row+x[dir], cd=col+y[dir];
+            for(k = 1;k<len;k++){
+                if(rd >= R || rd<0 || cd>=C || cd<0)break;
+                if(grid[rd][cd] != word[k])break;
+                rd += x[dir];
+                cd += y[dir];
+            }
+            if(k == len)return true;
+        }
+        return false;
+    }
+    
+    vector<vector<int>>searchWord(vector<vector<char>>grid, string word){
+        int row = grid.size();
+        int col = grid[0].size();
+        vector<int>x = {-1, -1, -1, 0, 0, 1, 1, 1};
+        vector<int>y = {-1, 0, 1, -1, 1, -1, 0, 1};
+        vector<vector<int>>ans;
+        for(int i = 0;i<row;i++){
+            for(int j = 0;j<col;j++){
+                if(search2D(grid, i, j, word, x, y)){
+                    ans.push_back({i, j});
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+int main(){
+    int tc;
+    cin >> tc;
+    while(tc--){
+        int n, m;
+        cin >> n >> m;
+        vector<vector<char>>grid(n, vector<char>(m,'x'));
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++)
+                cin >> grid[i][j];
+        }
+        string word;
+        cin >> word;
+        Solution obj;
+        vector<vector<int>>ans = obj.searchWord(grid, word);
+        for(auto i: ans){
+            for(auto j: i)
+                cout << j << " ";
+            cout << "\n";
+        }
+        if(ans.size() == 0)
+        {
+            cout<<"-1\n";
+        }
+    }
+    return 0;
+}
+```
+
+
+
+<br /><br /><br />
+## Problem 25:
 **[Boyer Moore Algorithm for Pattern Searching](https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/)**<br />
 Given a text `txt[0..n-1]` and a pattern `pat[0..m-1]`, write a function `search(char pat[], char txt[])` that prints all occurrences of `pat[]` in `txt[]`. You may assume that `n > m`.<br />
 
@@ -3036,10 +3141,8 @@ The Bad Character Heuristic may take `O(n/m)` in the best case. The best case oc
 
 
 
-
-
 <br /><br /><br />
-## Problem 25:
+## Problem 26:
 **[Roman Number to Integer](https://practice.geeksforgeeks.org/problems/roman-number-to-integer3201/1)**<br />
 Given a string in roman no format `(s)`  your task is to convert it to an integer . Various symbols and their values are given below.<br />
 <pre>
@@ -3111,8 +3214,11 @@ int main() {
 
 
 
+
+
+
 <br /><br /><br />
-## Problem 26:
+## Problem 27:
 **[14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/)**<br />
 Write a function to find the longest common prefix string amongst an array of `strings`.<br />
 If there is no common prefix, return an empty string `""`.<br />
@@ -3157,9 +3263,8 @@ public:
 
 
 
-
 <br /><br /><br />
-## Problem 27:
+## Problem 28:
 **[Number of flips to make binary string alternate](https://practice.geeksforgeeks.org/problems/min-number-of-flips3210/1)**<br />
 Given a `binary string`, that is it contains only `0s` and `1s`. We need to make this string a sequence of alternate characters by flipping some of the bits, our goal is to minimize the number of bits to be flipped.<br />
 
@@ -3223,13 +3328,12 @@ int minFlips (string S){
 
 
 
-<br /><br /><br />
-## Problem 28:
-**[]()**<br />
+
+
 
 <br /><br /><br />
 ## Problem 29:
-**[]()**<br />
+**[Second most repeated string in a sequence]()**<br />
 
 
 <br /><br /><br />
