@@ -1684,7 +1684,69 @@ int main(){
 
   <br /><br /><br />
   ## Problem 14:
-  **[]()**<br />
+  **[Longest Common Subsequence](https://practice.geeksforgeeks.org/problems/longest-common-subsequence-1587115620/1)**<br />
+Given two sequences, find the length of longest subsequence present in both of them. Both the strings are of uppercase.<br />
+
+>Example 1:<br />
+Input:<br />
+A = 6, B = 6<br />
+str1 = ABCDGH<br />
+str2 = AEDFHR<br />
+Output: 3<br />
+Explanation: LCS for input Sequences “ABCDGH” and “AEDFHR” is “ADH” of length 3.<br />
+
+>Example 2:<br />
+Input:<br />
+A = 3, B = 2<br />
+str1 = ABC<br />
+str2 = AC<br />
+Output: 2<br />
+Explanation: LCS of "ABC" and "AC" is "AC" of length 2.<br />
+
+**Your Task:**<br />
+Complete the function `lcs()` which takes the length of two strings respectively and two strings as input parameters and returns the length of the longest subsequence present in both of them.<br />
+
+<pre>
+Expected Time Complexity : O(|str1|*|str2|)
+Expected Auxiliary Space: O(|str1|*|str2|)
+</pre>
+
+* Constraints: `1<=size(str1),size(str2)<=10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+const int mod = 1e9+7;
+using namespace std;
+
+class Solution
+{
+    public:
+    int lcs(int x, int y, string s1, string s2){
+        int dp[1001][1001];
+        for(int i = 0;i<=x;i++){
+            for(int j = 0;j<=y;j++){
+                if(i==0 || j==0)dp[i][j] = 0;
+                else if (s1[i-1] == s2[j-1])dp[i][j] = dp[i-1][j-1]+1;
+                else dp[i][j] = max(dp[i-1][j] ,dp[i][j-1]);
+            }
+        }
+        return dp[x][y];
+    }
+};
+
+int main(){
+    int n, k, x, y;
+    int t; cin>>t;
+    while(t--){
+        cin>>x>>y;
+        string s1, s2;
+        Solution ob;
+        cout<<ob.lcs(x, y, s1, s2)<<endl;
+    }
+    return 0;
+}
+```
+
 
   <br /><br /><br />
   ## Problem 15:
