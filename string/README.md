@@ -3407,7 +3407,81 @@ int main()
 
 <br /><br /><br />
 ## Problem 30:
-**[]()**<br />
+**[Minimum Swaps for Bracket Balancing](https://practice.geeksforgeeks.org/problems/minimum-swaps-for-bracket-balancing2704/1)**<br />
+You are given a string `S` of `2N` characters consisting of `N` `‘[‘ brackets and N ‘]’` brackets. A string is considered balanced if it can be represented in the for `S2[S1]` where `S1` and `S2` are balanced strings. We can make an unbalanced string balanced by swapping adjacent characters. Calculate the minimum number of swaps necessary to make a string balanced.<br />
+**Note** - Strings `S1` and `S2` can be empty.<br />
+
+>Example 1:<br />
+Input  : []][][<br />
+Output : 2<br />
+Explanation :<br />
+First swap: Position 3 and 4<br />
+[][]][<br />
+Second swap: Position 5 and 6<br />
+[][][]<br />
+
+>Example 2:<br />
+Input : [[][]]<br />
+Output : 0 <br />
+Explanation:<br />
+String is already balanced.<br />
+ 
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `minimumNumberOfSwaps()` which takes the string `S` and return minimum number of operations required to balance the bracket sequence.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1<=|S|<=100000`<br />
+
+```cpp
+#include<bits/stdc++.h> 
+using namespace std; 
+
+class Solution{   
+public:
+    int minimumNumberOfSwaps(string S){
+        int swap = 0, imbalance = 0, countLeft = 0, countRight = 0;
+        int sizeofArray = S.size();
+        for(int i = 0;i<sizeofArray;i++){
+            if(S[i] == '['){
+                countLeft++;
+                if(imbalance > 0){
+                    swap += imbalance;
+                    imbalance--;
+                }
+            }
+            else if(S[i] == ']'){
+                countRight++;
+                imbalance = (countRight-countLeft);
+            }
+        }
+        return swap;
+    }
+};
+
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string S;
+        cin >> S;
+        Solution ob;
+        cout << ob.minimumNumberOfSwaps(S) << endl;
+    }
+    return 0; 
+}
+```
+
+
+
+
+
+
 
 
 <br /><br /><br />
