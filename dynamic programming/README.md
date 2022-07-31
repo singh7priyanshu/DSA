@@ -6656,7 +6656,86 @@ int main(){
 
   <br /><br /><br />
   ## Problem 58:
-  **[]()**<br />
+  **[Maximum profit by buying and selling a share at most k times](https://practice.geeksforgeeks.org/problems/maximum-profit4657/1)**<br />
+In the stock market, a person buys a stock and sells it on some future date. Given the stock prices of `N` days in an array `A[ ]` and a positive integer `K`, find out the maximum profit a person can make in `at-most K transactions`. A transaction is equivalent to `(buying + selling)` of a stock and new transaction can start only when the previous transaction has been completed.<br />
+
+>Example 1:<br />
+Input: K = 2, N = 6<br />
+A = {10, 22, 5, 75, 65, 80}<br />
+Output: 87<br />
+Explaination: <br />
+1st transaction: buy at 10 and sell at 22. <br />
+2nd transaction : buy at 5 and sell at 80.<br />
+
+>Example 2:<br />
+Input: K = 3, N = 4<br />
+A = {20, 580, 420, 900}<br />
+Output: 1040<br />
+Explaination: The trader can make at most 2 transactions and giving him a profit of 1040.<br />
+
+>Example 3:<br />
+Input: K = 1, N = 5<br />
+A = {100, 90, 80, 50, 25}<br />
+Output: 0<br />
+Explaination: Selling price is decreasing daily. So seller cannot have profit.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `maxProfit()` which takes the values `K`, `N` and the `array A[]` as input parameters and returns the maximum profit.<br />
+
+<pre>
+Expected Time Complexity: O(N*K)
+Expected Auxiliary Space: O(N*K)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 500`<br />
+`1 ≤ K ≤ 200`<br />
+`1 ≤ A[ i ] ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int maxProfit(int K, int N, int A[]) {
+        if(N == 0) return 0;
+        int n = K * 2 + 1;
+        vector<int> dp(n, 0);
+        for (int i = 0; i < K; i++) {
+            dp[1 + i * 2] = -A[0];
+        }
+        for (int i = 1; i < N; i++) {
+            dp[0] = dp[0];
+            for (int j = 0; j < K; j++) {
+                dp[1 + j * 2] = max(dp[1 + j * 2], dp[j * 2] - A[i]);
+                dp[2 + j * 2] = max(dp[2 + j * 2], dp[1 + j * 2] + A[i]);
+            }
+        }
+        
+        int ans = 0;
+        for (int i = 0; i < K; i++) ans = max(ans, dp[2 + i * 2]);
+        return ans;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N, K;
+        cin>>K>>N;
+        int A[N];
+        for(int i = 0;i<N;i++)cin>>A[i];
+        Solution ob;
+        cout<<ob.maxProfit(K, N, A)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 59:
