@@ -6111,7 +6111,8 @@ int main(){
         cout<<ob.countWays(N, s)<<endl;
     }
     return 0;
-}```
+}
+```
 
 
 
