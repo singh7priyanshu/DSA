@@ -6024,7 +6024,98 @@ int main(){
 
   <br /><br /><br />
   ## Problem 54:
-  **[]()**<br />
+  **[Boolean Parenthesization Problem](https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1)**<br />
+Given a boolean expression `S` of length `N` with following symbols.<br />
+<pre>
+Symbols
+    'T' ---> true
+    'F' ---> false
+and following operators filled between symbols
+Operators
+    &   ---> boolean AND
+    |   ---> boolean OR
+    ^   ---> boolean XOR
+</pre>
+Count the number of ways we can parenthesize the expression so that the value of expression evaluates to `true`.<br />
+ 
+>Example 1:<br />
+Input: N = 7<br />
+S = T|T&F^T<br />
+Output: 4<br />
+Explaination: The expression evaluates to true in 4 ways ((T|T)&(F^T)), (T|(T&(F^T))), (((T|T)&F)^T) and (T|((T&F)^T)).<br />
+
+>Example 2:<br />
+Input: N = 5<br />
+S = T^F|F<br />
+Output: 2<br />
+Explaination: ((T^F)|F) and (T^(F|F)) are the only ways.<br />
+ 
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `countWays()` which takes `N` and `S` as input parameters and returns number of possible ways modulo `1003`.<br />
+
+<pre>
+Expected Time Complexity: O(N^3)
+Expected Auxiliary Space: O(N^2)
+</pre>
+ 
+* Constraints: `1 ≤ N ≤ 200`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int countWays(int N, string S){
+        int i, j, len;
+        int dpTrue[N][N], dpFalse[N][N];
+        for(i = 0;i<N;i+=2){
+            if(S[i]== 'T'){
+                dpTrue[i][i] = 1;
+                dpFalse[i][i] = 0;
+            }
+            else {
+                dpTrue[i][i] = 0;
+                dpFalse[i][i] = 1;
+            }
+        }
+        int x = 2;
+        while(x<N){
+            for(i = 0;(i+x)<N;i+=2){
+                dpTrue[i][i+x] = dpFalse[i][i+x] = 0;
+                for(j = i+1;j<(i+x);j+=2){
+                    if(S[j] == '|'){
+                        dpTrue[i][i+x] = (dpTrue[i][i+x] + dpTrue[i][j-1]*dpTrue[j+1][i+x] + dpTrue[i][j-1]*dpFalse[j+1][i+x] + dpFalse[i][j-1]*dpTrue[j+1][i+x])%1003;                              
+                        dpFalse[i][i+x] = (dpFalse[i][i+x] + dpFalse[i][j-1]*dpFalse[j+1][i+x])%1003;
+                    }else if(S[j] == '&'){
+                        dpFalse[i][i+x] = (dpFalse[i][i+x] + dpFalse[i][j-1]*dpFalse[j+1][i+x] + dpTrue[i][j-1]*dpFalse[j+1][i+x] + dpFalse[i][j-1]*dpTrue[j+1][i+x])%1003;
+                        dpTrue[i][i+x] = (dpTrue[i][i+x] + dpTrue[i][j-1]*dpTrue[j+1][i+x])%1003;
+                    }else{
+                        dpTrue[i][i+x] = (dpTrue[i][i+x] + dpFalse[i][j-1]*dpTrue[j+1][i+x] + dpTrue[i][j-1]*dpFalse[j+1][i+x])%1003;
+                        dpFalse[i][i+x] = (dpFalse[i][i+x] + dpFalse[i][j-1]*dpFalse[j+1][i+x] + dpTrue[i][j-1]*dpTrue[j+1][i+x])%1003;
+                    }
+                }
+            }
+            x += 2;
+        }
+        return dpTrue[0][N-1]%1003;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N; cin>>N;
+        string s; cin>>s;
+        Solution ob;
+        cout<<ob.countWays(N, s)<<endl;
+    }
+    return 0;
+}```
+
+
+
+
 
   <br /><br /><br />
   ## Problem 55:
