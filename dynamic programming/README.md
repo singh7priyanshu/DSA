@@ -4446,7 +4446,7 @@ The length of the LPS is 5
 </pre>
 Considering the above implementation, the following is a `partial recursion tree` for a sequence of length `6` with all different characters.<br /> 
 <pre>
-      L(0, 5)
+               L(0, 5)
              /        \ 
             /          \  
         L(1,5)          L(0,4)
