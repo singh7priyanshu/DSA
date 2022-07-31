@@ -3929,7 +3929,75 @@ Time Complexity: O(n)
 
   <br /><br /><br />
   ## Problem 37:
-  **[]()**<br />
+  **[Unbounded Knapsack (Repetition of items allowed)](https://practice.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1)**<br />
+Given a set of `N` items, each with a `weight` and a `value`, represented by the array `w[]` and `val[]` respectively. Also, a knapsack with weight limit `W`.
+The task is to fill the knapsack in such a way that we can get the maximum profit. Return the maximum profit.<br />
+**Note:** Each item can be taken any number of times.<br />
+
+>Example 1:<br />
+Input: N = 2, W = 3<br />
+val[] = {1, 1}<br />
+wt[] = {2, 1}<br />
+Output: 3<br />
+Explanation: <br />
+1.Pick the 2nd element thrice.<br />
+2.Total profit = 1 + 1 + 1 = 3. Also the total<br /> 
+  weight = 1 + 1 + 1  = 3 which is <= W.<br />
+ 
+>Example 2:<br />
+Input: N = 4, W = 8<br />
+val[] = {1, 4, 5, 7}<br />
+wt[] = {1, 3, 4, 5}<br />
+Output: 11<br />
+Explanation: The optimal choice is to pick the 2nd and 4th element.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `knapSack()` which takes the values `N`, `W` and the arrays `val[]` and `wt[]` as input parameters and returns the maximum possible value.<br />
+
+<pre>
+Expected Time Complexity: O(N*W)
+Expected Auxiliary Space: O(W)
+</pre>
+
+* Constraints: `1 ≤ N, W ≤ 1000`<br />
+`1 ≤ val[i], wt[i] ≤ 100`<br />
+  
+ ```cpp
+ #include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    int knapSack(int N, int W, int val[], int wt[]){
+        vector<int>dp(W+1, 0);
+        int ans = 0;
+        for(int i = 0;i<W+1;i++)
+            for(int j = 0;j<N;j++)
+                if(wt[j]<=i)dp[i] = max(dp[i], dp[i-wt[j]]+val[j]);
+        return dp[W];
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, w; cin>>n>>w;
+        int val[n], wt[n];
+        for(int i = 0;i<n;i++)cin>>val[i];
+        for(int i = 0;i<n;i++)cin>>wt[i];
+        Solution ob;
+        cout<<ob.knapSack(n, w, val, wt)<<endl;
+    }
+}
+```
+  
+  
+  
+  
+  
+  
+  
+  
 
   <br /><br /><br />
   ## Problem 38:
