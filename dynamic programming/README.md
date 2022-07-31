@@ -5001,9 +5001,9 @@ int findMaxProfit(Job arr[], int n)
 int main()
 {
 	Job arr[] = { { 3, 10, 20 },
-				{ 1, 2, 50 },
-				{ 6, 19, 100 },
-				{ 2, 100, 200 } };
+		      { 1, 2, 50 },
+		      { 6, 19, 100 },
+	              { 2, 100, 200 } };
 	int n = sizeof(arr) / sizeof(arr[0]);
 	cout << "The optimal profit is " << findMaxProfit(arr, n);
 	return 0;
