@@ -6824,6 +6824,44 @@ int main(){
 
   <br /><br /><br />
   ## Problem 60:
-  **[]()**<br />
+  **[646. Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain/)**<br />
+You are given an array of `n` pairs `pairs` where `pairs[i] = [lefti, righti]` and `lefti < righti`.<br />
+A pair `p2 = [c, d]` **follows** a pair `p1 = [a, b]` if `b < c`. A **chain** of pairs can be formed in this fashion.<br />
+Return _the length longest chain which can be formed_.<br />
+You do not need to use up all the given intervals. You can select pairs in any order.<br />
+
+>Example 1:<br />
+Input: pairs = [[1,2],[2,3],[3,4]]<br />
+Output: 2<br />
+Explanation: The longest chain is [1,2] -> [3,4].<br />
+
+>Example 2:<br />
+Input: pairs = [[1,2],[7,8],[4,5]]<br />
+Output: 3<br />
+Explanation: The longest chain is [1,2] -> [4,5] -> [7,8].<br />
+ 
+* Constraints: `n == pairs.length`<br />
+`1 <= n <= 1000`<br />
+`-1000 <= lefti < righti <= 1000`<br />
   
-  
+```cpp
+class Solution {
+public:
+    static bool compare(vector<int>& a, vector<int>& b){
+        return a[1] < b[1];
+    }
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int n = pairs.size();
+        sort(pairs.begin(), pairs.end(), compare);
+        int count = 1;
+        int last = pairs[0][1];
+        for(int i = 1; i < n; i++){
+            if(pairs[i][0] > last){
+                count++;
+                last = pairs[i][1];
+            }
+        }
+        return count;
+    }
+};
+```
