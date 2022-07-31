@@ -4230,3 +4230,164 @@ public:
         return ans;
     }
 ```
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[916. Word Subsets](https://leetcode.com/problems/word-subsets/)**<br />
+You are given two string arrays `words1` and `words2`.<br />
+A string `b` is a **subset** of string `a` if every letter in `b` occurs in `a` including multiplicity.<br />
+
+ * For example, `"wrr"` is a subset of `"warrior"` but is not a subset of `"world"`.<br />
+
+A string `a` from `words1` is **universal** if for every string `b` in `words2`, `b` is a subset of `a`.<br />
+Return an array of all the **universal** strings in `words1`. You may return the answer in **any order**.<br />
+
+>Example 1:<br />
+Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["e","o"]<br />
+Output: ["facebook","google","leetcode"]<br />
+
+>Example 2:<br />
+Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]<br />
+Output: ["apple","google","leetcode"]<br />
+ 
+* Constraints: `1 <= words1.length, words2.length <= 10^4`<br />
+`1 <= words1[i].length, words2[i].length <= 10`<br />
+`words1[i]` and `words2[i]` consist only of lowercase English letters.<br />
+All the strings of `words1` are **unique**.<br />
+	
+```cpp
+class Solution {
+public:
+    // calculate the frequency of string s
+    vector<int> giveMeFreq(string s)
+    {
+        vector<int> freq(26,0);
+        for(int i = 0; i < s.length(); i++)
+        {
+            freq[s[i] - 'a']++;
+        }
+        return freq;
+    }
+    
+    vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) 
+    {
+       vector<string> ans; // store ans
+       vector<int> max_Freq_w2(26, 0);   // store max freq of each character present in word2 stirngs
+	   
+        // we will Iterate over word to and try to find max freq for each character present in all strings.
+		for(auto &x : words2) 
+        {
+            vector<int> freq = giveMeFreq(x);
+            for(int i = 0; i < 26; i++)
+            {
+                max_Freq_w2[i] = max(freq[i], max_Freq_w2[i]);  // upadate freq to max freq
+            }
+        }
+        
+		// we will iterate for each string in words1 ans if it have all charaters present in freq array with freq >= that     then we will add it to ans
+        for(auto &x : words1)
+        {
+            vector<int> freq = giveMeFreq(x);  // gives freq of characters for word in words1
+            bool flag = true;
+            for(int i = 0; i < 26; i++)
+            {
+                if(freq[i] < max_Freq_w2[i]) // specifies that word did not have all the characters from word2 array
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag) ans.push_back(x);   // string x is Universal string
+        }
+        return ans;
+    }
+};
+```
+<pre>
+Time Complexity for this soltuion is : O(M + N) where m and n is size of words1 and words2 array
+</pre>	
+	
+	
+	
+<br /> <br /> <br />**[307. Range Sum Query - Mutable](https://leetcode.com/problems/range-sum-query-mutable/)**<br />
+Given an integer array `nums`, handle multiple queries of the following types:<br />
+
+ 1. **Update** the value of an element in `nums`.<br />
+ 2. Calculate the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** where `left <= right`.<br />
+
+Implement the `NumArray` class:<br />
+
+ * `NumArray(int[] nums)` Initializes the object with the integer array `nums`.<br />
+ * `void update(int index, int val)` **Updates** the value of `nums[index]` to be `val`.<br />
+ * `int sumRange(int left, int right)` Returns the **sum** of the elements of `nums` between indices `left` and `right` **inclusive** (i.e. `nums[left] + nums[left + 1] + ... + nums[right]`).<br />
+
+>Example 1:<br />
+Input<br />
+["NumArray", "sumRange", "update", "sumRange"]<br />
+[[[1, 3, 5]], [0, 2], [1, 2], [0, 2]]<br />
+Output<br />
+[null, 9, null, 8]<br />
+Explanation<br />
+NumArray numArray = new NumArray([1, 3, 5]);<br />
+numArray.sumRange(0, 2); // return 1 + 3 + 5 = 9<br />
+numArray.update(1, 2);   // nums = [1, 2, 5]<br />
+numArray.sumRange(0, 2); // return 1 + 2 + 5 = 8<br />
+ 
+* Constraints: `1 <= nums.length <= 3 * 10^4`<br />
+`-100 <= nums[i] <= 100`<br />
+`0 <= index < nums.length`<br />
+`-100 <= val <= 100`<br />
+`0 <= left <= right < nums.length`<br />
+At most `3 * 10^4` calls will be made to `update` and `sumRange`.<br />
+	
+```cpp
+class NumArray {
+public:
+    vector<int>v; //vector to store input vector.
+    int sum; //sum of all element of vector 
+    NumArray(vector<int>& nums) {
+        v=nums;
+        sum=0;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+        }
+    }
+    
+    void update(int index, int val) {
+        sum-=v[index];     //subtract old element  from sum at index and then update by adding new element val.
+        v[index]=val;
+        sum+=val;
+        
+    }
+    
+    int sumRange(int left, int right) {
+        int res=sum; 
+        for(int i=0;i<left;i++){    //subtract all element before left and after right
+            res-=v[i];
+        }
+        for(int i=right+1;i<v.size();i++){
+            res-=v[i];
+        }
+        return res;// return res ie. our answer.
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+```
+	
+	
+	
+	
+<br /> <br /> <br />**[]()**<br />
