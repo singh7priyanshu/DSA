@@ -3687,7 +3687,63 @@ int main(){
 
   <br /><br /><br />
   ## Problem 34:
-  **[]()**<br />
+  **[Count Balanced Binary Trees of Height h](https://practice.geeksforgeeks.org/problems/bbt-counter4914/1)**<br />
+Given a height `h`, count the maximum number of balanced binary trees possible with height `h`. Print the result modulo `10^9 + 7`.<br />
+**Note :** A balanced binary tree is one in which for every node, the difference between heights of left and right subtree is not more than `1`.<br />
+
+>Example 1:<br />
+Input: h = 2<br />
+Output: 3 <br />
+Explanation: The maximum number of balanced <br />
+binary trees possible with height 2 is 3. <br />
+
+>Example 2:<br />
+Input: h = 3<br />
+Output: 15<br />
+Explanation: The maximum number of balanced<br />
+binary trees possible with height 3 is 15. <br />
+
+**Your Task:**  <br />
+You dont need to read input or print anything. Complete the function `countBT()` which takes `h` as input parameter and returns the maximum number of balanced binary trees possible with height `h`. <br />
+
+<pre>
+Expected Time Complexity: O(h)
+Expected Auxiliary Space: O(h)
+</pre>
+
+* Constraints: `1<= n <=10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    long long int countBT(int h){ 
+        long long int dp[h + 1];
+        dp[0] = dp[1] = 1; 
+        long long int mod = 1000000007;   
+        for(int i = 2; i <= h; i++)dp[i] = (dp[i - 1] * ((2 * dp [i - 2])%mod + dp[i - 1])%mod) % mod; 
+        return dp[h]; 
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int h; cin>>h;
+        Solution ob;
+        cout<<ob.countBT(h)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 35:
