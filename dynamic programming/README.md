@@ -5010,7 +5010,7 @@ int main()
 }
 ```
 Output:<br />
-<pre.
+<pre>
 The optimal profit is 250
 </pre>
 <pre>
