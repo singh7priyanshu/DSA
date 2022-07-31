@@ -6517,7 +6517,142 @@ Auxiliary Space: O(n)
 
   <br /><br /><br />
   ## Problem 57:
-  **[]()**<br />
+  **[Maximum sum rectangle in a 2D matrix](https://practice.geeksforgeeks.org/problems/maximum-sum-rectangle2948/1)**<br />
+Given a `2D matrix M` of dimensions `RxC`. Find the maximum sum submatrix in it.<br />
+
+>Example 1:<br />
+Input:<br />
+R=4<br />
+C=5<br />
+M=[[1,2,-1,-4,-20],<br />
+[-8,-3,4,2,1],<br />
+[3,8,10,1,3],<br />
+[-4,-1,1,7,-6]]<br />
+Output:<br />
+29<br />
+Explanation: The matrix is as follows and the<br />
+blue rectangle denotes the maximum sum rectangle.<br />
+<img src = "https://a.disquscdn.com/get?url=http%3A%2F%2Fwww.geeksforgeeks.org%2Fwp-content%2Fuploads%2Frectangle-11.png&key=6UHjdHyGWQGo6f_kdpoBIQ&w=320&h=247"><br />
+
+>Example 2:<br />
+Input:<br />
+R=2<br />
+C=2<br />
+M=[[-1,-2],[-3,-4]]<br />
+Output:<br />
+-1<br />
+Explanation: Taking only the first cell is the optimal choice.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `maximumSumRectangle()` which takes the number `R`, `C`, and the `2D matrix M` as input parameters and returns the maximum sum submatrix.<br />
+
+<pre>
+Expected Time Complexity:O(R*R*C)
+Expected Auxillary Space:O(R*C)
+</pre>
+
+* Constraints: `1<=R,C<=500`<br />
+`-1000<=M[i][j]<=1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    // Implementation of Kadane's algorithm for
+    // 1D array. The function returns the maximum
+    // sum and stores starting and ending indexes
+    // of the maximum sum subarray at addresses
+    // pointed by start and finish pointers
+    // respectively.
+    int kadane(int* arr, int* start, int* finish, int n) {
+        // initialize sum, maxSum and
+        int sum = 0, maxSum = INT_MIN, i;
+
+        // Just some initial value to check
+        // for all negative values case
+        *finish = -1;
+
+        // local variable
+        int local_start = 0;
+
+        for (i = 0; i < n; ++i) {
+            sum += arr[i];
+            if (sum < 0) {
+                sum = 0;
+                local_start = i + 1;
+            } else if (sum > maxSum) {
+                maxSum = sum;
+                *start = local_start;
+                *finish = i;
+            }
+        }
+
+        // There is at-least one
+        // non-negative number
+        if (*finish != -1) return maxSum;
+
+        // Special Case: When all numbers
+        // in arr[] are negative
+        maxSum = arr[0];
+        *start = *finish = 0;
+
+        // Find the maximum element in array
+        for (i = 1; i < n; i++) {
+            if (arr[i] > maxSum) {
+                maxSum = arr[i];
+                *start = *finish = i;
+            }
+        }
+        return maxSum;
+    }
+    int maximumSumRectangle(int R, int C, vector<vector<int>> M) {
+        int maxSum = INT_MIN, finalLeft, finalRight, finalTop, finalBottom;
+        int left, right, i;
+        int temp[R], sum, start, finish;
+        for (left = 0; left < C; ++left) {
+            memset(temp, 0, sizeof(temp));
+            for (right = left; right < C; ++right) {
+                for (i = 0; i < R; ++i) temp[i] += M[i][right];
+                sum = kadane(temp, &start, &finish, R);
+                if (sum > maxSum) {
+                    maxSum = sum;
+                    finalLeft = left;
+                    finalRight = right;
+                    finalTop = start;
+                    finalBottom = finish;
+                }
+            }
+        }
+        return maxSum;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, m;
+        cin>>n>>m;
+        vector<vector<int>>v (n, vector<int>(m));
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++) cin>>v[i][j]; 
+        }
+        Solution ob;
+        cout<<ob.maximumSumRectangle(n, m, v)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 58:
