@@ -3747,7 +3747,90 @@ int main(){
 
   <br /><br /><br />
   ## Problem 35:
-  **[]()**<br />
+  **[LargestSum Contiguous Subarray [V>V>V>V IMP ]](https://practice.geeksforgeeks.org/problems/kadanes-algorithm/1)**<br />
+Given an array `Arr[]` of `N` integers. Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5<br />
+Arr[] = {1,2,3,-2,5}<br />
+Output:<br />
+9<br />
+Explanation:<br />
+Max subarray sum is 9 of elements (1, 2, 3, -2, 5) which is a contiguous subarray.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 4<br />
+Arr[] = {-1,-2,-3,-4}<br />
+Output:<br />
+-1<br />
+Explanation:<br />
+Max subarray sum is -1 of element (-1)<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. The task is to complete the function `maxSubarraySum()` which takes `Arr[]` and `N` as input parameters and returns the sum of subarray with maximum sum.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^6`<br />
+`-10^7 ≤ A[i] ≤ 10^7`<br />
+  
+```cpp
+#include<bits/stdc++.h>
+	using namespace std;
+
+	class Solution{	
+    		public:
+   	 	// arr: input array
+    		// n: size of array
+    		//Function to find the sum of contiguous subarray with maximum sum.
+    		long long maxSubarraySum(int arr[], int n){
+        		
+			// Your code here
+        		long long maxh = 0, maxf = arr[0];
+        
+        		//Iterating over the array.
+        		for(int i=0;i<n;i++){
+			
+                		//Updating max sum till current index.
+                		maxh+=arr[i];
+               		 	//Storing max sum so far by choosing maximum between max 
+                		//sum so far and max till current index.
+                		if(maxf<maxh)
+                		maxf=maxh; 
+                
+                		//If max sum at current index is negative, we do not need to add
+                		//it to result so we update it to zero.
+                		if(maxh<0)
+                    			maxh=0;
+    		       	}
+            		//returning the result.
+            		return maxf;
+    		}
+	};
+
+	int main(){
+    		int t,n;
+    		cin>>t;
+    		while(t--){
+        		cin>>n  ;
+        		int a[n];
+        		for(int i=0;i<n;i++){
+            		cin>>a[i];
+			}
+        	Solution ob;
+        	cout<<ob.maxSubarraySum(a,n)<<endl;
+    		}
+	}
+	```
+  
+  
+  
+  
 
   <br /><br /><br />
   ## Problem 36:
