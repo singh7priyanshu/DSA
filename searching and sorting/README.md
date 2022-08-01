@@ -1757,7 +1757,96 @@ main(){
 
 <br /><br /><br />
 ## Problem 21:
-**[]()**<br />
+**[Kth smallest number again](https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/kth-smallest-number-again-2/)**<br />
+Dexter was good in finding the `K th` smallest number from a set of numbers. 
+He thought he could solve any problem related to `K th` smallest number. 
+His friend Pipi challenged him with a problem.
+He gave him various ranges of number, These numbers were arranged in 
+increasing order(only distinct numbers to be taken into account). 
+Now he asked him to find the `K th` smallest number in the sequence, again and again.<br />
+
+**Input Format**<br />
+The first line contains `T`, the number of test cases.<br />
+For each test case, there will be two integers `N` and `Q`.<br />
+Then `N` lines follow each line containing two integers `A` and `B` (denoting the range `A-B`)<br />
+Then `Q` lines follow each line containing a non-negative integer `K` .<br />
+
+**Output Format**<br />
+For each query output the `K th` smallest number.<br />
+
+* Constraints `1 <= T <= 100`<br />
+`1 <= N <= 100`<br />
+`1 <= Q <= 1000`<br />
+`-10^18 <= A <= B <= 10^18`<br />
+`K >= 1`<br />
+N.B. If `Kth smallest number` is not present in the series, print `-1`<br />
+<pre>
+Sample Input
+1
+1 3
+1 5
+1
+3
+6
+</pre>
+<pre>
+Sample Output
+1
+3
+-1
+</pre>
+<pre>
+Time Limit: 5
+Memory Limit: 256
+Source Limit:
+</pre>
+**Explanation**<br />
+The numbers are `"1 2 3 4 5"`. The `1st` smallest number is `1`<br />
+The `3rd` smallest number is `3` The `6th` smallest number is not present. Hence answer is `-1`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    int t;  cin>> t;
+    while (t--){
+        long long int n, q; cin >> n >> q;
+        vector< pair < long long int, long long int > >v;
+        for (long long int i=0; i< n; i++){
+            long long int x,y; cin >> x >> y;
+            v.push_back ({x,y});
+        }
+        sort (v.begin(), v.end()); 
+        long long int idx=0;
+        for (long long int i=1; i< v.size(); i++){
+             if (v[idx].second >= v[i].first)v[idx].second= max (v[idx].second, v[i].second);
+             else{
+                idx++;
+                v[idx]= v[i];
+            }
+        }
+        while (q--){
+            long long int k; cin >> k;
+            long long int ans=-1;
+            for (long long int i=0; i<= idx; i++){
+                if ((v[i].second - v[i].first + 1) >= k){
+                    ans= v[i].first + k -1;
+                    break; 
+                }     
+                else k= k - (v[i].second - v[i].first + 1);
+            }
+            cout << ans << endl;
+        }
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 22:
