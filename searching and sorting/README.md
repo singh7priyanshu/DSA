@@ -1370,11 +1370,215 @@ stable_sort(arr, arr + n, greater<int>());
 
 <br /><br /><br />
 ## Problem 18:
-**[]()**<br />
+**[minimum no. of swaps required to sort the array](https://practice.geeksforgeeks.org/problems/minimum-swaps/1)**<br />
+Given an array of `n` distinct elements. Find the minimum number of swaps required to sort the array in strictly increasing order.<br />
+
+>Example 1:<br />
+Input:<br />
+nums = {2, 8, 5, 4}<br />
+Output:<br />
+1<br />
+Explaination: swap 8 with 4.<br />
+
+>Example 2:<br />
+Input:<br />
+nums = {10, 19, 6, 3, 5}<br />
+Output:<br />
+2<br />
+Explaination: swap 10 with 3 and swap 19 with 5.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `minSwaps()` which takes the `nums` as input parameter and returns an `integer` denoting the **minimum** number of swaps required to sort the array. If the array is already sorted, return `0`. <br />
+
+<pre>
+Expected Time Complexity: O(nlogn)
+Expected Auxiliary Space: O(n)
+</pre>
+
+* Constraints: `1 ≤ n ≤ 10^5`<br />
+`1 ≤ numsi ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution 
+{
+    public:
+	int minSwaps(vector<int>&nums){
+	    int n = nums.size();
+	    vector<pair<int, int>>cur(n);
+	    for(int i = 0;i<n;i++){
+	        cur[i].first = nums[i];
+	        cur[i].second = i;
+	    }
+	    sort(cur.begin(), cur.end());
+	    vector<bool>vis(n, false);
+	    int ans = 0;
+	    for(int i = 0;i<n;i++){
+	        if(vis[i] || cur[i].second == i)continue;
+	        int cycle_size = 0;
+	        int j = i;
+	        while(!vis[j]){
+	            vis[j] = true;
+	            j = cur[j].second;
+	            cycle_size++;
+	        }
+	        ans += (cycle_size>1)? cycle_size-1 : 0;
+	    }
+	    return ans;
+	}
+};
+
+int main(){
+    int tc; cin>>tc;
+    while(tc--){
+        int n; cin>>n;
+        vector<int>nums(n);
+        for(int i = 0;i<n;i++)cin>>nums[i];
+        Solution ob;
+        int ans = ob.minSwaps(nums);
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+// C++ program to demonstrate sorting in
+// vector of pair according to 1st element
+// of pair
+#include<bits/stdc++.h>
+using namespace std;
+bool sortbysec(const pair<int,int> &a, const pair<int,int> &b){
+    return (a.second < b.second);
+}
+  
+int main(){
+	vector< pair <int,int> > vect;
+	int arr[] = {10, 20, 5, 40 };
+	int arr1[] = {30, 60, 20, 50};
+	int n = sizeof(arr)/sizeof(arr[0]);
+	for (int i=0; i<n; i++)vect.push_back( make_pair(arr[i],arr1[i]) );
+	cout << "The vector before sort operation is:\n" ;
+	for (int i=0; i<n; i++)cout << vect[i].first << " "<< vect[i].second << endl;
+		OUTPUT
+		The vector before applying sort operation is:
+			10 30
+			20 60
+			5 20
+			40 50
+	sort(vect.begin(), vect.end());
+	cout << "The vector after sort operation is:\n" ;
+	for (int i=0; i<n; i++)cout << vect[i].first << " "<< vect[i].second << endl;
+		OUTPUT
+		The vector after applying sort operation is:
+			5 20
+			10 30
+			20 60	
+			40 50
+	sort(vect.begin(), vect.end(), sortbysec);
+	cout << "The vector after sort operation is:\n" ;
+    	for (int i=0; i<n; i++)cout << vect[i].first << " "<< vect[i].second << endl;
+    		OUTPUT
+		The vector after applying sort operation is:
+			5 20
+			10 30
+			40 50	
+			20 60
+	return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 19:
-**[]()**<br />
+**[Bishu and Soldiers](https://www.hackerearth.com/problem/algorithm/bishu-and-soldiers-227/)**<br />
+Bishu went to fight for Coding Club. There were `N` soldiers with various powers. 
+There will be `Q` rounds to fight and in each round, Bishu's power will be varied. 
+With power `M`, Bishu can kill all the soldiers whose power is less than or equal to `M(<=M)`. 
+After each round, All the soldiers who are dead in the previous round will reborn. 
+Such that in each round there will be `N` soldiers to fight. As Bishu is weak 
+in mathematics, help him to count the number of soldiers that he can kill in 
+each round and the total sum of their powers.<br />
+**INPUT:**<br />
+The first line of the input contains `N`, the number of soldiers.<br />
+The second line contains an array of `N` numbers denoting the power of each soldier<br />
+This third line contains `Q`, which denotes the number of rounds.<br />
+`Q` lines follow, each line having one number denoting the power of Bishu.<br />
+**OUTPUT:**<br />
+For each round, the output should be an array of `two` numbers. 
+The first number should be the number of soldiers that Bishu can beat, 
+and the second number denotes the cumulative strength of all the soldiers that Bishu can beat.<br />
+
+* CONSTRAINTS: `1<=N<=10000`<br />
+`1<=power of each soldier<=100`<br />
+`1<=Q<=10000`<br />
+`1<=power of bishu<=100`<br />
+<pre>
+Sample Input
+7
+1 2 3 4 5 6 7
+3
+3
+10
+2
+</pre>
+<pre>
+Sample Output
+3 6
+7 28
+2 3
+</pre>
+<pre>
+Time Limit: 1
+Memory Limit: 256
+Source Limit:
+</pre>
+**Explanation**<br />
+There are 7 soldiers, each with the indicated power.<br />
+There are 3 rounds.<br />
+In the first round, Bishu's power is 3, which is greater than 3 soldiers, with the cumulative power of 6. Hence, the answer is 3 6<br />
+Similarly for the next round.<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pb push_back
+#define vi vector<int>
+#define vll vector<ll>
+#define vs vector<string>
+#define vc vector<char>
+#define xag ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+int main(){
+    int n; cin>>n;
+    int a[n];
+    for(int i=0;i<n;i++)cin>>a[i];
+    sort(a,a+n);
+    int p; int q;cin>>q;
+    while(q--){
+        int cs=0;
+        cin>>p;
+        int x=upper_bound(a,a+n,p)-a;
+        for(int i=0;i<x;i++)cs+=a[i];
+        cout<<x<<" "<<cs<<endl;
+    }
+    return 0;
+}
+
+/*
+mechanism of upper_bound function.
+Vector contains : 10 20 30 40 50
+upper_bound for element 35(here as p) is at position : 3
+upper_bound for element 45(here as p) is at position : 4
+*/
+```
+
+
 
 <br /><br /><br />
 ## Problem 20:
