@@ -1,58 +1,1101 @@
-# Love Babbar Sheet 450 - #topic
+# Love Babbar Sheet 450 - Searching & Sorting
 ## Problem 1:
-**[]()**<br />
+**[Find first and last positions of an element in a sorted array](https://practice.geeksforgeeks.org/problems/first-and-last-occurrences-of-x3116/1)**<br />
+Given a sorted array `arr` containing `n` elements with possibly duplicate elements, the task is to find indexes of first and last occurrences of an element `x` in the given array.<br />
+
+>Example 1:<br />
+Input:<br />
+n=9, x=5<br />
+arr[] = { 1, 3, 5, 5, 5, 5, 67, 123, 125 }<br />
+Output:  2 5<br />
+Explanation: First occurrence of 5 is at index 2 and last occurrence of 5 is at index 5. <br />
+ 
+>Example 2:<br />
+Input:<br />
+n=9, x=7<br />
+arr[] = { 1, 3, 5, 5, 5, 5, 7, 123, 125 }<br />
+Output:  6 6 <br />
+
+**Your Task:**<br />
+Since, this is a function problem. You don't need to take any input, as it is already accomplished by the driver code. You just need to complete the function `find()` that takes array `arr`, integer `n` and integer `x` as parameters and returns the required answer.<br />
+**Note:** If the number `x` is not found in the array just return both index as `-1`.<br />
+
+<pre>
+Expected Time Complexity: O(logN)
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^7`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>find(int a[], int n, int x);
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,x;
+        cin>>n>>x;
+        int arr[n],i;
+        for(i=0;i<n;i++){
+            cin>>arr[i];
+        }
+        vector<int>ans;
+        ans=find(arr,n,x);
+        cout<<ans[0]<<" "<<ans[1]<<endl;
+    }
+    return 0;
+}
+vector<int> find(int arr[], int n , int x )
+{
+    int a1=-1;
+    int a2=-1;
+    for(int i=0;i<n;i++){
+        if(arr[i]==x){
+            a1=i;
+            break;
+        }
+    }
+    for(int i=n-1;i>=0;i--){
+        if(arr[i]==x){
+            a2=i;
+            break;
+        }
+    }
+    return {a1,a2};
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br />
+**[Find a Fixed Point (Value equal to index) in a given array](https://practice.geeksforgeeks.org/problems/value-equal-to-index-value1330/1)**<br />
+Given an array `Arr` of `N` positive integers. Your task is to find the elements whose value is equal to that of its index value ( Consider 1-based indexing ).<br />
+
+>Example 1:<br />
+Input: <br />
+N = 5<br />
+Arr[] = {15, 2, 45, 12, 7}<br />
+Output: 2<br />
+Explanation: Only Arr[2] = 2 exists here.<br />
+
+>Example 2:<br />
+Input: <br />
+N = 1<br />
+Arr[] = {1}<br />
+Output: 1<br />
+Explanation: Here Arr[1] = 1 exists.<br />
+
+**Your Task:**  <br />
+You don't need to read input or print anything. Your task is to complete the function `valueEqualToIndex()` which takes the array of integers `arr[]` and `n` as parameters and returns an `array of indices` where the given conditions are satified. When there is not such element exists then return an empty array of length `0`.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre>
+
+**Note:** There can be more than one element in the array which have same value as their index. You need to include every such element's index. Follows `1-based indexing` of the array.<br />
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`1 ≤ Arr[i] ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+	vector<int> valueEqualToIndex(int arr[], int n) {
+	    // code here
+	    vector<int>sol;
+	    for(int i=0;i<n;i++){
+	        if(arr[i] == i+1){
+	            sol.push_back(i+1);
+	        }
+	    }
+	    return sol;
+	}
+};
+
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,i;
+        cin>>n;
+        int arr[n];
+        for(i =0;i<n;i++){
+            cin>>arr[i];
+        }
+        Solution ob;
+        auto ans = ob.valueEqualToIndex(arr,n);
+        if(ans.empty()){
+            cout<<"Not Found";
+        }else{
+            for(int x:ans){
+                cout<<x<<" ";
+            }
+        }
+        cout<<"\n";
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 3:
-**[]()**<br />
+**[Search in a rotated sorted array](https://leetcode.com/problems/search-in-rotated-sorted-array/)**<br />
+There is an integer array `nums` sorted in ascending order (with **distinct** values).<br />
+Prior to being passed to your function, `nums` is **possibly rotated** at an unknown pivot index `k (1 <= k < nums.length)` such that the resulting array is `[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]` (**0-indexed**). For example, `[0,1,2,4,5,6,7]` might be rotated at pivot index `3` and become `[4,5,6,7,0,1,2]`.<br />
+Given the array `nums` **after** the possible rotation and an integer `target`, return _the index of `target` if it is in `nums`, or `-1` if it is not in `nums`_.<br />
+You must write an algorithm with `O(log n)` runtime complexity.<br />
+
+>Example 1:<br />
+Input: nums = [4,5,6,7,0,1,2], target = 0<br />
+Output: 4<br />
+
+>Example 2:<br />
+Input: nums = [4,5,6,7,0,1,2], target = 3<br />
+Output: -1<br />
+
+>Example 3:<br />
+Input: nums = [1], target = 0<br />
+Output: -1<br />
+ 
+* Constraints: `1 <= nums.length <= 5000`<br />
+`-10^4 <= nums[i] <= 10^4`<br />
+All values of `nums` are **unique**.<br />
+`nums` is an ascending array that is possibly rotated.<br />
+`-10^4 <= target <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n  = nums.size();
+        int low = 0, high = n-1;
+        while(low<=high){
+            int mid = (low+high)/2;
+            if(nums[mid]== target){
+                return mid;
+            }
+            else if(nums[low]<=nums[mid]){
+                if(target>=nums[low] && target<nums[mid])high=mid-1;
+                else low = mid+1;
+            }else{
+                if(target>nums[mid] && target <=nums[high])low= mid+1;
+                else high = mid-1;
+            }
+        }
+        return -1;
+    }
+};
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 4:
-**[]()**<br />
+**[square root of an integer](https://practice.geeksforgeeks.org/problems/count-squares3649/1)**<br />
+Consider a sample space `S` consisting of all perfect squares starting from `1`, `4`, `9` and so on. You are given a number `N`, you have to output the number of integers less than `N` in the sample space `S`.<br />
+
+>Example 1:<br />
+Input :<br />
+N = 9<br />
+Output:<br />
+2<br />
+Explanation:<br />
+1 and 4 are the only Perfect Squares less than 9. So, the Output is 2.<br />
+
+>Example 2:<br />
+Input :<br />
+N = 3<br />
+Output:<br />
+1<br />
+Explanation:<br /> 
+1 is the only Perfect Square less than 3. So, the Output is 1.<br />
+ 
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `countSquares()` which takes an Integer `N` as input and returns the answer.<br />
+
+<pre>
+Expected Time Complexity: O(sqrt(N))
+Expected Auxiliary Space: O(1)
+</pre>
+ 
+* Constraints: `1 <= N <= 10^8`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int countSquares(int N) {
+        return sqrt(N-1);
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N; cin>>N;
+        Solution ob;
+        cout<<ob.countSquares(N)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 5:
-**[]()**<br />
+**[Maximum and minimum of an array using minimum number of comparisons](https://practice.geeksforgeeks.org/problems/middle-of-three2926/1)**<br />
+Given three distinct numbers `A`, `B` and `C`. Find the number with value in middle (Try to do it with minimum comparisons).<br />
+
+>Example 1:<br />
+Input:<br />
+A = 978, B = 518, C = 300<br />
+Output:<br />
+518<br />
+Explanation:<br />
+Since 518>300 and 518<978, so 518 is the middle element.<br />
+
+>Example 2:<br />
+Input:<br />
+A = 162, B = 934, C = 200<br />
+Output:<br />
+200<br />
+Exaplanation:<br />
+Since 200>162 && 200<934, So, 200 is the middle element.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything.Your task is to complete the function `middle()` which takes three integers `A`,`B` and `C` as input parameters and returns the number which has middle value.<br />
+
+<pre>
+Expected Time Complexity:O(1)
+Expected Auxillary Space:O(1)
+</pre>
+
+* Constraints: `1<=A,B,C<=10^9`<br />
+`A`,`B`,`C` are distinct.<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int middle(int A, int B, int C){
+        if(A<B)return (B<C)? B : max(A, C);
+        return (A<C)? A : max(B, C);
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int A, B, C;
+        cin>>A>>B>>C;
+        Solution ob;
+        cout<<ob.middle(A, B, C)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
-**[]()**<br />
+**[Optimum location of point to minimize total distance](https://www.geeksforgeeks.org/optimum-location-point-minimize-total-distance/)**<br />
+Given a set of points as and a line as `ax+by+c = 0`. We need to find a point on given line for which sum of distances from given set of points is minimum.<br /> 
+**Example:**<br /> 
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Optimum-location-of-point-to-minimize-total-distance.jpg"><br />
+<pre>
+In above figure optimum location of point of x - y - 3 = 0 line 
+is (2, -1), whose total distance with other points is 20.77, 
+which is minimum obtainable total distance.
+</pre>
+If we take one point on given line at infinite distance then total distance cost will be infinite, now when we move this point on line towards given points the total distance cost starts decreasing and after some time, it again starts increasing which reached to infinite on the other infinite end of line so distance cost curve looks like a `U-curve` and we have to find the bottom value of this `U-curve`.<br />
+As `U-curve` is not monotonically increasing or decreasing we can’t use `binary search` for finding bottom most point, here we will use ternary search for finding bottom most point, ternary search skips one third of search space at each iteration.<br />
+So solution proceeds as follows, we start with low and high initialized as some smallest and largest values respectively, then we start iteration, in each iteration we calculate two `mids`, `mid1` and `mid2`, which represent `1/3rd` and `2/3rd` position in search space, we calculate total distance of all points with `mid1` and `mid2` and update low or high by comparing these distance cost, this iteration continues until `low` and `high` become approximately equal.<br />
+```cpp
+// C/C++ program to find optimum location and total cost
+#include <bits/stdc++.h>
+using namespace std;
+#define sq(x) ((x) * (x))
+#define EPS 1e-6
+#define N 5
+
+// structure defining a point
+struct point {
+	int x, y;
+	point() {}
+	point(int x, int y)
+		: x(x)
+		, y(y)
+	{	}
+};
+
+// structure defining a line of ax + by + c = 0 form
+struct line {
+	int a, b, c;
+	line(int a, int b, int c)
+		: a(a)
+		, b(b)
+		, c(c)
+	{
+	}
+};
+
+// method to get distance of point (x, y) from point p
+double dist(double x, double y, point p)
+{
+	return sqrt(sq(x - p.x) + sq(y - p.y));
+}
+
+/* Utility method to compute total distance all points
+	when choose point on given line has x-coordinate
+	value as X */
+double compute(point p[], int n, line l, double X)
+{
+	double res = 0;
+
+	// calculating Y of chosen point by line equation
+	double Y = -1 * (l.c + l.a * X) / l.b;
+	for (int i = 0; i < n; i++)
+		res += dist(X, Y, p[i]);
+
+	return res;
+}
+
+// Utility method to find minimum total distance
+double findOptimumCostUtil(point p[], int n, line l)
+{
+	double low = -1e6;
+	double high = 1e6;
+
+	// loop until difference between low and high
+	// become less than EPS
+	while ((high - low) > EPS) {
+		// mid1 and mid2 are representative x co-ordiantes
+		// of search space
+		double mid1 = low + (high - low) / 3;
+		double mid2 = high - (high - low) / 3;
+
+		//
+		double dist1 = compute(p, n, l, mid1);
+		double dist2 = compute(p, n, l, mid2);
+
+		// if mid2 point gives more total distance,
+		// skip third part
+		if (dist1 < dist2)
+			high = mid2;
+
+		// if mid1 point gives more total distance,
+		// skip first part
+		else
+			low = mid1;
+	}
+
+	// compute optimum distance cost by sending average
+	// of low and high as X
+	return compute(p, n, l, (low + high) / 2);
+}
+
+// method to find optimum cost
+double findOptimumCost(int points[N][2], line l)
+{
+	point p[N];
+
+	// converting 2D array input to point array
+	for (int i = 0; i < N; i++)
+		p[i] = point(points[i][0], points[i][1]);
+
+	return findOptimumCostUtil(p, N, l);
+}
+
+// Driver code to test above method
+int main()
+{
+	line l(1, -1, -3);
+	int points[N][2] = {
+		{ -3, -2 }, { -1, 0 }, { -1, 2 }, { 1, 2 }, { 3, 4 }
+	};
+	cout << findOptimumCost(points, l) << endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+20.7652
+</pre>
+<pre>
+Time Complexity: O(n^2) 
+Auxiliary Space: O(n)
+</pre>
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Find the repeating and the missing](https://practice.geeksforgeeks.org/problems/find-missing-and-repeating2512/1)**<br />
+Given an unsorted array `Arr` of size `N` of positive integers. One number `'A'` from `set {1, 2, …N}` is missing and one number `'B'` occurs twice in array. Find these two numbers.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 2<br />
+Arr[] = {2, 2}<br />
+Output: 2 1<br />
+Explanation: Repeating number is 2 and smallest positive missing number is 1.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 3<br />
+Arr[] = {1, 3, 3}<br />
+Output: 3 2<br />
+Explanation: Repeating number is 3 and smallest positive missing number is 2.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `findTwoElement()` which takes the array of integers `arr` and `n` as parameters and returns an `array of integers` of size `2` denoting the answer ( The first index contains `B` and second index contains `A`.)<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`1 ≤ Arr[i] ≤ N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int *findTwoElement(int *arr, int n) {
+        int *ans = new int[2];
+        for(int i = 0;i<n;i++){
+            if(arr[abs(arr[i])-1]>0)arr[abs(arr[i])-1] = -arr[abs(arr[i])-1];
+            else ans[0] = abs(arr[i]);
+        }
+        for(int i = 0;i<n;i++){
+            if(arr[i]>0)ans[1] = i+1;
+        }
+        return ans;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int a[n];
+        for(int i = 0;i<n;i++)cin>>a[i];
+        Solution ob;
+        auto ans = ob.findTwoElement(a, n);
+        cout<<ans[0]<<" "<<ans[1]<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 8:
-**[]()**<br />
+**[Majority Element](https://practice.geeksforgeeks.org/problems/majority-element-1587115620/1)**<br />
+Given an array `A` of `N` elements. Find the majority element in the array. A majority element in an array `A` of size `N` is an element that appears `more than N/2` times in the array.<br />
+ 
+>Example 1:<br />
+Input:<br />
+N = 3 <br />
+A[] = {1,2,3}<br /> 
+Output:<br />
+-1<br />
+Explanation:<br />
+Since, each element in {1,2,3} appears only once so there is no majority element.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 5 <br />
+A[] = {3,1,3,3,2} <br />
+Output:<br />
+3<br />
+Explanation:<br />
+Since, 3 is present more than N/2 times, so it is the majority element.<br />
+
+**Your Task:**<br />
+The task is to complete the function `majorityElement()` which returns the majority element in the `array`. If no majority exists, return `-1`.<br />
+ 
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^7`<br />
+`0 ≤ Ai ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution{
+  public:
+    int majorityElement(int a[], int size){
+        int cand = findCandidate(a, size);
+        if(isMajority(a, size, cand))return cand;
+        else return -1;
+    }
+    
+    bool isMajority(int a[], int size, int cand){
+        int count = 0;
+        for(int i = 0;i<size;i++){
+            if(a[i]==cand)count++;
+        }
+        if(count>size/2)return 1;
+        else return 0;
+    }
+    
+    int findCandidate(int a[], int size){
+        int maj_index = 0, count = 1;
+        for(int i = 0;i<size;i++){
+            if(a[maj_index]==a[i])count++;
+            else count--;
+            if(count == 0){
+                maj_index = i;
+                count = 1;
+            }
+        }
+        return a[maj_index];
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.majorityElement(arr, n)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[Searching in an array where adjacent differ by at most k](https://www.geeksforgeeks.org/searching-array-adjacent-differ-k/)**<br />
+A step array is an `array of integers` where each element has a difference of at most `k` with its neighbor. Given a key `x`, we need to find the index value of `x` if multiple-element exist to return the first occurrence of the key.<br />
+**Examples:**<br />
+<pre>
+Input : arr[] = {4, 5, 6, 7, 6}
+           k = 1
+           x = 6
+Output : 2
+The first index of 6 is 2.
+
+Input : arr[] = {20, 40, 50, 70, 70, 60}  
+          k = 20
+          x = 60
+Output : 5
+The index of 60 is 5
+</pre>
+A Simple Approach is to traverse the given array one by one and compare every element with the given element `‘x’`. If matches, then return `index`.<br />
+The above solution can be Optimized using the fact that the difference between all adjacent elements is at most `k`. The idea is to start comparing from the `leftmost element` and find the `difference` between the `current array element` and `x`. Let this difference be `‘diff’`. From the given property of the array, we always know that `x` must be at least `‘diff/k’` away, so instead of searching one by one, we jump `‘diff/k’`.<br /> 
+Below is the implementation of the above idea.<br />
+```cpp
+// C++ program to search an element in an array
+// where difference between adjacent elements is atmost k
+#include<bits/stdc++.h>
+using namespace std;
+
+// x is the element to be searched in arr[0..n-1]
+// such that all elements differ by at-most k.
+int search(int arr[], int n, int x, int k)
+{
+	// Traverse the given array starting from
+	// leftmost element
+	int i = 0;
+	while (i < n)
+	{
+		// If x is found at index i
+		if (arr[i] == x)
+			return i;
+
+		// Jump the difference between current
+		// array element and x divided by k
+		// We use max here to make sure that i
+		// moves at-least one step ahead.
+		i = i + max(1, abs(arr[i]-x)/k);
+	}
+
+	cout << "number is not present!";
+	return -1;
+}
+
+// Driver program to test above function
+int main()
+{
+	int arr[] = {2, 4, 5, 7, 7, 6};
+	int x = 6;
+	int k = 2;
+	int n = sizeof(arr)/sizeof(arr[0]);
+	cout << "Element " << x << " is present at index " << search(arr, n, x, k);
+	return 0;
+}
+```
+Output:<br />
+<pre>
+Element 6 is present at index 5
+</pre>
+<pre>
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+</pre>
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 10:
-**[]()**<br />
+**[find a pair with a given difference](https://practice.geeksforgeeks.org/problems/find-pair-given-difference1559/1)**<br />
+Given an array `Arr[]` of size `L` and a number `N`, you need to write a program to find if there exists a pair of elements in the array whose difference is `N`.<br />
+
+>Example 1:<br />
+Input:<br />
+L = 6, N = 78<br />
+arr[] = {5, 20, 3, 2, 5, 80}<br />
+Output: 1<br />
+Explanation: (2, 80) have difference of 78.<br />
+
+>Example 2:<br />
+Input:<br />
+L = 5, N = 45<br />
+arr[] = {90, 70, 20, 80, 50}<br />
+Output: -1<br />
+Explanation: There is no pair with difference of 45.<br />
+
+**Your Task:**<br />
+You need not take input or print anything. Your task is to complete the function `findPair()` which takes array `arr`, size of the array `L` and `N` as input parameters and returns `True` if required pair exists, else return `False`.<br />
+
+<pre>
+Expected Time Complexity: O(L* Log(L)).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1<=L<=10^4` <br />
+`1<=Arr[i]<=10^5` <br />
+`0<=N<=10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+bool findPair(int arr[], int size, int n);
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int l, n;
+        cin>>l>>n;
+        int arr[l];
+        for(int i = 0;i<l;l++)cin>>arr[i];
+        if(findPair(arr, l, n))cout<<1<<endl;
+        else cout<<"-1"<<endl;
+    }
+    return 0;
+}
+
+bool findPair(int arr[], int size, int n){
+    sort(arr,arr+size);
+    int i = 0, j = 1;
+    while(i<size && j<size){
+        if(i != j && arr[j]-arr[i] == n)return true;
+        else if(arr[j]-arr[i] < n)j++;
+        else i++;
+    }
+    return false;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 11:
-**[]()**<br />
+**[find four elements that sum to a given value](https://practice.geeksforgeeks.org/problems/find-all-four-sum-numbers1732/1)**<br />
+Given an array of `integers` and another `number`. Find all the unique quadruple from the given array that sums up to the given number.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5, K = 3<br />
+A[] = {0,0,2,1,1}<br />
+Output: 0 0 1 2 $<br />
+Explanation: Sum of 0, 0, 1, 2 is equal to K.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 7, K = 23<br />
+A[] = {10,2,3,4,5,7,8}<br />
+Output: 2 3 8 10 $2 4 7 10 $3 5 7 8 $<br />
+Explanation: Sum of 2, 3, 8, 10 = 23, sum of 2, 4, 7, 10 = 23 and sum of 3, 5, 7, 8 = 23.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `fourSum()` which takes the array `arr[]` and the integer `k` as its input and returns an array containing all the quadruples in a `lexicographical manner`. Also note that all the quadruples should be internally sorted, ie for any quadruple `[q1, q2, q3, q4]` the following should follow: `q1 <= q2 <= q3 <= q4`.  (In the output each quadruple is separate by `$`. The printing is done by the driver's code)<br />
+
+<pre>
+Expected Time Complexity: O(N^3).
+Expected Auxiliary Space: O(N^2).
+</pre>
+
+* Constraints: `1 <= N <= 100`<br />
+`-1000 <= K <= 1000`<br />
+`-100 <= A[] <= 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    vector<vector<int> > fourSum(vector<int> &arr, int k) {
+        if(arr.size() < 4)return{};
+        vector<vector<int>>ans;
+        sort(arr.begin(), arr.end());
+        for(int i = 0;i<arr.size()-3; i++){
+            if(arr[i] > 0 && arr[i]>k)break;
+            if(i>0 && arr[i] == arr[i-1])continue;
+            for(int j = i+1;j<arr.size()-2;j++){
+                if(j>i+1 && arr[j] == arr[j-1])continue;
+                int left = j+1;
+                int right = arr.size()-1;
+                while(left<right){
+                    int old_l = left;
+                    int old_r = right;
+                    int sum = arr[i]+arr[j]+arr[left]+arr[right];
+                    if(sum == k){
+                        ans.push_back({arr[i], arr[j], arr[left], arr[right]});
+                        while(left<right && arr[left] == arr[old_l])left++;
+                        while(left<right && arr[right] == arr[old_r])right--;
+                    }
+                    else if(sum > k)right--;
+                    else left++;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, k, i;
+        cin>>n>>k;
+        vector<int>a(n);
+        for(i = 0;i<n;i++)cin>>a[i];
+        Solution ob;
+        vector<vector<int>>ans = ob.fourSum(a, k);
+        for(auto &v : ans){
+            for(int &u : v)cout<<u<<" ";
+            cout<<"$"<<endl;
+        }
+        if(ans.empty())cout<<"-1"<<endl;
+    }
+    return 0;
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[maximum sum such that no 2 elements are adjacent](https://practice.geeksforgeeks.org/problems/stickler-theif-1587115621/1)**<br />
+Stickler the thief wants to loot money from a society having `n` houses in a single line. He is a weird person and follows a certain rule when looting the houses.<br /> 
+According to the rule, he will never loot `two consecutive` houses. At the same time, he wants to maximize the amount he loots. The thief knows which house has what amount of money but is unable to come up with an optimal looting strategy. He asks for your help to find the maximum money he can get if he strictly follows the rule. Each house has `a[i]` amount of money present in it.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 6<br />
+a[] = {5,5,10,100,10,5}<br />
+Output: 110<br />
+Explanation: 5+100+5=110<br />
+
+>Example 2:<br />
+Input:<br />
+n = 3<br />
+a[] = {1,2,3}<br />
+Output: 4<br />
+Explanation: 1+3=4<br />
+
+**Your Task:**<br />
+Complete the `functionFindMaxSum()` which takes an array `arr[]` and `n` as input which returns the maximum money he can get following the rules.<br />
+
+<pre>
+Expected Time Complexity:O(N).
+Expected Space Complexity:O(N).
+</pre>
+
+* Constraints: `1 ≤ n ≤ 10^4`<br />
+`1 ≤ a[i] ≤ 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+
+class Solution{
+    public:
+    int FindMaxSum(int arr[], int n){
+        int incl_curr = arr[0], excl_curr = 0, incl_prev = incl_curr, excl_prev =excl_curr;
+        for(int i = 1;i<n;i++){
+            excl_curr = max(incl_prev, excl_prev);
+            incl_curr = excl_prev + arr[i];
+            excl_prev = excl_curr;
+            incl_prev = incl_curr;
+        }
+        return max(excl_curr, incl_curr);
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int a[n];
+        for(int i = 0;i<n;i++)cin>>a[i];
+        Solution ob;
+        cout<<ob.FindMaxSum(a, n)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
-**[]()**<br />
+**[Count triplet with sum smaller than a given value](https://practice.geeksforgeeks.org/problems/count-triplets-with-sum-smaller-than-x5549/1)**<br />
+Given an array `arr[]` of distinct integers of size `N` and a value `sum`, the task is to find the count of triplets `(i, j, k)`, having `(i<j<k)` with the sum of `(arr[i] + arr[j] + arr[k])` smaller than the given value `sum`.<br />
+
+>Example 1:<br />
+Input: N = 4, sum = 2<br />
+arr[] = {-2, 0, 1, 3}<br />
+Output:  2<br />
+Explanation: Below are triplets with sum less than 2 (-2, 0, 1) and (-2, 0, 3).<br /> 
+ 
+>Example 2:<br />
+Input: N = 5, sum = 12<br />
+arr[] = {5, 1, 3, 4, 7}<br />
+Output: 4<br />
+Explanation: Below are triplets with sum less than 12 (1, 3, 4), (1, 3, 5), (1, 3, 7) and (1, 4, 5).<br />
+
+**Your Task:**<br />
+This is a function problem. You don't need to take any input, as it is already accomplished by the driver code. You just need to complete the function `countTriplets()` that take array `arr[]`, integer `N`  and integer `sum` as parameters and returns the count of triplets.<br />
+
+<pre>
+Expected Time Complexity: O(N^2).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `3 ≤ N ≤ 10^3`<br />
+`-10^3 ≤ arr[i] ≤ 10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+	long long countTriplets(long long arr[], int n, long long sum){
+	    sort(arr,arr+n);
+	    long long ans = 0;
+	    for(int i = 0;i<n-2;i++){
+	        int j = i+1, k=n-1;
+	        while(j<k){
+	            if(arr[i]+arr[j]+arr[k] >= sum)k--;
+	            else {
+	                ans += (k-j);
+	                j++;
+	            }
+	        }
+	    }
+	    return ans;
+	}
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; long long sum;
+        long long arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.countTriplets(arr, n, sum);
+        cout<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 14:
-**[]()**<br />
+**[merge 2 sorted arrays without using extra space](https://practice.geeksforgeeks.org/problems/merge-two-sorted-arrays5135/1)**<br />
+Given two sorted arrays `arr1[]` and `arr2[]` of sizes `n` and `m` in non-decreasing order. Merge them in sorted order `without` using any `extra space`. Modify `arr1` so that it contains the first `N` elements and modify `arr2` so that it contains the last `M` elements.<br />
+ 
+>Example 1:<br />
+Input: <br />
+n = 4, arr1[] = [1 3 5 7]<br /> 
+m = 5, arr2[] = [0 2 6 8 9]<br />
+Output: <br />
+arr1[] = [0 1 2 3]<br />
+arr2[] = [5 6 7 8 9]<br />
+Explanation: <br />
+After merging the two non-decreasing arrays, we get, 0 1 2 3 5 6 7 8 9.<br />
+
+>Example 2:<br />
+Input: <br />
+n = 2, arr1[] = [10, 12]<br /> 
+m = 3, arr2[] = [5 18 20]<br />
+Output: <br />
+arr1[] = [5 10]<br />
+arr2[] = [12 18 20]<br />
+Explanation:<br />
+After merging two sorted arrays we get 5 10 12 18 20.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. You only need to complete the function `merge()` that takes `arr1`, `arr2`, `n` and `m` as input parameters and modifies them in-place so that they look like the sorted merged array when concatenated.<br />
+ 
+<pre>
+Expected Time Complexity:  O((n+m) log(n+m))
+Expected Auxilliary Space: O(1)
+</pre> 
+
+* Constraints: `1 <= n, m <= 5*10^4`<br />
+`0 <= arr1i, arr2i <= 10^7`<br />
+
+```cpp
+#include<bits/stdc++.h>
+	using namespace std;
+	
+	class Solution{
+	public:
+	int nextGap(int gap){
+		if(gap<=1)
+			return 0;
+		return (gap/2)+(gap%2);
+	}
+	void merge(int arr1[], int arr2[], int n, int m){
+		int i, j, gap = n+m;
+		for(gap = nextGap(gap); gap>0; gap=nextGap(gap)){
+			// comparing elements in the first array itself with difference in
+			// index equal to the value of the gap.
+			for(i = 0; i + gap < n; i++)
+				// if element at ith index is greater than element at
+				// (i+gap)th index, we swap them.
+				if(arr1[i]>arr1[i+gap])
+					swap(arr1[i],arr1[i+gap]);
+			// now comparing elements in both arrays with help of two pointers.
+			// the loop stops whenever any pointer exceeds the size of its array.
+			for(j = gap > n? gap-n : 0 ; i < n&&j < m; i++, j++)
+				// if element in the first array is greater than element in
+				// second array, we swap them.
+				if(arr1[i] > arr2[j])
+					swap(arr1[i], arr2[j]);
+			if(j<m){
+				// at last, comparing elements in the second array itself with 
+				// difference in index equal to the value of the gap.
+				for(j = 0 ; j+gap < m ; j++)
+					// if element at jth index is greater than element at
+					// (j+gap)th index, we swap them.
+					if(arr2[j]>arr2[j+gap])
+						swap(arr2[j],arr2[j+gap]);
+				}
+			}
+		}
+	};
+	
+	int main(){
+		int t;
+		cin>>t;
+		while(t--){
+			int n, m, i;
+			cin>>n>>m;
+			int arr1[n], arr2[m];
+			for(int i=0;i<n;i++){
+				cin>>arr1[i];
+			}
+			for(int j=0;j<m;j++){
+				cin>>arr2[j];
+			}
+			Solution ob;
+			ob.merge(arr1, arr2, n, m);
+			for(i=0;i<n;i++){
+				cout<<arr1[i]<<" ";
+			}
+			for(i=0;i<m;i++){
+				cout<<arr2[i]<<" ";
+			}
+			cout<<endl;
+		}
+		return 0;
+	}
+  ```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 15:
