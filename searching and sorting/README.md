@@ -1099,15 +1099,274 @@ Expected Auxilliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 15:
-**[]()**<br />
+**[print all subarrays with 0 sum](https://practice.geeksforgeeks.org/problems/zero-sum-subarrays1825/1)**<br />
+You are given an array `arr[]` of size `n`. Find the total count of sub-arrays having their sum equal to `0`.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 6<br />
+arr[] = {0,0,5,5,0,0}<br />
+Output: 6<br />
+Explanation: The 6 subarrays are [0], [0], [0], [0], [0,0], and [0,0].<br />
+
+>Example 2:<br />
+Input:<br />
+n = 10<br />
+arr[] = {6,-1,-3,4,-2,2,4,6,-12,-7}<br />
+Output: 4<br />
+Explanation: The 4 subarrays are [-1 -3 4] [-2 2], [2 4 6 -12], and [-1 -3 4 -2 2]<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Complete the function `findSubarray()` that takes the array `arr` and its size `n` as input parameters and returns the total number of sub-arrays with 0 sum.<br />
+ 
+<pre>
+Expected Time Complexity : O(n)
+Expected Auxilliary Space : O(n)
+</pre>
+
+* Constraints: `1<= n <= 10^7`<br />
+`-10^10 <= arri <= 10^10`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long 
+
+class Solution{
+    public:
+    ll findSubarray(vector<ll> arr, int n ) {
+        ll sum = 0, counter = 0;
+        unordered_map<ll, ll>mp;
+        for(int i = 0;i<n;i++){
+            sum+=arr[i];
+            if(sum==0)counter++;
+            if(mp.count(sum)!= 0)counter+=mp[sum];
+            mp[sum]++;
+        }
+        return counter;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<ll>arr(n, 0);
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.findSubarray(arr, n)<<endl;
+    }
+    return 0;
+}
+/*
+map_name.count(key k)
+Parameters: The function accepts a mandatory parameter k which specifies the key 
+to be searched in the map container.
+Return Value: The function returns the number of times the key K is present in 
+the map container. It returns 1 if the key is present in the container as the map 
+only contains a unique key. It returns 0 if the key is not present in the map container.
+*/
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 16:
-**[]()**<br />
+**[Product array Puzzle](https://practice.geeksforgeeks.org/problems/product-array-puzzle4525/1)**<br />
+Given an array `nums[]` of size `n`, construct a `Product Array P` (of same size `n`) such that `P[i]` is equal to the product of all the elements of nums except `nums[i]`.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 5<br />
+nums[] = {10, 3, 5, 6, 2}<br />
+Output:<br />
+180 600 360 300 900<br />
+Explanation: <br />
+For i=0, P[i] = 3*5*6*2 = 180.<br />
+For i=1, P[i] = 10*5*6*2 = 600.<br />
+For i=2, P[i] = 10*3*6*2 = 360.<br />
+For i=3, P[i] = 10*3*5*2 = 300.<br />
+For i=4, P[i] = 10*3*5*6 = 900.<br />
+
+>Example 2:<br />
+Input:<br />
+n = 2<br />
+nums[] = {12,0}<br />
+Output:<br />
+0 12<br />
+
+**Your Task:**<br />
+You do not have to read input. Your task is to complete the function `productExceptSelf()` that takes array `nums[]` and `n` as input parameters and returns a `list` of `n` integers denoting the product array `P`. If the array has only one element the returned list should should contains one value i.e `{1}`<br />
+Note: Try to solve this problem without using the division operation.<br />
+ 
+<pre>
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(n)
+</pre> 
+
+* Constraints: `1 <= n <= 1000`<br />
+`0 <= numsi <= 200`<br />
+`Array` may contain duplicates.<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    vector<long long int> productExceptSelf(vector<long long int>& nums, int n) {
+        //location of memory for product array and intialise it by 1;
+        vector<long long int>vec(n, 1ll);
+        if(n==1)return vec;
+        long long temp = 1ll;
+        for(int i = 0;i<n;i++){
+            vec[i]*=temp;
+            temp*=nums[i];
+        }
+        temp = 1ll;
+        for(int i = n-1;i>=0;i--){
+            vec[i]*=temp;
+            temp*=nums[i];
+        }
+        return vec;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<long long int>arr(n),vec(n);
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        vec = ob.productExceptSelf(arr, n);
+        for(int i = 0;i<n;i++)cout<<vec[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 17:
-**[]()**<br />
+**[Sort array according to count of set bits](https://practice.geeksforgeeks.org/problems/sort-by-set-bit-count1153/1)**<br />
+Given an `array` of integers, sort the `array` (in descending order) according to count of `set bits` in binary representation of array elements.<br />
+**Note:** For integers having same number of set bits in their binary representation, sort according to their position in the original array i.e., a `stable sort`.<br />
+ 
+>Example 1:<br />
+Input: <br />
+arr[] = {5, 2, 3, 9, 4, 6, 7, 15, 32};<br />
+Output:<br />
+15 7 5 3 9 6 2 4 32<br />
+Explanation:<br />
+The integers in their binary representation are:<br />
+15 - 1111<br />
+7  - 0111<br />
+5  - 0101<br />
+3  - 0011<br />
+9  - 1001<br />
+6  - 0110<br />
+2  - 0010<br />
+4  - 0100<br />
+32 - 10000<br />
+hence the non-increasing sorted order is: {15}, {7}, {5, 3, 9, 6}, {2, 4, 32}<br />
+ 
+>Example 2:<br />
+Input: <br />
+arr[] = {1, 2, 3, 4, 5, 6};<br />
+Output: <br />
+3 5 6 1 2 4<br />
+Explanation:<br />
+3  - 0011<br />
+5  - 0101<br />
+6  - 0110<br />
+1  - 0001<br />
+2  - 0010<br />
+4  - 0100<br />
+hence the non-increasing sorted order is {3, 5, 6}, {1, 2, 4}<br />
+
+**Your Task:**<br />
+You don't need to print anything, printing is done by the driver code itself. You just need to complete the function `sortBySetBitCount()` which takes the array `arr[]` and its size `N` as inputs and sort the array `arr[]` inplace. Use of `extra space` is prohibited.<br />
+ 
+<pre>
+Expected Time Complexity: O(N.log(N))
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`1 ≤ A[i] ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    void sortBySetBitCount(int arr[], int n){
+        stable_sort(arr, arr+n, cmp);
+    }
+    static int cmp(int a, int b){
+        int count1 = __builtin_popcount(a);
+        int count2 = __builtin_popcount(b);
+        if(count1<=count2)return false;
+        return true;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        ob.sortBySetBitCount(arr, n);
+        for(int i = 0;i<n;i++)cout<<arr[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+stable_sort() is used to sort the elements in the range [first, last) 
+in ascending order. It is like std::sort, but stable_sort() keeps the 
+relative order of elements with equivalent values. It comes under the 
+<algorithm> header file.
+It is O(n*log^2(n)). 
+If additional memory linearly proportional to length is not 
+available. If its available then O(n*log(n)).
+Syntax:
+template< class RandomIterator>
+void stable_sort( RandomIterator first, RandomIterator last );
+or
+template< class RandomIterator, class Compare>
+void stable_sort( RandomIterator first, RandomIterator last, Compare comp );
+Parameters:
+first:  iterator pointing to the first element in the range.
+last:  iterator pointing to the past last element in the range.
+comp: predicate function that accepts two arguments and returns true if the 
+ two arguments are in order and false otherwise.
+ 
+ 
+Like sort(), stable_sort() takes a third parameter that is used to specify 
+the order in which elements are to be sorted. We can pass “greater()” function 
+to sort in decreasing order. This function does comparison in a way that puts 
+greater element before. 
+Syntax:
+// arr is the array and n is the size
+stable_sort(arr, arr + n, greater<int>());  
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 18:
@@ -1183,100 +1442,4 @@ Expected Auxilliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 36:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 37:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 38:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 39:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 40:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 41:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 42:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 43:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 44:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 45:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 46:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 47:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 48:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 49:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 50:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 51:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 52:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 53:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 54:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 55:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 56:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 57:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 58:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 59:
-**[]()**<br />
-
-<br /><br /><br />
-## Problem 60:
 **[]()**<br />
