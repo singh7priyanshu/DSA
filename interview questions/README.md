@@ -5330,4 +5330,61 @@ public:
 };	
 ```
 	
+<br /> <br /> <br />**[378. Kth Smallest Element in a Sorted Matrix](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/)**<br />
+Given an `n x n` `matrix` where each of the rows and columns is sorted in ascending order, return _the `kth` smallest element in the matrix_.<br />
+Note that it is the `kth` smallest element **in the sorted order**, not the `kth` **distinct** element.<br />
+You must find a solution with a memory complexity better than `O(n^2)`.<br />
+
+>Example 1:<br />
+Input: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8<br />
+Output: 13<br />
+Explanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13<br />
+
+>Example 2:<br />
+Input: matrix = [[-5]], k = 1<br />
+Output: -5<br />
+ 
+* Constraints: `n == matrix.length == matrix[i].length`<br />
+`1 <= n <= 300`<br />
+`-10^9 <= matrix[i][j] <= 10^9`<br />
+All the rows and columns of `matrix` are **guaranteed** to be sorted in **non-decreasing order**.<br />
+`1 <= k <= n^2`<br />
+	
+```cpp
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size();
+        
+        int low = matrix[0][0];
+        int high = matrix[n-1][n-1]; 
+        
+        int mid, temp, count;
+        
+        while(low < high){
+            mid = low + (high-low)/2;
+            temp = n - 1;
+            count = 0;
+            
+            for(int i = 0; i < n; i++){
+                
+                while(temp >= 0 && matrix[i][temp] > mid){
+                    temp--;
+                }
+                count+= (temp+1);
+            }
+            
+            if(count < k){
+                low = mid + 1;
+            }else{
+                high = mid;
+            }
+        }
+        return low;
+    }
+};
+```
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
