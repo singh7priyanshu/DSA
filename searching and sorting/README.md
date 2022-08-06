@@ -2643,11 +2643,149 @@ Time Complexity of the above Dynamic Programming Solution is O(n^2)
 
 <br /><br /><br />
 ## Problem 28:
-**[]()**<br />
+**[Missing Number in AP](https://practice.geeksforgeeks.org/problems/arithmetic-number2815/1)**<br />
+Given three integers  `'A'` denoting the first term of an arithmetic sequence , `'C'` denoting the common difference of an arithmetic sequence and an integer `'B'`. you need to tell whether `'B'` exists in the arithmetic sequence or not.<br />
+
+>Example 1:<br />
+Input: A = 1, B = 3, C = 2<br />
+Output: 1<br />
+Explaination: 3 is the second term of the sequence starting with 1 and having a common difference 2.<br />
+
+>Example 2:<br />
+Input: A = 1, B = 2, C = 3<br />
+Output: 0<br />
+Explaination: 2 is not present in the sequence.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `inSequence()` which takes `A`, `B` and `C` and returns `1` if `B` is present in the sequence. Otherwise, returns `0`.<br />
+
+<pre>
+Expected Time Complexity: O(1)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `-10^9 ≤ A, B, C ≤ 10^9` 
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int inSequence(int A, int B, int C){
+        int d = (B-A);
+        if(d==0)return 1;
+        if(d<0){
+            if(C>=0)return 0;
+            if(d%C == 0)return 1;
+            return 0;
+        }
+        else{
+            if(C<=0)return 0;
+            if(d%C == 0)return 1;
+            return 0;
+        }
+        return 0;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int A, B, C;
+        cin>>A>>B>>C;
+        Solution ob;
+        cout<<ob.inSequence(A, B, C)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 29:
-**[]()**<br />
+**[Smallest number with atleast n trailing zeroes infactorial](https://practice.geeksforgeeks.org/problems/smallest-factorial-number5929/1)**<br />
+Given a number `n`. The task is to find the smallest number whose factorial contains at least `n` trailing zeroes.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 1<br />
+Output: 5<br />
+Explanation : 5! = 120 which has at least 1 trailing 0.<br />
+
+>Example 2:<br />
+Input:<br />
+n = 6<br />
+Output: 25<br />
+Explanation : 25! has at least 6 trailing 0.<br />
+
+**Your Task:**<br />
+Complete the function `findNum()` which takes an integer `N` as input parameters, and returns the `answer`.<br />
+
+<pre>
+Expected Time Complexity: O(log2 N * log5 N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 <= n <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+        int findNum(int n){
+            if(n==1)return (5);
+            int s = 0, e = 5*n;
+            int ans = -1;
+            while(s<=e){
+                int mid = (s+e)/2;
+                if(check(mid, n)){
+                    ans = mid;
+                    e = mid-1;
+                }
+                else s = mid+1;
+            }
+            return ans;
+        }
+        
+        bool check(int mid, int n){
+            int cnt = 0, f = 5;
+            while(f<=mid){
+                cnt += mid/f;
+                f*=5;
+            }
+            return (cnt >= n);
+        }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        Solution ob;
+        cout<<ob.findNum(n)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 30:
