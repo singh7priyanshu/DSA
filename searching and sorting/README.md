@@ -2789,7 +2789,112 @@ int main(){
 
 <br /><br /><br />
 ## Problem 30:
-**[]()**<br />
+**[Painters Partition Problem](https://practice.geeksforgeeks.org/problems/the-painters-partition-problem1535/1)**<br />
+Dilpreet wants to paint his dog's home that has `n` boards with different lengths. The length of `ith` board is given by `arr[i]` where `arr[]` is an array of `n` integers. He hired `k` painters for this work and each painter takes **1 unit time to paint 1 unit of the board**.<br />
+The problem is to find the minimum time to get this job done if all painters start together with the constraint that any painter will only paint continuous 
+boards, say boards numbered **{2,3,4}** or only board **{1}** or nothing but not boards **{2,4,5}**.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 5<br />
+k = 3<br />
+arr[] = {5,10,30,20,15}<br />
+Output: 35<br />
+Explanation: The most optimal way will be:<br />
+Painter 1 allocation : {5,10}<br />
+Painter 2 allocation : {30}<br />
+Painter 3 allocation : {20,15}<br />
+Job will be done when all painters finish i.e. at time = max(5+10, 30, 20+15) = 35<br />
+
+>Example 2:<br />
+Input:<br />
+n = 4<br />
+k = 2<br />
+arr[] = {10,20,30,40}<br />
+Output: 60<br />
+Explanation: The most optimal way to paint:<br />
+Painter 1 allocation : {10,20,30}<br />
+Painter 2 allocation : {40}<br />
+Job will be complete at time = 60<br />
+
+**Your task:**<br />
+Your task is to complete the function `minTime()` which takes the integers `n` and `k` and the array `arr[]` as input and returns _the minimum time required to paint all partitions_.<br />
+
+<pre>
+Expected Time Complexity: O(n log m) , m = sum of all boards' length
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ n ≤ 10^5`<br />
+`1 ≤ k ≤ 10^5`<br />
+`1 ≤ arr[i] ≤ 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int getMax(int arr[], int n){
+    	int max = INT_MIN;
+    	for (int i = 0; i < n; i++)
+    		if (arr[i] > max)
+    			max = arr[i];
+    	return max;
+    }
+    
+    long long getSum(int arr[], int n){
+    	long long total = 0;
+    	for (int i = 0; i < n; i++)
+    		total += arr[i];
+    	return total;
+    }
+    
+    int numberOfPainters(int arr[], int n, long long maxLen){
+    	long long total = 0, numPainters = 1;
+    	for (int i = 0; i < n; i++) {
+    		total += arr[i];
+    		if (total > maxLen) {
+    			total = arr[i];
+    			numPainters++;
+    		}
+    	}
+        return numPainters;
+    }
+    
+    long long minTime(int arr[], int n, int k){
+    	long long lo = getMax(arr, n);
+    	long long hi = getSum(arr, n);
+        while (lo < hi) {
+    		long long mid = lo + (hi - lo) / 2;
+    		long long requiredPainters = numberOfPainters(arr, n, mid);
+            if (requiredPainters <= k)hi = mid;
+    		else lo = mid + 1;
+    	}
+    	return lo;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int k, n;
+        cin>>k>>n;
+        int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.minTime(arr, n, k)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 31:
