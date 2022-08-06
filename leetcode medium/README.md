@@ -4525,4 +4525,62 @@ public:
  
  
  
+<br /> <br /> <br />**[458. Poor Pigs](https://leetcode.com/problems/poor-pigs/)**<br />
+There are `buckets` buckets of liquid, where **exactly one** of the buckets is poisonous. To figure out which one is poisonous, you feed some number of (poor) pigs the liquid to see whether they will die or not. Unfortunately, you only have `minutesToTest` minutes to determine which bucket is poisonous.<br />
+You can feed the pigs according to these steps:<br />
+
+ 1. Choose some live pigs to feed.<br />
+ 2. For each pig, choose which buckets to feed it. The pig will consume all the chosen buckets simultaneously and will take no time.<br />
+ 3. Wait for `minutesToDie` minutes. You may **not** feed any other pigs during this time.<br />
+ 4. After `minutesToDie` minutes have passed, any pigs that have been fed the poisonous bucket will die, and all others will survive.<br />
+ 5. Repeat this process until you run out of time.<br />
+ 
+Given `buckets`, `minutesToDie`, and `minutesToTest`, return _the **minimum** number of pigs needed to figure out which bucket is poisonous within the allotted time._<br />
+
+>Example 1:<br />
+Input: buckets = 1000, minutesToDie = 15, minutesToTest = 60<br />
+Output: 5<br />
+
+>Example 2:<br />
+Input: buckets = 4, minutesToDie = 15, minutesToTest = 15<br />
+Output: 2<br />
+
+>Example 3:<br />
+Input: buckets = 4, minutesToDie = 15, minutesToTest = 30<br />
+Output: 2<br />
+ 
+* Constraints: `1 <= buckets <= 1000`<br />
+`1 <= minutesToDie <= minutesToTest <= 100`<br />
+                                        
+```cpp
+class Solution {
+public:
+    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        return ceil(log(buckets) / log(minutesToTest / minutesToDie + 1));    
+    }
+};
+```
+<pre>
+This question is based on combinatrics. 
+
+Lets assume that we have p pigs which can give us the accurate result. Now we have
+total Round of test = (timetoTest/TimetoDie) ie. T tests. 
+
+So for each T test there can be T+1  outcomes that is it can die in 1st or 2nd or Tth oit it means the T cases and the last case is it won't die! So total T+1 Outcomes are possible.
+
+Now for each pig we have to go for T+1 outcomes i.e
+(T+1)*(T+1)........*(T+1).
+
+So T+1 tests rounds are there so for all p pigs the total combination will be (T+1) to the power p i.e (T+1)^p. Now** this total combination should be greater than or equal to N.**
+
+Hence  the condition for the answer is going to be 
+(T+1)^p >= N
+Taking log on both sides we will get the required answee
+p >= log(N)/ log(T+1);
+and hence ceil function is used in the return.
+</pre>
+ 
+ 
+ 
+ 
 <br /> <br /> <br />**[]()**<br />
