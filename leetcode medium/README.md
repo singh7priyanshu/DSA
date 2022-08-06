@@ -4470,4 +4470,59 @@ Because we want to find m * p = n * q, where either m or n is odd, we can do it 
   
   
   
+<br /> <br /> <br />**[377. Combination Sum IV](https://leetcode.com/problems/combination-sum-iv/)**<br />
+Given an array of **distinct** integers `nums` and a target integer `target`, return _the number of possible combinations that add up to_ `target`.<br />
+The test cases are generated so that the answer can fit in a **32-bit** integer.<br />
+
+>Example 1:<br />
+Input: nums = [1,2,3], target = 4<br />
+Output: 7<br />
+Explanation:<br />
+The possible combination ways are:<br />
+(1, 1, 1, 1)<br />
+(1, 1, 2)<br />
+(1, 2, 1)<br />
+(1, 3)<br />
+(2, 1, 1)<br />
+(2, 2)<br />
+(3, 1)<br />
+Note that different sequences are counted as different combinations.<br />
+
+>Example 2:<br />
+Input: nums = [9], target = 3<br />
+Output: 0<br />
+
+* Constraints: `1 <= nums.length <= 200`<br />
+`1 <= nums[i] <= 1000`<br />
+All the elements of `nums` are **unique**.<br />
+`1 <= target <= 1000`<br />
+ 
+ ```cpp
+ class Solution {
+public:
+    vector<int>dp;
+        
+    int combinationSum4(vector<int>& nums, int target){
+        int n = nums.size();
+        dp.resize(target+1, -1);
+        return helper(nums, target, n);
+    }
+    int helper(vector<int>nums, int target, int size){
+        int solution = 0;
+        if(target == 0)return 1;
+        if(dp[target]!= -1)return dp[target];
+        for(int i = 0;i<size;i++){
+            if(nums[i]<=target){
+                solution += helper(nums, target-nums[i], size);
+            }
+        }
+        return dp[target] = solution;     
+    }
+};
+```
+ 
+ 
+ 
+ 
+ 
 <br /> <br /> <br />**[]()**<br />
