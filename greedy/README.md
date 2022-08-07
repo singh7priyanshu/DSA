@@ -2132,9 +2132,196 @@ int main()
 	}
 }
 ```
-**[Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)](https://www.geeksforgeeks.org/program-for-shortest-job-first-or-sjf-cpu-scheduling-set-1-non-preemptive/)**<br />
-**[Shortest Job First (or SJF) CPU Scheduling Non-preemptive algorithm using Segment Tree](https://www.geeksforgeeks.org/shortest-job-first-or-sjf-cpu-scheduling-non-preemptive-algorithm-using-segment-tree/)**<br />
-**[Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm](https://www.geeksforgeeks.org/shortest-remaining-time-first-preemptive-sjf-scheduling-algorithm/)**<br />
+<br /><br /><br />**[Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)](https://www.geeksforgeeks.org/program-for-shortest-job-first-or-sjf-cpu-scheduling-set-1-non-preemptive/)**<br />
+The `shortest job first (SJF)` or shortest job next, is a scheduling policy that selects the waiting process with the smallest execution time to execute next. `SJN`, also known as `Shortest Job Next (SJN)`, can be `preemptive` or `non-preemptive`.<br />  
+**Characteristics of SJF Scheduling:**<br />
+
+ * `Shortest Job first` has the advantage of having a `minimum` average waiting time among all scheduling algorithms.<br />
+ * It is a `Greedy Algorithm`.<br />
+ * It may cause starvation if shorter processes keep coming. This problem can be solved using the concept of ageing.<br />
+ * It is practically infeasible as `Operating System` may not know `burst times` and therefore may not sort them. While it is not possible to predict `execution time`, several methods can be used to estimate the execution time for a job, such as a `weighted average` of previous execution times.<br /> 
+ * `SJF` can be used in specialized environments where accurate estimates of running time are available.<br />
+
+**Algorithm:**<br />
+
+ * Sort all the processes according to the `arrival time`.<br /> 
+ * Then select that process that has `minimum arrival time` and `minimum Burst time`.<br /> 
+ * After completion of the process make a pool of processes that arrives afterward till the completion of the previous process and select that process among the pool which is having `minimum Burst time`.<br /> 
+
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20200303163658/SJF.jpg"><br />
+<br />**How to compute below times in SJF using a program?**<br /> 
+
+ * **Completion Time:** Time at which process completes its execution.<br />
+ * **Turn Around Time:** Time Difference between completion time and arrival time.<br /> 
+   `Turn Around Time = Completion Time – Arrival Time`<br />
+ * **Waiting Time(W.T):** Time Difference between turn around time and burst time.<br /> 
+   `Waiting Time = Turn Around Time – Burst Time`<br />
+
+`Non-Preemptive Shortest` Job First algorithm can be implemented using `Segment Trees` data structure.<br />
+**In this post, we have assumed arrival times as 0, so turn around and completion times are same.**<br />
+
+<br />`Example-1:` Consider the following table of **arrival time** and **burst time** for five processes `P1`, `P2`, `P3`, `P4` and `P5`.<br />
+<img src = "https://user-images.githubusercontent.com/71781982/183306103-172c414f-0a4e-46a1-b5b6-cf369ad8904c.png"><br />
+The **Shortest Job First CPU Scheduling Algorithm** will work on the basis of steps as mentioned below:<br />
+**At time = 0,**<br />
+
+ * Process **P4** arrives and starts executing<br />
+ 
+<img src = "https://user-images.githubusercontent.com/71781982/183306105-95f756ac-aabd-454e-b07f-b774bf70ab86.png"><br />
+**At time= 1,**<br /> 
+
+ * Process P3 arrives.<br /> 
+ * But, as P4 still needs 2 execution units to complete.<br /> 
+ * Thus, P3 will wait till P4 gets executed.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306106-96e30638-ce34-4e2b-abb7-be0eb47bafaa.png"><br />
+**At time =2,**<br /> 
+
+ * Process P1 arrives and is added to the waiting table<br /> 
+ * P4 will continue its execution.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306109-00cb6d1e-9c2b-4285-b122-a59396ff9533.png"><br />
+**At time = 3,**<br /> 
+
+ * Process P4 will finish its execution.<br /> 
+ * Then, the burst time of P3 and P1 is compared.<br /> 
+ * Process P1 is executed because its burst time is less as compared to P3.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306110-6eec851f-6797-43f8-8249-118dbb3673ab.png"><br />
+**At time = 4,**<br /> 
+
+ * Process P5 arrives and is added to the waiting Table.<br />
+ * P1 will continue execution.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306112-56edebc9-bf37-4d59-b876-f98bee262015.png"><br />
+**At time = 5,**<br /> 
+
+ * Process P2 arrives and is added to the waiting Table. 
+ * P1 will continue execution.
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306115-57a24888-7944-413b-afcd-53ab9c52b990.png"><br />
+**At time = 6,**<br /> 
+
+ * Process P1 will finish its execution.<br /> 
+ * The burst time of P3, P5, and P2 is compared.<br /> 
+ * Process P2 is executed because its burst time is the lowest among all.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306116-e54ba7f3-fd58-4c4a-8a5a-972ad49eda7d.png"><br />
+**At time=9,**<br /> 
+
+ * Process P2 is executing and P3 and P5 are in the waiting Table.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306117-53e0aee1-768f-4b8c-a381-4acb460041fe.png"><br />
+**At time = 11,**<br /> 
+
+ * The execution of Process P2 will be done.<br /> 
+ * The burst time of P3 and P5 is compared. <br />
+ * Process P5 is executed because its burst time is lower than P3.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306118-1d7a5c72-5f82-4c8a-918e-6dc517fe5061.png"><br />
+**At time = 15,**<br />
+
+ * Process P5 will finish its execution.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306099-05ddaa20-a108-4fb9-8861-ad6d5bf5b701.png"><br />
+**At time = 23,**<br /> 
+
+ * Process P3 will finish its execution.<br />
+ * The overall execution of the processes will be as shown below:<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306085-479bfcec-c3bb-4d63-81e6-cb1526a335ae.png"><br />
+**Gantt chart for above execution:**<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220425161949/UntitledDiagram1-300x78.jpg"><br />
+Now, let’s calculate the average waiting time for above example:<br />
+<pre>
+P4 = 0 – 0 = 0
+
+P1 = 3 – 2 = 1
+
+P2 = 9 – 5 = 4
+
+P5 = 11 – 4 = 7
+
+P3 = 15 – 1 = 14
+
+Average Waiting Time = 0 + 1 + 4 + 7 + 14/5 = 26/5 = 5.2
+</pre>
+**Advantages of SJF:**<br />
+
+ * SJF is better than the First come first serve(FCFS) algorithm as it reduces the average waiting time.<br />
+ * SJF is generally used for long term scheduling<br />
+ * It is suitable for the jobs running in batches, where run times are already known.<br />
+ * SJF is probably optimal in terms of average turnaround time.<br />
+
+**Disadvantages of SJF:**<br /> 
+
+ * SJF may cause very long turn-around times or starvation.<br />
+ * In SJF job completion time must be known earlier, but sometimes it is hard to predict.<br />
+ * Sometimes, it is complicated to predict the length of the upcoming CPU request.<br />
+ * It leads to the starvation that does not reduce average turnaround time.<br />
+
+**Implementation of SJF Algorithm in C**<br />
+```cpp
+#include <stdio.h>
+int main()
+{
+	int A[100][4]; // Matrix for storing Process Id, Burst
+				// Time, Average Waiting Time & Average
+				// Turn Around Time.
+	int i, j, n, total = 0, index, temp;
+	float avg_wt, avg_tat;
+	printf("Enter number of process: ");
+	scanf("%d", &n);
+	printf("Enter Burst Time:\n");
+	// User Input Burst Time and alloting Process Id.
+	for (i = 0; i < n; i++) {
+		printf("P%d: ", i + 1);
+		scanf("%d", &A[i][1]);
+		A[i][0] = i + 1;
+	}
+	// Sorting process according to their Burst Time.
+	for (i = 0; i < n; i++) {
+		index = i;
+		for (j = i + 1; j < n; j++)
+			if (A[j][1] < A[index][1])
+				index = j;
+		temp = A[i][1];
+		A[i][1] = A[index][1];
+		A[index][1] = temp;
+
+		temp = A[i][0];
+		A[i][0] = A[index][0];
+		A[index][0] = temp;
+	}
+	A[0][2] = 0;
+	// Calculation of Waiting Times
+	for (i = 1; i < n; i++) {
+		A[i][2] = 0;
+		for (j = 0; j < i; j++)
+			A[i][2] += A[j][1];
+		total += A[i][2];
+	}
+	avg_wt = (float)total / n;
+	total = 0;
+	printf("P	 BT	 WT	 TAT\n");
+	// Calculation of Turn Around Time and printing the
+	// data.
+	for (i = 0; i < n; i++) {
+		A[i][3] = A[i][1] + A[i][2];
+		total += A[i][3];
+		printf("P%d	 %d	 %d	 %d\n", A[i][0],
+			A[i][1], A[i][2], A[i][3]);
+	}
+	avg_tat = (float)total / n;
+	printf("Average Waiting Time= %f", avg_wt);
+	printf("\nAverage Turnaround Time= %f", avg_tat);
+}
+```
+**Note: In this post, we have assumed arrival times as 0, so turn around and completion times are same.**<br />
+<br /><br /><br />**[Shortest Job First (or SJF) CPU Scheduling Non-preemptive algorithm using Segment Tree](https://www.geeksforgeeks.org/shortest-job-first-or-sjf-cpu-scheduling-non-preemptive-algorithm-using-segment-tree/)**<br />
+
+
+<br /><br /><br />**[Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm](https://www.geeksforgeeks.org/shortest-remaining-time-first-preemptive-sjf-scheduling-algorithm/)**<br />
 
 
 
