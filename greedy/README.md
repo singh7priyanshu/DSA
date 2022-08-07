@@ -2000,9 +2000,7 @@ Auxiliary Space: O(1)
 **[Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)](https://www.geeksforgeeks.org/program-for-shortest-job-first-or-sjf-cpu-scheduling-set-1-non-preemptive/)**<br />
 **[Shortest Job First (or SJF) CPU Scheduling Non-preemptive algorithm using Segment Tree](https://www.geeksforgeeks.org/shortest-job-first-or-sjf-cpu-scheduling-non-preemptive-algorithm-using-segment-tree/)**<br />
 **[Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm](https://www.geeksforgeeks.org/shortest-remaining-time-first-preemptive-sjf-scheduling-algorithm/)**<br />
-<img
-  src="https://github.com/singh7priyanshu/DSA/blob/main/greedy/source%20images/5898426517553152.png"
-  style="display: inline-block; margin: 0 auto;"><br />
+<img src = "https://user-images.githubusercontent.com/71781982/183304748-7ebe589c-b8a3-4ec3-9f3a-7504b88c671f.png"><br />
 
 
 
