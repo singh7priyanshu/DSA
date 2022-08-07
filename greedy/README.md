@@ -2614,12 +2614,283 @@ ProcessId  Arrival Time  Burst Time  Completion Time  Turn Around Time  Waiting 
  * This algorithm performs better than the approach mentioned in this article because it takes `O(N^2)` for execution.<br />
 
 <br /><br /><br />**[Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm](https://www.geeksforgeeks.org/shortest-remaining-time-first-preemptive-sjf-scheduling-algorithm/)**<br />
+The `preemptive version` of `SJF` known as `Shortest Remaining Time First (SRTF)`.<br />
+In the `Shortest Remaining Time First (SRTF)` scheduling algorithm, the process with the smallest amount of time remaining until completion is selected to execute. Since the currently executing process is the one with the shortest amount of time remaining by definition, and since that time should only reduce as execution progresses, processes will always run until they complete or a new process is added that requires **a smaller amount of time**.<br />
+**Examples to show working of Preemptive Shortest Job First CPU Scheduling Algorithm:**<br />
+`Example-1:` Consider the following table of **arrival time** and **burst time** for five processes `P1`, `P2`, `P3`, `P4` and `P5`.<br />
+<img src = "https://user-images.githubusercontent.com/71781982/183306103-172c414f-0a4e-46a1-b5b6-cf369ad8904c.png"><br />
+The `Shortest Job First CPU Scheduling Algorithm` will work on the basis of steps as mentioned below:<br />
+**At time = 0,**<br />
 
+ * Process P4 arrives and starts executing<br />
 
+<img src = "https://user-images.githubusercontent.com/71781982/183306105-95f756ac-aabd-454e-b07f-b774bf70ab86.png"><br />
+**At time= 1,**<br /> 
 
+ * Process P3 arrives.<br /> 
+ * But, as P4 has a shorter burst time. It will continue execution.<br />
+ * Thus, P3 will wait till P4 gets executed.<br />
 
+<img src = "https://user-images.githubusercontent.com/71781982/183306087-95a90016-4cbc-4a45-90ab-9e9daf495abc.png"><br />
+**At time =2,**<br /> 
 
+ * Process P1 arrives with burst time = 6<br />
+ * As the burst time of P1 is more than that of P4<br /> 
+ * Thus, P4 will continue its execution.<br />
 
+<img src = "https://user-images.githubusercontent.com/71781982/183306088-874cb97b-11e9-4c8b-89c3-d72d30dfa627.png"><br />
+**At time = 3,**<br /> 
+
+ * Process P4 will finish its execution.<br /> 
+ * Then, the burst time of P3 and P1 is compared.<br /> 
+ * Process P1 is executed because its burst time is less as compared to P3.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306089-4170ca06-0f97-4584-b2a0-7f0804cfaa46.png"><br />
+**At time = 4,**<br /> 
+
+ * Process P5 arrives.<br />
+ * Then the burst time of P3, P5, and P1 is compared.<br /> 
+ * Process P5 gets executed first among them because its burst time is lowest, and process P1 is preempted.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306092-0898ce29-1892-4d89-9d5f-a19d39f28fef.png"><br />
+**At time = 5,**<br /> 
+
+ * Process P2 arrives.<br />
+ * The burst time of all processes are compared,<br /> 
+ * Process P2 gets executed as its burst time is lowest among all.<br /> 
+ * Process P5 is preempted.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306094-ddc79a2a-ae57-44c6-9378-3e9ac7621bff.png"><br />
+**At time = 6,**<br /> 
+
+ * Process P2 will keep executing.<br />
+ * It will execute till time = 8 as the burst time of P2 is 2ms<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306096-fe86c2b9-649a-4be4-b37d-db55fa8ae187.png"><br />
+**At time=7,**<br /> 
+
+ * The process P2 finishes its execution.<br />
+ * Then again the burst time of all remaining processes is compared. <br />
+ * The Process P5 gets executed because its burst time is lesser than the others.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306097-feeeb468-b16b-4a71-9a19-6e285852e932.png"><br />
+**At time = 10,**<br /> 
+
+ * The process P5 will finish its execution.<br />
+ * Then the burst time of the remaining processes P1 and P3 is compared.<br /> 
+ * Thus, process P1 is executed as its burst time is less than P3<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306098-2c15a53c-967e-4db1-8cf3-d300b8de4872.png"><br />
+**At time = 15,**<br />
+
+ * The process P1 finishes its execution and P3 is the only process left.<br />
+ * P3 will start executing.<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306099-05ddaa20-a108-4fb9-8861-ad6d5bf5b701.png"><br />
+**At time = 23,**<br /> 
+
+ * Process P3 will finish its execution.<br />
+ * The overall execution of the processes will be as shown below:<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306100-c1562521-fa28-4c33-9da9-d8315e5784bf.png"><br />
+**Gantt chart for above execution:**<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220427173554/UntitledDiagram3.jpg"><br />
+Now, lets calculate `average waiting time` and turn around time:<br />
+As we know,<br />
+
+ * **Turn Around time** = Completion time – arrival time<br />
+ * **Waiting Time** = Turn around time – burst time<br />
+
+<img src = "https://user-images.githubusercontent.com/71781982/183306101-2dcfec80-8bdc-44b9-9784-548e1d65881d.png"><br />
+Now,<br /> 
+
+ * **Average Turn around time** = (13 + 2 + 22 + 3 + 6)/5 = 9.2<br />
+ * **Average waiting time** = (7 + 0 + 14 + 0 + 2)/5 = 23/5 = 4.6<br />
+
+<br /><br />**Implementation of SRTF Algorithm:**<br />
+**Approach:**<br />
+
+ * Traverse until all process gets completely executed.<br />
+	* Find process with minimum remaining time at every single time lap.<br />
+	* Reduce its time by 1.<br />
+	* Check if its remaining time becomes 0<br /> 
+	* Increment the counter of process completion.<br />
+	* Completion time of current process = current_time + 1;<br />
+	* Calculate waiting time for each completed process.<br />
+  	  	* **wt[i]= Completion time – arrival_time-burst_time**<br />
+	* Increment time lap by one.<br />
+ * Find turnaround time **(waiting_time + burst_time)**.<br />
+ 
+ Program to implement Shortest Remaining Time First:<br />
+ ```cpp
+ // C++ program to implement Shortest Remaining Time First
+// Shortest Remaining Time First (SRTF)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Process {
+	int pid; // Process ID
+	int bt; // Burst Time
+	int art; // Arrival Time
+};
+
+// Function to find the waiting time for all
+// processes
+void findWaitingTime(Process proc[], int n,
+								int wt[])
+{
+	int rt[n];
+
+	// Copy the burst time into rt[]
+	for (int i = 0; i < n; i++)
+		rt[i] = proc[i].bt;
+
+	int complete = 0, t = 0, minm = INT_MAX;
+	int shortest = 0, finish_time;
+	bool check = false;
+
+	// Process until all processes gets
+	// completed
+	while (complete != n) {
+
+		// Find process with minimum
+		// remaining time among the
+		// processes that arrives till the
+		// current time`
+		for (int j = 0; j < n; j++) {
+			if ((proc[j].art <= t) &&
+			(rt[j] < minm) && rt[j] > 0) {
+				minm = rt[j];
+				shortest = j;
+				check = true;
+			}
+		}
+
+		if (check == false) {
+			t++;
+			continue;
+		}
+
+		// Reduce remaining time by one
+		rt[shortest]--;
+
+		// Update minimum
+		minm = rt[shortest];
+		if (minm == 0)
+			minm = INT_MAX;
+
+		// If a process gets completely
+		// executed
+		if (rt[shortest] == 0) {
+
+			// Increment complete
+			complete++;
+			check = false;
+
+			// Find finish time of current
+			// process
+			finish_time = t + 1;
+
+			// Calculate waiting time
+			wt[shortest] = finish_time -
+						proc[shortest].bt -
+						proc[shortest].art;
+
+			if (wt[shortest] < 0)
+				wt[shortest] = 0;
+		}
+		// Increment time
+		t++;
+	}
+}
+
+// Function to calculate turn around time
+void findTurnAroundTime(Process proc[], int n,
+						int wt[], int tat[])
+{
+	// calculating turnaround time by adding
+	// bt[i] + wt[i]
+	for (int i = 0; i < n; i++)
+		tat[i] = proc[i].bt + wt[i];
+}
+
+// Function to calculate average time
+void findavgTime(Process proc[], int n)
+{
+	int wt[n], tat[n], total_wt = 0,
+					total_tat = 0;
+
+	// Function to find waiting time of all
+	// processes
+	findWaitingTime(proc, n, wt);
+
+	// Function to find turn around time for
+	// all processes
+	findTurnAroundTime(proc, n, wt, tat);
+
+	// Display processes along with all
+	// details
+	cout << " P\t\t"
+		<< "BT\t\t"
+		<< "WT\t\t"
+		<< "TAT\t\t\n";
+
+	// Calculate total waiting time and
+	// total turnaround time
+	for (int i = 0; i < n; i++) {
+		total_wt = total_wt + wt[i];
+		total_tat = total_tat + tat[i];
+		cout << " " << proc[i].pid << "\t\t"
+			<< proc[i].bt << "\t\t " << wt[i]
+			<< "\t\t " << tat[i] << endl;
+	}
+
+	cout << "\nAverage waiting time = "
+		<< (float)total_wt / (float)n;
+	cout << "\nAverage turn around time = "
+		<< (float)total_tat / (float)n;
+}
+
+// Driver code
+int main()
+{
+	Process proc[] = { { 1, 6, 2 }, { 2, 2, 5 },
+					{ 3, 8, 1 }, { 4, 3, 0}, {5, 4, 4} };
+	int n = sizeof(proc) / sizeof(proc[0]);
+
+	findavgTime(proc, n);
+	return 0;
+}
+```
+Output<br />
+<pre>
+ P        BT        WT        TAT        
+ 1        6         7         13
+ 2        2         0         2
+ 3        8         14         22
+ 4        3         0         3
+ 5        4         2         6
+
+Average waiting time = 4.6
+Average turn around time = 9.2
+</pre>
+<pre>
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+</pre>
+<br /><br />**Advantages:**<br />
+
+ * Short processes are handled very quickly.<br /> 
+ * The system also requires very little overhead since it only makes a decision when a process completes or a new process is added.<br /> 
+ * When a new process is added the algorithm only needs to compare the currently executing process with the new process, ignoring all other processes currently waiting to execute.<br />
+
+<br /><br />**Disadvantages:**<br />
+
+ * Like shortest job first, it has the potential for process starvation.<br /> 
+ * Long processes may be held off indefinitely if short processes are continually added.<br /> 
+
+	
 
 
 
