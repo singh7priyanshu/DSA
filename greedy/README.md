@@ -542,33 +542,33 @@ public:
     string chooseandswap(string a){
         int n = a.size();
         string ans = "";
-		for(int i = 0; i<=25; i++)left_most[i] = -1;
-		for(int i = 0; i<=n-1; i++){
-			if(left_most[a[i]-97]==-1)left_most[a[i]-97] = i;
-		}
-		int j = -1, mark = -1;
-		for(int i = 0; i<=n-2; i++){
-	        	j = i;
-				for(int k = 0; k<=25; k++){
-					if(left_most[k] > left_most[a[j]-97] && k < (int)(a[j]-97)){
-						mark = k;
-						break;
-					}
-				}
-			if(mark!=-1)
-			break;
-		}
-		if(mark!=-1){	
-			for(int i = 0; i<=n-1; i++){
-				if(a[i]==(char)(mark+97))ans += a[j];
-				else if(a[i]==a[j])ans += ((char)(mark+97));
-    			else ans += a[i];
-			}
-		}
-		else{
-			for(int i = 0; i<=n-1; i++)ans += a[i];
-		}
-		return ans;
+        for(int i = 0; i<=25; i++)left_most[i] = -1;
+        for(int i = 0; i<=n-1; i++){
+            if(left_most[a[i]-97]==-1)left_most[a[i]-97] = i;
+        }
+        int j = -1, mark = -1;
+        for(int i = 0; i<=n-2; i++){
+                j = i;
+                for(int k = 0; k<=25; k++){
+                    if(left_most[k] > left_most[a[j]-97] && k < (int)(a[j]-97)){
+                        mark = k;
+                        break;
+                    }
+                }
+            if(mark!=-1)
+            break;
+        }
+        if(mark!=-1){   
+            for(int i = 0; i<=n-1; i++){
+                if(a[i]==(char)(mark+97))ans += a[j];
+                else if(a[i]==a[j])ans += ((char)(mark+97));
+                else ans += a[i];
+            }
+        }
+        else{
+            for(int i = 0; i<=n-1; i++)ans += a[i];
+        }
+        return ans;
     }
     
 };
@@ -638,52 +638,52 @@ using namespace std;
 // function to calculate maximum trains stoppage
 int maxStop(int arr[][3])
 {
-	// declaring vector of pairs for platform
-	vector<pair<int, int> > vect[n + 1];
+    // declaring vector of pairs for platform
+    vector<pair<int, int> > vect[n + 1];
 
-	// Entering values in vector of pairs
-	// as per platform number
-	// make departure time first element
-	// of pair
-	for (int i = 0; i < m; i++)
-		vect[arr[i][2]].push_back(
-			make_pair(arr[i][1], arr[i][0]));
+    // Entering values in vector of pairs
+    // as per platform number
+    // make departure time first element
+    // of pair
+    for (int i = 0; i < m; i++)
+        vect[arr[i][2]].push_back(
+            make_pair(arr[i][1], arr[i][0]));
 
-	// sort trains for each platform as per
-	// dept. time
-	for (int i = 0; i <= n; i++)
-		sort(vect[i].begin(), vect[i].end());
-	
-	// perform activity selection approach
-	int count = 0;
-	for (int i = 0; i <= n; i++) {
-		if (vect[i].size() == 0)
-			continue;
+    // sort trains for each platform as per
+    // dept. time
+    for (int i = 0; i <= n; i++)
+        sort(vect[i].begin(), vect[i].end());
+    
+    // perform activity selection approach
+    int count = 0;
+    for (int i = 0; i <= n; i++) {
+        if (vect[i].size() == 0)
+            continue;
 
-		// first train for each platform will
-		// also be selected
-		int x = 0;
-		count++;
-		for (int j = 1; j < vect[i].size(); j++) {
-			if (vect[i][j].second >= vect[i][x].first) {
-				x = j;
-				count++;
-			}
-		}
-	}
-	return count;
+        // first train for each platform will
+        // also be selected
+        int x = 0;
+        count++;
+        for (int j = 1; j < vect[i].size(); j++) {
+            if (vect[i][j].second >= vect[i][x].first) {
+                x = j;
+                count++;
+            }
+        }
+    }
+    return count;
 }
 
 // driver function
 int main()
 {
-	int arr[m][3] = { 1000, 1030, 1, 
-	 		  1010, 1020, 1,
-			  1025, 1040, 1,
-			  1130, 1145, 2,
-			  1130, 1140, 2 };
-	cout << "Maximum Stopped Trains = " << maxStop(arr);
-	return 0;
+    int arr[m][3] = { 1000, 1030, 1, 
+              1010, 1020, 1,
+              1025, 1040, 1,
+              1130, 1145, 2,
+              1130, 1140, 2 };
+    cout << "Maximum Stopped Trains = " << maxStop(arr);
+    return 0;
 }
 ```
 
@@ -812,34 +812,34 @@ using namespace std;
 // Return the maximum stocks
 int buyMaximumProducts(int n, int k, int price[])
 {
-	vector<pair<int, int> > v;
+    vector<pair<int, int> > v;
 
-	// Making pair of product cost and number
-	// of day..
-	for (int i = 0; i < n; ++i)
-		v.push_back(make_pair(price[i], i + 1));
+    // Making pair of product cost and number
+    // of day..
+    for (int i = 0; i < n; ++i)
+        v.push_back(make_pair(price[i], i + 1));
 
-	// Sorting the vector pair.
-	sort(v.begin(), v.end());
+    // Sorting the vector pair.
+    sort(v.begin(), v.end());
 
-	// Calculating the maximum number of stock
-	// count.
-	int ans = 0;
-	for (int i = 0; i < n; ++i) {
-		ans += min(v[i].second, k / v[i].first);
-		k -= v[i].first * min(v[i].second, (k / v[i].first));
-	}
-	return ans;
+    // Calculating the maximum number of stock
+    // count.
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        ans += min(v[i].second, k / v[i].first);
+        k -= v[i].first * min(v[i].second, (k / v[i].first));
+    }
+    return ans;
 }
 
 // Driven Program
 int main()
 {
-	int price[] = { 10, 7, 19 };
-	int n = sizeof(price)/sizeof(price[0]);
-	int k = 45;
-	cout << buyMaximumProducts(n, k, price) << endl;
-	return 0;
+    int price[] = { 10, 7, 19 };
+    int n = sizeof(price)/sizeof(price[0]);
+    int k = 45;
+    cout << buyMaximumProducts(n, k, price) << endl;
+    return 0;
 }
 ```
 Output:<br />
@@ -976,27 +976,27 @@ using namespace std;
 // A utility function that returns index of minimum value in arr[]
 int getMin(int arr[])
 {
-	int minInd = 0;
-	for (int i=1; i<N; i++)
-		if (arr[i] < arr[minInd])
-			minInd = i;
-	return minInd;
+    int minInd = 0;
+    for (int i=1; i<N; i++)
+        if (arr[i] < arr[minInd])
+            minInd = i;
+    return minInd;
 }
 
 // A utility function that returns index of maximum value in arr[]
 int getMax(int arr[])
 {
-	int maxInd = 0;
-	for (int i=1; i<N; i++)
-		if (arr[i] > arr[maxInd])
-			maxInd = i;
-	return maxInd;
+    int maxInd = 0;
+    for (int i=1; i<N; i++)
+        if (arr[i] > arr[maxInd])
+            maxInd = i;
+    return maxInd;
 }
 
 // A utility function to return minimum of 2 values
 int minOf2(int x, int y)
 {
-	return (x<y)? x: y;
+    return (x<y)? x: y;
 }
 
 // amount[p] indicates the net amount to be credited/debited
@@ -1005,31 +1005,31 @@ int minOf2(int x, int y)
 // If amount[p] is negative, then i'th person will give -amount[i]
 void minCashFlowRec(int amount[])
 {
-	// Find the indexes of minimum and maximum values in amount[]
-	// amount[mxCredit] indicates the maximum amount to be given
-	//				 (or credited) to any person .
-	// And amount[mxDebit] indicates the maximum amount to be taken
-	//				 (or debited) from any person.
-	// So if there is a positive value in amount[], then there must
-	// be a negative value
-	int mxCredit = getMax(amount), mxDebit = getMin(amount);
+    // Find the indexes of minimum and maximum values in amount[]
+    // amount[mxCredit] indicates the maximum amount to be given
+    //               (or credited) to any person .
+    // And amount[mxDebit] indicates the maximum amount to be taken
+    //               (or debited) from any person.
+    // So if there is a positive value in amount[], then there must
+    // be a negative value
+    int mxCredit = getMax(amount), mxDebit = getMin(amount);
 
-	// If both amounts are 0, then all amounts are settled
-	if (amount[mxCredit] == 0 && amount[mxDebit] == 0)
-		return;
+    // If both amounts are 0, then all amounts are settled
+    if (amount[mxCredit] == 0 && amount[mxDebit] == 0)
+        return;
 
-	// Find the minimum of two amounts
-	int min = minOf2(-amount[mxDebit], amount[mxCredit]);
-	amount[mxCredit] -= min;
-	amount[mxDebit] += min;
+    // Find the minimum of two amounts
+    int min = minOf2(-amount[mxDebit], amount[mxCredit]);
+    amount[mxCredit] -= min;
+    amount[mxDebit] += min;
 
-	// If minimum is the maximum amount to be
-	cout << "Person " << mxDebit << " pays " << min << " to " << "Person " << mxCredit << endl;
+    // If minimum is the maximum amount to be
+    cout << "Person " << mxDebit << " pays " << min << " to " << "Person " << mxCredit << endl;
 
-	// Recur for the amount array. Note that it is guaranteed that
-	// the recursion would terminate as either amount[mxCredit]
-	// or amount[mxDebit] becomes 0
-	minCashFlowRec(amount);
+    // Recur for the amount array. Note that it is guaranteed that
+    // the recursion would terminate as either amount[mxCredit]
+    // or amount[mxDebit] becomes 0
+    minCashFlowRec(amount);
 }
 
 // Given a set of persons as graph[] where graph[i][j] indicates
@@ -1037,30 +1037,30 @@ void minCashFlowRec(int amount[])
 // finds and prints the minimum cash flow to settle all debts.
 void minCashFlow(int graph[][N])
 {
-	// Create an array amount[], initialize all value in it as 0.
-	int amount[N] = {0};
+    // Create an array amount[], initialize all value in it as 0.
+    int amount[N] = {0};
 
-	// Calculate the net amount to be paid to person 'p', and
-	// stores it in amount[p]. The value of amount[p] can be
-	// calculated by subtracting debts of 'p' from credits of 'p'
-	for (int p=0; p<N; p++)
-		for (int i=0; i<N; i++)
-			amount[p] += (graph[i][p] - graph[p][i]);
-	minCashFlowRec(amount);
+    // Calculate the net amount to be paid to person 'p', and
+    // stores it in amount[p]. The value of amount[p] can be
+    // calculated by subtracting debts of 'p' from credits of 'p'
+    for (int p=0; p<N; p++)
+        for (int i=0; i<N; i++)
+            amount[p] += (graph[i][p] - graph[p][i]);
+    minCashFlowRec(amount);
 }
 
 // Driver program to test above function
 int main()
 {
-	// graph[i][j] indicates the amount that person i needs to
-	// pay person j
-	int graph[N][N] = { {0, 1000, 2000},
-			    {0, 0, 5000},
-			    {0, 0, 0},};
+    // graph[i][j] indicates the amount that person i needs to
+    // pay person j
+    int graph[N][N] = { {0, 1000, 2000},
+                {0, 0, 5000},
+                {0, 0, 0},};
 
-	// Print the solution
-	minCashFlow(graph);
-	return 0;
+    // Print the solution
+    minCashFlow(graph);
+    return 0;
 }
 ```
 Output:<br />
@@ -1083,7 +1083,107 @@ Time Complexity: O(N^2) where N is the number of persons.
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[Minimum Cost to cut a board into squares](https://www.geeksforgeeks.org/minimum-cost-cut-board-squares/)**<br />
+A board of length `m` and width `n` is given, we need to break this board into `m*n` squares such that cost of breaking is `minimum`. cutting `cost` for each edge will be given for the board. In short, we need to choose such a sequence of cutting such that cost is minimized.<br />
+Examples:<br /> 
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/board.png"><br />
+<pre>
+For above board optimal way to cut into square is:
+Total minimum cost in above case is 42. It is 
+evaluated using following steps.
+
+Initial Value : Total_cost = 0
+Total_cost = Total_cost + edge_cost * total_pieces
+
+Cost 4 Horizontal cut         Cost = 0 + 4*1 = 4
+Cost 4 Vertical cut        Cost = 4 + 4*2 = 12
+Cost 3 Vertical cut        Cost = 12 + 3*2 = 18
+Cost 2 Horizontal cut        Cost = 18 + 2*3 = 24
+Cost 2 Vertical cut        Cost = 24 + 2*3 = 30
+Cost 1 Horizontal cut        Cost = 30 + 1*4 = 34
+Cost 1 Vertical cut        Cost = 34 + 1*4 = 38
+Cost 1 Vertical cut        Cost = 38 + 1*4 = 42
+</pre>
+This problem can be solved using `greedy approach`, If total cost is denoted by `S`, then `S = a1w1 + a2w2 … + akwk`, where `wi` is a cost of certain edge cutting and `ai` is corresponding coefficient, The coefficient `ai` is determined by the total number of cuts we have competed using edge `wi` at the end of the cutting process.<br />
+Notice that `sum of the coefficients` is always `constant`, hence we want to find a `distribution` of `ai` obtainable such that `S` is `minimum`. To do so we perform cuts on highest cost edge as early as possible, which will reach to optimal `S`. If we encounter several edges having the `same cost`, we can cut any one of them first.<br /> 
+Below is the solution using above approach, `first` we sorted the edge cutting costs in `reverse order`, then we loop in them from `higher-cost` to `lower-cost` building our solution. Each time we choose an edge, counterpart count is incremented by `1`, which is to be multiplied each time with corresponding edge cutting cost. 
+Notice below used sort method, sending `greater()` as `3rd argument` to sort method sorts number in non-increasing order, it is predefined function of the library.<br />
+```cpp
+// C++ program to divide a board into m*n squares
+#include <bits/stdc++.h>
+using namespace std;
+
+// method returns minimum cost to break board into
+// m*n squares
+int minimumCostOfBreaking(int X[], int Y[], int m, int n)
+{
+    int res = 0;
+
+    // sort the horizontal cost in reverse order
+    sort(X, X + m, greater<int>());
+
+    // sort the vertical cost in reverse order
+    sort(Y, Y + n, greater<int>());
+
+    // initialize current width as 1
+    int hzntl = 1, vert = 1;
+
+    // loop until one or both cost array are processed
+    int i = 0, j = 0;
+    while (i < m && j < n)
+    {
+        if (X[i] > Y[j])
+        {
+            res += X[i] * vert;
+
+            // increase current horizontal part count by 1
+            hzntl++;
+            i++;
+        }
+        else
+        {
+            res += Y[j] * hzntl;
+
+            // increase current vertical part count by 1
+            vert++;
+            j++;
+        }
+    }
+
+    // loop for horizontal array, if remains
+    int total = 0;
+    while (i < m)
+        total += X[i++];
+    res += total * vert;
+
+    // loop for vertical array, if remains
+    total = 0;
+    while (j < n)
+        total += Y[j++];
+    res += total * hzntl;
+
+    return res;
+}
+
+// Driver code to test above methods
+int main()
+{
+    int m = 6, n = 4;
+    int X[m-1] = {2, 1, 3, 1, 4};
+    int Y[n-1] = {4, 1, 2};
+    cout << minimumCostOfBreaking(X, Y, m-1, n-1);
+    return 0;
+}
+```
+Output:<br />  
+<pre>
+42
+</pre>
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
