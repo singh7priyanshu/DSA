@@ -859,7 +859,88 @@ Time Complexity :O(nlogn).
 
 <br /><br /><br />
 ## Problem 10:
-**[]()**<br />
+**[Find the minimum and maximum amount to buy all N candies](https://practice.geeksforgeeks.org/problems/shop-in-candy-store1145/1)**<br />
+In a candy store, there are `N` different types of candies available and the prices of all the `N` different types of candies are provided to you.<br />
+You are now provided with an attractive offer.<br />
+You can buy a single candy from the store and get at most `K` other candies ( all are different types ) for free.<br />
+Now you have to answer two questions. **Firstly**, you have to find what is the `minimum amount` of money you have to spend to buy all the `N` different candies.<br /> **Secondly**, you have to find what is the **maximum** amount of money you have to spend to buy all the `N` different candies.<br />
+In both the cases you must utilize the offer i.e. you buy one candy and get `K` other candies for free.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4<br />
+K = 2<br />
+candies[] = {3 2 1 4}<br />
+Output:<br />
+3 7<br />
+Explanation:<br />
+As according to the offer if you buy one candy you can take at most two <br />
+more for free. So in the first case, you buy the candy which costs 1 and <br />
+takes candies worth 3 and 4 for free, also you buy candy worth 2 as well.<br />
+So min cost : 1+2 =3.<br />
+In the second case, you can buy the candy which costs 4 and takes candies<br /> 
+worth 1 and 2 for free, also you need to buy candy worth 3 as well. <br />
+So max cost : 3+4 =7.<br />
+
+>Example 2:<br />
+Input: <br />
+N = 5<br />
+K = 4<br />
+candies[] = {3 2 1 4 5}<br />
+Output: <br />
+1 5<br />
+Explanation:<br />
+For minimimum cost buy the candy with the cost 1 and get all the other candies for free.<br />
+For maximum cost buy the candy with the cost 5 and get all other candies for free.<br />
+
+**Your Task:**<br />  
+You don't need to read input or print anything. Your task is to complete the function `candyStore()` which takes the array `candies[]`, its size `N` and an integer `K` as input parameters and returns _the minimum amount and maximum amount of money to buy all candies according to the offer_.<br />
+
+<pre>
+Expected Time Complexity: O(NLogN)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 <= N <= 100000`<br />
+`0 <= K <= N-1`<br />
+`1 <= candies[i] <= 10000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    vector<int> candyStore(int candies[], int N, int K){
+        sort(candies, candies + N);
+        int groups = N / (K + 1), minCost = 0, maxCost = 0;
+        if (N % (K + 1) != 0)groups += 1;
+        for (int i = 0; i < groups; ++i)minCost += candies[i];
+        for (int i = N - 1; i >= (N - groups); --i)maxCost += candies[i];
+        return {minCost, maxCost};  
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N, K;
+        cin>>N>>K;
+        int candies[N];
+        for(int i = 0;i<N;i++)cin>>candies[i];
+        Solution ob;
+        vector<int>cost = ob.candyStore(candies, N, K);
+        cout<<cost[0]<<" "<<cost[1]<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 11:
