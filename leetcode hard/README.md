@@ -1250,3 +1250,71 @@ public:
 //Time Complexity : O(nlongn)     //Due to merge sort
 //Space Complexity : O(n)         //For implementing vector of size n
 ```
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br />**[1220. Count Vowels Permutation](https://leetcode.com/problems/count-vowels-permutation/)**<br />
+Given an integer `n`, your task is to count how many strings of length `n` can be formed under the following rules:<br />
+
+ * Each character is a lower case vowel `('a', 'e', 'i', 'o', 'u')`<br />
+ * Each vowel `'a'` may only be followed by an `'e'`.<br />
+ * Each vowel `'e'` may only be followed by an `'a'` or an `'i'`.<br />
+ * Each vowel `'i'` **may not** be followed by another `'i'`.<br />
+ * Each vowel `'o'` may only be followed by an `'i'` or a `'u'`.<br />
+ * Each vowel `'u'` may only be followed by an `'a'`.<br />
+
+Since the answer may be too large, return it modulo `10^9 + 7`.<br />
+
+>Example 1:<br />
+Input: n = 1<br />
+Output: 5<br />
+Explanation: All possible strings are: "a", "e", "i" , "o" and "u".<br />
+
+>Example 2:<br />
+Input: n = 2<br />
+Output: 10<br />
+Explanation: All possible strings are: "ae", "ea", "ei", "ia", "ie", "io", "iu", "oi", "ou" and "ua".<br />
+
+>Example 3: <br />
+Input: n = 5<br />
+Output: 68<br />
+
+* Constraints: `1 <= n <= 2 * 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int countVowelPermutation(int n) {
+         long a = 1, e = 1, i = 1, o = 1, u = 1, mod = pow(10, 9)+7;
+        long a2, e2, i2, o2, u2; 
+        
+        for (int j = 2; j <= n; j++) {
+            a2 = (e + i + u) % mod;
+            e2 = (a + i) % mod;
+            i2 = (e + o) % mod;
+            o2 = i;
+            u2 = (o + i) % mod;
+            
+            a = a2, e = e2, i = i2, o = o2, u = u2;
+        }
+        return (a + e + i + o + u) % mod;
+    }
+};
+```
+Each vowel allows some number of subsequent characters. These transitions are like a tree. This problem is asking, "what's the width of the tree with height n?"<br />
+<img src = "https://assets.leetcode.com/users/images/6423763e-0cb1-4ecd-af60-a979c08d01b7_1659839040.3599339.png"><br />
+solution keeps track of the number of each vowel at a level in this tree. To calculate say `'A'`, we calculate how many nodes in the previous level produce `'A'`. This is the number of `'E'`, `'I'`, and `'U'` nodes.<br />
+
+
+
+
+
+<br /> <br /> <br />**[]()**<br />
+
