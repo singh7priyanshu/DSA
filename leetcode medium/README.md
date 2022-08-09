@@ -4583,4 +4583,73 @@ and hence ceil function is used in the return.
  
  
  
+<br /> <br /> <br />**[300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)**<br />
+Given an integer array `nums`, return the length of the longest strictly increasing subsequence.<br />
+A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.<br />
+ 
+>Example 1:<br />
+Input: nums = [10,9,2,5,3,7,101,18]<br />
+Output: 4<br />
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.<br />
+
+>Example 2:<br />
+Input: nums = [0,1,0,3,2,3]<br />
+Output: 4<br />
+
+>Example 3:<br />
+Input: nums = [7,7,7,7,7,7,7]<br />
+Output: 1<br />
+ 
+* Constraints: `1 <= nums.length <= 2500`<br />
+`-10^4 <= nums[i] <= 10^4`<br /> 
+ 
+ ```cpp
+ //in nlogn
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        
+        vector<int> sub;
+        
+        int n = nums.size();
+        
+        for(int i = 0; i < n; i++) {
+            auto it = lower_bound(sub.begin(), sub.end(), nums[i]);
+            if(it != sub.end()) {
+                *it = nums[i];
+            } else {
+                sub.push_back(nums[i]);
+            }
+        }
+        return sub.size();
+    }
+};
+
+//in n^2
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int ans = 0;
+        int n =nums.size();
+        vector<int> dp(n, 1);
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = i + 1; j < n; j++) {
+                if(nums[j] > nums[i]) {
+                    dp[j] = max(dp[j], dp[i]+1);
+                }
+            }
+        }
+        
+        for(int x : dp) {
+            ans = max(ans, x);
+        }
+        return ans;
+        
+    }
+};
+```
+ 
+ 
+ 
 <br /> <br /> <br />**[]()**<br />
