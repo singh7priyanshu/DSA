@@ -4652,4 +4652,56 @@ public:
  
  
  
+<br /> <br /> <br />**[823. Binary Trees With Factors](https://leetcode.com/problems/binary-trees-with-factors/)**<br />
+Given an array of unique integers, `arr`, where each integer `arr[i]` is strictly greater than `1`.<br />
+We make a `binary tree` using these integers, and each number may be used for any number of times. Each non-leaf node's value should be equal to the product of the values of its children.<br />
+Return _the number of binary trees we can make_. The answer may be too large so return the answer **modulo** `10^9 + 7`.<br />
+
+>Example 1:<br />
+Input: arr = [2,4]<br />
+Output: 3<br />
+Explanation: We can make these trees: [2], [4], [4, 2, 2]<br />
+
+>Example 2:<br />
+Input: arr = [2,4,5,10]<br />
+Output: 7<br />
+Explanation: We can make these trees: [2], [4], [5], [10], [4, 2, 2], [10, 2, 5], [10, 5, 2].<br />
+ 
+* Constraints: `1 <= arr.length <= 1000`<br />
+`2 <= arr[i] <= 10^9`<br />
+All the values of `arr` are **unique**.<br />
+ 
+```cpp
+class Solution
+{
+    public:
+        const int mod = 1e9 + 7;
+    int numFactoredBinaryTrees(vector<int> &arr)
+    {
+        vector < long long > dp(arr.size(), 1);
+        unordered_map<int, int> mp;
+        sort(arr.begin(), arr.end());
+        
+        for (int i = 0; i < arr.size(); i++)
+        {
+            mp[arr[i]] = i;//store the index of various elements of the array
+            for (int j = i - 1; j >= 0; j--)
+            {
+                if (arr[i] % arr[j] == 0)//to check whether arr[j] is a factor of arr[i] or not
+                {
+                    int temp = arr[i] / arr[j];
+                    if (mp.count(temp)) dp[i] += (dp[j] *dp[mp[temp]]) % mod;//check the presence of the required no in map, If it is in the map then increase dp[i] by the product of the dp[j] and dp[mp[temp]] taking the modulus
+                }
+            }
+        }
+        
+        long long ans = 0;
+        ans = accumulate(dp.begin(), dp.end(), 0LL);
+        return ans%mod;//return toatl sum after taking modulus
+    }
+};
+```
+ 
+ 
+ 
 <br /> <br /> <br />**[]()**<br />
