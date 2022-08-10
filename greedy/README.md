@@ -3137,7 +3137,7 @@ int main(){
 **[DEFKIN - Defense of a Kingdom](https://www.spoj.com/problems/DEFKIN/)**<br />
 Theodore implements a new strategy game “Defense of a Kingdom”. On each level a player defends the Kingdom that is represented by a rectangular grid of cells. The player builds crossbow towers in some cells of the grid. The tower defends all the cells in the same row and the same column. No two towers share a row or a column.<br />
 The penalty of the position is the number of cells in the largest undefended rectangle. For example, the position shown on the picture has penalty 12.<br />
-<img src = "https://www.spoj.com/content/fidels:DEFKIN.png"><br />
+<img src = "https://user-images.githubusercontent.com/71781982/184014931-c7237dee-31ff-4601-bf97-7ea26fdfbcc9.png"><br />
 Help Theodore write a program that calculates the penalty of the given position.<br />
 <pre>
 Input
@@ -3221,7 +3221,7 @@ int main() {
 ## Problem 26:
 **[DIEHARD - DIE HARD dynamic-programming](https://www.spoj.com/problems/DIEHARD/)**<br />
 **Problem Statement:**<br />
-<img src = "http://www.spoj.com/content/min_25:diehard.png"><br />
+<img src = "https://user-images.githubusercontent.com/71781982/184014925-3d1033d4-9738-4772-a05c-673792b4b88e.png"><br />
 The game is simple. You initially have `‘H’` amount of health and `‘A’` amount of armor. At any instant you can live in any of the three places - `fire`, `water` and `air`.<br /> 
 After every unit time, you have to change your place of living. For example if you are currently living at `fire`, you can either step into `water` or `air`.<br />
 
