@@ -10,6 +10,7 @@
 |**[leetcode daily easy questions](https://github.com/singh7priyanshu/Placement-preparation-resources/blob/main/leetcode%20easy/README.md)**|**[leetcode daily medium questions](https://github.com/singh7priyanshu/Placement-preparation-resources/blob/main/leetcode%20medium/README.md)**|**[leetcode daily hard questions](https://github.com/singh7priyanshu/Placement-preparation-resources/blob/main/leetcode%20hard/README.md)**|
 |**[Udemy competitive programming](https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/competetive%20programming/README.md)**|**[S&F Competetive programming]()**|**[LCC coding competetion]()**|
 
+<!--
 |**[SI array and strings](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/array%20and%20strings/README.md)**|**[SI backtracking](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/backtracking/README.md)**|**[SI binary search](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/binary%20search/README.md)**|
 |:---:|:---:|:---:|
 |**[SI dynamic programming](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/dynamic%20programming/README.md)**|**[SI graph](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/graph/README.md)**|**[SI greedy](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/greedy/README.md)**|
@@ -20,3 +21,4 @@
 |**[]()**|**[SI miscellaneous](https://github.com/singh7priyanshu/DSA/blob/main/Striver%2C%20interviewBit/miscellaneous/README.md)**|**[]()**|
 
 ### Here SI stands for Striver (sheet) + InterviewBit coding questions  & LB stands for Love Babbar 
+-->
