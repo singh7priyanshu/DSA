@@ -2737,8 +2737,7 @@ struct Process {
 
 // Function to find the waiting time for all
 // processes
-void findWaitingTime(Process proc[], int n,
-								int wt[])
+void findWaitingTime(Process proc[], int n, int wt[])
 {
 	int rt[n];
 
@@ -2793,9 +2792,7 @@ void findWaitingTime(Process proc[], int n,
 			finish_time = t + 1;
 
 			// Calculate waiting time
-			wt[shortest] = finish_time -
-						proc[shortest].bt -
-						proc[shortest].art;
+			wt[shortest] = finish_time - proc[shortest].bt - proc[shortest].art;
 
 			if (wt[shortest] < 0)
 				wt[shortest] = 0;
@@ -2806,8 +2803,7 @@ void findWaitingTime(Process proc[], int n,
 }
 
 // Function to calculate turn around time
-void findTurnAroundTime(Process proc[], int n,
-						int wt[], int tat[])
+void findTurnAroundTime(Process proc[], int n, int wt[], int tat[])
 {
 	// calculating turnaround time by adding
 	// bt[i] + wt[i]
@@ -2818,8 +2814,7 @@ void findTurnAroundTime(Process proc[], int n,
 // Function to calculate average time
 void findavgTime(Process proc[], int n)
 {
-	int wt[n], tat[n], total_wt = 0,
-					total_tat = 0;
+	int wt[n], tat[n], total_wt = 0, total_tat = 0;
 
 	// Function to find waiting time of all
 	// processes
@@ -2841,24 +2836,18 @@ void findavgTime(Process proc[], int n)
 	for (int i = 0; i < n; i++) {
 		total_wt = total_wt + wt[i];
 		total_tat = total_tat + tat[i];
-		cout << " " << proc[i].pid << "\t\t"
-			<< proc[i].bt << "\t\t " << wt[i]
-			<< "\t\t " << tat[i] << endl;
+		cout << " " << proc[i].pid << "\t\t" << proc[i].bt << "\t\t " << wt[i] << "\t\t " << tat[i] << endl;
 	}
 
-	cout << "\nAverage waiting time = "
-		<< (float)total_wt / (float)n;
-	cout << "\nAverage turn around time = "
-		<< (float)total_tat / (float)n;
+	cout << "\nAverage waiting time = " << (float)total_wt / (float)n;
+	cout << "\nAverage turn around time = " << (float)total_tat / (float)n;
 }
 
 // Driver code
 int main()
 {
-	Process proc[] = { { 1, 6, 2 }, { 2, 2, 5 },
-					{ 3, 8, 1 }, { 4, 3, 0}, {5, 4, 4} };
+	Process proc[] = { { 1, 6, 2 }, { 2, 2, 5 }, { 3, 8, 1 }, { 4, 3, 0}, {5, 4, 4} };
 	int n = sizeof(proc) / sizeof(proc[0]);
-
 	findavgTime(proc, n);
 	return 0;
 }
@@ -2896,31 +2885,556 @@ Auxiliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 22:
-**[]()**<br />
+**[Program for Least Recently Used (LRU) Page Replacement algorithm](https://practice.geeksforgeeks.org/problems/page-faults-in-lru5603/1)**<br />
+In operating systems that use paging for memory management, `page replacement algorithm` is needed to decide **which page needs to be replaced when the new page comes in**. Whenever a new page is referred and is not present in **memory**, the **page fault occurs and Operating System replaces one of the existing pages with a newly needed page**.<br />
+Given a sequence of pages in an array `pages[]` of length `N` and memory capacity `C`, find the number of page faults using `Least Recently Used (LRU) Algorithm`. <br />
+
+>Example 1:<br />
+Input: N = 9, C = 4<br />
+pages = {5, 0, 1, 3, 2, 4, 1, 0, 5}<br />
+Output: 8<br />
+Explaination: memory allocated with 4 pages 5, 0, 1, 3: page fault = 4<br />
+page number 2 is required, replaces LRU 5:<br /> 
+page fault = 4+1 = 5<br />
+page number 4 is required, replaces LRU 0:<br /> 
+page fault = 5 + 1 = 6<br />
+page number 1 is required which is already present:<br /> 
+page fault = 6 + 0 = 6<br />
+page number 0 is required which replaces LRU 3:<br /> 
+page fault = 6 + 1 = 7<br />
+page number 5 is required which replaces LRU 2:<br /> 
+page fault = 7 + 1  = 8.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `pageFaults()` which takes `N`, `C` and `pages[]` as input parameters and returns _the number of page faults_.<br />
+
+<pre>
+Expected Time Complexity: O(N*C)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 1000`<br />
+`1 ≤ C ≤ 100`<br />
+`1 ≤ pages[i] ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int pageFaults(int N, int C, int pages[]){
+        unordered_set<int> s;
+    	unordered_map<int, int> indexes;
+    
+    	int page_faults = 0;
+    	for (int i = 0;i < N; i++){
+    		if (s.size() < C){
+    			if (s.find(pages[i]) == s.end()){
+    				s.insert(pages[i]);
+    				page_faults++;
+    			}
+    			indexes[pages[i]] = i;
+    		}
+    		else{
+    			if (s.find(pages[i]) == s.end()){
+    				int lru = INT_MAX, val;
+    				for (auto it = s.begin();it != s.end(); it++){
+    					if (indexes[*it] < lru){
+    						lru = indexes[*it];
+    						val = *it;
+    					}
+    				}
+    				s.erase(val);
+    				s.insert(pages[i]);
+    				page_faults++;
+    			}
+    			indexes[pages[i]] = i;
+    		}
+    	}
+    	return page_faults;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, c;
+        cin>>n;
+        int pages[n];
+        for(int i = 0;i<n;i++)cin>>pages[i];
+        cin>>c;
+        Solution ob;
+        cout<<ob.pageFaults(n, c, pages)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 23:
-**[]()**<br />
+**[Smallest subset with sum greater than all other elements](https://www.geeksforgeeks.org/smallest-subset-sum-greater-elements/)**<br />
+Given an array of `non-negative integers`. Our task is to find `minimum` number of elements such that their sum should be greater than the sum of rest of the elements of the array.<br />
+**Examples :**<br />
+<pre>
+Input : arr[] = {3, 1, 7, 1}
+Output : 1
+Smallest subset is {7}. Sum of this subset is greater than all other elements {3, 1, 1}
+
+Input : arr[] = {2, 1, 2}
+Output : 2
+In this example one element is not enough. 
+We can pick elements with values 1, 2 or 2, 2. In any case, the minimum count is 2.
+</pre>
+The **Brute force approach** is to find the sum of all the possible subsets and then compare sum with the sum of remaining elements.<br />
+The **Efficient Approach** is to take the largest elements. We sort values in descending order, then take elements from the largest, until we get strictly more than half of total sum of the given array.<br />
+```cpp
+// CPP program to find minimum number of
+// elements such that their sum is greater
+// than sum of remaining elements of the array.
+#include <bits/stdc++.h>
+#include <string.h>
+using namespace std;
+
+// function to find minimum elements needed.
+int minElements(int arr[], int n)
+{
+	// calculating HALF of array sum
+	int halfSum = 0;
+	for (int i = 0; i < n; i++)
+		halfSum = halfSum + arr[i];
+	halfSum = halfSum / 2;
+
+	// sort the array in descending order.
+	sort(arr, arr + n, greater<int>());
+
+	int res = 0, curr_sum = 0;
+	for (int i = 0; i < n; i++) {
+
+		curr_sum += arr[i];
+		res++;
+
+		// current sum greater than sum
+		if (curr_sum > halfSum)		
+			return res;
+	}
+	return res;
+}
+
+// Driver function
+int main()
+{
+	int arr[] = {3, 1, 7, 1};
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout << minElements(arr, n) << endl;
+	return 0;
+}
+```
+Output:<br />
+<pre>
+1
+</pre>
+<pre>
+Time Complexity : O(n Log n)
+</pre>
+
+
+
+
 
 <br /><br /><br />
 ## Problem 24:
-**[]()**<br />
+**[Chocolate Distribution Problem](https://practice.geeksforgeeks.org/problems/chocolate-distribution-problem3825/1)**<br />
+Given an array `A[ ]` of positive integers of size `N`, where each value represents the number of chocolates in a packet. Each packet can have a variable number of chocolates. There are `M` students, the task is _to distribute chocolate packets among `M` students such that_ :<br />
+
+ 1. Each student gets **exactly** one packet.<br />
+ 2. The difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student is **minimum**.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 8, M = 5<br />
+A = {3, 4, 1, 9, 56, 7, 9, 12}<br />
+Output: 6<br />
+Explanation: The minimum difference between maximum chocolates and minimum chocolates<br /> 
+is 9 - 3 = 6 by choosing following M packets : {3, 4, 9, 7, 9}.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 7, M = 3<br />
+A = {7, 3, 2, 4, 9, 12, 56}<br />
+Output: 2<br />
+Explanation: The minimum difference between maximum chocolates and minimum chocolates<br />
+is 4 - 2 = 2 by choosing following M packets : {3, 2, 4}.<br />
+
+**Your Task:**<br />
+You don't need to take any input or print anything. Your task is to complete the function `findMinDiff()` which takes array `A[ ]`, `N` and `M` as input parameters and returns _the minimum possible difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student_.<br />
+
+<pre>
+Expected Time Complexity: O(N*Log(N))
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ T ≤ 100`<br />
+`1 ≤ N ≤ 10^5`<br />
+`1 ≤ Ai ≤ 10^9`<br />
+`1 ≤ M ≤ N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    long long findMinDiff(vector<long long> a, long long n, long long m){
+        sort(a.begin(),a.end());
+        long long start = 0, end = 0;
+        long long mind = LONG_LONG_MAX;
+        for(long long i = 0;i+m-1<n;i++){
+            long long diff = a[i+m-1]-a[i];
+            if(mind>diff){
+                mind = diff;
+                start = i;
+                end = i+m-1;
+            }
+        }
+        return a[end]-a[start];
+    }   
+};
+
+int main(){
+    long long t;
+    cin>>t;
+    while(t--){
+        long long n;
+        cin>>n;
+        vector<long long>a;
+        long long x;
+        for(long long i=0;i<n;i++){
+            cin>>x;
+            a.push_back(x);
+        }
+        long long m;
+        cin>>m;
+        Solution ob;
+        cout<<ob.findMinDiff(a,n,m)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 25:
-**[]()**<br />
+**[DEFKIN - Defense of a Kingdom](https://www.spoj.com/problems/DEFKIN/)**<br />
+Theodore implements a new strategy game “Defense of a Kingdom”. On each level a player defends the Kingdom that is represented by a rectangular grid of cells. The player builds crossbow towers in some cells of the grid. The tower defends all the cells in the same row and the same column. No two towers share a row or a column.<br />
+The penalty of the position is the number of cells in the largest undefended rectangle. For example, the position shown on the picture has penalty 12.<br />
+<img src = "https://www.spoj.com/content/fidels:DEFKIN.png"><br />
+Help Theodore write a program that calculates the penalty of the given position.<br />
+<pre>
+Input
+The first line of the input file contains the number of test cases.
+Each test case consists of a line with three integer numbers: w — width of the grid, 
+                                                              h — height of the grid and 
+							      n — number of crossbow towers (1 ≤ w, h ≤ 40 000; 0 ≤ n ≤ min(w, h)).
+Each of the following n lines contains two integer numbers xi and yi — the coordinates of the cell occupied by a tower (1 ≤ xi ≤ w; 1 ≤ yi ≤ h).
+</pre>
+<pre>
+Output
+For each test case, output a single integer number — the number of cells in the largest rectangle that is not defended by the towers.
+</pre>
+**Example**<br />
+<pre>
+Input:
+1
+15 8 3
+3 8
+11 2
+8 6
+</pre>
+<pre>
+Output:
+12
+</pre>
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+ 
+using namespace std;
+ 
+vector<int> x, y;
+ 
+int main() {
+    int t;
+    cin >> t;
+    
+    int n, m, q;
+    while(t--) {
+        cin >> n >> m >> q;
+        
+        x.clear();
+        x.resize(q + 2);
+        y.clear();
+        y.resize(q + 2);
+        
+        x[0] = 0;
+        y[0] = 0;
+        
+        for(int i = 1; i <= q; i++)
+            cin >> x[i] >> y[i];
+        
+        x[x.size() - 1] = n + 1;
+        y[y.size() - 1] = m + 1;
+        
+        sort(x.begin(), x.end());
+        sort(y.begin(), y.end());
+        
+        int mxx = 0, mxy = 0;
+        
+        for(int i = 0; i < x.size() - 1; i++) {
+            mxx = max(mxx, x[i+1] - x[i] - 1);
+            mxy = max(mxy, y[i+1] - y[i] - 1);
+        }
+        
+        cout << mxx * mxy << endl;
+    }
+    
+    return 0;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 26:
-**[]()**<br />
+**[DIEHARD - DIE HARD dynamic-programming](https://www.spoj.com/problems/DIEHARD/)**<br />
+**Problem Statement:**<br />
+<img src = "http://www.spoj.com/content/min_25:diehard.png"><br />
+The game is simple. You initially have `‘H’` amount of health and `‘A’` amount of armor. At any instant you can live in any of the three places - `fire`, `water` and `air`.<br /> 
+After every unit time, you have to change your place of living. For example if you are currently living at `fire`, you can either step into `water` or `air`.<br />
+
+ * If you step into `air`, your health increases by `3` and your armor increases by `2`<br />
+ * If you step into `water`, your health decreases by `5` and your armor decreases by `10`<br />
+ * If you step into `fire`, your health decreases by `20` and your armor increases by `5`<br />
+ * If your `health` or `armor` becomes <=0, you will die instantly<br />
+
+Find the maximum time you can survive.<br />
+>**Input:**<br />
+The first line consists of an integer `t`, the number of test cases. <br />
+For each test case there will be two positive integers representing the initial health `H` and initial armor `A`.<br />
+
+>**Output:**<br />
+For each test case find the maximum time you can survive.<br />
+**Note:** You can choose any of the `3` places during your first move.<br />
+
+* Input Constraints: `1 <= t <= 10`<br />
+`1 <= H, A <= 1000`<br />
+
+**Example:**<br />
+<pre>
+Sample Input:
+3
+2 10
+4 4
+20 8
+</pre>
+<pre>
+Sample Output:
+1
+1
+5
+</pre>
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+int dp[1010][1010];
+
+int solve(int h, int a, int cnt,bool f)
+{
+    if( h<=0 || a<=0) return cnt;
+
+    if(dp[h][a] != -1) return dp[h][a];
+    if(f) dp[h][a] = max(dp[h][a], solve(h+3,a+2,cnt+1,!f));
+
+    return dp[h][a] = max(dp[h][a], max(solve(h-5,a-10,cnt+1,!f),solve(h-20,a+5,cnt+1,!f)));
+}
+
+int main()
+{   int tc;
+    cin >> tc;
+    int h,a;
+
+    while(tc--){
+    bool f=true;
+    memset(dp,-1,sizeof dp);
+    cin >> h >> a;
+
+    cout << solve(h,a,-1,f) << endl;
+}
+   return 0;
+
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 27:
-**[]()**<br />
+**[GERGOVIA - Wine trading in Gergovia greedy](https://www.spoj.com/problems/GERGOVIA/)**<br />
+Gergovia consists of one street, and every inhabitant of the city is a wine salesman. Everyone buys wine from other inhabitants of the city. Every day each inhabitant decides how much wine he wants to buy or sell. Interestingly, **demand and supply is always the same**, so that each inhabitant gets what he wants.<br />
+There is one problem, however: Transporting wine from one house to another results in work. Since all wines are equally good, the inhabitants of Gergovia don't care which persons they are doing trade with, they are only interested in selling or buying a specific amount of wine.<br />
+In this problem you are asked to reconstruct the trading during one day in Gergovia. For simplicity we will assume that the houses are **built along a straight line with equal distance between adjacent houses**. Transporting one bottle of wine from one house to an adjacent house results in `one unit of work`.<br />
+
+>**Input**<br />
+The input consists of several test cases.<br />
+Each test case starts with the number of inhabitants `N` `(2 ≤ N ≤ 100000)`.<br />
+The following line contains `n` integers `ai` `(-1000 ≤ ai ≤ 1000)`.<br />
+If `ai ≥ 0`, it means that the inhabitant living in the `ith` house wants to buy `ai` bottles of wine. If `ai < 0`, he wants to sell `-ai` bottles of wine.<br />
+You may assume that the numbers `ai` sum up to `0`.<br />
+The last test case is followed by a line containing `0`.<br />
+
+>**Output**<br />
+For each test case print _the minimum amount of work units needed so that every inhabitant has his demand fulfilled_.<br />
+
+**Example**<br />
+<pre>
+Input:
+5
+5 -4 1 -3 1
+6
+-1000 -1000 -1000 1000 1000 1000
+0
+</pre>
+<pre>
+Output:
+9
+9000
+</pre>
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+#define MAX 100007
+#define EPS 1e-9
+#define FOR(i, b, e) for(int i = b; i <= e; i++)
+
+typedef  long long ll;
+
+ll a[MAX];
+
+int main(){
+    int T,n,b,d,f;
+    while(1){
+        cin>>n;
+        if(n==0)break;
+        FOR(i,0,n-1)cin>>a[i];
+        ll ans=0,sum=0;
+        FOR(i,0,n-1){
+            sum+=a[i];
+            ans+=abs(sum);
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 28:
-**[]()**<br />
+**[Picking Up Chicks](https://www.spoj.com/problems/GCJ101BB/)**<br />
+A flock of chickens are running east along a straight, narrow road. Each one is running with its own constant speed. Whenever a chick catches up to the one in front of it, it has to slow down and follow at the speed of the other chick. You are in a mobile crane behind the flock, chasing the chicks towards the barn at the end of the road. The arm of the crane allows you to pick up any chick momentarily, let the chick behind it pass underneath and place the picked up chick back down. This operation takes no time and can only be performed on a pair of chicks that are immediately next to each other, even if `3` or more chicks are in a row, one after the other.<br />
+Given the initial locations `(Xi)` at time `0` and natural speeds `(Vi)` of the chicks, as well as the location of the barn `(B)`, what _is the minimum number of swaps you need to perform with your crane in order to have `at least` `K` of the `N` chicks arrive at the barn no later than time `T`_?<br />
+You may think of the chicks as points moving along a line. Even if `3` or more chicks are at the same location, next to each other, picking up one of them will only let one of the other two pass through. Any swap is instantaneous, which means that you may perform multiple swaps at the same time, but each one will count as a separate swap.<br />
+
+>**Input**<br />
+The first line of the input gives the number of test cases, `C`. `C` test cases follow. Each test case starts with `4 integers` on a line -- `N`, `K`, `B` and `T`. The next line contains the `N` different integers `Xi`, in increasing order. The line after that contains the `N` integers `Vi`. All distances are in meters; all speeds are in meters per second; all times are in seconds.<br />
+
+>**Output**<br />
+For each test case, output one line containing "`Case #x: S`", where `x` is the case number (starting from 1) and `S` is the smallest number of required swaps, or the word `"IMPOSSIBLE"`.<br />
+
+* Limits : `1 ≤ C ≤ 100`<br />
+`1 ≤ B ≤ 1,000,000,000`<br />
+`1 ≤ T ≤ 1,000`<br />
+`0 ≤ Xi < B`<br />
+`1 ≤ Vi ≤ 100`<br />
+`1 ≤ N ≤ 50`<br />
+`0 ≤ K ≤ N`<br />
+
+All the `Xi's` will be **distinct** and in **increasing order**.<br />
+
+**Example**<br />
+<pre>
+Input:
+3
+5 3 10 5
+0 2 5 6 7
+1 1 1 1 4
+5 3 10 5
+0 2 3 5 7
+2 1 1 1 4
+5 3 10 5
+0 2 3 4 7
+2 1 1 1 4
+</pre>
+<pre>
+Output:
+Case #1: 0
+Case #2: 2
+Case #3: IMPOSSIBLE
+</pre>
+```cpp
+#include <iostream>
+using namespace std;
+int main() {  
+  int t,c=0;
+  cin>>t;
+  while(t--){
+    int n,k,b,t;
+    cin>>n>>k>>b>>t;
+    int x[50],v[50];
+    for(int i=0;i<n;i++)cin>>x[i];
+    for(int i=0;i<n;i++)cin>>v[i];
+    int positives=0,negatives=0,ans=0;
+    for(int i=n-1;i>=0;i--){
+      int dist=b-x[i];
+      int time=(dist+v[i]-1)/v[i];
+      if(time<=t)positives++,ans+=negatives;
+      else negatives++;
+      if(positives==k)break;
+    }
+    cout<<"Case #"<<++c<<": ";
+    if(positives==k)cout<<ans<<'\n';
+    else cout<<"IMPOSSIBLE"<<'\n';
+  }
+  return 0;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 29:
