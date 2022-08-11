@@ -679,4 +679,90 @@ int main(){
 
 <br /><br /><br />
 ## Problem 6:
-**[]()**<br />
+**[Print unique rows in a given boolean matrix](https://practice.geeksforgeeks.org/problems/unique-rows-in-boolean-matrix/1)**<br />
+Given a `binary matrix` your task is to find all unique rows of the given matrix.<br />
+
+>Example 1:<br />
+Input:<br />
+row = 3, col = 4<br /> 
+M[][] = {{1 1 0 1},{1 0 0 1},{1 1 0 1}}<br />
+Output: 1 1 0 1 $1 0 0 1 $<br />
+Explanation: Above the matrix of size 3x4 looks like<br />
+1 1 0 1<br />
+1 0 0 1<br />
+1 1 0 1<br />
+The two unique rows are 1 1 0 1 and 1 0 0 1 .<br />
+
+**Your Task:**<br />
+You only need to implement the given function `uniqueRow()`. The function takes three arguments the first argument is a matrix `M` and the next two arguments are `row` and `col` denoting the rows and columns of the matrix. The function should return _the list of the unique row of the martrix_. Do not read input, instead use the arguments given in the function.<br />
+**Note:** The drivers code print the rows `"$"` separated.<br />
+
+<pre>
+Expected Time Complexity: O(row * col)
+Expected Auxiliary Space: O(row * col)
+</pre>
+
+* Constraints: `1<=row,col<=40`<br />
+`0<=M[][]<=1`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+
+vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col);
+
+vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col)
+{
+    set<string> st;
+    vector<vector<int>> vec;
+    
+    for(int i=0;i<row;i++)
+    {
+        string curr;
+        for (int j = 0;j < col;j++)
+        {
+            curr += '0' + M[i][j];
+        }
+        st.insert(curr);
+    }
+    for(int i=0;i<row;i++)
+    {
+        string curr;
+        for (int j = 0;j < col;j++)
+        {
+            curr += '0' + M[i][j];
+        }
+        if (st.find(curr) != st.end())
+        {
+            st.erase(curr);
+            vector<int> demo;
+            for (int j = 0;j < col;j++)
+            {
+                demo.push_back(M[i][j]);
+            }
+            vec.push_back(demo);
+        }
+    }
+    return vec;
+}
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, m; cin>>n>>m;
+        int a[MAX][MAX];
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++)cin>>a[i][j];
+        }
+        vector<vector<int>>vec = uniqueRow(a, n, m);
+        for(int i = 0;i<vec.size();i++){
+            for(int x : vec[i]){
+                cout<<x<<" ";
+            }
+            cout<<"$";
+        }
+        cout<<endl;
+    }
+}
+```
