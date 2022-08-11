@@ -3802,11 +3802,195 @@ int main(){
 
 <br /><br /><br />
 ## Problem 33:
-**[]()**<br />
+**[Find smallest number with given number of digits and sum of digits](https://practice.geeksforgeeks.org/problems/smallest-number5829/1)**<br />
+The task is to find the **smallest** number with given sum of digits as `S` and number of digits as `D`.<br />
+
+>Example 1:<br />
+Input:<br />
+S = 9 <br />
+D = 2<br />
+Output:<br />
+18<br />
+Explanation:<br />
+18 is the smallest number possible with sum = 9 and total digits = 2.<br />
+ 
+>Example 2:<br />
+Input:<br />
+S = 20<br />
+D = 3<br />
+Output:<br />
+299<br />
+Explanation:<br />
+299 is the smallest number possible with sum = 20 and total digits = 3.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `smallestNumber()` which takes the two integers `S` and `D` and returns _a string which is the `smallest number` if possible, else return `"-1"`_.<br />
+ 
+<pre>
+Expected Time Complexity: O(D)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ S ≤ 100`<br />
+`1 ≤ D ≤ 6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{   
+public:
+    string smallestNumber(int S, int D){
+        if(S==0){
+    		if(D==1) return "0";
+    		else return "-1";
+    	}
+    	if(S>9*D)return "-1";
+    	int res[D];
+    	S-=1;
+    	string ans="";
+    	for(int i=D-1;i>0;i--){
+    		if(S>9){
+    			res[i]=9;
+    			S-=9;
+    		}
+    		else {
+    			res[i]=S;
+    			S=0;
+    		}
+    	}
+    	res[0]=S+1;
+    	for(int i=0;i<D;i++)ans+=('0'+res[i]);
+    	return ans; 
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int S, D;
+        cin>>S>>D;
+        Solution ob;
+        cout<<ob.smallestNumber(S, D)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 34:
-**[]()**<br />
+**[Rearrange characters in a string such that no two adjacent are same](https://practice.geeksforgeeks.org/problems/rearrange-characters4649/1)**<br />
+Given a string `S` with repeated characters. The task is to rearrange characters in a string such that **no two adjacent characters are the same**.<br />
+**Note:** The string has only lowercase English alphabets and it can have multiple solutions. Return any one of them.<br />
+
+>Example 1:<br />
+Input : str = "geeksforgeeks"<br />
+Output: 1<br />
+Explanation: All the repeated characters of the given string can be rearranged so that no <br />
+adjacent characters in the string is equal. Any correct rearrangement will show a output of 1.<br />
+
+>Example 2:<br />
+Input : str = "bbbbb"<br />
+Output: 0<br />
+Explanation: Repeated characters in the string cannot be rearranged such that there should not<br />
+be any adjacent repeated character.<br />
+
+**Your task :**<br />
+You don't have to read input or print anything. Your task is to complete the `functionrearrangeString()` which takes the string as input and returns the modified string. If the string cannot be modified return `"-1"`.<br />
+**Note:**The generatedoutput is `1` if the string is successfully rearranged and is `0` if rearranging is not possible.<br />
+
+<pre> 
+Expected Time Complexity : O(NlogN), N = length of String
+Expected Auxiliary Space : O(number of english alphabets)
+</pre>
+
+* Constraints : `1 <= length of string <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+const int MAX_CHAR = 26;
+
+class Solution{
+    public:
+    struct Key{
+        int freq;
+        char ch;
+        bool operator<(const Key &k) const{
+            return freq < k.freq;
+        }
+    };
+    
+    string rearrangeString(string str){
+        int n = str.length();
+        int count[MAX_CHAR] = {0};
+        for(int i = 0;i<n;i++)count[str[i]-'a']++;
+        priority_queue<Key>pq;
+        for(char c = 'a' ; c<='z';c++){
+            if(count[c-'a'])pq.push(Key{count[c-'a'], c});
+        }
+        str = "";
+        Key prev {-1, '#'};
+        while(!pq.empty()){
+            Key k = pq.top();
+            pq.pop();
+            str = str + k.ch;
+            if(prev.freq>0)pq.push(prev);
+            (k.freq)--;
+            prev = k;
+        }
+        if(n != str.length())return "-1";
+        else return str;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string str; cin>>str;
+        Solution ob;
+        string str1 = ob.rearrangeString(str);
+        int flag = 1;
+        int c[26] = {0};
+        for(int i = 0;i<str.length();i++)c[str[i]-'a']+=1;
+        int f = 0;
+        int x = (str.length()+1)/2;
+        for(int i = 0;i<26;i++){
+            if(c[i]>x)f=1;
+        }
+        if(f){
+            if(str1=="-1")cout<<0<<endl;
+            else cout<<1<<endl;
+        }
+        else{
+            int a[26] = {0};
+            int b[26] = {0};
+            for(int i = 0;i<str.length();i++)a[str[i]-'a']+=1;
+            for(int i = 0;i<str1.length();i++)b[str1[i]-'a']+=1;
+            for(int i = 0;i<26;i++){
+                if(a[i]!=b[i])flag = 0;
+            }
+            for(int i = 0;i<str1.length();i++){
+                if(i>0){
+                    if(str1[i-1]==str1[i])flag = 0;
+                }
+            }
+            if(flag == 1)cout<<"1\n";
+            else cout<<"0\n";
+        }
+    }
+    return 0;
+}
+```
+
+
+
 
 <br /><br /><br />
 ## Problem 35:
