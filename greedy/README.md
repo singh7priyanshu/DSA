@@ -3994,4 +3994,94 @@ int main(){
 
 <br /><br /><br />
 ## Problem 35:
-**[]()**<br />
+**[Find maximum equal sum of every three stacks](https://www.geeksforgeeks.org/find-maximum-sum-possible-equal-sum-three-stacks/)**<br />
+Given `three stacks` of the positive numbers, the task is to find the possible `equal maximum sum` of the stacks with the removal of top elements allowed. Stacks are represented as an array, and the first index of the array represent the `top element` of the stack.<br />
+**Examples:**<br />
+<pre>
+Input : stack1[] = { 3, 10}
+  stack2[] = { 4, 5 }
+  stack3[] = { 2, 1 }
+Output : 0
+Sum can only be equal after removing all elements 
+from all stacks.
+</pre>
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Find-maximum-sum-possible-equal-sum-of-three-stacks-2.png"><br />
+The idea is to **compare** the `sum` of each stack, if they are not same, `remove` the `top` element of the stack having the `maximum` sum.<br />
+Algorithm for solving this problem:<br /> 
+
+ 1. Find the `sum` of all elements of in individual stacks.<br />
+ 2. If the `sum` of all three stacks is the same, then this is the `maximum sum`.<br />
+ 3. Else `remove` the top element of the stack having the `maximum sum among three of stacks`. Repeat step 1 and step 2.<br />
+
+The approach works `because elements are positive`. To make sum equal, we must remove some element from stack having more sum, and we can only remove from the top.<br />
+Below is the implementation of this approach:<br /> 
+```cpp
+// C++ program to calculate maximum sum with equal
+// stack sum.
+#include <bits/stdc++.h>
+using namespace std;
+
+// Returns maximum possible equal sum of three stacks
+// with removal of top elements allowed
+int maxSum(int stack1[], int stack2[], int stack3[], int n1,
+		int n2, int n3)
+{
+	int sum1 = 0, sum2 = 0, sum3 = 0;
+
+	// Finding the initial sum of stack1.
+	for (int i = 0; i < n1; i++)
+		sum1 += stack1[i];
+
+	// Finding the initial sum of stack2.
+	for (int i = 0; i < n2; i++)
+		sum2 += stack2[i];
+
+	// Finding the initial sum of stack3.
+	for (int i = 0; i < n3; i++)
+		sum3 += stack3[i];
+
+	// As given in question, first element is top
+	// of stack..
+	int top1 = 0, top2 = 0, top3 = 0;
+	while (1) {
+		// If any stack is empty
+		if (top1 == n1 || top2 == n2 || top3 == n3)
+			return 0;
+
+		// If sum of all three stack are equal.
+		if (sum1 == sum2 && sum2 == sum3)
+			return sum1;
+
+		// Finding the stack with maximum sum and
+		// removing its top element.
+		if (sum1 >= sum2 && sum1 >= sum3)
+			sum1 -= stack1[top1++];
+		else if (sum2 >= sum1 && sum2 >= sum3)
+			sum2 -= stack2[top2++];
+		else if (sum3 >= sum2 && sum3 >= sum1)
+			sum3 -= stack3[top3++];
+	}
+}
+
+// Driven Program
+int main()
+{
+	int stack1[] = { 3, 2, 1, 1, 1 };
+	int stack2[] = { 4, 3, 2 };
+	int stack3[] = { 1, 1, 4, 1 };
+
+	int n1 = sizeof(stack1) / sizeof(stack1[0]);
+	int n2 = sizeof(stack2) / sizeof(stack2[0]);
+	int n3 = sizeof(stack3) / sizeof(stack3[0]);
+
+	cout << maxSum(stack1, stack2, stack3, n1, n2, n3) << endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+5
+</pre>
+<pre>
+Time Complexity : O(n1 + n2 + n3) where n1, n2 and n3 are sizes of three stacks.
+</pre>
