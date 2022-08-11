@@ -537,7 +537,145 @@ int main(){
 
 <br /><br /><br />
 ## Problem 5:
-**[]()**<br />
+**[Implement a Phone Directory](https://practice.geeksforgeeks.org/problems/phone-directory4628/1)**<br />
+Given a list of contacts `contact[]` of length `n` where each contact is a string which exist in a phone directory and a query string `s`. The task is to implement a search query for the phone directory. Run a search query for each prefix `p` of the query string `s` (i.e. **from  index 1 to |s|**) that prints _all the distinct contacts which have the same prefix as `p` in **lexicographical increasing order**_. Please refer the explanation part for better understanding.<br />
+**Note:** If there is no match between query and contacts, print `"0"`.<br />
+
+>Example 1:<br />
+Input: <br />
+n = 3<br />
+contact[] = {"geeikistest", "geeksforgeeks", "geeksfortest"}<br />
+s = "geeips"<br />
+Output:<br />
+geeikistest geeksforgeeks geeksfortest<br />
+geeikistest geeksforgeeks geeksfortest<br />
+geeikistest geeksforgeeks geeksfortest<br />
+geeikistest<br />
+0<br />
+0<br />
+<pre>
+Explaination: By running the search query on contact list for "g" we get: "geeikistest", "geeksforgeeks" and "geeksfortest".
+By running the search query on contact list for "ge" we get: "geeikistest" "geeksforgeeks" and "geeksfortest".
+By running the search query on contact list for "gee" we get: "geeikistest" "geeksforgeeks" and "geeksfortest".
+By running the search query on contact list for "geei" we get: "geeikistest".
+No results found for "geeip", so print "0". 
+No results found for "geeips", so print "0".
+</pre>
+
+**Your Task:**<br />
+Youd do not need to read input or print anything. Your task is to complete the function `displayContacts()` which takes `n`, `contact[ ]` and `s` as input parameters and returns _a list of list of strings for required prefixes_. If some prefix has no matching contact return `"0"` on that list.<br />
+
+<pre>
+Expected Time Complexity: O(|s| * n * max|contact[i]|)
+Expected Auxiliary Space: O(n * max|contact[i]|)
+</pre>
+
+* Constraints: `1 ≤ n ≤ 50`<br />
+`1 ≤ |contact[i]| ≤ 50`<br />
+`1 ≤ |s| ≤ 6` <br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    struct TrieNode{
+      unordered_map<char,TrieNode*> child;
+      bool isLast;
+      TrieNode(){
+        for (char i = 'a'; i <= 'z'; i++)
+          child[i] = NULL;
+        isLast = false;
+      }
+    };
+    TrieNode *root = NULL;
+    
+    void insert(string s){
+      int len = s.length();
+      TrieNode *itr = root;
+      for (int i = 0; i < len; i++){
+        TrieNode *nextNode = itr->child[s[i]];
+        if (nextNode == NULL){
+          nextNode = new TrieNode();
+          itr->child[s[i]] = nextNode;
+        }
+        itr = nextNode;
+        if (i == len - 1)
+          itr->isLast = true;
+      }
+    }
+    
+    void insertIntoTrie(string s[],int n){
+      root = new TrieNode();
+      for (int i = 0; i < n; i++)
+        insert(s[i]);
+    }
+    
+    void displayContactsUtil(TrieNode *curNode, string prefix, vector<string> &vec){
+      if (curNode->isLast)
+            vec.push_back(prefix);
+      for (char i = 'a'; i <= 'z'; i++){
+        TrieNode *nextNode = curNode->child[i];
+        if (nextNode != NULL)
+          displayContactsUtil(nextNode, prefix + (char)i, vec);
+      }
+    }
+    
+    vector<vector<string>> displayContacts(int n, string contact[], string s)
+    {
+      insertIntoTrie(contact, n);
+      TrieNode *prevNode = root;
+      vector<vector<string>> res;
+      string prefix = "";
+      int len = s.length();
+      int i;
+      for (i = 0; i < len; i++){
+        vector<string> v;
+        prefix += (char)s[i];
+        char lastChar = prefix[i];
+        TrieNode *curNode = prevNode->child[lastChar];
+        if (curNode == NULL){
+          v.push_back("0");
+          res.push_back(v);
+          i++;
+          break;
+        }
+        displayContactsUtil(curNode, prefix, v);
+        prevNode = curNode;
+        res.push_back(v);
+      }
+      for (; i<len; i++){
+          vector<string> v;
+          v.push_back("0");
+          res.push_back(v);
+      }
+      return res;
+    }
+};
+
+int main(){
+  int t; cin>>t;
+  while(t--){
+    int n; cin>>n;
+    string contact[n], s;
+    for(int i = 0;i<n;i++)cin>>contact[i];
+    cin>>s;
+    Solution ob;
+    vector<vector<string>>ans = ob.displayContacts(n, contact, s);
+    for(int i = 0;i<s.size();i++){
+      for(auto u : ans[i]){
+        cout<<u<<" ";
+      }
+      cout<<endl;
+    }
+  }
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
