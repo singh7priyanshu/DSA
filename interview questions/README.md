@@ -5387,4 +5387,63 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/)**<br />
+Given an integer array `nums` where the elements are sorted in **ascending order**, convert _it to a **height-balanced** binary search tree_.<br />
+A **height-balanced** binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/18/btree1.jpg"><br />
+Input: nums = [-10,-3,0,5,9]<br />
+Output: [0,-3,9,-10,null,5]<br />
+Explanation: [0,-10,5,null,-3,null,9] is also accepted:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/18/btree2.jpg"><br />
+
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2021/02/18/btree.jpg"><br />
+Input: nums = [1,3]<br />
+Output: [3,1]<br />
+Explanation: [1,null,3] and [3,1] are both height-balanced BSTs.<br />
+ 
+* Constraints: `1 <= nums.length <= 10^4`<br />
+`-10^4 <= nums[i] <= 10^4`<br />
+`nums` is sorted in a **strictly increasing** order.<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+     TreeNode* convertintoBST(vector<int>& nums, int left, int right) 
+    {
+        if(left > right) return NULL;
+        int mid = left+(right-left)/2;
+        TreeNode* node = new TreeNode(nums[mid]);
+        node->left = convertintoBST(nums,left,mid-1);
+        node->right = convertintoBST(nums,mid+1,right);
+        return node;
+    }
+    
+    TreeNode* sortedArrayToBST(vector<int>& nums) 
+    {
+        if(nums.size() == 0) return NULL;
+        return convertintoBST(nums,0,nums.size()-1);
+    }
+};
+```
+
+
+	
+
+
+
 <br /> <br /> <br />**[]()**<br />
