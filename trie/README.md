@@ -452,7 +452,88 @@ No
 
 <br /><br /><br />
 ## Problem 4:
-**[]()**<br />
+**[Given a sequence of words, print all anagrams together](https://practice.geeksforgeeks.org/problems/print-anagrams-together/1)**<br />
+Given an `array of strings`, return _all groups of strings that are anagrams_. The groups must be created in order of their appearance in the original array. Look at the sample case for clarification.<br />
+**Note:** The final output will be in **lexicographic order**.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5<br />
+words[] = {act,god,cat,dog,tac}<br />
+Output:<br />
+act cat tac <br />
+god dog<br />
+Explanation:<br />
+There are 2 groups of anagrams "god", "dog" make group 1.<br />
+"act", "cat", "tac" make group 2.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 3<br />
+words[] = {no,on,is}<br />
+Output: <br />
+no on<br />
+is<br />
+Explanation:<br />
+There are 2 groups of anagrams "no", "on" make group 1.<br />
+"is" makes group 2. <br />
+
+**Your Task:**<br />
+The task is to complete the function `Anagrams()` that takes a `list of strings` as input and returns _a list of groups such that each group consists of all the strings that are anagrams_.<br />
+
+<pre>
+Expected Time Complexity: O(N*|S|*log|S|), where |S| is the length of the strings.
+Expected Auxiliary Space: O(N*|S|), where |S| is the length of the strings.
+</pre>
+
+* Constraints: `1<=N<=100`<br />
+`1<=|S|<=10`<br />
+
+```cpp
+#include<bits/stdc++.h>
+#include<unordered_map>
+using namespace std;
+
+class Solution{
+  public:
+    vector<vector<string> > Anagrams(vector<string>& string_list) {
+        vector<vector<string>> result;
+        //hashmap to contains groups of anagrams
+        unordered_map<string, vector<string>>umap;
+        for(int i = 0;i<string_list.size();i++){
+            string s = string_list[i];
+            // sort each string
+            sort(s.begin(), s.end());
+            //add original string to corresponding sorted string in hash map
+            umap[s].push_back(string_list[i]);
+        }
+        for(auto itr = umap.begin();itr != umap.end(); itr++)result.push_back(itr->second);
+        return result;
+    }
+};  
+
+int main(){
+  int t; cin>>t;
+  while(t--){
+    int n; cin>>n;
+    vector<string>string_list;
+    for(int i = 0;i<n;i++)cin>>string_list[i];
+    Solution ob;
+    vector<vector<string>>result = ob.Anagrams(string_list);
+    sort(result.begin(), result.end());
+    for(int i = 0;i<result.size();i++){
+      for(int j = 0;j<result[i].size();j++){
+        cout<<result[i][j]<<" ";
+      }
+      cout<<endl;
+    }
+  }
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 5:
