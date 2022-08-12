@@ -720,7 +720,256 @@ Auxiliary space : O(1)
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[Calculate square of a number without using *, / and pow()](https://www.geeksforgeeks.org/calculate-square-of-a-number-without-using-and-pow/)**<br />
+Given an integer `n`, calculate the square of a number without using *, / and pow().<br /> 
+**Examples :**<br />
+<pre>
+Input: n = 5
+Output: 25
+
+Input: 7
+Output: 49
+
+Input: n = 12
+Output: 144
+</pre>
+A **Simple Solution** is to repeatedly add `n` to result.<br /> 
+Below is the implementation of this idea. <br />
+```cpp
+// Simple solution to calculate square without
+// using * and pow()
+#include <iostream>
+using namespace std;
+
+int square(int n)
+{
+	// handle negative input
+	if (n < 0)
+		n = -n;
+
+	// Initialize result
+	int res = n;
+
+	// Add n to res n-1 times
+	for (int i = 1; i < n; i++)
+		res += n;
+
+	return res;
+}
+
+// Driver code
+int main()
+{
+	for (int n = 1; n <= 5; n++)
+		cout << "n = " << n << ", n^2 = " << square(n) << endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+n = 1, n^2 = 1
+n = 2, n^2 = 4
+n = 3, n^2 = 9
+n = 4, n^2 = 16
+n = 5, n^2 = 25
+</pre>
+<pre>
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+</pre>
+**Approach 2:**<br />
+We can do it in **O(Logn)** **time using bitwise operators**. The idea is based on the following fact.<br />
+<pre>
+  square(n) = 0 if n == 0
+  if n is even 
+     square(n) = 4*square(n/2) 
+  if n is odd
+     square(n) = 4*square(floor(n/2)) + 4*floor(n/2) + 1 
+
+Examples
+  square(6) = 4*square(3)
+  square(3) = 4*(square(1)) + 4*1 + 1 = 9
+  square(7) = 4*square(3) + 4*3 + 1 = 4*9 + 4*3 + 1 = 49
+</pre>
+**How does this work?**<br />
+<pre>
+If n is even, it can be written as
+  n = 2*x 
+  n2 = (2*x)2 = 4*x2
+If n is odd, it can be written as 
+  n = 2*x + 1
+  n2 = (2*x + 1)2 = 4*x2 + 4*x + 1
+</pre>
+**floor(n/2)** can be calculated using a bitwise right shift operator. **2*x** and **4*x** can be calculated <br />
+Below is the implementation based on the above idea.<br />
+```cpp
+// Square of a number using bitwise operators
+#include <bits/stdc++.h>
+using namespace std;
+
+int square(int n)
+{
+	// Base case
+	if (n == 0)
+		return 0;
+
+	// Handle negative number
+	if (n < 0)
+		n = -n;
+
+	// Get floor(n/2) using right shift
+	int x = n >> 1;
+
+	// If n is odd
+	if (n & 1)
+		return ((square(x) << 2) + (x << 2) + 1);
+	else // If n is even
+		return (square(x) << 2);
+}
+
+// Driver Code
+int main()
+{
+	// Function calls
+	for (int n = 1; n <= 5; n++)
+		cout << "n = " << n << ", n^2 = " << square(n) 	<< endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+n = 1, n^2 = 1
+n = 2, n^2 = 4
+n = 3, n^2 = 9
+n = 4, n^2 = 16
+n = 5, n^2 = 25
+</pre>
+<pre>
+Time Complexity: O(logn)
+Auxiliary Space: O(1)
+</pre>
+**Approach 3:**<br />
+<pre>
+For a given number `num` we get square of it by multiplying number as `num * num`. 
+Now write one of `num` in square `num * num` in terms of power of `2`. Check below examples.
+
+Eg: num = 10, square(num) = 10 * 10 
+                          = 10 * (8 + 2) = (10 * 8) + (10 * 2)
+    num = 15, square(num) = 15 * 15 
+                          = 15 * (8 + 4 + 2 + 1) = (15 * 8) + (15 * 4) + (15 * 2) + (15 * 1)
+
+Multiplication with power of 2's can be done by left shift bitwise operator.
+</pre>
+Below is the implementation based on the above idea. <br />
+```cpp
+// Simple solution to calculate square without
+// using * and pow()
+#include <iostream>
+using namespace std;
+
+int square(int num)
+{
+	// handle negative input
+	if (num < 0) num = -num;
+
+	// Initialize result
+	int result = 0, times = num;
+
+	while (times > 0)
+	{
+		int possibleShifts = 0, currTimes = 1;
+
+		while ((currTimes << 1) <= times)
+		{
+			currTimes = currTimes << 1;
+			++possibleShifts;
+		}
+
+		result = result + (num << possibleShifts);
+		times = times - currTimes;
+	}
+
+	return result;
+}
+
+// Driver code
+int main()
+{
+	// Function calls
+	for (int n = 10; n <= 15; ++n)
+		cout << "n = " << n << ", n^2 = " << square(n) << endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+n = 10, n^2 = 100
+n = 11, n^2 = 121
+n = 12, n^2 = 144
+n = 13, n^2 = 169
+n = 14, n^2 = 196
+n = 15, n^2 = 225
+</pre>
+<pre>
+Time Complexity: O(logn)
+Auxiliary Space: O(1)
+</pre>
+```cpp
+// Simple solution to calculate square without
+// using * and pow()
+#include <iostream>
+using namespace std;
+
+int square(int num)
+{
+	// handle negative input
+	if (num < 0)
+		num = -num;
+
+	// Initialize power of 2 and result
+	int power = 0, result = 0;
+	int temp = num;
+
+	while (temp) {
+		if (temp & 1) {
+			// result=result+(num*(2^power))
+			result += (num << power);
+		}
+		power++;
+
+		// temp=temp/2
+		temp = temp >> 1;
+	}
+
+	return result;
+}
+
+// Driver code
+int main()
+{
+	// Function calls
+	for (int n = 10; n <= 15; ++n)
+		cout << "n = " << n << ", n^2 = " << square(n) 	<< endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+n = 10, n^2 = 100
+n = 11, n^2 = 121
+n = 12, n^2 = 144
+n = 13, n^2 = 169
+n = 14, n^2 = 196
+n = 15, n^2 = 225
+</pre>
+<pre>
+Time Complexity: O(logn)
+Auxiliary Space: O(1)
+</pre>
+
+
+
+
 
 <br /><br /><br />
 ## Problem 10:
