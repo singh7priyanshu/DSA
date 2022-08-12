@@ -323,7 +323,8 @@ Input: N = 98<br />
 Output: NO<br />
 Explanation: 98 cannot be obtained by any power of 2.<br />
 
-**Your Task:**Your task is to complete the function `isPowerofTwo()` which takes `n` as a parameter and returns _`true` or `false` by checking if the given number can be represented as a power of two or not_.<br />
+**Your Task:** <br />
+Your task is to complete the function `isPowerofTwo()` which takes `n` as a parameter and returns _`true` or `false` by checking if the given number can be represented as a power of two or not_.<br />
 
 <pre>
 Expected Time Complexity:O(log N).
