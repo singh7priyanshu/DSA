@@ -461,11 +461,262 @@ int main(){
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Copy set bits in a range](https://www.geeksforgeeks.org/copy-set-bits-in-a-range/)**<br />
+Given two numbers `x` and `y`, and a range `[l, r]` where `1 <= l, r <= 32`. The task is consider set bits of `y` in range `[l, r]` and set these bits in `x` also.<br />
+Examples : <br />
+<pre>
+Input  : x = 10, y = 13, l = 2, r = 3
+Output : x = 14
+Binary representation of 10 is 1010 and 
+that of y is 1101. There is one set bit
+in y at 3'rd position (in given range). 
+After we copy this bit to x, x becomes 1110
+which is binary representation of 14.
+
+Input  : x = 8, y = 7, l = 1, r = 2
+Output : x = 11
+</pre>
+**Method 1 (One by one copy bits)**<br /> 
+We can one by one find set bits of `y` by traversing given range. For every set bit, we _OR it to existing bit of x_, so that the becomes set in `x`, if it was not set. Below is C++ implementation.<br />
+```cpp
+// C++ program to rearrange array in alternating
+// C++ program to copy set bits in a given
+// range [l, r] from y to x.
+#include <bits/stdc++.h>
+using namespace std;
+
+// Copy set bits in range [l, r] from y to x.
+// Note that x is passed by reference and modified
+// by this function.
+void copySetBits(unsigned &x, unsigned y, unsigned l, unsigned r)
+{
+// l and r must be between 1 to 32
+// (assuming ints are stored using
+// 32 bits)
+if (l < 1 || r > 32)
+	return ;
+
+// Traverse in given range
+for (int i=l; i<=r; i++)
+{
+	// Find a mask (A number whose
+	// only set bit is at i'th position)
+	int mask = 1 << (i-1);
+
+	// If i'th bit is set in y, set i'th
+	// bit in x also.
+	if (y & mask)
+		x = x | mask;
+}
+}
+
+// Driver code
+int main()
+{
+unsigned x = 10, y = 13, l = 1, r = 32;
+copySetBits(x, y, l, r);
+cout << "Modified x is " << x;
+return 0;
+}
+```
+Output<br />
+<pre>
+Modified x is 15
+</pre>
+<pre>
+Time Complexity: O(r)
+Auxiliary Space: O(1)
+</pre>
+**Method 2 (Copy all bits using one bit mask)**<br />
+```cpp
+// C++ program to copy set bits in a given
+// range [l, r] from y to x.
+#include <bits/stdc++.h>
+using namespace std;
+
+// Copy set bits in range [l, r] from y to x.
+// Note that x is passed by reference and modified
+// by this function.
+void copySetBits(unsigned &x, unsigned y, unsigned l, unsigned r)
+{
+	// l and r must be between 1 to 32
+	if (l < 1 || r > 32)
+		return ;
+
+	// get the length of the mask
+	int maskLength = (1ll<<(r-l+1)) - 1;
+
+	// Shift the mask to the required position
+	// "&" with y to get the set bits at between
+	// l ad r in y
+	int mask = ((maskLength)<<(l-1)) & y ;
+	x = x | mask;
+}
+
+// Driver code
+int main()
+{
+unsigned x = 10, y = 13, l = 2, r = 3;
+copySetBits(x, y, l, r);
+cout << "Modified x is " << x;
+return 0;
+}
+```
+Output<br />
+<pre>
+Modified x is 14
+</pre>
+<pre>
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+</pre>
+
+
+
 
 <br /><br /><br />
 ## Problem 8:
-**[]()**<br />
+**[Divide two integers without using multiplication, division and mod operator](https://www.geeksforgeeks.org/divide-two-integers-without-using-multiplication-division-mod-operator/)**<br />
+Given two integers say `a` and `b`. Find the quotient after dividing `a` by `b` without using _multiplication_, _division_, and _mod operator_.<br />
+Example: <br />
+<pre>
+Input : a = 10, b = 3
+Output : 3
+
+Input : a = 43, b = -8
+Output :  -5 
+</pre>
+**Approach:** Keep subtracting the `divisor` from the `dividend` until the `dividend` becomes **less than** the `divisor`. The `dividend` becomes the `remainder`, and the number of times subtraction is done becomes the `quotient`. Below is the implementation of the above approach : <br />
+```cpp
+// C++ implementation to Divide two
+// integers without using multiplication,
+// division and mod operator
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to divide a by b and
+// return floor value of the result
+long long divide(long long dividend, long long int divisor)
+{
+
+	// Calculate sign of divisor i.e.,
+	// sign will be negative only if
+	// either one of them is negative
+	// otherwise it will be positive
+	long long sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;
+
+	// Update both divisor and
+	// dividend positive
+	dividend = abs(dividend);
+	divisor = abs(divisor);
+
+	// Initialize the quotient
+	long long quotient = 0;
+	while (dividend >= divisor) {
+		dividend -= divisor;
+		++quotient;
+	}
+
+	// Return the value of quotient with the appropriate
+	// sign.
+	return quotient * sign;
+}
+
+// Driver code
+int main()
+{
+	int a = -2147483648, b = -1;
+	cout << divide(a, b) << "\n";
+
+	a = 43, b = -8;
+	cout << divide(a, b);
+
+	return 0;
+}
+```
+Output<br />
+<pre>
+3
+-5
+</pre>
+<pre>
+Time complexity : O(a/b) 
+Auxiliary space : O(1)
+</pre>
+**Efficient Approach:** Use bit manipulation in order to find the `quotient`. The `divisor` and `dividend` can be written as <br />
+<pre>
+dividend = quotient * divisor + remainder
+</pre>
+As every number can be represented in base `2(0 or 1)`, represent the quotient in binary form by using the shift operator as given below:<br />
+
+ 1. Determine the most significant bit in the divisor. This can easily be calculated by iterating on the bit position i from `31` to `1`.<br />
+ 2. Find the first bit for which _**divisor << i**_ is less than dividend and keep updating the **_ith_** bit position for which it is true.<br />
+ 3. Add the result in the temp variable for checking the next position such that **_(temp + (divisor << i) )_** is less than the **dividend**.<br />
+ 4. Return the final answer of the quotient after updating with a corresponding sign.<br />
+
+Below is the implementation of the above approach : <br />
+```cpp
+// C++ implementation to Divide two
+// integers without using multiplication,
+// division and mod operator
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to divide a by b and
+// return floor value it
+long long divide(long long dividend, long long divisor) {
+
+// Calculate sign of divisor i.e.,
+// sign will be negative only if
+// either one of them is negative
+// otherwise it will be positive
+int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;
+
+// remove sign of operands
+dividend = abs(dividend);
+divisor = abs(divisor);
+
+// Initialize the quotient
+long long quotient = 0, temp = 0;
+
+// test down from the highest bit and
+// accumulate the tentative value for
+// valid bit
+for (int i = 31; i >= 0; --i) {
+
+	if (temp + (divisor << i) <= dividend) {
+	temp += divisor << i;
+	quotient |= 1LL << i;
+	}
+}
+//if the sign value computed earlier is -1 then negate the value of quotient
+if(sign==-1) quotient=-quotient;
+
+return quotient;
+}
+
+// Driver code
+int main() {
+int a = -2147483648, b = -1;
+cout << divide(a, b) << "\n";
+
+a = 43, b = -8;
+cout << divide(a, b);
+
+return 0;
+}
+```
+Output<br />
+<pre>
+3
+-5
+</pre>
+<pre>
+Time complexity : O(log(a)) 
+Auxiliary space : O(1)
+</pre>
+
+
 
 <br /><br /><br />
 ## Problem 9:
