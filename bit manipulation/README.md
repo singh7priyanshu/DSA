@@ -973,4 +973,62 @@ Auxiliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 10:
-**[]()**<br />
+**[Power Set](https://practice.geeksforgeeks.org/problems/power-set4302/1)**<br />
+Given a string `S`, Find all the possible subsequences of the String in **lexicographically-sorted order**.<br />
+
+>Example 1:<br />
+Input : str = "abc"<br />
+Output: a ab abc ac b bc c<br />
+Explanation : There are 7 subsequences that can be formed from abc.<br />
+
+>Example 2:<br />
+Input: str = "aa"<br />
+Output: a a aa<br />
+Explanation : There are 3 subsequences that can be formed from aa.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `AllPossibleStrings()` which takes `S` as the input parameter and returns _a list of all possible substrings(non-empty) that can be formed from `S` in **lexicographically-sorted order**_.<br />
+
+<pre>
+Expected Time Complexity: O(2^n) where n is the length of the String
+Expected Space Complexity: O(n * 2^n)
+</pre>
+ 
+* Constraints: `1 <= Length of String <= 16`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+        vector<string> AllPossibleStrings(string s){
+            vector<string>res;
+            int n = s.size();
+            for(int i = 0; i < (1 << n); i++){
+                string temp ="";
+                for(int j = 0; j < n; j++){
+                    if(i & (1 << j))
+                        temp += s[j];
+                }
+                if(temp.size())
+                res.push_back(temp);
+            }
+            sort(res.begin(), res.end());
+            return res;
+        }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s; cin>>s;
+        Solution ob;
+        vector<string>res = ob.AllPossibleStrings(s);
+        for(auto i : res){
+            cout<<i<<" ";
+        }
+        cout<<endl;
+    }
+}
+```
