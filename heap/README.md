@@ -2744,8 +2744,105 @@ Expected Auxilliary Space : O(n)
 * Constraints: `1 <= N <= 10^6`<br />
 `1 <= x <= 10^6`<br />
 
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
 
+class Solution
+{
+    public:
+    double median;
+    
+    //using two priority queues.
+    priority_queue<int> max; 
+    priority_queue<int, vector<int>, greater<int> > min;
+        
+    //Function to insert heap.
+    void insertHeap(int &x)
+    {
+        //inserting the element.
+        if (max.empty()) 
+            max.push(x);
+        else if (x > max.top()) 
+            min.push(x);
+        else if(min.empty())
+        {
+            min.push(max.top());
+            max.pop();
+            max.push(x);
+        }
+        else
+            max.push(x);
+            
+        //calling function to balance heaps.
+        balanceHeaps();
+    }
+    
+    //Function to balance heaps.
+    void balanceHeaps()
+    {
+        if (abs(max.size() - min.size()) > 1) 
+        {
+            //if size of max queue is greater than min queue, we pop top 
+            //element from max queue and push it in min queue.
+            if (max.size() > min.size())
+            {
+                min.push(max.top());
+                max.pop();
+            }
+            //else we pop top element from min queue and push it in max queue.
+            else
+            {
+                max.push(min.top());
+                min.pop();
+            }
+        }
+    }
+    
+    //Function to return Median.
+    double getMedian()
+    {
+        //if total size is even.
+        if ((max.size() + min.size()) % 2 == 0)
+        {
+            //we store the sum of top elements of both priority
+            //queues and divide it by 2.
+            median = (max.top() + min.top());
+            median /= 2;
+        }
+        //else the total size is odd.
+        else 
+        {
+            //if min queue is empty or max queue is bigger than min queue,
+            //we store top element of max queue in median else we store
+            //top element of min queue.
+            if (min.empty())
+                median = max.top();
+            else if (min.size() < max.size())
+                median = max.top();
+            else
+                median = min.top();
+        }
+        
+        //returning the median.
+        return median;
+    }
+};
 
+int main(){
+    int n, x, t;
+    cin>>t;
+    while(t--){
+        Solution ob;
+        cin>>n;
+        for(int i = 1; i <= n; i++){
+            cin>>x;
+            ob.insertHeap(x);
+            cout<<floor(ob.getMedian())<<endl;
+        }
+    }
+}
+```
 
 
 
@@ -2787,7 +2884,100 @@ Expected Space Complexity: O(N)
 * Constraints: `1 ≤ Number of nodes ≤ 100`<br />
 `1 ≤ Data of a node ≤ 1000`<br />
 
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
 
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i< ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push_back(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push_back(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+class Solution {
+  public:
+    unsigned int countNodes(struct Node* root) {
+        if (root == NULL) return (0);
+        return (1 + countNodes(root->left) + countNodes(root->right));
+    }
+
+    bool isValid(Node* tree, int level, int no) {
+        if (tree == NULL) return true;
+        if (level >= no) return false;
+        return isValid(tree->left, 2 * level + 1, no) and
+               isValid(tree->right, 2 * level + 2, no);
+    }
+    /* Function to get diameter of a binary tree */
+
+    bool propHoldes(Node* root) {
+        if (!root->left and !root->right) return true;
+        if (root->right == NULL)
+            return root->data > root->left->data;
+        else {
+            if (root->data >= root->left->data and
+                root->data >= root->right->data)
+                return propHoldes(root->left) and propHoldes(root->right);
+            else
+                return false;
+        }
+    }
+
+    bool isHeap(struct Node* tree) {
+        if (tree == NULL) return true;
+        int no_of_nodes = countNodes(tree);
+
+        if (isValid(tree, 0, no_of_nodes) and propHoldes(tree)) return true;
+        return false;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string treeString;
+        getline(cin, treeString);
+        Solution ob;
+        Node *root = buildTree(treeString);
+        if(ob.isHeap(root))cout<<1<<endl;
+        else cout<<0<<endl;
+    }
+}
+```
 
 
 
