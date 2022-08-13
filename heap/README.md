@@ -186,7 +186,7 @@ int main()
 {
 	// Binary Tree Representation
 	// of input array
-	//		      1
+	//		  1
 	//	    	 / \
 	//	        3   5
 	//	      /  \	/ \
