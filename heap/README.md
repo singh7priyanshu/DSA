@@ -2106,8 +2106,8 @@ Expected Time Complexity: O(n.Logn)
 Expected Auxiliary Space: O(n + m)
 </pre>
 
-* Constraints: `1 <= n, m <= 10^5`
-`1 <= a[i], b[i] <= 2*10^5`
+* Constraints: `1 <= n, m <= 10^5`<br />
+`1 <= a[i], b[i] <= 2*10^5`<br />
 
 ```cpp
 #include<bits/stdc++.h>
@@ -2211,9 +2211,12 @@ Output: -10
 Explanation: The 6th largest sum among 
 sum of all contiguous subarrays is -10.
 </pre>
-A `brute force approach` is to store all the contiguous sums in another **array** and **sort** it and print the `k-th` largest. But in the case of the number of elements being large, the array in which we store the contiguous sums will run out of memory as the number of `contiguous subarrays` will be large **(quadratic order)**<br />
-An `efficient approach` is to store the **pre-sum** of the **array** in a `sum[]` array. We can find sum of **contiguous subarray** from index `i` to `j` as `sum[j]-sum[i-1]`<br /> 
-Now for storing the `Kth` largest sum, use a `min heap` **(priority queue)** in which we push the `contiguous sums` till we get `K` elements, once we have our `K` elements, check if the element is **greater** than the `Kth` element it is inserted to the `min heap` with **popping** out the **top element** in the **min-heap**, else not inserted. In the end, the top element in the min-heap will be your answer.<br />
+
+ * A `brute force approach` is to store all the contiguous sums in another **array** and **sort** it and print the `k-th` largest. But in the case of the number of elements being large, the array in which we store the contiguous sums will run out of memory as the number of `contiguous subarrays` will be large **(quadratic order)**<br />
+ * An `efficient approach` is to store the **pre-sum** of the **array** in a `sum[]` array. We can find sum of **contiguous subarray** from index `i` to `j` as `sum[j]-sum[i-1]`<br /> 
+   * Now for storing the `Kth` largest sum, use a `min heap` **(priority queue)** in which we push the `contiguous sums` till we get `K` elements, once we have our `K` elements, check if the element is **greater** than the `Kth` element it is inserted to the `min heap` with **popping** out the **top element** in the **min-heap**, else not inserted.<br />
+   * In the end, the top element in the min-heap will be your answer.<br />
+  
 Below is the implementation of the above approach.<br />
 
 ```cpp
@@ -2486,7 +2489,7 @@ Input:<br />
    2    3
 </pre>
 Output: 1<br />
-Explanation: The given tree follows max-heap property since 5, is root and it is greater than both its children.<br />
+Explanation: The given tree follows max-heap property since 5, is root and it is greater than both its children.<br /><br />
 
 >Example 2:
 Input:<br />
