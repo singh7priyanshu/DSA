@@ -1,151 +1,295 @@
-# Competitive-Programming-Essentials-Master-Algorithms-2022
-## Coding Exercise 1:
-**First Unique Character in a String**<br />
-Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return `-1`.<br />
-* Constraints:<br />`1 <= s.length <= 10^5`<br /> 
-`s` consists of only lowercase English letters.<br />
->Example 1: <br /> Input: s = "codingminutes" <br /> 
->Output: 0 <br /> <br />
->Example 2: <br /> Input: s = "aabb"<br /> 
->Output: -1 <br />
+# Love Babbar Sheet 450 - Heap
+## Problem 1:
+**[Implement a Maxheap/MinHeap using arrays and recursion.](https://www.geeksforgeeks.org/building-heap-from-array/)**<br />
+Given an array of `N` elements. The task is to build a Binary Heap from the given array. The heap can be either `Max Heap` or `Min Heap`.<br />
+Examples:<br /> 
+<pre>
+Input: arr[] = {4, 10, 3, 5, 1}
+Output: Corresponding Max-Heap:
+
+       10
+     /   \
+   5     3
+  /  \
+4    1
+
+Input: arr[] = {1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17}
+Output: Corresponding Max-Heap:
+
+                 17
+              /      \
+          15         13
+         /    \      /  \
+       9      6    5   10
+     / \    /  \
+   4   8  3    1
+</pre>
+**Note**<br />
+<pre>
+ * Root is at index 0 in array.
+ * Left child of i-th node is at (2*i + 1)th index.
+ * Right child of i-th node is at (2*i + 2)th index.
+ * Parent of i-th node is at (i-1)/2 index.
+</pre>
+`Naive Approach:` **To solve the problem follow the below idea:**<br />
+<pre>
+To build a Max-Heap from the above-given array elements, It can be clearly seen that the above complete binary tree 
+formed does not follow the Heap property. So, the idea is to heapify the complete binary tree formed 
+from the array in reverse level order following a top-down approach. That is first heapify, the last node 
+in level order traversal of the tree, then heapify the second last node and so on. 
+</pre>
+`Time Complexity Analysis:`<br />
+Heapify a single node takes **O(log N)** time complexity where `N` is the total number of Nodes. Therefore, building the entire Heap will take `N` heapify operations and the total time complexity will be `O(N*logN)`.<br />
+`Efficient Approach:` **To solve the problem using this approach follow the below idea:**<br />
+<pre>
+The above approach can be optimized by observing the fact that the leaf nodes 
+need not to be heapified as they already follow the heap property. Also, the 
+array representation of the complete binary tree contains the level order 
+traversal of the tree. So the idea is to find the position of the last non-leaf node 
+and perform the heapify operation of each non-leaf node in reverse level order. 
+ 
+Last non-leaf node = parent of last-node.
+or, Last non-leaf node = parent of node at (n-1)th index.
+or, Last non-leaf node = Node at index ((n-1) – 1)/2 = (n/2) – 1.
+</pre>
+**Heapify Illustration:**<br />
+<pre>
+Array = {1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17}
+Corresponding Complete Binary Tree is:
+
+                 1
+              /     \
+           3         5
+        /    \     /  \
+      4      6   13  10
+     / \    / \
+   9   8  15 17
+
+The task to build a Max-Heap from above array.
+
+Total Nodes = 11.
+Last Non-leaf node index = (11/2) – 1 = 4.
+Therefore, last non-leaf node = 6.
+
+To build the heap, heapify only the nodes: [1, 3, 5, 4, 6] in reverse order.
+
+Heapify 6: Swap 6 and 17.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     4      17   13  10
+    / \    /  \
+  9   8  15   6
+
+Heapify 4: Swap 4 and 9.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     9      17   13  10
+    / \    /  \
+  4   8  15   6
+
+Heapify 5: Swap 13 and 5.
+
+                 1
+              /     \
+           3         13
+        /    \      /  \
+     9      17   5   10
+    / \    /  \
+ 4   8  15   6
+
+Heapify 3: First Swap 3 and 17, again swap 3 and 15.
+
+                 1
+             /     \
+        17         13
+       /    \      /  \
+    9      15   5   10
+   / \    /  \
+ 4   8  3   6
+
+Heapify 1: First Swap 1 and 17, again swap 1 and 15, finally swap 1 and 6.
+
+                 17
+              /      \
+          15         13
+         /    \      /  \
+       9      6    5   10
+      / \    /  \
+    4   8  3    1
+</pre>
+Below is the implementation of the above approach:<br />
 ```cpp
-#include<bits/stdc++.h>
+// C++ program for building Heap from Array
+
+#include <bits/stdc++.h>
+
 using namespace std;
 
-int firstUniqChar(string s) {
-    unordered_map<char, int>count;
-    int n = s.size();
-    for(int i = 0;i<n;i++)count[s[i]]++;
-    for(int i = 0;i<n;i++)if(count[s[i]]==1)return i;
-    return -1;
+// To heapify a subtree rooted with node i which is
+// an index in arr[]. N is size of heap
+void heapify(int arr[], int N, int i)
+{
+	int largest = i; // Initialize largest as root
+	int l = 2 * i + 1; // left = 2*i + 1
+	int r = 2 * i + 2; // right = 2*i + 2
+
+	// If left child is larger than root
+	if (l < N && arr[l] > arr[largest])
+		largest = l;
+
+	// If right child is larger than largest so far
+	if (r < N && arr[r] > arr[largest])
+		largest = r;
+
+	// If largest is not root
+	if (largest != i) {
+		swap(arr[i], arr[largest]);
+
+		// Recursively heapify the affected sub-tree
+		heapify(arr, N, largest);
+	}
+}
+
+// Function to build a Max-Heap from the given array
+void buildHeap(int arr[], int N)
+{
+	// Index of last non-leaf node
+	int startIdx = (N / 2) - 1;
+
+	// Perform reverse level order traversal
+	// from last non-leaf node and heapify
+	// each node
+	for (int i = startIdx; i >= 0; i--) {
+		heapify(arr, N, i);
+	}
+}
+
+// A utility function to print the array
+// representation of Heap
+void printHeap(int arr[], int N)
+{
+	cout << "Array representation of Heap is:\n";
+
+	for (int i = 0; i < N; ++i)
+		cout << arr[i] << " ";
+	cout << "\n";
+}
+
+// Driver Code
+int main()
+{
+	// Binary Tree Representation
+	// of input array
+	//		      1
+	//	    	 / \
+	//	        3   5
+	//	      /  \	/ \
+	//	     4	 6 13  10
+	//      / \ / \
+	//     9  8 15 17
+	int arr[] = {1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17};
+
+	int N = sizeof(arr) / sizeof(arr[0]);
+
+	// Function call
+	buildHeap(arr, N);
+	printHeap(arr, N);
+
+	// Final Heap:
+	//		     17
+	//		    / \
+	//		  15   13
+	//		 / \   / \
+	//	    9	6 5  10
+	//	   / \ / \
+	//	  4  8 3  1
+
+	return 0;
 }
 ```
-## Coding Exercise 2:
-**Kth Largest Element**<br />
-Given an integer array `nums` and an integer `k`, return the `kth` largest element in the array. Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.<br />
-* Constraints:<br />`1 <= k <= nums.length <= 10^4`<br />
- `-10^4 <= nums[i] <= 10^4`<br />
->Input: nums = [3, 2, 3, 1, 2, 4, 5, 5, 6], k = 4 <br />
->Output: 4<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-int findKthLargest(vector<int> nums, int k) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int num: nums){
-        pq.push(num);
-        if(pq.size()>k)pq.pop();
-    }
-    return pq.top();
-}
-```
-## Coding Exercise 3:
-**One Integer**<br />
-You are given a list of integers `nums`. You can reduce the length of `nums` by taking any two integers, removing them, and appending their sum to the end. The cost of doing this is the sum of the two integers you removed.<br />
-Return the minimum total cost of reducing `nums` to one integer.<br />
->Note : Cost can be negative also.<br />
-* Constraints: <br /> `n <= 100,000` where `n` is length of `nums`.<br />
->Example 1 <br />
->Input: nums : [1, 2, 3, 4, 5]<br />
->Output: 33<br />
->Explanation<br />
-> * We take `1` and `2` out to get `[3, 4, 5, 3]`<br />
-> * We take `3` and `3` out to get `[4, 5, 6]`<br />
-> * We take `4` and `5` out to get `[6, 9]`<br />
-> * We take `6` and `9` out to get `[15]`<br />
-> * The sum is `33 = 1 + 2 + 3 + 3 + 4 + 5 + 6 + 9`<br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-int solve(vector<int> nums) {
-    priority_queue<int, vector<int>, greater<int>>pq;
-    for(int i = 0;i<nums.size();i++)pq.push(nums[i]);
-    int a, b, sum, ans=0;
-    while(pq.size() > 1){
-        a = pq.top(); pq.pop();
-        b = pq.top(); pq.pop();
-        sum = a+b; 
-        ans += sum;
-        pq.push(sum);
-    }
-    return ans;
-}
-```
-## Coding Exercise 4:
-**Maximum Score From Removing Stones**<br />
-You are playing a solitaire game with three piles of stones of sizes `a`, `b`, and `c` respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).<br />
-Given three integers `a`, `b`, and `c`, return the maximum score you can get.<br />
-* Constraints:<br />`1 <= a, b, c <= 10^5` <br />
->Example:<br />
->Input: a = 2, b = 4, c = 6 <br />
->Output: 6 <br />
->Explanation: The starting state is (2, 4, 6). One optimal set of moves is: <br />
->- Take from `1st` and `3rd` piles, state is now `(1, 4, 5)` <br />
->- Take from `1st` and `3rd` piles, state is now `(0, 4, 4)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 3, 3)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 2, 2)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 1, 1)` <br />
->- Take from `2nd` and `3rd` piles, state is now `(0, 0, 0)` <br />
->There are fewer than two non-empty piles, so the game ends. Total: `6` points. <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-int maximumScore(int a, int b, int c) {
-    priority_queue<int>q;
-    q.push(a);
-    q.push(b);
-    q.push(c);
-    int ans = 0;
-    while(q.size()>1){
-        int x = q.top(); q.pop();
-        int y = q.top(); q.pop();
-        x--; y--;
-        if(x) q.push(x);
-        if(y) q.push(y);
-        ans++;
-    }
-    return ans;
-}
-```
-## Coding Exercise 5:
-**Find K Closest Elements**
-Given a sorted integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
-An integer `a` is closer to `x` than an integer `b` if: <br />
-* `|a - x| < |b - x|`, or <br />
-* `|a - x| == |b - x|` and `a < b` <br />
-* Constraints: <br />
-`1 <= k <= arr.length` <br />
-`1 <= arr.length <= 10^4` <br />
-`arr` is sorted in ascending order. <br />
-`-10^4 <= arr[i], x <= 10^4` <br />
->Example :<br />
->Input: arr = [1,2,3,4,5], k = 4, x = 3 <br />
->Output: [1,2,3,4] <br />
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-
-bool compare(int a, int b){return a<b;}
-
-vector<int> findClosestElements(vector<int> arr, int k, int x) {
-    vector<int>ans;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>q;
-    int n = arr.size();
-    for(int i = 0;i<n;i++){
-        int diff = abs(arr[i]-x);
-        q.push({diff, arr[i]});
-    }
-    while(k--){
-        ans.push_back(q.top().second);
-        q.pop();
-    }
-    sort(ans.begin(), ans.end(), compare);
-    return ans;
-}
-```
+Output<br />
+<pre>
+Array representation of Heap is:
+17 15 13 9 6 5 10 4 8 3 1 
+</pre>
+<pre>
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+</pre>
 
 
 
-     
+
+<br /><br /><br />
+## Problem 2:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 3:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 4:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 5:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 6:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 7:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 8:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 9:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 10:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 11:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 12:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 13:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 14:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 15:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 16:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 17:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 18:
+**[]()**<br />
