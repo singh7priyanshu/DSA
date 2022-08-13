@@ -195,7 +195,112 @@ int main()
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br />
+**[Implement BFS algorithm](https://practice.geeksforgeeks.org/problems/bfs-traversal-of-graph/1)**<br />
+Given a directed graph. The task is to do **Breadth First Traversal** of this graph starting from `0`.<br />
+**Note:** One can move from node `u` to node `v` only if there's an edge from `u` to `v` and find the **BFS traversal** of the graph starting from the `0th` vertex, from **left to right** according to the graph. Also, you should only take nodes **directly** or **indirectly** connected from Node `0` in consideration.<br />
+
+>Example 1:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184507578-4b7b960a-6bd5-48dd-a461-4895e0ceb29b.png"><br />
+Input:<br />
+<pre>
+1
+5
+4
+0 1 
+0 2 
+0 3 
+2 4 
+</pre>
+Output: 0 1 2 3 4<br />
+Explanation: <br />
+0 is connected to 1 , 2 , 3. 2 is connected to 4.<br />
+so starting from 0, it will go to 1 then 2 then 3.After this 2 to 4, thus bfs will be 0 1 2 3 4.<br />
+
+>Example 2:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184507581-8bec4151-a6fb-47d7-9303-ba6757d0fab4.png"><br />
+Output: 0 1 2<br />
+Explanation:<br />
+0 is connected to 1 , 2. so starting from 0, it will go to 1 then 2, thus bfs will be 0 1 2 3 4.<br /> 
+
+**Your task:**<br />
+You don’t need to read input or print anything. Your task is to complete the function `bfsOfGraph()` which takes the integer `V` denoting the number of vertices and `adjacency list` as input parameters and returns  _a list containing the BFS traversal of the graph starting from the 0th vertex from left to right_.<br />
+
+<pre>
+Expected Time Complexity: O(V + E)
+Expected Auxiliary Space: O(V)
+</pre>
+
+* Constraints: `1 ≤ V, E ≤ 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        // boolean list to mark all the vertices as not visited.
+        vector<bool> vis(V, false);
+        int s = 0;
+
+        // initially we mark first vertex as visited(true).
+        vis[s] = true;
+
+        vector<int> res;
+
+        // creating a queue for BFS and pushing first vertex in queue.
+        queue<int> q;
+        q.push(s);
+
+        while (!q.empty()) {
+            // adding front element in output list and popping it from queue.
+            int t = q.front();
+            res.push_back(t);
+            q.pop();
+
+            // traversing over all the connected components of front element.
+            for (int v : adj[t]) {
+                // if they aren't visited, we mark them visited and add to
+                // queue.
+                if (!vis[v]) {
+                    vis[v] = true;
+                    q.push(v);
+                }
+            }
+        }
+        // returning the output list.
+        return res;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int V, E;
+        cin>>V>>E;
+        vector<int>adj[V];
+        for(int i = 0;i<E;i++){
+            int u, v;
+            cin>>u>>v;
+            adj[u].push_back(v);
+        }
+        Solution ob;
+        vector<int>ans = ob.bfsOfGraph(V, adj);
+        for(int i = 0;i<ans.size();i++)cout<<ans[i]<<" ";
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 3:
