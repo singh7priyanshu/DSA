@@ -228,7 +228,150 @@ Auxiliary Space: O(N)
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br />
+**[Sort an Array using heap. (HeapSort)](https://www.geeksforgeeks.org/heap-sort/)**<br />
+**What is Heap Sort**<br />
+<pre>
+Heap sort is a comparison-based sorting technique based on Binary Heap data 
+structure. It is similar to the selection sort where we first find the minimum 
+element and place the minimum element at the beginning. Repeat the same 
+process for the remaining elements.
+</pre>
+
+ * Heap sort is an in-place algorithm.<br />
+ * Its typical implementation is not stable, but can be made stable<br />
+ * Typically 2-3 times slower than well-implemented `QuickSort`.  The reason for slowness is a lack of locality of reference.<br />
+
+**Advantages of heapsort:**<br />
+
+ * **Efficiency** –  The time required to perform Heap sort increases `logarithmically` while other algorithms may grow exponentially slower as the number of items to sort increases. This sorting algorithm is very efficient.<br />
+ * **Memory Usage** – Memory usage is minimal because apart from what is necessary to hold the initial list of items to be sorted, it needs no additional memory space to work<br />
+ * **Simplicity** –  It is simpler to understand than other equally efficient sorting algorithms because it does not use advanced computer science concepts such as `recursion`.<br />
+
+**Applications of HeapSort:**<br />
+
+ * Heapsort is mainly used in hybrid algorithms like the `IntroSort`.<br />
+ * `Sort a nearly sorted (or K sorted) array` <br />
+ * `k largest(or smallest) elements in an array` <br />
+
+The heap sort algorithm has limited uses because `Quicksort` and `Mergesort` are better in practice. Nevertheless, the Heap data structure itself is enormously used.<br />
+**What is meant by Heapify?**<br />
+Heapify is the process of creating a heap data structure from a `binary tree` represented using an `array`. It is used to create `Min-Heap` or `Max-heap`. Start from the first index of the `non-leaf node` whose index is given by `n/2 – 1`. Heapify uses `recursion`.<br />
+**Algorithm for Heapify:**<br />
+<pre>
+heapify(array)
+ Root = array[0]
+
+   Largest = largest( array[0] , array [2 * 0 + 1]/ array[2 * 0 + 2])
+if(Root != Largest)
+ Swap(Root, Largest)
+</pre>
+**How does Heapify work?**<br />
+<pre>
+Array = {1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17}
+Corresponding Complete Binary Tree is:
+
+                 1
+              /     \
+           3         5
+        /    \     /  \
+      4      6   13  10
+     / \    / \
+   9   8  15 17
+
+The task to build a Max-Heap from above array.
+
+Total Nodes = 11.
+Last Non-leaf node index = (11/2) – 1 = 4.
+Therefore, last non-leaf node = 6.
+
+To build the heap, heapify only the nodes: [1, 3, 5, 4, 6] in reverse order.
+
+Heapify 6: Swap 6 and 17.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     4      17   13  10
+    / \    /  \
+  9   8  15   6
+
+Heapify 4: Swap 4 and 9.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     9      17   13  10
+    / \    /  \
+  4   8  15   6
+
+Heapify 5: Swap 13 and 5.
+
+                 1
+              /     \
+           3         13
+        /    \      /  \
+     9      17   5   10
+    / \    /  \
+ 4   8  15   6
+
+Heapify 3: First Swap 3 and 17, again swap 3 and 15.
+
+                 1
+             /     \
+        17         13
+       /    \      /  \
+    9      15   5   10
+   / \    /  \
+ 4   8  3   6
+
+Heapify 1: First Swap 1 and 17, again swap 1 and 15, finally swap 1 and 6.
+
+                 17
+              /      \
+          15         13
+         /    \      /  \
+       9      6    5   10
+      / \    /  \
+    4   8  3    1
+</pre>
+`Heap Sort Algorithm`<br />
+**To solve the problem follow the below idea:**<br />
+<pre>
+ First convert the array into heap data structure using heapify, than one by one 
+ delete the root node of the Max-heap and replace it with the last node in the 
+ heap and then heapify the root of the heap. Repeat this process until size of 
+ heap is greater than 1.
+</pre>
+**Follow the given steps to solve the problem:**<br />
+
+ * Build a max heap from the input data.<br /> 
+ * At this point, the maximum element is stored at the root of the heap. Replace it with the `last` item of the heap followed by reducing the size of the heap by `1`. Finally, heapify the `root` of the tree.<br /> 
+ * Repeat step 2 while the size of the `heap` is **greater than 1**.<br />
+
+**Note:** The heapify procedure can only be applied to a node if its `children nodes` are heapified. So the heapification must be performed in the `bottom-up order`.<br />
+**Detailed Working of Heap Sort**<br />
+<pre>
+To understand heap sort more clearly, let’s take an unsorted array and try to 
+sort it using heap sort.
+Consider the array: arr[] = {4, 10, 3, 5, 1}.
+_**Build Complete Binary Tree:**_ Build a complete binary tree from the array.
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802165905/1.png"><br />
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 3:
