@@ -2323,6 +2323,47 @@ Output: ""<br />
 * Constraints: `1 <= s.length <= 500`<br />
 `s` consists of **lowercase** English letters.<br />
 
+```cpp
+class Solution {
+public:
+    typedef pair<int, char> FreqCharPair;
+    string reorganizeString(string s) {
+        unordered_map<char, int> freqMap;
+        for(auto& ch : s)
+            freqMap[ch]++;
+        
+        priority_queue<FreqCharPair> maxHeap;
+        for(auto& freqMpVal : freqMap)
+            maxHeap.push(make_pair(freqMpVal.second, freqMpVal.first));
+        
+        string reorgStr;
+        while(!maxHeap.empty())
+        {
+            FreqCharPair p1 = maxHeap.top();
+            maxHeap.pop();
+            reorgStr.push_back(p1.second);
+            if(!maxHeap.empty())
+            {
+                FreqCharPair p2 = maxHeap.top();
+                maxHeap.pop();
+                reorgStr.push_back(p2.second);
+                p2.first--;
+                if(p2.first > 0)
+                   maxHeap.push(p2);
+            }
+            else if(p1.first > 1)  //if there is only 1 unique char left, 
+                                    //check its frequency 
+                return "";
+            
+            p1.first--;
+            if(p1.first > 0)
+                maxHeap.push(p1);
+        }
+        return  reorgStr;  
+    }
+};
+```
+
 
 
 
