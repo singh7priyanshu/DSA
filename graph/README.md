@@ -663,7 +663,107 @@ To store the visited and recursion stack O(V) space is needed.
 
 <br /><br /><br />
 ## Problem 5:
-**[]()**<br />
+**[Detect Cycle in UnDirected Graph using BFS/DFS Algo](https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1)**<br />
+Given an `undirected graph` with `V` vertices and `E` edges, check whether it contains any cycle or not.<br /> 
+
+>Example 1:<br />
+Input:  <br />
+V = 5, E = 5<br />
+adj = {{1}, {0, 2, 4}, {1, 3}, {2, 4}, {1, 3}}<br /> 
+Output: 1<br />
+Explanation:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184510914-670bde56-8258-48e6-b816-17c201ba8af6.png"><br />
+1->2->3->4->1 is a cycle.<br />
+
+>Example 2:<br />
+Input: <br />
+V = 4, E = 2<br />
+adj = {{}, {2}, {1, 3}, {2}}<br />
+Output: 0<br />
+Explanation: <br />
+<img src = "https://user-images.githubusercontent.com/71781982/184510916-4bfdffdb-a0a0-4240-9598-96f72ad19d1e.png"><br />
+No cycle in the graph.<br />
+ 
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `isCycle()` which takes `V` denoting the number of vertices and `adjacency list` as input parameters and returns _a boolean value denoting if the undirected graph contains any cycle or not, return `1` if a cycle is present else return `0`_.<br />
+**NOTE:** The adjacency list denotes the **edges of the graph where edges[i]** stores all other vertices to which ith vertex is connected.<br />
+ 
+<pre>
+Expected Time Complexity: O(V + E)
+Expected Space Complexity: O(V)
+</pre>
+
+* Constraints: `1 ≤ V, E ≤ 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    bool isCycleUtil(int u, int par, vector<int> adj[], vector<bool>& vis) {
+        // marking the current vertex as visited.
+        vis[u] = true;
+
+        // iterating on all the adjacent vertices.
+        for (auto v : adj[u]) {
+            if (v == par) continue;
+
+            // if current vertex is visited, we return true else we
+            // call the function recursively to detect the cycle.
+            if (vis[v]) return true;
+            if (isCycleUtil(v, u, adj, vis)) return true;
+        }
+        return false;
+    }
+
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+        // using a boolean list to mark all the vertices as not visited.
+        vector<bool> vis(V, false);
+
+        // iterating over all the vertices.
+        for (int i = 0; i < V; i++) {
+            // if vertex is not visited, we call the function to detect cycle.
+            if (!vis[i]) {
+                bool f = isCycleUtil(i, -1, adj, vis);
+                // if cycle is found, we return true.
+                if (f) return true;
+            }
+        }
+        return false;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int V, E;
+        cin>>V>>E;
+        vector<int>adj[V];
+        for(int i = 0;i<E;i++){
+            int u, v;
+            cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        Solution ob;
+        bool ans = ob.isCycle(V, adj);
+        if(ans)cout<<"1\n";
+        else cout<<"0\n";
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
