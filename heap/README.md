@@ -1301,7 +1301,593 @@ int main(){
 
 <br /><br /><br />
 ## Problem 5:
-**[]()**<br />
+**[K’th Smallest/Largest Element in Unsorted Array](https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/)**<br />
+Given an `array` and a number `k` where `k` is **smaller than** the `size of the array`, we need to find the `k’th` smallest element in the given array. It is given that all array elements are distinct.<br />
+Examples:<br />
+<pre>
+Input: arr[] = {7, 10, 4, 3, 20, 15}, k = 3 
+Output: 7
+
+Input: arr[] = {7, 10, 4, 3, 20, 15}, k = 4 
+Output: 10 
+</pre>
+<br /><br />**Method 1** `(Simple Solution)`<br />
+A simple solution is to sort the given array using an `O(N log N)` sorting algorithm like `Merge Sort`, `Heap Sort`, etc, and return _the element at index `k-1` in the sorted array_. <br />
+The Time Complexity of this solution is `O(N log N)`<br />
+```cpp
+// Simple C++ program to find k'th smallest element
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to return k'th smallest element in a given array
+int kthSmallest(int arr[], int n, int k)
+{
+	// Sort the given array
+	sort(arr, arr + n);
+
+	// Return k'th element in the sorted array
+	return arr[k - 1];
+}
+
+// Driver program to test above methods
+int main()
+{
+	int arr[] = { 12, 3, 5, 7, 19 };
+	int n = sizeof(arr) / sizeof(arr[0]), k = 2;
+	cout << "K'th smallest element is " << kthSmallest(arr, n, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+K'th smallest element is 5
+</pre>
+<br /><br />**Method 2** `(using set from C++ STL)`<br />
+we can find the `kth` smallest element in time complexity better than `O(N log N)`. we know the Set in **C++ STL** is implemented using **Binary Search Tree** and we also know that the time complexity of all cases(**searching**, **inserting**, **deleting** ) in `BST` is `log (n)` in the **average case** and `O(n)` in the **worst case**. We are using set because it is mentioned in the question that all the elements in an array are distinct.<br />
+The following is the C++ implementation of the above method.<br />
+```cpp
+/* the following code demonstrates how to find kth smallest
+element using set from C++ STL */
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+
+	int arr[] = { 12, 3, 5, 7, 19 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	int k = 4;
+
+	set<int> s(arr, arr + n);
+	set<int>::iterator itr 	= s.begin(); // s.begin() returns a pointer to first
+					// element in the set
+	advance(itr, k - 1); 		// itr points to kth element in set
+
+	cout << *itr << "\n";
+
+	return 0;
+}
+```
+Output<br />
+<pre>
+12
+</pre>
+<pre>
+Time Complexity:  O(N*log N) in Average Case and O(N) in Worst Case
+Auxiliary Space: O(N)
+</pre>
+<br /><br />**Method 3** `(Using Min Heap – HeapSelect)`<br />
+We can find `k’th` smallest element in time complexity better than `O(N Log N)`. A simple optimization is to create a `Min Heap` of the given `n` elements and call `extractMin()` `k` times.<br />
+The following is C++ implementation of above method.<br />
+```cpp
+// A C++ program to find k'th smallest element using min heap
+#include <climits>
+#include <iostream>
+using namespace std;
+
+// Prototype of a utility function to swap two integers
+void swap(int* x, int* y);
+
+// A class for Min Heap
+class MinHeap {
+	int* harr; // pointer to array of elements in heap
+	int capacity; // maximum possible size of min heap
+	int heap_size; // Current number of elements in min heap
+public:
+	MinHeap(int a[], int size); // Constructor
+	void MinHeapify(int i); // To minheapify subtree rooted with index i
+	int parent(int i) { return (i - 1) / 2; }
+	int left(int i) { return (2 * i + 1); }
+	int right(int i) { return (2 * i + 2); }
+
+	int extractMin(); // extracts root (minimum) element
+	int getMin() { return harr[0]; } // Returns minimum
+};
+
+MinHeap::MinHeap(int a[], int size)
+{
+	heap_size = size;
+	harr = a; // store address of array
+	int i = (heap_size - 1) / 2;
+	while (i >= 0) {
+		MinHeapify(i);
+		i--;
+	}
+}
+
+// Method to remove minimum element (or root) from min heap
+int MinHeap::extractMin()
+{
+	if (heap_size == 0)
+		return INT_MAX;
+
+	// Store the minimum value.
+	int root = harr[0];
+
+	// If there are more than 1 items, move the last item to root
+	// and call heapify.
+	if (heap_size > 1) {
+		harr[0] = harr[heap_size - 1];
+		MinHeapify(0);
+	}
+	heap_size--;
+
+	return root;
+}
+
+// A recursive method to heapify a subtree with root at given index
+// This method assumes that the subtrees are already heapified
+void MinHeap::MinHeapify(int i)
+{
+	int l = left(i);
+	int r = right(i);
+	int smallest = i;
+	if (l < heap_size && harr[l] < harr[i])
+		smallest = l;
+	if (r < heap_size && harr[r] < harr[smallest])
+		smallest = r;
+	if (smallest != i) {
+		swap(&harr[i], &harr[smallest]);
+		MinHeapify(smallest);
+	}
+}
+
+// A utility function to swap two elements
+void swap(int* x, int* y)
+{
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+// Function to return k'th smallest element in a given array
+int kthSmallest(int arr[], int n, int k)
+{
+	// Build a heap of n elements: O(n) time
+	MinHeap mh(arr, n);
+
+	// Do extract min (k-1) times
+	for (int i = 0; i < k - 1; i++)
+		mh.extractMin();
+
+	// Return root
+	return mh.getMin();
+}
+
+// Driver program to test above methods
+int main()
+{
+	int arr[] = { 12, 3, 5, 7, 19 };
+	int n = sizeof(arr) / sizeof(arr[0]), k = 2;
+	cout << "K'th smallest element is " << kthSmallest(arr, n, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+K'th smallest element is 5
+</pre>
+<pre>
+Time complexity: O(n + kLogn).
+Space complexity: O(n) for call stack
+</pre>
+<br /><br />**Method 4** `(Using Max-Heap)`<br />
+We can also use Max Heap for finding the k’th smallest element. Following is an algorithm.<br /> 
+
+1) Build a Max-Heap `MH` of the first `k` elements (`arr[0] to arr[k-1]`) of the given array. `O(k)`<br />
+2) For each element, after the `k’th` element (`arr[k] to arr[n-1]`), compare it with root of `MH`. <br />
+……a) If the element is less than the root then make it root and call **heapify** for `MH` <br />
+……b) Else ignore it. <br />
+
+// The step 2 is `O((n-k)*logk)`<br />
+3) Finally, the root of the `MH` is the **kth smallest** element.<br />
+Time complexity of this solution is `O(k + (n-k)*Logk)`<br />
+
+The following is C++ implementation of the above algorithm <br />
+```cpp
+// A C++ program to find k'th smallest element using max heap
+#include <climits>
+#include <iostream>
+using namespace std;
+
+// Prototype of a utility function to swap two integers
+void swap(int* x, int* y);
+
+// A class for Max Heap
+class MaxHeap {
+	int* harr; // pointer to array of elements in heap
+	int capacity; // maximum possible size of max heap
+	int heap_size; // Current number of elements in max heap
+public:
+	MaxHeap(int a[], int size); // Constructor
+	void maxHeapify(int i); // To maxHeapify subtree rooted with index i
+	int parent(int i) { return (i - 1) / 2; }
+	int left(int i) { return (2 * i + 1); }
+	int right(int i) { return (2 * i + 2); }
+
+	int extractMax(); // extracts root (maximum) element
+	int getMax() { return harr[0]; } // Returns maximum
+
+	// to replace root with new node x and heapify() new root
+	void replaceMax(int x)
+	{
+		harr[0] = x;
+		maxHeapify(0);
+	}
+};
+
+MaxHeap::MaxHeap(int a[], int size)
+{
+	heap_size = size;
+	harr = a; // store address of array
+	int i = (heap_size - 1) / 2;
+	while (i >= 0) {
+		maxHeapify(i);
+		i--;
+	}
+}
+
+// Method to remove maximum element (or root) from max heap
+int MaxHeap::extractMax()
+{
+	if (heap_size == 0)
+		return INT_MAX;
+
+	// Store the maximum value.
+	int root = harr[0];
+
+	// If there are more than 1 items, move the last item to root
+	// and call heapify.
+	if (heap_size > 1) {
+		harr[0] = harr[heap_size - 1];
+		maxHeapify(0);
+	}
+	heap_size--;
+
+	return root;
+}
+
+// A recursive method to heapify a subtree with root at given index
+// This method assumes that the subtrees are already heapified
+void MaxHeap::maxHeapify(int i)
+{
+	int l = left(i);
+	int r = right(i);
+	int largest = i;
+	if (l < heap_size && harr[l] > harr[i])
+		largest = l;
+	if (r < heap_size && harr[r] > harr[largest])
+		largest = r;
+	if (largest != i) {
+		swap(&harr[i], &harr[largest]);
+		maxHeapify(largest);
+	}
+}
+
+// A utility function to swap two elements
+void swap(int* x, int* y)
+{
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+// Function to return k'th largest element in a given array
+int kthSmallest(int arr[], int n, int k)
+{
+	// Build a heap of first k elements: O(k) time
+	MaxHeap mh(arr, k);
+
+	// Process remaining n-k elements. If current element is
+	// smaller than root, replace root with current element
+	for (int i = k; i < n; i++)
+		if (arr[i] < mh.getMax())
+			mh.replaceMax(arr[i]);
+
+	// Return root
+	return mh.getMax();
+}
+
+// Driver program to test above methods
+int main()
+{
+	int arr[] = { 12, 3, 5, 7, 19 };
+	int n = sizeof(arr) / sizeof(arr[0]), k = 4;
+	cout << "K'th smallest element is " << kthSmallest(arr, n, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+K'th smallest element is 12
+</pre>
+<br /><br />**Method 5** `(QuickSelect)`<br />
+This is an optimization over method `1` if `QuickSort` is used as a sorting algorithm in first step. In `QuickSort`, we pick a `pivot element`, then move the pivot element to its correct position and partition the surrounding array. The idea is, not to do complete quicksort, but stop at the point where pivot itself is `k’th smallest element`. Also, not to `recur` for both `left` and `right` sides of pivot, but `recur` for one of them according to the position of pivot. The **worst case** time complexity of this method is `O(n^2)`, but it works in `O(n)` on **average**.<br />
+```cpp
+#include <climits>
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int l, int r);
+
+// This function returns k'th smallest element in arr[l..r] using
+// QuickSort based method. ASSUMPTION: ALL ELEMENTS IN ARR[] ARE DISTINCT
+int kthSmallest(int arr[], int l, int r, int k)
+{
+	// If k is smaller than number of elements in array
+	if (k > 0 && k <= r - l + 1) {
+		// Partition the array around last element and get
+		// position of pivot element in sorted array
+		int pos = partition(arr, l, r);
+
+		// If position is same as k
+		if (pos - l == k - 1)
+			return arr[pos];
+		if (pos - l > k - 1) // If position is more, recur for left subarray
+			return kthSmallest(arr, l, pos - 1, k);
+
+		// Else recur for right subarray
+		return kthSmallest(arr, pos + 1, r, k - pos + l - 1);
+	}
+
+	// If k is more than number of elements in array
+	return INT_MAX;
+}
+
+void swap(int* a, int* b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+// Standard partition process of QuickSort(). It considers the last
+// element as pivot and moves all smaller element to left of it
+// and greater elements to right
+int partition(int arr[], int l, int r)
+{
+	int x = arr[r], i = l;
+	for (int j = l; j <= r - 1; j++) {
+		if (arr[j] <= x) {
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	swap(&arr[i], &arr[r]);
+	return i;
+}
+
+// Driver program to test above methods
+int main()
+{
+	int arr[] = { 12, 3, 5, 7, 4, 19, 26 };
+	int n = sizeof(arr) / sizeof(arr[0]), k = 3;
+	cout << "K'th smallest element is " << kthSmallest(arr, 0, n - 1, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+K'th smallest element is 5
+</pre>
+<br /><br />**Method 6** `(Map STL)`<br />
+A map-based `STL` approach is although very much similar to the **quickselect** and `counting sort algorithm` but much easier to implement. We can use an **ordered map** and **map** each element with its frequency. And as we know that an ordered map would store the data in a sorted manner, we keep on adding the frequency of each element till it does not become greater than or equal to `k` so that we reach the `k’th` element from the `start` i.e. the `k’th` smallest element.<br />
+Eg – Array={7,0,25,6,16,17,0}    k=3<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20210602230640/UntitledDiagram29-230x300.jpg"><br />
+Now in order to get the `k’th` largest element, we need to add the frequencies till it becomes **greater than or equal** to `3`. It is clear from the above that the `frequency of 0 + frequency of 6` will become equal to `3` so the **third smallest number** in the array will be `6`.<br />
+We can achieve the above using an iterator to **traverse** the map.<br />
+```cpp
+// C++ program for the above approach
+#include <bits/stdc++.h>
+using namespace std;
+int Kth_smallest(map<int, int> m, int k)
+{
+	int freq = 0;
+	for (auto it = m.begin(); it != m.end(); it++) {
+		freq += (it->second); // adding the frequencies of
+							// each element
+		if (freq >= k) // if at any point frequency becomes
+					// greater than or equal to k then
+					// return that element
+		{
+			return it->first;
+		}
+	}
+	return -1; // returning -1 if k>size of the array which
+			// is an impossible scenario
+}
+int main()
+{
+	int n = 5;
+	int k = 2;
+	vector<int> arr = { 12, 3, 5, 7, 19 };
+	map<int, int> m;
+	for (int i = 0; i < n; i++) {
+		m[arr[i]] += 1; // mapping every element with it's
+						// frequency
+	}
+	int ans = Kth_smallest(m, k);
+if(k==1){
+	cout << "The " << k << "st smallest element is " << ans << endl;
+}
+else if(k==2){
+	cout << "The " << k << "nd smallest element is " << ans << endl;
+}
+else if(k==3){
+	cout << "The " << k << "rd smallest element is " << ans << endl;
+}
+else{
+	cout << "The " << k << "th smallest element is " << ans << endl;
+}
+	return 0;
+}
+```
+Output<br />
+<pre>
+The 2nd smallest element is 5
+</pre>
+<br /><br />There are two more solutions that are better than the above-discussed ones: One solution is to do a `randomized version of quickSelect()` and the other solution is the **worst-case linear time algorithm**.<br />
+<br /><br />**Method 7** `(Max heap using STL):`<br />
+We can implement **max** and **min** heap using a **priority queue**.<br />
+To find the **kth minimum element** in an array we will max **heapify** the array until the size of the heap becomes `k`.<br /> 
+After that for each entry we will pop the top element from the **heap/Priority Queue**.<br /> 
+Below is the implementation of the above approach:<br />
+```cpp
+// C++ code to implement the approach
+#include<bits/stdc++.h>
+using namespace std;
+
+// Function to find the kth smallest array element
+int kthSmallest(int arr[], int n, int k) {
+
+	// For finding min element we need (Max heap)priority queue
+	priority_queue<int> pq;
+	
+	for(int i = 0; i < k; i++)
+	{		
+		// First push first K elememts into heap
+		pq.push(arr[i]);
+	}
+	// Now check from k to last element
+	for(int i = k; i < n; i++)
+	{
+	
+		// If current element is < top that means
+		// there are other k-1 lesser elements
+		// are present at bottom thus, pop that element
+		// and add kth largest element into the heap till curr
+		// at last all the greater element than kth element will get pop off
+		// and at the top of heap there will be kth smallest element
+		if(arr[i] < pq.top())
+		{
+			pq.pop();
+			// Push curr element
+			pq.push(arr[i]);
+		}
+	}
+
+	// Return top of element
+	return pq.top();
+}
+
+
+// Driver's code:
+int main()
+{
+	int n = 10;
+	int arr[n] = {10, 5, 4 , 3 ,48, 6 , 2 , 33, 53, 10};
+	int k = 4;
+	cout<< "Kth Smallest Element is: "<<kthSmallest(arr, n, k);
+
+}
+```
+Output<br />
+<pre>
+Kth Smallest Element is: 5
+</pre>
+<pre>
+Time complexity: O(nlogk)
+Auxiliary Space: O(logK)
+</pre>
+<br /><br />**Method 8** `(Using Binary Search):`<br />
+The idea to solve this problem is that the `Kth` smallest element would be the element at the `kth` position if the array was sorted in **increasing order**. Using this logic, we use **binary search** to predict the index of an element as if the array was sorted but without actually sorting the array.<br /> 
+Example: {1, 4, 5, 3, 19, 3} & k = 2 <br />
+Here we find that element which has exactly `k + 1` elements (including itself) lesser to it. Hence, the `kth` smallest element would be `3` in this case.<br /><br /> 
+Follow the steps below to implement the above idea:<br />
+
+  1. Find low and high that is the range where our answer can lie.<br /> 
+  2. Apply **Binary Search** on this range. <br />
+  3. If the selected element which would be mid has less than `k` elements lesser to it then increase the number that is `low = mid + 1`.<br />
+  4. Otherwise, Decrement the number and try to find a better answer (to understand this please try running on an array containing duplicates).<br />
+  5. The Binary Search will end when only one element remains in the answer space which would be our answer.<br />
+  
+Below is the implementation of the above approach:<br />
+```cpp
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int count(vector <int>& nums, int& mid)
+{//function to calculate number of elements less than equal to mid
+		int cnt = 0;
+		
+		for(int i = 0; i < nums.size(); i++)
+		if(nums[i] <= mid)
+			cnt++;
+		
+		return cnt;
+}
+	
+
+int kthSmallest(vector <int> nums, int& k)
+{
+		int low = INT_MAX;
+		int high = INT_MIN;
+		//calculate minimum and maximum the array.
+		for(int i = 0; i < nums.size(); i++)
+		{
+			low = min(low, nums[i]);
+			high = max(high, nums[i]);
+		}
+		//Our answer range lies between minimum and maximum element of the array on which Binary Search is Applied
+		while(low < high)
+		{
+			int mid = low + (high - low) / 2;
+		/*if the count of number of elements in the array less than equal to mid is less than k
+			then increase the number. Otherwise decrement the number and try to find a better answer.
+		*/
+			if(count(nums, mid) < k)
+			low = mid + 1;
+				
+			else
+				high = mid;
+		}
+		
+		return low;
+}
+
+int main()
+{
+
+	vector <int> nums{1, 4, 5, 3, 19, 3};
+	int k = 3;
+	cout << "K'th smallest element is " << kthSmallest(nums, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+K'th smallest element is 3
+</pre>
+<pre>
+Time complexity: O((mx-mn)(log(mx-mn))), where mn be minimum and mx be maximum.
+Auxiliary Space: O(1)
+</pre>
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
