@@ -2434,21 +2434,6 @@ void printList(Node* node){
     cout<<endl;
 }
 
-/*Linked list Node structure
-
-struct Node
-{
-    int data;
-    Node* next;
-    
-    Node(int x){
-        data = x;
-        next = NULL;
-    }
-    
-};
-*/ 
-
 class Solution{
   public:
     //Function to merge two sorted list into one sorted list.
