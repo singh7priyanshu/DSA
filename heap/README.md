@@ -552,7 +552,7 @@ Maximum of first 4 elements is 10, similarly for next 4
 elements (i.e from index 1 to 4) is 10, So the sequence 
 generated is 10 10 10 15 15 90 90
 </pre>
-**Method 1:** This is a simple method to solve the above problem.<br />
+<br /><br />**Method 1:** This is a simple method to solve the above problem.<br />
 **Approach:**<br />
 The idea is very basic run a nested loop, the outer loop which will mark the starting point of the subarray of length `k`, the inner loop will run from the starting index to `index+k`, `k` elements from **starting index** and print the `maximum` element among these `k` elements.<br />
 **Algorithm:**<br />
