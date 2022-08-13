@@ -1261,7 +1261,86 @@ In the above-mentioned methods, one of them was using `AVL tree`. This approach 
 
 <br /><br /><br />
 ## Problem 14:
-**[]()**<br />
+**[Minimum Cost of ropes / Connect “n” ropes with minimum cost](https://practice.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1)**<br />
+There are given `N` ropes of different lengths, we need to connect these ropes into `one` rope. The cost to connect two ropes is equal to `sum of their lengths`. The task _is to connect the ropes with `minimum` cost_.<br />
+
+>Example 1:<br />
+Input:<br />
+n = 4<br />
+arr[] = {4, 3, 2, 6}<br />
+Output:<br /> 
+29<br />
+**Explanation:**<br />
+<pre>
+For example if we are given 4 ropes of lengths 4, 3, 2 and 6. We can
+connect the ropes in following ways. 
+1) First connect ropes of lengths 2 and 3. Now we have three ropes of lengths 4, 6 and 5.
+2) Now connect ropes of lengths 4 and 5. Now we have two ropes of lengths 6 and 9.
+3) Finally connect the two ropes and all ropes have connected. Total cost for connecting all ropes is 5 + 9 + 15 = 29. 
+   This is the optimized cost for connecting ropes. Other ways of connecting ropes would always have same or more cost. 
+   For example, if we connect 4 and 6 first (we get three strings of 3, 2 and 10), then connect 10 and 3 (we get two strings of 13 and 2). 
+   Finally we connect 13 and 2. Total cost in this way is 10 + 13 + 15 = 38.
+</pre>
+
+>Example 2:<br />
+Input:<br />
+n = 5<br />
+arr[] = {4, 2, 7, 6, 9}<br />
+Output:<br /> 
+62 <br />
+**Explanation:**<br />
+<pre>
+First, connect ropes 4 and 2, which makes the array {6,7,6,9}. Next, add ropes 6 and
+6, which results in {12,7,9}. Then, add 7 and 9, which makes the array {12,16}. And
+finally add these two which gives {28}.
+Hence, the total cost is 6 + 12 + 16 + 28 = 62.
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task isto complete the function `minCost()` which takes `2` arguments and returns _the minimum cost_.<br />
+
+<pre>
+Expected Time Complexity : O(nlogn)
+Expected Auxilliary Space : O(n)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 100000`<br />
+`1 ≤ arr[i] ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    long long minCost(long long arr[], long long n) {
+        priority_queue<long long, vector<long long>, greater<long long> > pq(arr, arr + n);
+        long long res = 0;
+        while (pq.size() > 1) {
+            long long first = pq.top();
+            pq.pop();
+            long long second = pq.top();
+            pq.pop();
+            res += first + second;
+            pq.push(first + second);
+        }
+        return res;
+    }
+};
+
+int main(){
+    long long t; cin>>t;
+    while(t--){
+        long long n; cin>>n;
+        long long i, a[n];
+        for(int i = 0;i<n;i++)cin>>a[i];
+        Solution ob;
+        cout<<ob.minCost(a, n)<<endl;
+    }
+    return 0;
+}
+```
 
 <br /><br /><br />
 ## Problem 15:
