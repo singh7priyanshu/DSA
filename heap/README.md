@@ -356,12 +356,166 @@ Heapify 1: First Swap 1 and 17, again swap 1 and 15, finally swap 1 and 6.
 To understand heap sort more clearly, let’s take an unsorted array and try to 
 sort it using heap sort.
 Consider the array: arr[] = {4, 10, 3, 5, 1}.
-_**Build Complete Binary Tree:**_ Build a complete binary tree from the array.
-<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802165905/1.png"><br />
+Build Complete Binary Tree:  Build a complete binary tree from the array.
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802165905/1.png"><br /> 
+          Build complete binary tree from the array
+
+Transform into max heap: After that, the task is to construct a tree from that unsorted 
+array and try to convert it into max heap.
+ * To transform a heap into a max-heap, the parent node should always be 
+   greater than or equal to the child nodes
+    * Here, in this example, as the parent node 4 is smaller than the child node 
+      10, thus, swap them to build a max-heap.
+      
+Transform it into a max heap image widget
+ * Now, as seen, 4 as a parent is smaller than the child 5, thus swap both of 
+   these again and the resulted heap and array should be like this:
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802170448/3.png"><br />
+          Make the tree a max heap
+	
+Perform heap sort: Remove the maximum element in each step (i.e., move it to 
+the end position and remove that) and then consider the remaining elements 
+and transform it into a max heap.
+ * Delete the root element (10) from the max heap. In order to delete this 
+   node, try to swap it with the last node, i.e. (1). After removing the root 
+   element, again heapify it to convert it into max heap.
+    * Resulted heap and array should look like this:
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802170744/4.png"><br />
+           Remove 10 and perform heapify
+	   
+  * Repeat the above steps and it will look like the following:
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802170850/5.png"><br />
+           Remove 5 and perform heapify
+
+  * Now remove the root (i.e. 3) again and perform heapify.
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802171042/6.png"><br />
+           Remove 4 and perform heapify
+	   
+  * Now when the root is removed once again it is sorted. and the sorted array 
+    will be like arr[] = {1, 3, 4, 5, 10}.
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/20220802171331/7.png"><br />
+           The sorted array
 </pre>
+**Implementation of Heap Sort**<br />
+Below is the implementation of the above approach:<br />
+```cpp
+// C++ program for implementation of Heap Sort
 
+#include <iostream>
+using namespace std;
 
+// To heapify a subtree rooted with node i
+// which is an index in arr[].
+// n is size of heap
+void heapify(int arr[], int N, int i)
+{
 
+	// Initialize largest as root
+	int largest = i;
+
+	// left = 2*i + 1
+	int l = 2 * i + 1;
+
+	// right = 2*i + 2
+	int r = 2 * i + 2;
+
+	// If left child is larger than root
+	if (l < N && arr[l] > arr[largest])
+		largest = l;
+
+	// If right child is larger than largest
+	// so far
+	if (r < N && arr[r] > arr[largest])
+		largest = r;
+
+	// If largest is not root
+	if (largest != i) {
+		swap(arr[i], arr[largest]);
+
+		// Recursively heapify the affected
+		// sub-tree
+		heapify(arr, N, largest);
+	}
+}
+
+// Main function to do heap sort
+void heapSort(int arr[], int N)
+{
+
+	// Build heap (rearrange array)
+	for (int i = N / 2 - 1; i >= 0; i--)
+		heapify(arr, N, i);
+
+	// One by one extract an element
+	// from heap
+	for (int i = N - 1; i > 0; i--) {
+
+		// Move current root to end
+		swap(arr[0], arr[i]);
+
+		// call max heapify on the reduced heap
+		heapify(arr, i, 0);
+	}
+}
+
+// A utility function to print array of size n
+void printArray(int arr[], int N)
+{
+	for (int i = 0; i < N; ++i)
+		cout << arr[i] << " ";
+	cout << "\n";
+}
+
+// Driver's code
+int main()
+{
+	int arr[] = { 12, 11, 13, 5, 6, 7 };
+	int N = sizeof(arr) / sizeof(arr[0]);
+
+	// Function call
+	heapSort(arr, N);
+
+	cout << "Sorted array is \n";
+	printArray(arr, N);
+}
+```
+Output<br />
+<pre>
+Sorted array is 
+5 6 7 11 12 13 
+</pre>
+<pre>
+Time Complexity: O(N log N)
+Auxiliary Space: O(1)
+</pre>
+<br />**Some FAQs related to Heap Sort**<br />
+
+**What are the two phases of Heap Sort?**<br />
+The heap sort algorithm consists of two phases. In the first phase the array is <br />
+converted into a max heap. And in the second phase the highest element is removed <br />
+(i.e., the one at the tree root) and the remaining elements are used to create a new <br />
+max heap.<br />
+
+**Why Heap Sort is not stable?**<br />
+Heap sort algorithm is not a stable algorithm. This algorithm is not stable because <br />
+the operations that are performed in a heap can change the relative ordering of the <br />
+equivalent keys.<br />
+
+**Is Heap Sort an example of “Divide and Conquer” algorithm?**<br />
+Heap sort is NOT at all a Divide and Conquer algorithm. It uses a heap data structure <br />
+to efficiently sort its element and not a “divide and conquer approach” to sort the <br />
+elements.<br />
+
+**Which sorting algorithm is better – Heap sort or Merge Sort?**<br />
+The answer lies in the comparison of their time complexity and space requirement. <br />
+The Merge sort is slightly faster than the Heap sort. But on the other hand merge sort <br />
+takes extra memeory. Depending on the requirement, one should choose which one <br />
+to use.<br />
+
+**Why Heap sort better than Selection sort?**<br />
+Heap sort is similar to selection sort, but with a better way to get the maximum <br />
+element. It takes advantage of the heap data structure to get the maximum element in <br />
+constant time.<br />
 
 
 
