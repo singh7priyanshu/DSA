@@ -1891,7 +1891,195 @@ Auxiliary Space: O(1)
 
 <br /><br /><br />
 ## Problem 6:
-**[]()**<br />
+**[Merge k Sorted Arrays](https://practice.geeksforgeeks.org/problems/merge-k-sorted-arrays/1)**<br />
+Given `K` sorted arrays arranged in the form of a matrix of size `K*K`. The task is to merge them into one sorted array.<br />
+
+>Example 1:<br />
+Input:<br />
+K = 3<br />
+arr[][] = {{1,2,3},{4,5,6},{7,8,9}}<br />
+Output: 1 2 3 4 5 6 7 8 9<br />
+Explanation:Above test case has 3 sorted arrays of size 3, 3, 3<br />
+
+arr[][] = [[1, 2, 3],[4, 5, 6], [7, 8, 9]]<br />
+The merged list will be <br />
+[1, 2, 3, 4, 5, 6, 7, 8, 9].<br />
+
+>Example 2:<br />
+Input:<br />
+K = 4<br />
+arr[][]={{1,2,3,4}{2,2,3,4}, {5,5,6,6},{7,8,9,9}}<br />
+Output:<br />
+1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9<br /> 
+Explanation: Above test case has 4 sorted arrays of size 4, 4, 4, 4<br />
+
+arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4], [5, 5, 6, 6]  [7, 8, 9, 9 ]]<br />
+The merged list will be <br />
+[1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9 ].<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete `mergeKArrays()` function which takes 2 arguments, an `arr[K][K]` 2D Matrix containing `K sorted arrays` and an integer `K` denoting the number of sorted arrays, as input and returns _the merged sorted array ( as a pointer to the merged sorted arrays in cpp, as an ArrayList in java, and list in python)_<br />
+
+<pre>
+Expected Time Complexity: O(K^2*Log(K))
+Expected Auxiliary Space: O(K)
+</pre>
+
+* Constraints: `1 <= K <= 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define N 105
+
+void printArray(vector<int>arr, int size){
+    for(int i = 0;i<size;i++)cout<<arr[i]<<" ";
+}
+
+int n;
+//declaring min heap node.
+struct MinHeapNode
+{
+    //the element to be stored.
+    int element; 
+    //index of the array from which the element is taken.
+    int i;
+    //index of the next element to be picked from array.
+    int j; 
+};
+
+
+void swap(MinHeapNode *x, MinHeapNode *y);
+
+
+class MinHeap
+{
+    MinHeapNode *harr;
+    int heap_size; 
+    
+    public:
+    // Constructor: creates a min heap of given size.
+    MinHeap(MinHeapNode a[], int size);
+
+    //to heapify a subtree with root at given index.
+    void MinHeapify(int );
+
+    //to get index of left child of node at index i.
+    int left(int i) { return (2*i + 1); }
+
+    //to get index of right child of node at index i.
+    int right(int i) { return (2*i + 2); }
+
+    //to get the root.
+    MinHeapNode getMin() { return harr[0]; }
+
+    //to replace root with new node x and heapify() new root.
+    void replaceMin(MinHeapNode x) { harr[0] = x; MinHeapify(0); }
+};
+
+
+class Solution
+{
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int k)
+    {
+        n = k;
+        vector<int> output(n*k);
+        
+        //creating a min heap with k heap nodes. Every heap node
+        //has first element of an array.
+        MinHeapNode *harr = new MinHeapNode[k];
+        for (int i = 0; i < k; i++)
+        {
+            //storing the first element.
+            harr[i].element = arr[i][0]; 
+            // index of array
+            harr[i].i = i;
+            // Index of next element to be stored from array
+            harr[i].j = 1; 
+        }
+        MinHeap hp(harr, k); 
+    
+        //Now one by one we get the minimum element from min
+        //heap and replace it with next element of its array.
+        for (int count = 0; count < n*k; count++)
+        {
+            //getting the minimum element and storing it in output.
+            MinHeapNode root = hp.getMin();
+            output[count] = root.element;
+    
+            //finding the next element that will replace current root of heap.
+            //The next element belongs to same array as the current root.
+            if (root.j < n)
+            {
+                root.element = arr[root.i][root.j];
+                root.j += 1;
+            }
+            //if root was the last element of its array, we store INT_MAX.
+            else root.element = INT_MAX; 
+    
+            //replacing root with next element of array.
+            hp.replaceMin(root);
+        }
+    
+        return output;
+    }
+};
+
+
+// Constructor: Builds a heap from a given array a[] of given size.
+MinHeap::MinHeap(MinHeapNode a[], int size)
+{
+    heap_size = size;
+    harr = a; 
+    int i = (heap_size - 1)/2;
+    while (i >= 0)
+    {
+        MinHeapify(i);
+        i--;
+    }
+}
+
+//a recursive method to heapify a subtree with root at given index.
+void MinHeap::MinHeapify(int i)
+{
+    int l = left(i);
+    int r = right(i);
+    int smallest = i;
+    if (l < heap_size && harr[l].element < harr[i].element)
+        smallest = l;
+    if (r < heap_size && harr[r].element < harr[smallest].element)
+        smallest = r;
+    if (smallest != i)
+    {
+        swap(&harr[i], &harr[smallest]);
+        MinHeapify(smallest);
+    }
+}
+
+//Function to swap two nodes.
+void swap(MinHeapNode *x, MinHeapNode *y)
+{
+    MinHeapNode temp = *x; *x = *y; *y = temp;
+}
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int k; cin>>k;
+        vector<vector<int>>arr(k, vector<int>(k, 0));
+        for(int i = 0;i<k;i++){
+            for(int j = 0;j<k;j++)cin>>arr[i][j];
+        }
+        Solution ob;
+        vector<int>output = ob.mergeKArrays(arr, k);
+        printArray(output, k*k);
+        cout<<endl;
+    }
+}
+```
+
 
 <br /><br /><br />
 ## Problem 7:
