@@ -2083,31 +2083,361 @@ int main(){
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Merge two binary Max heaps](https://practice.geeksforgeeks.org/problems/merge-two-binary-max-heap0144/1)**<br />
+Given two `binary max heaps` as arrays, **merge** the given heaps to form a new max heap.<br />
+
+>Example 1:<br />
+Input  : <br />
+n = 4 m = 3<br />
+a[] = {10, 5, 6, 2},<br /> 
+b[] = {12, 7, 9}<br />
+Output : <br />
+{12, 10, 9, 2, 5, 7, 6}<br />
+Explanation :<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_1.jpg"><br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_2.jpg"><br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Merge_max_heap_3.jpg"><br />
+
+**Your Task:**<br />  
+You don't need to read input or print anything. Your task is to complete the function `mergeHeaps()` which takes the array `a[]`, `b[]`, its size `n` and `m`, as inputs and return _the merged max heap_. Since there can be multiple solutions, therefore, to check for the correctness of your solution, your answer will be checked by the driver code and will return `1` if it is correct, else it returns `0`.<br />
+
+<pre>
+Expected Time Complexity: O(n.Logn)
+Expected Auxiliary Space: O(n + m)
+</pre>
+
+* Constraints: `1 <= n, m <= 10^5`
+`1 <= a[i], b[i] <= 2*10^5`
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 8:
-**[]()**<br />
+**[K-th Largest Sum Contiguous Subarray](https://www.geeksforgeeks.org/k-th-largest-sum-contiguous-subarray/)**<br />
+Given an `array` of integers. Write a program to find the `K-th` largest sum of **contiguous subarray** within the **array** of numbers which has **negative and positive** numbers.<br />
+
+Examples:<br /> 
+<pre>
+Input: a[] = {20, -5, -1} 
+         k = 3
+Output: 14
+Explanation: All sum of contiguous 
+subarrays are (20, 15, 14, -5, -6, -1) 
+so the 3rd largest sum is 14.
+
+Input: a[] = {10, -10, 20, -40} 
+         k = 6
+Output: -10 
+Explanation: The 6th largest sum among 
+sum of all contiguous subarrays is -10.
+</pre>
+A `brute force approach` is to store all the contiguous sums in another **array** and **sort** it and print the `k-th` largest. But in the case of the number of elements being large, the array in which we store the contiguous sums will run out of memory as the number of `contiguous subarrays` will be large **(quadratic order)**<br />
+An `efficient approach` is to store the **pre-sum** of the **array** in a `sum[]` array. We can find sum of **contiguous subarray** from index `i` to `j` as `sum[j]-sum[i-1]`<br /> 
+Now for storing the `Kth` largest sum, use a `min heap` **(priority queue)** in which we push the `contiguous sums` till we get `K` elements, once we have our `K` elements, check if the element is **greater** than the `Kth` element it is inserted to the `min heap` with **popping** out the **top element** in the **min-heap**, else not inserted. In the end, the top element in the min-heap will be your answer.<br />
+Below is the implementation of the above approach.<br />
+
+```cpp
+// CPP program to find the k-th largest sum
+// of subarray
+#include <bits/stdc++.h>
+using namespace std;
+
+// function to calculate kth largest element
+// in contiguous subarray sum
+int kthLargestSum(int arr[], int n, int k)
+{
+	// array to store prefix sums
+	int sum[n + 1];
+	sum[0] = 0;
+	sum[1] = arr[0];
+	for (int i = 2; i <= n; i++)
+		sum[i] = sum[i - 1] + arr[i - 1];
+
+	// priority_queue of min heap
+	priority_queue<int, vector<int>, greater<int> > Q;
+
+	// loop to calculate the contiguous subarray
+	// sum position-wise
+	for (int i = 1; i <= n; i++)
+	{
+
+		// loop to traverse all positions that
+		// form contiguous subarray
+		for (int j = i; j <= n; j++)
+		{
+			// calculates the contiguous subarray
+			// sum from j to i index
+			int x = sum[j] - sum[i - 1];
+
+			// if queue has less then k elements,
+			// then simply push it
+			if (Q.size() < k)
+				Q.push(x);
+
+			else
+			{
+				// it the min heap has equal to
+				// k elements then just check
+				// if the largest kth element is
+				// smaller than x then insert
+				// else its of no use
+				if (Q.top() < x)
+				{
+					Q.pop();
+					Q.push(x);
+				}
+			}
+		}
+	}
+
+	// the top element will be then kth
+	// largest element
+	return Q.top();
+}
+
+// Driver program to test above function
+int main()
+{
+	int a[] = { 10, -10, 20, -40 };
+	int n = sizeof(a) / sizeof(a[0]);
+	int k = 6;
+
+	// calls the function to find out the
+	// k-th largest sum
+	cout << kthLargestSum(a, n, k);
+	return 0;
+}
+```
+Output<br />
+<pre>
+-10
+</pre>
+<pre>
+Time complexity: O(n² log (k)) 
+Auxiliary Space : O(k) for min-heap and we can store the sum array in the array itself as it is of no use.
+</pre>
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[767. Reorganize String](https://leetcode.com/problems/reorganize-string/)**<br />
+Given a string `s`, rearrange the characters of `s` so that any two adjacent characters are not the same.<br />
+Return _any possible rearrangement of `s` or return `""` if not possible_.<br />
+
+>Example 1:<br />
+Input: s = "aab"<br />
+Output: "aba"<br />
+
+>Example 2:<br />
+Input: s = "aaab"<br />
+Output: ""<br />
+
+* Constraints: `1 <= s.length <= 500`<br />
+`s` consists of **lowercase** English letters.<br />
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 10:
-**[]()**<br />
+**[Merge K sorted linked lists](https://practice.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1)**<br />
+Given `K` sorted linked lists of different sizes. The task is to **merge** them in such a way that after merging they will be a single sorted linked list.<br />
+
+>Example 1:<br />
+Input:<br />
+K = 4<br />
+value = {{1,2,3},{4 5},{5 6},{7,8}}<br />
+Output: 1 2 3 4 5 5 6 7 8<br />
+Explanation:<br />
+The test case has 4 sorted linked list of size 3, 2, 2, 2<br />
+1st    list     1 -> 2-> 3<br />
+2nd   list      4->5<br />
+3rd    list      5->6<br />
+4th    list      7->8<br />
+The merged list will be 1->2->3->4->5->5->6->7->8.<br />
+
+>Example 2:<br />
+Input:<br />
+K = 3<br />
+value = {{1,3},{4,5,6},{8}}<br />
+Output: 1 3 4 5 6 8<br />
+Explanation:<br />
+The test case has 3 sorted linked list of size 2, 3, 1.<br />
+1st list 1 -> 3<br />
+2nd list 4 -> 5 -> 6<br />
+3rd list 8<br />
+The merged list will be 1->3->4->5->6->8.<br />
+
+**Your Task:**<br />
+The task is to complete the function `mergeKList()` which merges the `K` given lists into a **sorted one**. The printing is done automatically by the driver code.<br />
+
+<pre>
+Expected Time Complexity: O(nk Logk)
+Expected Auxiliary Space: O(k)
+</pre>
+
+**Note:** `n` is the **maximum size** of all the `k` link list<br />
+
+* Constraints `1 <= K <= 10^3`<br />
+
+```cpp
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 11:
-**[]()**<br />
+**[Smallest range in K lists](https://practice.geeksforgeeks.org/problems/find-smallest-range-containing-elements-from-k-lists/1)**<br />
+Given `K` sorted lists of integers, `KSortedArray[]` of size `N` each. The task is to find the **smallest** range that includes **at least** one element from each of the `K` lists. If more than one such range's are found, return _the first such range found_.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 5, K = 3<br />
+KSortedArray[][] = {{1 3 5 7 9},<br />
+                    {0 2 4 6 8},<br />
+                    {2 3 5 7 11}}<br />
+Output: 1 2<br />
+Explanation: K = 3<br />
+A:[1 3 5 7 9]<br />
+B:[0 2 4 6 8]<br />
+C:[2 3 5 7 11]<br />
+Smallest range is formed by number 1 present in first list and 2 is present in both 2nd and 3rd list.<br />
+
+>Example 2:<br />
+Input:<br />
+N = 4, K = 3<br />
+KSortedArray[][] = {{1 2 3 4},<br />
+                    {5 6 7 8},<br />
+                    {9 10 11 12}}<br />
+Output: 4 9<br />
+
+**Your Task :**<br />
+Complete the function `findSmallestRange()` that receives array , array size `n` and `k` as parameters and returns _the output range (as a pair in cpp and array of size 2 in java and python)_
+
+<pre>
+Expected Time Complexity : O(n * k *log k)
+Expected Auxilliary Space  : O(k)
+</pre>
+
+* Constraints: `1 <= K,N <= 500`<br />
+`0 <= a[ i ] <= 10^5`<br />
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[Find median in a stream](https://practice.geeksforgeeks.org/problems/find-median-in-a-stream-1587115620/1)**<br />
+Given an input stream of `N` integers. The task is to insert these numbers into a new stream and find the **median** of the stream formed by each insertion of `X` to the new stream.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4<br />
+X[] = 5,15,1,3<br />
+Output:<br />
+5<br />
+10<br />
+5<br />
+4<br />
+Explanation:Flow in stream : 5, 15, 1, 3 <br />
+5 goes to stream --> median 5 (5) <br />
+15 goes to stream --> median 10 (5,15) <br />
+1 goes to stream --> median 5 (5,15,1) <br />
+3 goes to stream --> median 4 (5,15,1 3) <br />
+ 
+>Example 2:<br />
+Input:<br />
+N = 3<br />
+X[] = 5,10,15<br />
+Output:<br />
+5<br />
+7.5<br />
+10<br />
+Explanation:Flow in stream : 5, 10, 15<br />
+5 goes to stream --> median 5 (5) <br />
+10 goes to stream --> median 7.5 (5,10) <br />
+15 goes to stream --> median 10 (5,10,15) <br />
+
+**Your Task:**<br />
+You are required to complete the class Solution. It should have `2` data members to represent 2 heaps.<br /> 
+It should have the following member functions: <br />
+
+ * **insertHeap()** which takes `x` as input and inserts it into the heap, the function should then call `balanceHeaps()` to balance the new heap.<br />
+`balanceHeaps()` does not take any arguments. It is supposed to balance the two heaps.<br />
+ * **getMedian()** does not take any arguments. It should return _the current median of the stream_.<br />
+
+<pre>
+Expected Time Complexity : O(nlogn)
+Expected Auxilliary Space : O(n)
+</pre>
+
+* Constraints: `1 <= N <= 10^6`<br />
+`1 <= x <= 10^6`<br />
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
-**[]()**<br />
+**[Is Binary Tree Heap](https://practice.geeksforgeeks.org/problems/is-binary-tree-heap/1)**<br />
+Given a `binary tree`. The task is to check whether the given tree follows the **max heap property or not**.<br />
+**Note:** Properties of a tree to be a **max heap** - Completeness and Value of node greater than or equal to its child.<br />
+
+>Example 1:<br />
+Input:<br />
+<pre>
+      5
+    /  \
+   2    3
+</pre>
+Output: 1<br />
+Explanation: The given tree follows max-heap property since 5, is root and it is greater than both its children.<br />
+
+>Example 2:
+Input:<br />
+<pre>
+       10
+     /   \
+    20   30 
+  /   \
+ 40   60
+</pre>
+Output: 0<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `isHeap()` which takes the **root of Binary Tree** as parameter returns _`True` if the given binary tree is a heap else returns `False`_.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Space Complexity: O(N)
+</pre>
+
+* Constraints: `1 ≤ Number of nodes ≤ 100`<br />
+`1 ≤ Data of a node ≤ 1000`<br />
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 14:
