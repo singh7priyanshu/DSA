@@ -1901,7 +1901,7 @@ arr[][] = {{1,2,3},{4,5,6},{7,8,9}}<br />
 Output: 1 2 3 4 5 6 7 8 9<br />
 Explanation:Above test case has 3 sorted arrays of size 3, 3, 3<br />
 
-arr[][] = [[1, 2, 3],[4, 5, 6], [7, 8, 9]]<br />
+>arr[][] = [[1, 2, 3],[4, 5, 6], [7, 8, 9]]<br />
 The merged list will be <br />
 [1, 2, 3, 4, 5, 6, 7, 8, 9].<br />
 
@@ -1913,7 +1913,7 @@ Output:<br />
 1 2 2 2 3 3 4 4 5 5 6 6 7 8 9 9<br /> 
 Explanation: Above test case has 4 sorted arrays of size 4, 4, 4, 4<br />
 
-arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4], [5, 5, 6, 6]  [7, 8, 9, 9 ]]<br />
+>arr[][] = [[1, 2, 2, 2], [3, 3, 4, 4], [5, 5, 6, 6]  [7, 8, 9, 9 ]]<br />
 The merged list will be <br />
 [1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9, 9 ].<br />
 
