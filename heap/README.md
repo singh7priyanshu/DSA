@@ -529,7 +529,18 @@ constant time.<br />
 
 <br /><br /><br />
 ## Problem 3:
-**[]()**<br />
+**[Sliding Window Maximum (Maximum of all subarrays of size k)](https://www.geeksforgeeks.org/sliding-window-maximum-maximum-of-all-subarrays-of-size-k/)**<br />
+Given an `array` and an integer `K`, find the **maximum** for each and every **contiguous subarray** of size `k`.<br /.
+Examples :<br /> 
+<img src = "https://videocdn.geeksforgeeks.org/geeksforgeeks/MaximumofallsubarraysofsizekusingSlidingWindowTechnique/MaximumofallsubarraysofsizekusingSlidingWindowTechnique20220511150022.jpg"><br />
+	    
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 4:
