@@ -3277,7 +3277,148 @@ Auxiliary Space: O(B^M) where B is the maximum branching factor of the search tr
 
 <br /><br /><br />
 ## Problem 27:
-**[]()**<br />
+**[Strongly Connected Components (Kosaraju's Algo)](https://practice.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1)**<br />
+Given a `Directed Graph` with `V` vertices (`Numbered from 0 to V-1`) and `E` edges, Find the number of strongly connected components in the graph.<br />
+
+>Example 1:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184537150-9cae5dbf-c2ec-4f80-954b-70af56c7e9ae.png"><br />
+Output:<br />
+3<br />
+Explanation:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184537151-57b37a41-adfb-4011-8aee-e81d00149d54.png"><br />
+We can clearly see that there are 3 Strongly Connected Components in the Graph<br />
+
+>Example 2:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184537157-6af86acd-59a4-43f7-9af9-2150c72e5d2f.png"><br />
+Output:<br />
+1<br />
+Explanation:<br />
+All of the nodes are connected to each other. So, there's only one SCC.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `kosaraju()` which takes the number of vertices `V` and `adjacency list` of the graph as inputs and returns an integer denoting the number of strongly connected components in the given graph.<br />
+
+<pre>
+Expected Time Complexity: O(V+E).
+Expected Auxiliary Space: O(V).
+</pre>
+
+* Constraints: `1 ≤ V ≤ 5000`<br />
+`0 ≤ E ≤ (V*(V-1))`<br />
+`0 ≤ u, v ≤ N-1`<br />
+Sum of `E` over all testcases will not exceed `25*10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    //Function that creates transpose of the adjacency list.
+    void transpose(int V, vector<int> adj[], vector<int> transpose_adj[]) 
+    {
+        for (int u = 0; u < V; u++)
+            for (auto v : adj[u])
+                transpose_adj[v].push_back(u);
+    }
+    
+    stack<int> s;
+    void dfs(vector<int> adj[], bool *visited, int u) 
+    {
+        //marking the current node as visited.
+        visited[u] = true;
+        
+        //iterating over adjacent vertices and calling function 
+        //recursively if any adjacent vertex is not visited.
+        for (auto v : adj[u])
+        {
+            if (visited[v] == 0)
+                dfs(adj, visited, v);
+        }
+    }
+    
+    void fillorder(vector<int> adj[], bool *visited, int u)
+    {
+        //marking the current node as visited.
+        visited[u] = true;
+        
+        //iterating over adjacent vertices and calling function 
+        //recursively if any adjacent vertex is not visited.
+        for (auto v : adj[u])
+            if (visited[v] == 0)
+                fillorder(adj, visited, v);
+        
+        //pushing vertex into the stack.
+        s.push(u);
+    }
+    
+    //Function to find number of strongly connected components in the graph.
+    int kosaraju(int V, vector<int> adj[])
+    {
+        //using boolean list to mark visited nodes and currently 
+        //marking all the nodes as false.
+        bool visited[V];
+        memset(visited, 0, sizeof(visited));
+        
+        //filling vertices in stack according to their finishing times.
+        for (int i = 0; i < V; i++)
+            if (visited[i] == false)
+                fillorder(adj, visited, i);
+        
+        //creating transpose of adjacency list.
+        vector<int> transpose_adj[V];
+        transpose(V, adj, transpose_adj);
+    
+        //marking all the nodes as not visited again.
+        for (int i = 0; i < V; i++)
+            visited[i] = false;
+    
+        int ans = 0;
+        
+        //now processing all vertices in order defined by stack.
+        while (!s.empty()) 
+        {
+            //popping a vertex from stack.
+            int temp = s.top();
+            s.pop();
+            
+            //if vertex is not visited, we call dfs function 
+            //and increment the counter.
+            if (!visited[temp]) {
+                dfs(transpose_adj, visited, temp);
+                ans++;
+            }
+        }
+        //returning the count.
+        return ans;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int V, E; cin>>V>>E;
+        vector<int>adj[V];
+        for(int i = 0;i<E;i++){
+            int u, v; cin>>u>>v;
+            adj[u].push_back(v);
+        }
+        Solution ob;
+        cout<<ob.kosaraju(V, adj)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 28:
