@@ -2166,7 +2166,152 @@ int main(){
 
 <br /><br /><br />
 ## Problem 17:
-**[]()**<br />
+**[Given a sorted Dictionary of an Alien Language, find order of characters](https://practice.geeksforgeeks.org/problems/alien-dictionary/1)**<br />
+Given a sorted dictionary of an alien language having `N` words and `k` starting alphabets of standard dictionary. Find the order of characters in the alien language.<br />
+**Note:** Many orders may be possible for a particular test case, thus you may return _any valid order and output will be `1` if the order of string returned by the function is correct else `0` denoting incorrect string returned_.<br />
+ 
+>Example 1:<br />
+Input: <br />
+N = 5, K = 4<br />
+dict = {"baa","abcd","abca","cab","cad"}<br />
+Output:<br />
+1<br />
+Explanation:<br />
+Here order of characters is 'b', 'd', 'a', 'c' Note that words are sorted and in the given language "baa" comes before<br /> 
+"abcd", therefore 'b' is before 'a' in output. Similarly we can find other orders.<br />
+
+>Example 2:<br />
+Input: <br />
+N = 3, K = 3<br />
+dict = {"caa","aaa","aab"}<br />
+Output:<br />
+1<br />
+Explanation:<br />
+Here order of characters is 'c', 'a', 'b' Note that words are sorted and in the given language "caa" comes before<br />
+"aaa", therefore 'c' is before 'a' in output. Similarly we can find other orders.<br />
+ 
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `findOrder()` which takes  the string array `dict[]`, its size `N` and the integer `K` as input parameter and returns _a string denoting the order of characters in the alien language_.<br />
+
+<pre>
+Expected Time Complexity: O(N * |S| + K) , where |S| denotes maximum length.
+Expected Space Compelxity: O(K)
+</pre>
+
+* Constraints: `1 ≤ N, M ≤ 300`<br />
+`1 ≤ K ≤ 26`<br />
+`1 ≤ Length of words ≤ 50`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class graph {
+  public:
+    int V;
+    list<int> *adj;
+
+    graph(int V) {
+        this->V = V;
+        adj = new list<int>[V];
+    }
+
+    void addedge(int v, int u) { adj[v].push_back(u); }
+};
+class Solution{
+    public:
+    void dictorder(string str1, string str2, graph *g, int *exist) {
+        int n1 = str1.size();
+        int n2 = str2.size();
+    
+        for (int i = 0; i < n1; i++) exist[(int)str1[i]] = 1;
+        for (int i = 0; i < n2; i++) exist[(int)str2[i]] = 1;
+    
+        int i = 0;
+        while (i < n1 && i < n2) {
+            if (str1[i] != str2[i]) {
+                g->addedge((int)str1[i], (int)str2[i]);
+                return;
+            }
+            i++;
+        }
+    }
+    
+    void topsort(list<int> *adj, bool *visited, stack<char> &st, int v,
+                 int *exist) {
+        if (exist[v]) {
+            visited[v] = true;
+            for (auto u : adj[v])
+                if (!visited[u]) topsort(adj, visited, st, u, exist);
+            st.push((char)v);
+        }
+    }
+    
+    string findOrder(string dict[], int N, int K) {
+        graph *g = new graph(256);
+        int exist[256] = {0};
+        for (int i = 1; i < N; i++) {
+            dictorder(dict[i - 1], dict[i], g, exist);
+        }
+    
+        bool visited[256] = {0};
+        stack<char> st;
+        for (int i = 0; i < 256; i++) {
+            if (!visited[i]) topsort(g->adj, visited, st, i, exist);
+        }
+    
+        string final = "";
+        while (!st.empty()) {
+            final += st.top();
+            st.pop();
+        }
+    
+        return final;
+    }
+};
+
+string order;
+bool f(string a, string b){
+    int p1 = 0, p2 = 0;
+    for(int i = 0;i<min(a.size(), b.size()) and p1 == p2; i++){
+        p1 = order.find(a[i]);
+        p2 = order.find(b[i]);
+    }
+    if(p1 == p2 and a.size() != b.size())return a.size() < b.size();
+    return p1<p2;
+}
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N, K; cin>>N>>K;
+        string dict[N];
+        for(int i = 0;i<N;i++)cin>>dict[i];
+        Solution ob;
+        string ans = ob.findOrder(dict, N, K);
+        order = "";
+        for(int i = 0;i<ans.size();i++)order += ans[i];
+
+        string temp[N];
+        std::copy(dict, dict+N, temp);
+
+        bool f = true;
+        for(int i = 0;i<N;i++){
+            if(dict[i] != temp[i])f = false;
+        }
+
+        if(f)cout<<1;
+        else cout<<0;
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 18:
