@@ -2790,7 +2790,89 @@ int main(){
 
 <br /><br /><br />
 ## Problem 22:
-**[]()**<br />
+**[Implement Floyd warshallAlgorithm](https://practice.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1)**<br />
+The problem is to find the **shortest** distances between every pair of vertices in a given edge-weighted directed Graph. The Graph is represented as an `adjacency matrix`, and the matrix denotes the `weight of the edges` (if it exists) else `-1`.<br />
+Do it in-place.<br />
+ 
+>Example 1:<br />
+Input: matrix = {{0,25},{-1,0}}<br />
+Output: {{0,25},{-1,0}}<br />
+Explanation: The shortest distance between every pair is already given(if it exists).<br />
+
+>Example 2:<br />
+Input: matrix = {{0,1,43},{1,0,6},{-1,-1,0}}<br />
+Output: {{0,1,7},{1,0,6},{-1,-1,0}}<br />
+Explanation: We can reach 3 from 1 as 1->2->3 and the cost will be 1+6=7 which is less than 43.<br />
+
+**Your Task:**<br />
+You don't need to read, return or print anything. Your task is to complete the function `shortest_distance()` which takes the matrix as input parameter and modify the distances for every pair in-place.<br />
+ 
+<pre>
+Expected Time Complexity: O(n3)
+Expected Space Complexity: O(1)
+</pre>
+
+* Constraints: `1 <= n <= 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    void shortest_distance(vector<vector<int>>&matrix){
+        int INF = INT_MAX;
+        int n = matrix.size();
+        
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(matrix[i][j] == -1)
+                    matrix[i][j] = INF;
+            }
+        }
+        
+        for (int k = 0; k < n; ++k) {
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (matrix[i][k] < INF && matrix[k][j] < INF and matrix[i][k] + matrix[k][j] < INF)
+                        matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]); 
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(matrix[i][j] >= INF)
+                    matrix[i][j] = -1;
+            }
+        }
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<vector<int>>matrix(n, vector<int>(n, -1));
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<n;j++)cin>>matrix[i][j];
+        }
+        Solution ob;
+        ob.shortest_distance(matrix);
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<n;j++){
+                cout<<matrix[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 23:
