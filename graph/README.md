@@ -4448,7 +4448,72 @@ long long bfs(long long nod, node *nodelist) {
 
 <br /><br /><br />
 ## Problem 32:
-**[]()**<br />
+**[787. Cheapest Flights Within K Stops](https://leetcode.com/problems/cheapest-flights-within-k-stops/description/)**<br />
+There are `n` cities connected by some number of flights. You are given an array `flights` where `flights[i] = [fromi, toi, pricei]` indicates that there is a flight from city `fromi` to city `toi` with cost `pricei`.<br />
+You are also given three integers `src`, `dst`, and `k`, return _**the cheapest price** from `src` to `dst` with at most `k` stops_. If there is no such route, return `-1`.<br />
+
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png"><br />
+Input: n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1<br />
+Output: 700<br />
+Explanation:<br />
+The graph is shown above.<br />
+The optimal path with at most 1 stop from city 0 to 3 is marked in red and has cost 100 + 600 = 700.<br />
+**Note** that the path through cities [0,1,2,3] is cheaper but is invalid because it uses 2 stops.<br />
+
+>Example 2:<br />
+<img src = "https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-1drawio.png"><br />
+Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1<br />
+Output: 200<br />
+Explanation:<br />
+The graph is shown above.<br />
+The optimal path with at most 1 stop from city 0 to 2 is marked in red and has cost 100 + 100 = 200.<br />
+
+>Example 3:<br />
+<img src = "https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-2drawio.png"><br />
+Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 0<br />
+Output: 500<br />
+Explanation:<br />
+The graph is shown above.<br />
+The optimal path with no stops from city 0 to 2 is marked in red and has cost 500.<br />
+ 
+* Constraints: `1 <= n <= 100`<br />
+0 <= flights.length <= (n * (n - 1) / 2)<br />
+flights[i].length == 3<br />
+0 <= fromi, toi < n<br />
+fromi != toi<br />
+1 <= pricei <= 104<br />
+There will not be any multiple flights between two cities.<br />
+0 <= src, dst, k < n<br />
+src != dst<br />
+
+```cpp
+class Solution{
+    public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        //using bellmon ford
+        vector<int> dis(n,1e7);
+        dis[src] = 0;
+        for(int stops = 0;stops<=k;stops++)
+        {
+            vector<int> ndis = dis;
+            for(int i = 0;i<flights.size();i++)
+            {
+                ndis[flights[i][1]] = min(dis[flights[i][0]] + flights[i][2],ndis[flights[i][1]]);
+            }
+            dis = ndis;
+        }
+        
+        return dis[dst]>=1e7?-1:dis[dst];
+        }
+};
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 33:
