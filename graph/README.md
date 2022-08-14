@@ -1593,7 +1593,133 @@ Space Complexity: O(V)
 
 <br /><br /><br />
 ## Problem 13:
-**[]()**<br />
+**[Implement Topological Sort](https://practice.geeksforgeeks.org/problems/topological-sort/1)**<br />
+Given a `Directed Acyclic Graph (DAG)` with `V` vertices and `E` edges, Find any `Topological Sorting` of that Graph.<br />
+
+>Example 1:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184528293-993fa131-daf6-4d77-b89d-8c217890f7d2.png"><br />
+Output:<br />
+1<br />
+Explanation:<br />
+The output 1 denotes that the order is valid. So, if you have, implemented your function correctly, then output<br />
+would be 1 for all test cases.<br />
+One possible Topological order for the graph is 3, 2, 1, 0.<br />
+
+>Example 2:<br />
+Input:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184528296-bb641a6b-d4cb-4322-813c-a26e8e7fbe7d.png"><br />
+Output:<br />
+1<br />
+Explanation:<br />
+The output 1 denotes that the order is valid. So, if you have, implemented your function correctly, then output<br />
+would be 1 for all test cases.<br />
+One possible Topological order for the graph is 5, 4, 2, 1, 3, 0.<br />
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `topoSort()`  which takes the integer `V` denoting the number of vertices and `adjacency list` as input parameters and returns _an array consisting of a the vertices in Topological order_. As there are multiple Topological orders possible, you may return any of them. If your returned topo sort is correct then console output will be `1` else `0`.<br />
+
+<pre>
+Expected Time Complexity: O(V + E).
+Expected Auxiliary Space: O(V).
+</pre>
+
+* Constraints: `2 ≤ V ≤ 10^4`<br />
+`1 ≤ E ≤ (N*(N-1))/2`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    void topo(vector<int> adj[], int u, bool visited[], stack<int> &s) 
+    {
+        //marking the current vertex as visited.
+        visited[u] = true; 
+    
+        //traversing over the adjacent vertices.
+        for (auto v : adj[u])
+        {
+            //if any vertex is not visited, we call the function recursively.
+            if (!visited[v])
+                topo(adj, v, visited,s); 
+        }
+        //pushing the current vertex into the stack.
+        s.push(u); 
+    }
+    
+    //Function to return list containing vertices in Topological order. 
+    vector <int> topoSort(int N, vector<int> adj[]) 
+    {
+        //using boolean array to mark visited nodes and currently 
+        //marking all the nodes as false.
+        bool visited[N + 1];                
+        memset(visited, 0, sizeof visited); 
+        
+        stack<int> s;
+        
+        //traversing over all the vertices.
+        for (int i = 0; i < N; i++) 
+        {
+            //if the current vertex is not visited, we call the topo function.
+            if (!visited[i])              
+                topo(adj, i, visited, s); 
+        }
+    
+        vector <int> res;
+        int i = -1;
+        while (!s.empty())
+        {
+            //pushing elements of stack in list and popping them from stack.
+            res.push_back (s.top()); 
+            s.pop();
+        }
+        //returning the list.
+        return res;
+    }
+};
+
+int check(int V, vector<int> &res, vector<int>adj[]){
+    if(V!=res.size())return 0;
+    vector<int>map(V, -1);
+    for(int i = 0;i<V;i++){
+        map[res[i]] = i;
+    }
+    for(int i = 0;i<V;i++){
+        for(int v : adj[i]){
+            if(map[i] > map[v])return 0;
+        }
+    }
+    return 1;
+}
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int N, E; cin>>E>>N;
+        int u, v;
+        vector<int>adj[N];
+        for(int i = 0;i<E;i++){
+            cin>>u>>v;
+            adj[u].push_back(v);    
+        }
+        Solution ob;
+        vector<int>res = ob.topoSort(N, adj);
+        cout<<check(N, res, adj)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 14:
