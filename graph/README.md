@@ -4839,7 +4839,3 @@ Space Complexity: O(n*m). Where n and m are the quantity of jug1 and jug2, respe
 <br /><br /><br />
 ## Problem 43:
 **[]()**<br />
-
-<br /><br /><br />
-## Problem 44:
-**[]()**<br />
