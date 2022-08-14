@@ -3100,7 +3100,7 @@ Like `Articulation Points`, bridges represent vulnerabilities in a connected net
 Following are some example graphs with bridges highlighted with red color.<br />
 <img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Bridge1.png"><br />
 <img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Bridge2-300x176.png"><br />
-<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Bridge2-300x176.png"><br />
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Bridge3.png"><br />
 <br />`Naive Approach:` A simple approach is to **one by one remove all edges** and see if removal of an edge causes disconnected graph. Following are steps of simple approach for connected graph.<br />
 For every edge `(u, v)`, do following :<br />
 
