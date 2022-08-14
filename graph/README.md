@@ -1978,7 +1978,7 @@ Output<br />
 <pre>
 Possible to finish all tasks
 </pre>
-<br />Using BFS<br />
+<br />`Using BFS`<br />
 BFS can be used to solve it using the idea of topological sort. If topological sorting is possible, it means there is no cycle and it is possible to finish all the tasks.<br />
 **BFS** uses the indegrees of each node. We will first try to find a node with `0` indegree. If we fail to do so, there must be a `cycle in the graph` and we return `false`. Otherwise we have found `one`. We set its indegree to be `-1` to prevent from visiting it again and reduce the indegrees of all its neighbors by `1`. This process will be repeated for `n` (number of nodes) times. If we have not returned `false`, we will return `true`.<br />
 ```cpp
