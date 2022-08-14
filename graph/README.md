@@ -4478,14 +4478,14 @@ The graph is shown above.<br />
 The optimal path with no stops from city 0 to 2 is marked in red and has cost 500.<br />
  
 * Constraints: `1 <= n <= 100`<br />
-0 <= flights.length <= (n * (n - 1) / 2)<br />
-flights[i].length == 3<br />
-0 <= fromi, toi < n<br />
-fromi != toi<br />
-1 <= pricei <= 104<br />
+`0 <= flights.length <= (n * (n - 1) / 2)`<br />
+`flights[i].length == 3`<br />
+`0 <= fromi, toi < n`<br />
+`fromi != toi`<br />
+`1 <= pricei <= 10^4`<br />
 There will not be any multiple flights between two cities.<br />
-0 <= src, dst, k < n<br />
-src != dst<br />
+`0 <= src, dst, k < n`<br />
+`src != dst`<br />
 
 ```cpp
 class Solution{
