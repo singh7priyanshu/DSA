@@ -2808,7 +2808,7 @@ Explanation: We can reach 3 from 1 as 1->2->3 and the cost will be 1+6=7 which i
 You don't need to read, return or print anything. Your task is to complete the function `shortest_distance()` which takes the matrix as input parameter and modify the distances for every pair in-place.<br />
  
 <pre>
-Expected Time Complexity: O(n3)
+Expected Time Complexity: O(n^3)
 Expected Space Complexity: O(1)
 </pre>
 
