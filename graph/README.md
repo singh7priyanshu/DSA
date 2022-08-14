@@ -2705,7 +2705,88 @@ The co-factor for `(1, 1)` is `8`. Hence total no. of spanning tree that can be 
 
 <br /><br /><br />
 ## Problem 21:
-**[]()**<br />
+**[Implement Bellman Ford Algorithm / Negative weight cycle](https://practice.geeksforgeeks.org/problems/negative-weight-cycle3504/1)**<br />
+Given a weighted directed graph with `n` nodes and `m` edges. Nodes are labeled from `0` to `n-1`, the task is to check if it contains a negative weight cycle or not.
+**Note:** `edges[i]` is defined as `u`, `v` and `weight`.<br />
+ 
+>Example 1:<br />
+Input: n = 3, edges = {{0,1,-1},{1,2,-2},{2,0,-3}}<br />
+Output: 1<br />
+Explanation: The graph contains negative weight cycle as 0->1->2->0 with weight -1,-2,-3.<br />
+
+>Example 2:<br />
+Input: n = 3, edges = {{0,1,-1},{1,2,-2},{2,0,3}}<br />
+Output: 0<br />
+Explanation: The graph does not contain any negative weight cycle. <br />
+
+**Your Task:**<br />
+You don't need to read or print anyhting. Your task is to complete the function `isNegativeWeightCycle()` which takes `n` and edges as input paramater and returns `1` if graph contains negative weight cycle otherwise returns `0`.<br />
+ 
+<pre>
+Expected Time Complexity: O(n*m)
+Expected Space Compelxity: O(n)
+</pre>
+
+Constraints: `1 <= n <= 100`<br />
+`1 <= m <= n*(n-1)`, where `m` is the total number of Edges in the directed graph.<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+struct edge{
+    int a, b, cost;
+};
+public:
+    int isNegativeWeightCycle(int n, vector<vector<int>>edges){
+        vector<edge>Edges;
+        for(auto i: edges){
+            edge p;
+            p.a = i[0];
+            p.b = i[1];
+            p.cost = i[2];
+            Edges.push_back(p);
+        }
+        int INF = INT_MAX;
+        vector<int> d(n);
+        vector<int> p(n, -1);
+        int x;
+        for (int i = 0; i < n; ++i) {
+            x = -1;
+            for (edge e : Edges) {
+                if (d[e.a] + e.cost < d[e.b]) {
+                    d[e.b] = d[e.a] + e.cost;
+                    p[e.b] = e.a;
+                    x = e.b;
+                }
+            }
+        }       
+        if(x == -1)return 0;
+        return 1;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, m; cin>>n>>m;
+        vector<vector<int>>edges;
+        for(int i = 0;i<m;i++){
+            int x, y, z; cin>>x>>y>>z;
+            edges.push_back({x, y, z});
+        }
+        Solution ob;
+        int ans = ob.isNegativeWeightCycle(n, edges);
+        cout<<ans<<endl;
+    }
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 22:
