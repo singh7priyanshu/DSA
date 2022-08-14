@@ -2513,9 +2513,168 @@ Therefore, the overall time complexity is O(ElogE) or O(ElogV)
 
 
 
+
+
+
 <br /><br /><br />
 ## Problem 19:
-**[]()**<br />
+**[Prim’s Minimum Spanning Tree (MST) | Greedy Algo](https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/)**<br />
+Like `Kruskal’s algorithm`, `Prim’s algorithm` is also a **Greedy algorithm**. It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the **vertices already included in the MST**, the other set contains the **vertices not yet included**. At every step, it considers all the edges that connect the two sets and picks the `minimum weight edge` from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. <br />
+A group of edges that connects two sets of vertices in a graph is called cut in graph theory. So, at every step of **Prim’s algorithm**, we find a cut (of two sets, one contains the vertices already included in `MST` and the other contains the rest of the vertices), pick the `minimum weight edge` from the cut, and include this vertex to `MST` Set (the set that contains already included vertices).<br />
+<br />**How does Prim’s Algorithm Work?**<br />
+The idea behind **Prim’s algorithm** is simple, a spanning tree means all vertices must be connected. So the two `disjoint subsets` (discussed above) of vertices must be connected to make a Spanning Tree. And they must be connected with the **minimum** weight edge to make it a `Minimum Spanning Tree`.<br />
+<br />Algorithm <br />
+
+1) Create a set **mstSet** that keeps track of vertices already included in `MST`.<br />
+2) Assign a key value to all vertices in the input graph. Initialize all key values as `INFINITE`. Assign the key value as `0` for the first vertex so that it is picked first.<br /> 
+3) While **mstSet** doesn’t include all vertices<br /> 
+	….a) Pick a vertex `u` which is not there in **mstSet** and has a **minimum** key value.<br /> 
+	….b) Include `u` to `mstSet`. <br />
+	….c) Update key value of all adjacent vertices of `u`. To update the key values, iterate through all adjacent vertices. For every adjacent vertex `v`, if the weight of edge `u-v` is less than the previous key value of `v`, update the key value as the weight of `u-v`.<br />
+	
+The idea of using key values is to pick the **minimum weight edge** from cut. The key values are used only for vertices that are not yet included in **MST**, the key value for these vertices indicates the **minimum weight edges** connecting them to the set of vertices included in `MST`. <br />
+
+Let us understand with the following example:<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/Fig-11.jpg"><br />
+The set `mstSet` is initially empty and keys assigned to vertices are `{0, INF, INF, INF, INF, INF, INF, INF}` where **INF** indicates **infinite**. Now pick the **vertex** with the **minimum** key value. The vertex `0` is picked, include it in `mstSet`. So `mstSet` becomes `{0}`. After including to `mstSet`, update key values of adjacent vertices. Adjacent vertices of `0` are `1` and `7`. The key values of `1` and `7` are updated as `4` and `8`. Following subgraph shows vertices and their key values, only the vertices with finite key values are shown. The vertices included in `MST` are shown in **green color**.<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/MST1.jpg"><br />
+Pick the vertex with **minimum** key value and not already included in **MST (not in mstSET)**. The vertex `1` is picked and added to **mstSet**. So **mstSet** now becomes `{0, 1}`. Update the key values of adjacent vertices of `1`. The key value of vertex `2` becomes `8`.<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/MST2.jpg"><br />
+Pick the vertex with **minimum** key value and not already included in **MST (not in mstSET)**. We can either pick vertex `7` or vertex `2`, let vertex `7` is picked. So **mstSet** now becomes `{0, 1, 7}`. Update the key values of adjacent vertices of `7`. The key value of vertex `6` and `8` becomes finite (`1` and `7` respectively).<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/MST3.jpg"><br />
+Pick the vertex with **minimum** key value and not already included in `MST (not in mstSET)`. Vertex `6` is picked. So mstSet now becomes `{0, 1, 7, 6}`. Update the key values of adjacent vertices of `6`. The key value of vertex `5` and `8` are updated.<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/MST4.jpg"><br />
+We repeat the above steps until `mstSet` includes all vertices of given graph. Finally, we get the following graph.<br />
+<img src = "https://www.geeksforgeeks.org/wp-content/uploads/MST5.jpg"><br />
+<br />**How to implement the above algorithm?**<br />
+We use a boolean array `mstSet[]` to represent the set of vertices included in `MST`. If a value `mstSet[v]` is `true`, then vertex `v` is included in `MST`, otherwise not. Array `key[]` is used to store key values of all vertices. Another array `parent[]` to store indexes of parent nodes in **MST**. The parent array is the output array which is used to show the constructed **MST**. <br />
+```cpp
+// A C++ program for Prim's Minimum
+// Spanning Tree (MST) algorithm. The program is
+// for adjacency matrix representation of the graph
+#include <bits/stdc++.h>
+using namespace std;
+
+// Number of vertices in the graph
+#define V 5
+
+// A utility function to find the vertex with
+// minimum key value, from the set of vertices
+// not yet included in MST
+int minKey(int key[], bool mstSet[])
+{
+	// Initialize min value
+	int min = INT_MAX, min_index;
+
+	for (int v = 0; v < V; v++)
+		if (mstSet[v] == false && key[v] < min)
+			min = key[v], min_index = v;
+
+	return min_index;
+}
+
+// A utility function to print the
+// constructed MST stored in parent[]
+void printMST(int parent[], int graph[V][V])
+{
+	cout<<"Edge \tWeight\n";
+	for (int i = 1; i < V; i++)
+		cout<<parent[i]<<" - "<<i<<" \t"<<graph[i][parent[i]]<<" \n";
+}
+
+// Function to construct and print MST for
+// a graph represented using adjacency
+// matrix representation
+void primMST(int graph[V][V])
+{
+	// Array to store constructed MST
+	int parent[V];
+	
+	// Key values used to pick minimum weight edge in cut
+	int key[V];
+	
+	// To represent set of vertices included in MST
+	bool mstSet[V];
+
+	// Initialize all keys as INFINITE
+	for (int i = 0; i < V; i++)
+		key[i] = INT_MAX, mstSet[i] = false;
+
+	// Always include first 1st vertex in MST.
+	// Make key 0 so that this vertex is picked as first vertex.
+	key[0] = 0;
+	parent[0] = -1; // First node is always root of MST
+
+	// The MST will have V vertices
+	for (int count = 0; count < V - 1; count++)
+	{
+		// Pick the minimum key vertex from the
+		// set of vertices not yet included in MST
+		int u = minKey(key, mstSet);
+
+		// Add the picked vertex to the MST Set
+		mstSet[u] = true;
+
+		// Update key value and parent index of
+		// the adjacent vertices of the picked vertex.
+		// Consider only those vertices which are not
+		// yet included in MST
+		for (int v = 0; v < V; v++)
+
+			// graph[u][v] is non zero only for adjacent vertices of m
+			// mstSet[v] is false for vertices not yet included in MST
+			// Update the key only if graph[u][v] is smaller than key[v]
+			if (graph[u][v] && mstSet[v] == false && graph[u][v] < key[v])
+				parent[v] = u, key[v] = graph[u][v];
+	}
+
+	// print the constructed MST
+	printMST(parent, graph);
+}
+
+// Driver code
+int main()
+{
+	/* Let us create the following graph
+		2   3
+	    (0)--(1)--(2)
+	    |    / \    |
+	   6| 8/    \5  |7
+	    | /      \  |
+	    (3)--------(4)
+		  9	 */
+	int graph[V][V] = { { 0, 2, 0, 6, 0 },
+			    { 2, 0, 3, 8, 5 },
+			    { 0, 3, 0, 0, 7 },
+			    { 6, 8, 0, 0, 9 },
+			    { 0, 5, 7, 9, 0 } };
+
+	// Print the solution
+	primMST(graph);
+
+	return 0;
+}
+```
+Output: <br />
+<pre>
+Edge   Weight
+0 - 1    2
+1 - 2    3
+0 - 3    6
+1 - 4    5
+</pre>
+<pre>
+The Time Complexity of the above program is O(V^2). 
+If the input graph is represented using adjacency list, then the time complexity of Prim’s algorithm 
+can be reduced to O(E log V) with the help of a binary heap.  
+In this implementation, we are always considering the spanning tree to start from the root of the graph, 
+and this is the basic difference between Kruskal’s Minimum Spanning Tree and Prim’s Minimum Spanning tree.
+</pre>
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 20:
