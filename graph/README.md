@@ -4605,7 +4605,204 @@ int main()
 
 <br /><br /><br />
 ## Problem 34:
-**[]()**<br />
+**[Water Jug problem using BFS](https://www.geeksforgeeks.org/water-jug-problem-using-bfs/)**<br />
+You are given an `m` liter jug and a `n` liter jug. Both the jugs are initially empty. The jugs don’t have markings to allow measuring smaller quantities. You have to use the jugs to measure `d` liters of water where `d` is less than `n`.<br /> 
+`(X, Y)` corresponds to a state where `X` refers to the amount of water in `Jug1` and `Y` refers to the amount of water in `Jug2`<br /> 
+Determine the path from the initial state `(xi, yi)` to the final state `(xf, yf)`, where `(xi, yi)` is `(0, 0)` which indicates both Jugs are initially empty and `(xf, yf)` indicates a state which could be `(0, d)` or `(d, 0)`.<br />
+The operations you can perform are:
+
+ 1. Empty a Jug, `(X, Y)->(0, Y)` Empty Jug `1`<br />
+ 2. Fill a Jug, `(0, 0)->(X, 0)` Fill Jug `1`<br />
+ 3. Pour water from one jug to the other until one of the jugs is either empty or full, `(X, Y) -> (X-d, Y+d)`<br />
+ 
+Examples:<br />
+<pre>
+Input : 4 3 2
+Output : {( 0,0),(0,3),(4,0),(4,3),(3,0),(1,3),(3,3),(4,2),(0,2)}
+</pre>
+Here, we keep exploring all the different valid cases of the states of water in the jug simultaneously until and unless we reach the required target water.<br />
+As provided in the problem statement, at any given state we can do either of the following operations:<br />
+
+ 1. Fill a jug<br />
+ 2. Empty a jug<br />
+ 3. Transfer water from one jug to another until either of them gets completely filled or empty.<br />
+ 
+Examples:<br />
+<pre>
+   Input: X = 4, Y = 3, Z = 2
+      Output: {(0, 0), (0, 3), (3, 0), (3, 3), (4, 2), (0, 2)}
+Explanation: 
+    Step 1:- First we will fill the 4 litre jug completely with water. 
+    Step 2:- Then optimal approach would be to empty water from 4-litre jug into 3-litre  (leaving 1L water in 4L jug and 3L completely full). Hence we got 1L water.
+    Step 3:- Now, Empty water from 3L.
+    Step 4:- Pour the water from 4L jug into 3L jug Now 4L container is completely empty and 1L water in present in 3L litre jug.
+    Step 5:- Fill the 4L jug with water completely again.
+    Step 6:- On transfering  water from 4L jug to 3L jug, we will get 2L water in 4L jug which was our required quantity. 
+</pre>
+<pre>
+   Input:  X = 3, Y = 5, Z = 4
+
+       Output: 6
+
+Explanation:
+    Step 1:- First we will fill the 5-litres jug to its maximum capacity.
+    Step 2:- Then optimal approach would be to transfer 3-litres from 5-litres jug to 3-litres jugs. 
+    Step 3:- Now, Empty the 3-litres jug.
+    Step 4:- Transfer 2L from 5L jug to 3-L jug.
+    Step 5:- Now, Fill 5-litres jug to its maximum capacity.
+    Step 6:- On Pouring water from 5L jug to 3L jug until it’s full we will get 4L water in 5-litre jug which was our required quantity. 
+</pre>
+<br />**Running of the algorithm:**<br />
+We start at an initial state in the queue where both the jugs are empty. We then continue to explore all the possible intermediate states derived from the current jug state using the operations provided.<br />
+We also, maintain a visited matrix of states so that we avoid revisiting the same state of jugs again and again.<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184546464-2ed1d7d1-e3f2-42fc-97c0-0aed438e04a3.png"><br />
+<img src = "https://user-images.githubusercontent.com/71781982/184546467-a2ea6703-9d73-49ba-95d0-0dc8203c2993.png"><br />
+From the table above, we can observe that the state where both the jugs are filled is redundant as we won’t be able to continue ahead / do anything with this state in any possible way.<br />
+So, we proceed, keeping in mind all the valid state cases (as shown in the table above) and we do a `BFS` on them.<br />
+In the `BFS`, we firstly skip the states which was **already visited or if the amount of water in either of the jugs exceeded the jug quantity**. <br />
+If we continue further, then we firstly mark the current state as visited and check if in this state, if we have obtained the target quantity of water in either of the jugs, we can empty the other jug and return the `current state’s entire path`.<br />
+But, if we have not yet found the target quantity, we then derive the intermediate states from the current state of jugs i.e. we derive the valid cases, mentioned in the table above (go through the code once if you have some confusion).<br />
+We keep repeating all the above steps **until** we have `found our target` or `there are no more states left to proceed with`.<br />
+Implementation:<br />
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<int, int> pii;
+void printpath(map<pii, pii> mp, pii u)
+{
+	if (u.first == 0 && u.second == 0) {
+		cout << 0 << " " << 0 << endl;
+		return;
+	}
+	printpath(mp, mp[u]);
+	cout << u.first << " " << u.second << endl;
+}
+void BFS(int a, int b, int target)
+{
+	map<pii, int> m;
+	bool isSolvable = false;
+	map<pii, pii> mp;
+
+	queue<pii> q;
+
+	q.push(make_pair(0, 0));
+	while (!q.empty()) {
+
+		auto u = q.front();
+		// cout<<u.first<<" "<<u.second<<endl;
+		q.pop();
+		if (m[u] == 1)
+			continue;
+
+		if ((u.first > a || u.second > b || u.first < 0 || u.second < 0))
+			continue;
+		// cout<<u.first<<" "<<u.second<<endl;
+
+		m[{ u.first, u.second }] = 1;
+
+		if (u.first == target || u.second == target) {
+			isSolvable = true;
+
+			printpath(mp, u);
+			if (u.first == target) {
+				if (u.second != 0)
+					cout << u.first << " " << 0 << endl;
+			}
+			else {
+				if (u.first != 0)
+					cout << 0 << " " << u.second << endl;
+			}
+			return;
+		}
+		// completely fill the jug 2
+		if (m[{ u.first, b }] != 1) {
+			q.push({ u.first, b });
+			mp[{ u.first, b }] = u;
+		}
+
+		// completely fill the jug 1
+		if (m[{ a, u.second }] != 1) {
+			q.push({ a, u.second });
+			mp[{ a, u.second }] = u;
+		}
+
+		// transfer jug 1 -> jug 2
+		int d = b - u.second;
+		if (u.first >= d) {
+			int c = u.first - d;
+			if (m[{ c, b }] != 1) {
+				q.push({ c, b });
+				mp[{ c, b }] = u;
+			}
+		}
+		else {
+			int c = u.first + u.second;
+			if (m[{ 0, c }] != 1) {
+				q.push({ 0, c });
+				mp[{ 0, c }] = u;
+			}
+		}
+		// transfer jug 2 -> jug 1
+		d = a - u.first;
+		if (u.second >= d) {
+			int c = u.second - d;
+			if (m[{ a, c }] != 1) {
+				q.push({ a, c });
+				mp[{ a, c }] = u;
+			}
+		}
+		else {
+			int c = u.first + u.second;
+			if (m[{ c, 0 }] != 1) {
+				q.push({ c, 0 });
+				mp[{ c, 0 }] = u;
+			}
+		}
+
+		// empty the jug 2
+		if (m[{ u.first, 0 }] != 1) {
+			q.push({ u.first, 0 });
+			mp[{ u.first, 0 }] = u;
+		}
+
+		// empty the jug 1
+		if (m[{ 0, u.second }] != 1) {
+			q.push({ 0, u.second });
+			mp[{ 0, u.second }] = u;
+		}
+	}
+	if (!isSolvable)
+		cout << "No solution";
+}
+
+int main()
+{
+	int Jug1 = 4, Jug2 = 3, target = 2;
+	cout << "Path from initial state " "to solution state ::\n";
+	BFS(Jug1, Jug2, target);
+	return 0;
+}
+```
+Output<br />
+<pre>
+Path of states of jugs followed is :
+0 , 0
+0 , 3
+3 , 0
+3 , 3
+4 , 2
+0 , 2
+</pre>
+<pre>
+Time Complexity: O(n*m).
+Space Complexity: O(n*m). Where n and m are the quantity of jug1 and jug2, respectively. 
+</pre>
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 35:
