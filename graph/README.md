@@ -3004,7 +3004,7 @@ The graph coloring problem has huge number of applications.<br />
 3) `Sudoku:` Sudoku is also a variation of Graph coloring problem where every cell represents a vertex. There is an edge between two vertices if they are in same row or same column or same block.<br />
 4) `Register Allocation:` In compiler optimization, register allocation is the process of assigning a large number of target program variables onto a small number of CPU registers. This problem is also a graph coloring problem.<br />
 5) `Bipartite Graphs:` We can check if a graph is Bipartite or not by coloring the graph using two colors. If a given graph is 2-colorable, then it is Bipartite, otherwise not.<br />
-6) Map Coloring: Geographical maps of countries or states where no two adjacent cities cannot be assigned same color. Four colors are sufficient to color any map according to four colour theorem.<br />
+6) `Map Coloring`: Geographical maps of countries or states where no two adjacent cities cannot be assigned same color. Four colors are sufficient to color any map according to four colour theorem.<br />
 	
 	
 
