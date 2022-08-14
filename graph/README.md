@@ -2060,7 +2060,32 @@ Possible to finish all tasks
 
 <br /><br /><br />
 ## Problem 16:
-**[]()**<br />
+**[Find the number of islands](https://practice.geeksforgeeks.org/problems/find-the-number-of-islands/1)**<br />
+Given a grid of size `n*m` (`n` is the number of rows and `m` is the number of columns in the grid) consisting of `'0's` (Water) and `'1's`(Land). Find the number of islands.<br />
+**Note:** An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically or diagonally i.e., in all `8` directions.<br />
+
+>Example 1:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184530331-fb9f9dcd-bac7-4cad-b612-b435feea756d.png"><br />
+
+>Example 2:<br />
+<img src = "https://user-images.githubusercontent.com/71781982/184530329-9d71f8b4-bc49-40ae-b5e0-477fbd9a1d71.png"><br />
+
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `numIslands()` which takes the grid as an input parameter and returns _the total number of islands_.<br />
+
+<pre>
+Expected Time Complexity: O(n*m)
+Expected Space Complexity: O(n*m)
+</pre>
+
+* Constraints: `1 ≤ n, m ≤ 500`<br />
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 17:
