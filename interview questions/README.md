@@ -2538,47 +2538,7 @@ public:
 	
 	
 	
-<br /> <br /> <br />**[733. Flood Fill](https://leetcode.com/problems/flood-fill/)**<br />
-An image is represented by an `m x n` integer grid `image` where `image[i][j]` represents the pixel value of the image.<br />
-You are also given three integers `sr`, `sc`, and `newColor`. You should perform a **flood fill** on the image starting from the pixel `image[sr][sc]`.<br />
-To perform a **flood fill**, consider the starting pixel, plus any pixels connected **4-directionally** to the starting pixel of the same color as the starting pixel, plus any pixels connected `4-directionally` to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with `newColor`.<br />
-Return _the modified image after performing the flood fill_.<br />
 
->Example 1:<br />
-><img src = "https://assets.leetcode.com/uploads/2021/06/01/flood1-grid.jpg"><br />
->Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, newColor = 2<br />
->Output: [[2,2,2],[2,2,0],[2,0,1]]<br />
->Explanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting >pixel (i.e., the blue pixels) are colored with the new color.<br />
->Note the bottom corner is not colored 2, because it is not 4-directionally connected to the starting pixel.<br />
-	
->Example 2:<br />
->Input: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, newColor = 2<br />
->Output: [[2,2,2],[2,2,2]]<br />
- 
-* Constraints: `m == image.length`<br />
-`n == image[i].length`<br />
-`1 <= m, n <= 50`<br />
-`0 <= image[i][j], newColor < 2^16`<br />
-`0 <= sr < m`<br />
-`0 <= sc < n`<br />
-	
-```cpp
-class Solution {
-public:
-    void dfs(int i,int j,int initialColor,int newColor,vector<vector<int>> &image){
-        if(i<0 || j<0 || i>=(image.size()) || j>=(image[0].size()) || image[i][j] != initialColor) return;
-        image[i][j] = newColor;
-        dfs(i-1,j,initialColor,newColor,image);
-        dfs(i+1,j,initialColor,newColor,image);
-        dfs(i,j-1,initialColor,newColor,image);
-        dfs(i,j+1,initialColor,newColor,image);
-    }
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-        if(image[sr][sc] != newColor) dfs(sr,sc,image[sr][sc],newColor,image);
-        return image;
-    }
-};
-```
 	
 	
 	
