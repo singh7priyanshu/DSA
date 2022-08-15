@@ -4778,7 +4778,84 @@ int main(){
 
 <br /><br /><br />
 ## Problem 37:
-**[]()**<br />
+**[Queue based approach or first non-repeating character in a stream](https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1)**<br />
+Given an **input stream** of `A` of `n` characters consisting only of **lower case alphabets**. The task is to find the `first non repeating character`, each time a character is **inserted** to the stream. If there is no such character then append `'#'` to the answer.<br />
+ 
+>Example 1:<br />
+Input: A = "aabc"<br />
+Output: "a#bb"<br />
+Explanation: For every character first non repeating character is as follow-<br />
+"a" - first non-repeating character is 'a'<br />
+"aa" - no non-repeating character so '#'<br />
+"aab" - first non-repeating character is 'b'<br />
+"aabc" - first non-repeating character is 'b'<br />
+
+>Example 2:<br />
+Input: A = "zz"<br />
+Output: "z#"<br />
+Explanation: For every character first non repeating character is as follow-<br />
+"z" - first non-repeating character is 'z'<br />
+"zz" - no non-repeating character so '#'<br />
+ 
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `FirstNonRepeating()` which takes `A` as input parameter and returns _a string after processing the input stream_.<br />
+ 
+<pre>
+Expected Time Complexity: O(26 * n)
+Expected Space Complexity: O(26)
+</pre>
+
+* Constraints: `1 <= n <= 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+    public:
+        string FirstNonRepeating(string A){
+            int n = A.size();
+            vector<int>f(26, 0);
+            vector<int>last(26, -1);
+            for(int i = 0; i < A.size(); i++){
+                if(last[A[i] - 'a'] == -1)
+                    last[A[i] - 'a'] = i;
+            }
+            string ans="";
+            for(int i = 0; i < A.size(); i++){
+                f[A[i] - 'a']++;
+                char ch = '#';
+                int x = A.size() + 1;
+                for(int j = 0; j < 26; j++){
+                    if(f[j] == 1 and x > last[j]){
+                        ch = char(j + 'a');
+                        x = last[j];
+                    }
+                }
+                ans += ch;
+            }
+            return ans;
+        }
+
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s; cin>>s;
+        Solution ob;
+        cout<<ob.FirstNonRepeating(s)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 38:
