@@ -4705,7 +4705,76 @@ Auxiliary Space: O(k)
 
 <br /><br /><br />
 ## Problem 36:
-**[]()**<br />
+**[Minimum sum of squares of character counts in a given string after removing “k” characters.](https://practice.geeksforgeeks.org/problems/game-with-string4100/1)**<br />
+Given a string `s` of lowercase alphabets and a number `k`, the task is to _print the `minimum value of the string` after removal of `‘k’` characters_. The value of a string is defined as the **sum of squares of the count of each distinct character**.<br />
+ 
+>Example 1:<br />
+Input: s = abccc, k = 1<br />
+Output: 6<br />
+Explaination: We remove c to get the value as 12 + 12 + 22<br />
+
+>Example 2:<br />
+Input: s = aabcbcbcabcc, k = 3<br />
+Output: 27<br />
+Explaination: We remove two 'c' and one 'b'. Now we get the value as 32 + 32 + 32.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `minValue()` which takes `s` and `k` as input parameters and returns _the minimum possible required value_.<br />
+
+<pre>
+Expected Time Complexity: O(N*logN)  where N is the length of string
+Expected Auxiliary Space: O(N)
+</pre>
+ 
+* Constraints: `1 ≤ k ≤ |string length| ≤ 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int minValue(string s, int k){
+        map<char, int> mp;
+        priority_queue<int> pq;
+        for(int i = 0;i < s.size();i++)
+            mp[s[i]]++;
+        for(auto it = mp.begin();it != mp.end();it++)
+            pq.push(it->second);
+        while(k--){
+            int x = pq.top();
+            x--;
+            pq.pop();
+            pq.push(x);
+        }
+        int result = 0;
+        while(!pq.empty()){
+            int x = pq.top();
+            pq.pop();
+            result += (x*x);
+        }
+        return result;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s; cin>>s;
+        int k; cin>>k;
+        Solution ob;
+        cout<<ob.minValue(s, k)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 37:
