@@ -1875,7 +1875,104 @@ int main(){
 
 <br /><br /><br />
 ## Problem 18:
-**[]()**<br />
+**[Length of the Longest Valid Substring](https://practice.geeksforgeeks.org/problems/valid-substring0624/1)**<br />
+Given a string `S` consisting only of opening and closing parenthesis 'ie `'('`  and `')'`, find out the **length of the longest valid(well-formed) parentheses substring**.<br />
+**NOTE:** Length of the smallest valid substring `( )` is `2`.<br />
+
+>Example 1:<br />
+Input: S = "(()("<br />
+Output: 2<br />
+Explanation: The longest valid substring is "()". Length = 2.<br />
+
+>Example 2:<br />
+Input: S = "()(())("<br />
+Output: 6<br />
+Explanation: The longest valid substring is "()(())". Length = 6.<br />
+
+**Your Task:**<br />  
+You dont need to read input or print anything. Complete the function `findMaxLen()` which takes `S` as input parameter and returns _the maxlength_.<br />
+
+<pre>
+Expected Time Complexity:O(n)
+Expected Auxiliary Space: O(1)   
+</pre>
+
+* Constraints: `1 <= |S| <= 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    int findMaxLen(string s) {
+        int n = s.length();
+
+        // Variables for left and right counter.
+        // maxlength to store the maximum length found so far
+        int left = 0, right = 0, maxlength = 0;
+
+        // Iterating the string from left to right
+        for (int i = 0; i < n; i++) {
+            // If "(" is encountered,
+            // then left counter is incremented
+            // else right counter is incremented
+            if (s[i] == '(')
+                left++;
+            else
+                right++;
+
+            // Whenever left is equal to right, it signifies
+            // that the subsequence is valid and
+            if (left == right) maxlength = max(maxlength, 2 * right);
+
+            // Reseting the counters when the subsequence
+            // becomes invalid
+            else if (right > left)
+                left = right = 0;
+        }
+
+        left = right = 0;
+
+        // Iterating the string from right to left
+        for (int i = n - 1; i >= 0; i--) {
+
+            // If "(" is encountered,
+            // then left counter is incremented
+            // else right counter is incremented
+            if (s[i] == '(')
+                left++;
+            else
+                right++;
+
+            // Whenever left is equal to right, it signifies
+            // that the subsequence is valid and
+            if (left == right) maxlength = max(maxlength, 2 * left);
+
+            // Reseting the counters when the subsequence
+            // becomes invalid
+            else if (left > right)
+                left = right = 0;
+        }
+        return maxlength;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string S; cin>>S;
+        Solution ob;
+        cout<<ob.findMaxLen(S)<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 19:
