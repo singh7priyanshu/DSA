@@ -1760,7 +1760,118 @@ Auxiliary Space Complexity: O(1)
 
 <br /><br /><br />
 ## Problem 17:
-**[]()**<br />
+**[Largest rectangular Area in Histogram](https://practice.geeksforgeeks.org/problems/maximum-rectangular-area-in-a-histogram-1587115620/1)**<br />
+Find the `largest rectangular` area possible in a given histogram where the largest rectangle can be made of a number of `contiguous bars`. For simplicity, assume that all bars have the same width and the width is `1` unit, there will be `N bars` height of each bar will be given by the array arr.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 7<br />
+arr[] = {6,2,5,4,5,1,6}<br />
+Output: 12<br />
+Explanation: <br />
+<img src = "http://d1hyf4ir1gqw6c.cloudfront.net/wp-content/uploads/histogram1.png"><br />
+
+>Example 2:<br />
+Input:<br />
+N = 8<br />
+arr[] = {7 2 8 9 1 3 6 5}<br />
+Output: 16<br />
+Explanation: Maximum size of the histogram will be 8  and there will be 2 consecutive <br />
+histogram. And hence the area of the histogram will be 8x2 = 16.<br />
+
+**Your Task:**<br />
+The task is to complete the function `getMaxArea()` which takes the array `arr[]` and its size `N` as inputs and finds the **largest rectangular area possible** and returns the answer.<br />
+
+<pre>
+Expected Time Complxity : O(N)
+Expected Auxilliary Space : O(N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^6`<br />
+`1 ≤ arr[i] ≤ 10^12`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    long long getMaxArea(long long hist[], long long n){
+    
+    //creating an empty stack. The stack holds indexes of hist[] array.
+    //the bars stored in stack are always in increasing order of their heights. 
+    stack<long long> s; 
+  
+    long long max_area = 0;  
+    long long tp;  
+    long long area_with_top; 
+  
+    long long i = 0; 
+    
+    //traversing the array.
+    while (i < n) 
+    { 
+        //if current bar is greater than or equal to bar on top 
+        //of stack, we push the index into stack. 
+        if (s.empty() || hist[s.top()] <= hist[i]) 
+            s.push(i++); 
+  
+        //if current bar is lower than bar on top of stack, we calculate
+        //area of rectangle with top of stack as the smallest bar.  
+        //i is rightindex for top and element before top in stack is leftindex
+        else
+        { 
+            tp = s.top();  
+            //popping the top element of stack.
+            s.pop();  
+  
+            //calculating the area with hist[tp] stack as smallest bar. 
+            area_with_top=hist[tp]*(s.empty()? i :i-s.top()-1); 
+  
+            //updating maximum area, if needed. 
+            if (max_area < area_with_top) 
+                max_area = area_with_top; 
+        } 
+    } 
+  
+    //now popping the remaining bars from stack and calculating 
+    //area with every popped bar as the smallest bar.
+    while (s.empty() == false) 
+    { 
+        tp = s.top(); 
+        s.pop(); 
+        
+        area_with_top=hist[tp]*(s.empty()? i :i-s.top()-1); 
+  
+        //updating maximum area, if needed. 
+        if (max_area < area_with_top) 
+            max_area = area_with_top; 
+    } 
+    //returning the maximum area.
+    return max_area; 
+}
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        long long arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        cout<<ob.getMaxArea(arr, n)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 18:
