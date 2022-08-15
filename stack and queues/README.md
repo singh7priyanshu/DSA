@@ -4023,7 +4023,129 @@ int main(){
 
 <br /><br /><br />
 ## Problem 32:
-**[]()**<br />
+**[Distance of nearest cell having 1 in a binary matrix](https://practice.geeksforgeeks.org/problems/distance-of-nearest-cell-having-1-1587115620/1)**<br />
+Given a `binary grid` of `n*m`. Find the distance of the nearest `1` in the grid for each cell.<br />
+The distance is calculated as `|i1  - i2| + |j1 - j2|`, where `i1`, `j1` are the **row number** and **column number** of the current cell, and `i2`, `j2` are the **row number** and **column number** of the nearest cell having value `1`.<br />
+ 
+>Example 1:<br />
+Input: grid = {{0,1,1,0},{1,1,0,0},{0,0,1,1}}<br />
+Output: {{1,0,0,1},{0,0,1,1},{1,1,0,0}}<br />
+Explanation: The grid is-<br />
+0 1 1 0 <br />
+1 1 0 0 <br />
+0 0 1 1 <br />
+0's at (0,0), (0,3), (1,2), (1,3), (2,0) and (2,1) are at a distance of 1 from 1's at (0,1), (0,2), (0,2), (2,3), (1,0) and (1,1) respectively.<br />
+
+>Example 2:<br />
+Input: grid = {{1,0,1},{1,1,0},{1,0,0}}<br />
+Output: {{0,1,0},{0,0,1},{0,1,2}}<br />
+Explanation: The grid is-<br />
+1 0 1<br />
+1 1 0<br />
+1 0 0<br />
+0's at (0,1), (1,2), (2,1) and (2,2) are at a distance of 1, 1, 1 and 2 from 1's at (0,0), (0,2), (2,0) and (1,1) respectively.<br />
+
+**Your Task:**<br />
+You don't need to read or print anything, Your task is to complete the function `nearest()` which takes the `grid` as an input parameter and returns _a matrix of the same dimensions where the value at index `(i, j)` in the resultant matrix signifies the minimum distance of `1` in the matrix from `grid[i][j]`_.<br />
+ 
+<pre>
+Expected Time Complexity: O(n*m)
+Expected Auxiliary Space: O(n*m)
+</pre>
+
+* Constraints: `1 ≤ n, m ≤ 500`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    vector<int>dx = {1,-1,0,0};
+    vector<int>dy = {0,0,1,-1};
+    
+    //Function to check whether the cell is within the matrix bounds.
+    bool isValid(int x, int y, int n, int m){
+        return (x >=0 and x < n and y >=0 and y < m);
+    }
+    
+    //Function to find distance of nearest 1 in the grid for each cell.
+    vector<vector<int>>nearest(vector<vector<int>>grid)
+    {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        //queue to store the cell indexes which have grid value 1.
+        queue<pair<int, int>>q;
+        
+        //using dp list which will store the output.
+        vector<vector<int>>dp(n, vector<int>(m, INT_MAX));
+        
+        //traversing all the cells of the matrix.
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                //if grid value is 1, we update the dp value at same cell as 0 
+                //and push the cell indexes into queue.
+                if(grid[i][j] == 1){
+                    dp[i][j] = 0;
+                    q.push({i,j});
+                }
+            }
+        }
+        
+        while(!q.empty())
+        {
+            //storing the cell indexes at top of queue and popping them.
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            
+            //iterating over the adjacent cells.
+            for(int i = 0; i < 4; i++)
+            {
+                int n_x = x + dx[i];
+                int n_y = y + dy[i];
+                if(isValid(n_x, n_y, n, m) and dp[n_x][n_y] > dp[x][y] + 1)
+                {
+                    //updating dp and pushing cell indexes in queue.
+                    dp[n_x][n_y] = dp[x][y] + 1;
+                    q.push({n_x, n_y});
+                }
+            }
+        }
+        //returning the dp list.
+        return dp;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, m; cin>>n>>m;
+        vector<vector<int>>grid(n, vector<int>(m, -1));
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++)cin>>grid[i][j];
+        }
+        Solution ob;
+        vector<vector<int>>ans = ob.nearest(grid);
+        for(auto i : ans){
+            for(auto j : i){
+                cout<<j<<" ";
+            }
+            cout<<endl;
+        }
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 33:
