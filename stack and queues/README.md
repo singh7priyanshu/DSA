@@ -5065,7 +5065,7 @@ For each of n array elements we do a binary search, which includes log(N) steps,
 Auxiliary Space: O(N)
 As extra space is used for storing the elements of the segment tree.
 </pre>
-<br />`Method 3 (Using Segment Tree and Coordinate Compression)`<br />
+<br />**Method 3 (Using Segment Tree and Coordinate Compression)**<br />
 In this approach, we build a segment tree on indices of compressed array elements:<br />
 <pre>
  1. Somewhere along the lines, we would build a array aux such-that aux[i] is the smallest index at which i is present in input array.
