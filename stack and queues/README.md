@@ -4149,7 +4149,114 @@ int main(){
 
 <br /><br /><br />
 ## Problem 33:
-**[]()**<br />
+**[First negative integer in every window of size k](https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1)**<br />
+Given an array `A[]` of size `N` and a positive integer `K`, find _the **first negative integer** for each and every window(contiguous subarray) of size `K`_.<br />
+
+>Example 1:<br />
+Input : <br />
+N = 5<br />
+A[] = {-8, 2, 3, -6, 10}<br />
+K = 2<br />
+Output : <br />
+-8 0 -6 -6<br />
+Explanation :<br />
+First negative integer for each window of size k<br />
+{-8, 2} = -8<br />
+{2, 3} = 0 (does not contain a negative integer)<br />
+{3, -6} = -6<br />
+{-6, 10} = -6<br />
+ 
+>Example 2:<br />
+Input : <br />
+N = 8<br />
+A[] = {12, -1, -7, 8, -15, 30, 16, 28}<br />
+K = 3<br />
+Output :<br />
+-1 -1 -7 -15 -15 0 <br />
+ 
+**Your Task:**<br />  
+You don't need to read input or print anything. Your task is to complete the function `printFirstNegativeInteger()` which takes the array `A[]`, its size `N` and an integer `K` as inputs and returns _the **first negative number** in every window of size `K` starting from the first till the end_. If a window does not contain a negative integer , then return `0` for that window.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(K)
+</pre>
+
+* Constraints: `1 <= N <= 10^5`<br />
+`-10^5 <= A[i] <= 10^5`<br />
+`1 <= K <= N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<long long> printFirstNegativeInteger(long long int arr[], long long int n, long long int k);
+
+int main(){
+    long long int t, i; cin>>t;
+    while(t--){
+        long long int n; cin>>n;
+        long long int arr[n];
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        long long k; cin>>k;
+        vector<long long>ans = printFirstNegativeInteger(arr, n, k);
+        for(auto it : ans)cout<<it<<" ";
+        cout<<endl;
+    }
+}
+
+// function to find the first negative
+// integer in every window of size k
+vector<long long> printFirstNegativeInteger(long long int arr[], long long int n, long long int k) {
+    // A Double Ended Queue, Di that will store indexes of
+    // useful array elements for the current window of size k.
+    // The useful elements are all negative integers.
+    deque<long long int> Di;
+    vector<long long> ans;
+
+    /* Process first k (or first window) elements of array */
+    long long int i;
+    for (i = 0; i < k; i++)
+        // Add current element at the rear of Di
+        // if it is a negative integer
+        if (arr[i] < 0) Di.push_back(i);
+
+    // Process rest of the elements, i.e., from arr[k] to arr[n-1]
+    for (; i < n; i++) {
+        // if Di is not empty then the element at the
+        // front of the queue is the first negative integer
+        // of the previous window
+        if (!Di.empty()) ans.push_back(arr[Di.front()]);
+
+        // else the window does not have a
+        // negative integer
+        else
+            ans.push_back(0);
+
+        // Remove the elements which are out of this window
+        while ((!Di.empty()) && Di.front() < (i - k + 1))
+            Di.pop_front(); // Remove from front of queue
+
+        // Add current element at the rear of Di
+        // if it is a negative integer
+        if (arr[i] < 0) Di.push_back(i);
+    }
+
+    // Print the first negative
+    // integer of last window
+    if (!Di.empty())
+        ans.push_back(arr[Di.front()]);
+    else
+        ans.push_back(0);
+
+    return ans;
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 34:
