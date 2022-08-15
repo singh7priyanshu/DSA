@@ -3815,7 +3815,89 @@ Auxiliary Space: O(n).
 
 <br /><br /><br />
 ## Problem 30:
-**[]()**<br />
+**[Find the first circular tour that visits all Petrol Pumps](https://practice.geeksforgeeks.org/problems/circular-tour-1587115620/1)**<br />
+Suppose there is a `circle`. There are `N` petrol pumps on that `circle`. You will be given **two sets of data**.<br />
+
+  1. The amount of petrol that every petrol pump has.<br />
+  2. Distance from that petrol pump to the next petrol pump.<br />
+
+Find a `starting point` where the truck can start to get through the **complete circle without exhausting its petrol** in between.<br />
+**Note :**  Assume for `1` litre petrol, the truck can go `1` unit of distance.<br />
+
+>Example 1:<br />
+Input:<br />
+N = 4<br />
+Petrol = 4 6 7 4<br />
+Distance = 6 5 3 5<br />
+Output: 1<br />
+Explanation: There are 4 petrol pumps with amount of petrol and distance to next<br />
+petrol pump value pairs as {4, 6}, {6, 5}, {7, 3} and {4, 5}. The first point from<br />
+where truck can make a circular tour is 2nd petrol pump. Output in this case is 1<br />
+(index of 2nd petrol pump).<br />
+
+**Your Task:**<br />
+Your task is to complete the function `tour()` which takes the `required data` as inputs and returns _an integer denoting a point from where a truck will be able to complete the circle_ (The truck will stop at each petrol pump and it has `infinite capacity`). If there exists multiple such `starting points`, then the function must return _the first one out of those_. (return `-1` otherwise)<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space : O(1)
+</pre>
+
+* Constraints: `2 ≤ N ≤ 10000`<br />
+`1 ≤ petrol, distance ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct petrolPump{
+    int petrol;
+    int distance;
+};
+
+class Solution{
+  public:
+  
+    //Function to find starting point where the truck can start to get through
+    //the complete circle without exhausting its petrol in between.
+    int tour(petrolPump p[],int n)
+    {
+       //Your code here
+       int start = 0;
+       int end = 1 ;
+       int cur_pet = p[start].petrol-p[start].distance;
+       while(end!=start or cur_pet <0){
+           while(cur_pet<0 and start!=end){
+               cur_pet -= p[start].petrol-p[start].distance;
+               start= (start +1 )%n;
+               if(start==0){
+                   return -1;
+               }
+           }
+           cur_pet += p[end].petrol -p[end].distance;
+           end= (end +1)%n;
+       }
+       return start;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        petrolPump p[n];
+        for(int i = 0;i<n;i++)cin>>p[i].petrol>>p[i].distance;
+        Solution ob;
+        cout<<ob.tour(p, n)<<endl;
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 31:
