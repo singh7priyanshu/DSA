@@ -2098,7 +2098,135 @@ Auxiliary Space : O(n)
 
 <br /><br /><br />
 ## Problem 20:
-**[]()**<br />
+**[Implement Stack using Queue](https://practice.geeksforgeeks.org/problems/stack-using-two-queues/1)**<br />
+Implement a `Stack` using two queues `q1` and `q2`.<br />
+
+<pre>
+Example 1:
+Input:                      OR                     5
+push(2)                                            1 2
+push(3)                                            1 3 
+pop()                                              2
+push(4)                                            1 4
+pop()                                              2 
+Output: 3 4
+Explanation:
+push(2) the stack will be {2}
+push(3) the stack will be {2 3}
+pop()   poped element will be 3 the 
+        stack will be {2}
+push(4) the stack will be {2 4}
+pop()   poped element will be 4  
+</pre>
+<pre>
+Example 2:
+Input:
+push(2)
+pop()
+pop()
+push(3)
+Output: 2 -1
+</pre>
+
+**Your Task:**<br />
+Since this is a function problem, you don't need to take inputs. You are required to complete the two methods `push()` which takes an integer 'x' as input denoting the element to be pushed into the stack and `pop()` which returns _the integer poped out from the stack_(`-1 if the stack is empty`).<br />
+
+<pre>
+Expected Time Complexity: O(1) for push() and O(N) for pop() (or vice-versa).
+Expected Auxiliary Space: O(1) for both push() and pop().
+</pre>
+
+* Constraints: `1 <= Number of queries <= 100`<br />
+`1 <= values of the stack <= 100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class QueueStack{
+    queue<int>q1;
+    queue<int>q2;
+public:
+    void push(int);
+    int pop();
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        QueueStack *qs = new QueueStack();
+        int Q; cin>>Q;
+        while(Q--){
+            int QueryType = 0; cin>>QueryType;
+            if(QueryType == 1){
+                int a; cin>>a;
+                qs->push(a);
+            }else if(QueryType == 2){
+                cout<<qs->pop()<<" ";
+            }
+        }
+        cout<<endl;
+    }
+}
+
+// push operation
+
+
+//Function to push an element into stack using two queues.
+void QueueStack ::push(int num){
+    
+    //while first queue is not empty, we keep popping the front element
+    //from first queue and storing that element in second queue.
+    while(!q1.empty())
+    {
+        int k = q1.front();
+        
+        //popping element from first queue.
+        q1.pop();
+        
+        //pushing it into second queue.
+        q2.push(k);
+    }
+    
+    //q1 is empty now and we push the given number into first queue.
+    q1.push(num);
+    
+    //while second queue is not empty, we keep popping the front element
+    //from second queue and storing that element in first queue.
+    while(!q2.empty())
+    {
+        int k = q2.front();
+        //popping element from second queue.
+        q2.pop();
+        
+        //pushing it into first queue.
+        q1.push(k);
+    }
+}
+//Function to pop an element from stack using two queues. 
+int QueueStack ::pop(){
+
+    //if first queue is not empty, then we can pop an element.
+    if(!q1.empty())
+    {
+        //we store the front element from the queue in a 
+        //variable and pop that element.
+        int r = q1.front();
+        q1.pop();
+        
+        //returning the popped element.
+        return r;
+    }
+    //else we return -1.
+    return -1;
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 21:
