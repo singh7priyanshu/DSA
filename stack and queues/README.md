@@ -1572,7 +1572,191 @@ void SortedStack :: sort()
 
 <br /><br /><br />
 ## Problem 16:
-**[]()**<br />
+**[Merge Overlapping Intervals](https://www.geeksforgeeks.org/merging-intervals/)**<br />
+Given a `set of time intervals` in any order, **merge all overlapping intervals into one** and output the result which should have only mutually exclusive intervals.<br />
+Example:<br />
+<pre>
+Input: Intervals = {{1,3},{2,4},{6,8},{9,10}}
+Output: {{1, 4}, {6, 8}, {9, 10}}
+Explanation: Given intervals: [1,3],[2,4],[6,8],[9,10], we have only two overlapping intervals here,[1,3] and [2,4]. Therefore we will merge these two and return [1,4],[6,8], [9,10].
+
+Input: Intervals = {{6,8},{1,9},{2,4},{4,7}}
+Output: {{1, 9}} 
+</pre>
+<br />**Naive approach:**<br />
+A simple approach is to start from the first interval and compare it with all other intervals for overlapping, if it overlaps with any other interval, then **remove** the other interval from the list and **merge** the other into the first interval. Repeat the same steps for the remaining intervals after the first. This approach cannot be implemented in better than `O(n^2) time`.<br />
+<pre>
+Time complexity: O(n^2)
+Auxiliary Space: O(1)
+</pre>
+<br />**Efficient approach:**<br />
+The idea to solve this problem is, first sort the intervals according to the `starting time`. Once we have the sorted intervals, we can combine all intervals in a **linear traversal**. The idea is, in sorted array of intervals, if `interval[i]` doesn’t overlap with `interval[i-1]`, then `interval[i+1]` cannot overlap with `interval[i-1]` because starting time of `interval[i+1]` must be greater than or equal to `interval[i]`.<br />
+**Algorithm:**<br />
+
+ 1. **Sort** the intervals based on the **increasing order** of starting time.<br />
+ 2. **Push** the first interval into a `stack`.<br />
+ 3. For each interval do the following:<br />
+    * If the **current interval does not overlap with the top** of the stack then, `push` the current interval into the stack.<br />
+    * If the current interval overlap with the top of the stack then, `update` the stack top with the ending time of the current interval.<br />
+ 4. The **end stack** contains the merged intervals.<br /> 
+ 
+Below is an implementation of the above approach.<br />
+```cpp
+// A C++ program for merging overlapping intervals
+#include <bits/stdc++.h>
+using namespace std;
+
+// An interval has start time and end time
+struct Interval {
+	int start, end;
+};
+
+// Compares two intervals according to their starting time.
+// This is needed for sorting the intervals using library
+// function std::sort().
+bool compareInterval(Interval i1, Interval i2)
+{
+	return (i1.start < i2.start);
+}
+
+// The main function that takes a set of intervals, merges
+// overlapping intervals and prints the result
+void mergeIntervals(Interval arr[], int n)
+{
+	// Test if the given set has at least one interval
+	if (n <= 0)
+		return;
+
+	// Create an empty stack of intervals
+	stack<Interval> s;
+
+	// sort the intervals in increasing order of start time
+	sort(arr, arr + n, compareInterval);
+
+	// push the first interval to stack
+	s.push(arr[0]);
+
+	// Start from the next interval and merge if necessary
+	for (int i = 1; i < n; i++) {
+		// get interval from stack top
+		Interval top = s.top();
+
+		// if current interval is not overlapping with stack
+		// top, push it to the stack
+		if (top.end < arr[i].start)
+			s.push(arr[i]);
+
+		// Otherwise update the ending time of top if ending
+		// of current interval is more
+		else if (top.end < arr[i].end) {
+			top.end = arr[i].end;
+			s.pop();
+			s.push(top);
+		}
+	}
+
+	// Print contents of stack
+	cout << "\n The Merged Intervals are: ";
+	while (!s.empty()) {
+		Interval t = s.top();
+		cout << "[" << t.start << "," << t.end << "] ";
+		s.pop();
+	}
+	return;
+}
+
+// Driver program
+int main()
+{
+	Interval arr[] = { { 6, 8 }, { 1, 9 }, { 2, 4 }, { 4, 7 } };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	mergeIntervals(arr, n);
+	return 0;
+}
+```
+Output<br />
+<pre>
+ The Merged Intervals are: [1,9] 
+</pre>
+<pre>
+Time complexity: O(n*log(n)), which is for sorting. Once the array of intervals is sorted, merging takes linear time.
+Auxiliary Space: O(n)
+</pre>
+<br />**Space optimized approach:**<br />
+The above solution requires `O(n)` extra space for the stack. We can avoid the use of extra space by doing merge operations in place. Below are detailed steps.<br /> 
+
+ 1. Sort all intervals in **increasing order** of start time.<br />
+ 2. **Traverse** sorted intervals starting from the first interval,<br /> 
+ 3. Do the following for every interval.<br />
+    * If the current interval is not the first interval and it overlaps with the previous interval, then `merge` it with the previous interval. Keep doing it while the interval overlaps with the previous one.<br />         
+    * Otherwise, **Add** the current interval to the output list of intervals.<br />
+    
+Below is the implementation of the above approach:<br />
+```cpp
+// C++ program to merge overlapping Intervals in
+// O(n Log n) time and O(1) extra space.
+#include <bits/stdc++.h>
+using namespace std;
+
+// An Interval
+struct Interval {
+	int s, e;
+};
+
+// Function used in sort
+bool mycomp(Interval a, Interval b) { return a.s < b.s; }
+
+void mergeIntervals(Interval arr[], int n)
+{
+	// Sort Intervals in increasing order of
+	// start time
+	sort(arr, arr + n, mycomp);
+
+	int index = 0; // Stores index of last element
+	// in output array (modified arr[])
+
+	// Traverse all input Intervals
+	for (int i = 1; i < n; i++) {
+		// If this is not first Interval and overlaps
+		// with the previous one
+		if (arr[index].e >= arr[i].s) {
+			// Merge previous and current Intervals
+			arr[index].e = max(arr[index].e, arr[i].e);
+		}
+		else {
+			index++;
+			arr[index] = arr[i];
+		}
+	}
+
+	// Now arr[0..index-1] stores the merged Intervals
+	cout << "\n The Merged Intervals are: ";
+	for (int i = 0; i <= index; i++)
+		cout << "[" << arr[i].s << ", " << arr[i].e << "] ";
+}
+
+// Driver program
+int main()
+{
+	Interval arr[] = { { 6, 8 }, { 1, 9 }, { 2, 4 }, { 4, 7 } };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	mergeIntervals(arr, n);
+	return 0;
+}
+```
+Output<br />
+<pre>
+The Merged Intervals are: [1, 9] 
+</pre>
+<pre>
+Time Complexity: O(n*log(n))
+Auxiliary Space Complexity: O(1)
+</pre>
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 17:
