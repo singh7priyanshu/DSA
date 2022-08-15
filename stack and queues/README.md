@@ -1484,7 +1484,91 @@ Auxiliary Space: O(n) since using call stack
 
 <br /><br /><br />
 ## Problem 15:
-**[]()**<br />
+**[Sort a Stack using recursion](https://practice.geeksforgeeks.org/problems/sort-a-stack/1)**<br />
+Given a `stack`, the task is to sort it such that the top of the stack has the greatest element.<br />
+
+>Example 1:<br />
+Input:<br />
+Stack: 3 2 1<br />
+Output: 3 2 1<br />
+
+>Example 2:<br />
+Input:<br />
+Stack: 11 2 32 3 41<br />
+Output: 41 32 11 3 2<br />
+
+**Your Task:**<br /> 
+You don't have to read input or print anything. Your task is to complete the function `sort()` which sorts the elements present in the given stack. (The sorted stack is printed by the driver's code by popping the elements of the stack.)<br />
+
+<pre>
+Expected Time Complexity: O(N*N)
+Expected Auxilliary Space: O(N) recursive.
+</pre>
+
+* Constraints: `1<=N<=100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class SortedStack{
+public:
+    stack<int>s;
+    void sort();
+};
+
+void printStack(stack<int>s){
+    while(!s.empty()){
+        printf("%d ", s.top());
+        s.pop();
+    }
+    printf("\n");
+}
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        SortedStack *ss = new SortedStack();
+        int n; cin>>n;
+        for(int i = 0;i<n;i++){
+            int k; cin>>k;
+            ss->s.push(k);
+        }
+        ss->sort();
+        printStack(ss->s);
+    }
+}
+
+void sortedInsert(stack<int> &s, int x)
+{
+    if(s.empty() or x>s.top())
+    {
+        s.push(x);
+        return;
+    }
+    int temp = s.top();
+    s.pop();
+    sortedInsert(s,x);
+    s.push(temp);
+}
+
+void SortedStack :: sort()
+{
+    if(!s.empty())
+    {
+        int x = s.top();
+        s.pop();
+        sort();
+        sortedInsert(s,x);
+    }
+}
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 16:
