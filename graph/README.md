@@ -5101,7 +5101,328 @@ int main(){
 
 <br /><br /><br />
 ## Problem 37:
-**[]()**<br />
+**[Minimum edges to reverse to make path from a source to a destination](https://www.geeksforgeeks.org/minimum-edges-reverse-make-path-source-destination/)**<br />
+Given a `directed graph` and a `source node` and `destination node`, we need to find how many edges we need to reverse in order to make **at least** `1` path from the source node to the destination node.<br />
+Examples:<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/reverseEdge.png"><br />
+<pre>
+In above graph there were two paths from node 0 to node 6,
+0 -> 1 -> 2 -> 3 -> 6
+0 -> 1 -> 5 -> 4 -> 6
+But for first path only two edges need to be reversed, so answer will be 2 only.
+</pre>
+This problem can be solved assuming a different version of the given graph. In this version we make a **reverse edge** corresponding to every edge and we assign that a weight `1` and assign a weight `0` to original edge. After this modification above graph looks something like below,<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/modifiedGraph.png"><br />
+Now we can see that we have modified the graph in such a way that, if we move towards `original edge`, **no cost is incurred**, but if we move toward `reverse edge` **1 cost is added**. So if we apply `Dijkstra’s shortest path` on this modified graph from given source, then that will give us `minimum cost` to reach from **source** to **destination** i.e. minimum edge reversal from source to destination.<br />
+Below is the code based on above concept. <br />
+```cpp
+// C++ Program to find minimum edge reversal to get
+// atleast one path from source to destination
+#include <bits/stdc++.h>
+using namespace std;
+#define INF 0x3f3f3f3f
+
+// This class represents a directed graph using
+// adjacency list representation
+class Graph
+{
+	int V;
+	list<pair<int, int>> *graph;
+
+public:
+	// Constructor:
+	Graph(int V)
+	{
+		this->V = V;
+		graph = new list<pair<int, int>>[V];
+	}
+
+	// Adding edges into the graph:
+	void addEdge(int u, int v, int w)
+	{
+		graph[u].push_back(make_pair(v, w));
+	}
+
+	// Returns shortest path from source to all other vertices.
+	vector<int> shortestPath(int source)
+	{
+		// Create a set to store vertices that are being preprocessed
+		set<pair<int, int>> setds;
+
+		// Create a vector for distances and initialize all
+		// distances as infinite (INF)
+		vector<int> distance(V, INF);
+
+		// Insert source itself in Set and initialize its distance as 0.
+		setds.insert(make_pair(0, source));
+		distance = 0;
+
+		/* Looping till all shortest distance are finalized
+		then setds will become empty */
+		while (!setds.empty())
+		{
+			// The first vertex in Set is the minimum distance
+			// vertex, extract it from set.
+			pair<int, int> tmp = *(setds.begin());
+			setds.erase(setds.begin());
+
+			// vertex label is stored in second of pair (it
+			// has to be done this way to keep the vertices
+			// sorted distance (distance must be first item
+			// in pair)
+			int u = tmp.second;
+
+			list<pair<int, int>>::iterator i;
+			for (i = graph[u].begin(); i != graph[u].end(); ++i)
+			{
+				// Get vertex label and weight of current adjacent
+				// of u.
+				int v = (*i).first;
+				int weight = (*i).second;
+
+				// If there is shorter path to v through u.
+				if (distance[v] > distance[u] + weight)
+				{
+					/* If distance of v is not INF then it must be in
+						our set, so removing it and inserting again
+						with updated less distance.
+						Note : We extract only those vertices from Set
+						for which distance is finalized. So for them,
+						we would never reach here. */
+					if (distance[v] != INF)
+						setds.erase(setds.find(make_pair(distance[v], v)));
+
+					// Updating distance of v
+					distance[v] = distance[u] + weight;
+					setds.insert(make_pair(distance[v], v));
+				}
+			}
+		}
+		return distance;
+	}
+
+	Graph modelGraphWithEdgeWeight(int edge[][2], int E, int V)
+	{
+		Graph g(V);
+		for (int i = 0; i < E; i++)
+		{
+			// original edge : weight 0
+			g.addEdge(edge[i][0], edge[i][1], 0);
+
+			// reverse edge : weight 1
+			g.addEdge(edge[i][1], edge[i][0], 1);
+		}
+		return g;
+	}
+
+	int getMinEdgeReversal(int edge[][2], int E, int V, int source, int destination)
+	{
+		// get modified graph with edge weight.
+		Graph g = modelGraphWithEdgeWeight(edge, E, V);
+
+		// distance vector stores shortest path.
+		vector<int> dist = g.shortestPath(source);
+
+		// If distance of destination is still INF then we cannot reach destination. Hence, not possible.
+		if (dist[destination] == INF)
+			return -1;
+		else
+			return dist[destination];
+	}
+};
+
+int main()
+{
+	int V = 7;
+	Graph g(V);
+
+	int edge[][2] = {{0, 1}, {2, 1}, {2, 3}, {5, 1}, {4, 5}, {6, 4}, {6, 3}};
+	int E = sizeof(edge) / sizeof(edge[0]);
+
+	int minEdgeToReverse = g.getMinEdgeReversal(edge, E, V, 0, 6);
+
+	if (minEdgeToReverse != -1)
+		cout << minEdgeToReverse << endl;
+	else
+		cout << "Not Possible." << endl;
+
+	return 0;
+}
+```
+Output:<br />
+<pre>
+2
+</pre>
+<pre>
+One more efficient approach to this problem would be by using 0-1 BFS concept. 
+</pre>
+Below is the implementation of that algorithm:<br />
+```java
+//Java code to find minimum edge reversal to get
+//atleast one path from source to destination using 0-1 BFS
+//Code By: Sparsh_CBS
+import java.util.*;
+
+class Node{
+	private int val;
+	private int weight;
+	private Integer parent;
+	Node(int val, int weight){
+		this.val = val;
+		this.weight = weight;
+		parent = null;
+	}
+	//We have used the concept of parent to avoid
+	//a child revisiting its parent and pushing it in
+	//the deque during the 0-1 BFS
+	Node(int val, int distance, Integer parent){
+		this.val = val;
+		this.weight = distance;
+		this.parent = parent;
+	}
+
+	public int getVal(){
+		return val;
+	}
+
+	public int getWeight(){
+		return weight;
+	}
+
+	public Integer getParent(){
+		return parent;
+	}
+}
+
+public class Gfg{
+	public static void main(String[] args) {
+		List<List<Integer>> adj = new ArrayList<>();
+		for(int i = 0; i < 7; i++)
+			adj.add(new ArrayList<>());
+
+		adj.get(0).add(1);
+		
+		adj.get(2).add(1);
+		
+		adj.get(5).add(1);
+		
+		adj.get(2).add(3);
+		
+		adj.get(6).add(3);
+		
+		adj.get(6).add(4);
+		
+		adj.get(4).add(5);
+
+		int ans = getMinRevEdges(adj, 0, 6);
+	
+		if(ans == Integer.MAX_VALUE)
+			System.out.println(-1);
+		else
+			System.out.println(ans);
+	}
+
+	private static int getMinRevEdges(List<List<Integer>> adj, int src, int dest){
+		int n = adj.size();
+
+		//Create the given graph into bidirectional graph
+		List<List<Node>> newAdj = getBiDirectionalGraph(adj);
+
+		//Now, Apply 0-1 BFS using Deque to get the shortest path
+
+		//In the implementation, we will only add the
+		//encountered node into the deque if and only if
+		//the distance at which it was earlier explored was
+		//strictly larger than the currently encountered distance
+		Deque<Node> dq = new LinkedList<>();
+
+		//Here Node is made up of : Node(int node_val, int node_distance, int node_parent)
+		dq.offer(new Node(src,0,0));
+		int[] dist = new int[n];
+		//Set the distance of all nodes to infinity(Integer.MAX_VALUE)
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		//set distance of source node as 0
+		dist[src] = 0;
+
+		while(!dq.isEmpty()){
+			Node curr = dq.pollFirst();
+			int currVal = curr.getVal();
+			int currWeight = curr.getWeight();
+			int currParent = curr.getParent();
+			//If we encounter the destination node, we return
+			if(currVal == dest)
+				return currWeight;
+			//Iterate over the neighbours of the current Node
+			for(Node neighbourNode: newAdj.get(currVal)){
+				int neighbour = neighbourNode.getVal();
+				if(neighbour == currParent)
+					continue;
+
+				int wt = neighbourNode.getWeight();
+				if(wt == 0 && dist[neighbour] > currWeight){
+					dist[neighbour] = currWeight;
+					dq.offerFirst(new Node(neighbour,currWeight, currVal));
+				}
+				else if(dist[neighbour] > currWeight+wt){
+					dist[neighbour] = currWeight+wt;
+					dq.offerLast(new Node(neighbour, currWeight+wt, currVal));
+				}
+			}
+		}
+		return Integer.MAX_VALUE;
+	}
+
+	private static List<List<Node>> getBiDirectionalGraph(List<List<Integer>> adj){
+		int n = adj.size();
+		List<List<Node>> newAdj = new ArrayList<>();
+		
+		for(int i = 0; i < n; i++)
+			newAdj.add(new ArrayList<>());
+		
+		boolean[] visited = new boolean[n];
+		Queue<Integer> queue = new LinkedList<>();
+
+		for(int i = 0; i < n; i++){
+			if(!visited[i]){
+				visited[i] = true;
+				queue.offer(i);
+				
+				while(!queue.isEmpty()){
+					int curr = queue.poll();
+					for(int neighbour: adj.get(curr)){
+						//original edges are to be assigned a weight of 0
+						newAdj.get(curr).add(new Node(neighbour, 0));
+						//make a fake edge and assign a weight of 1
+						newAdj.get(neighbour).add(new Node(curr, 1));
+					
+						if(visited[neighbour]){
+						//if the neighbour was visited, then dont
+						// add it again in the queue
+						continue;
+						}
+						visited[neighbour] = true;
+						queue.offer(neighbour);
+					}
+				}
+			}
+		}
+		return newAdj;
+	}
+}
+```
+Output:<br />
+<pre>
+2
+</pre>
+<pre>
+Time Complexity: O(V+E)
+Space Complexity: O(V+2*E)
+</pre>
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 38:
