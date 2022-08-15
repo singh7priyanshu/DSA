@@ -1,6 +1,6 @@
-# Stacks and Queues
-**[1. Implement Stack from Scratch](https://www.tutorialspoint.com/javaexamples/data_stack.htm)**<br />
-
+# Love Babbar Sheet 450 - Stacks and Queues
+## Problem 1:
+**[Implement Stack from Scratch](https://www.tutorialspoint.com/javaexamples/data_stack.htm)**<br />
 Following example shows how to implement stack by creating user defined `push()` method for entering elements and `pop()` method for retrieving elements from the stack.<br />
 
 ```cpp
@@ -102,7 +102,9 @@ it Is Empty Stack<br />
 
 
 
-<br /><br /><br />**[2. Implement Queue from Scratch](https://www.geeksforgeeks.org/queue-set-1introduction-and-array-implementation/)**<br />
+<br /><br /><br />
+## Problem 2:
+**[2. Implement Queue from Scratch](https://www.geeksforgeeks.org/queue-set-1introduction-and-array-implementation/)**<br />
 Like `Stack`, `Queue` is a linear structure which follows a particular order in which the operations are performed. The order is `F`irst `I`n `F`irst `O`ut `(FIFO)`.  A good example of queue is any queue of consumers for a resource where the consumer that came first is served first. <br />
 The difference between stacks and queues is in removing. In a stack we remove the item the most recently added; in a queue, we remove the item the least recently added.<br />
 
@@ -272,7 +274,9 @@ Rear item is 40<br />
 
  
  
-<br /><br /><br />**[3. Implement 2 stack in an array](https://practice.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1)**<br />
+<br /><br /><br />
+## Problem 3:
+**[Implement 2 stack in an array](https://practice.geeksforgeeks.org/problems/implement-two-stacks-in-an-array/1)**<br />
 Your task is to implement  2 stacks in one array efficiently.<br />
 
 >Example 1:<br />
@@ -402,7 +406,9 @@ int twoStacks :: pop2()
 
 
 
-<br /><br /><br />**[4. find the middle element of a stack](https://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/)**<br />
+<br /><br /><br />
+## Problem 4:
+**[Find the middle element of a stack](https://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/)**<br />
 How to implement a stack which will support following operations in `O(1) time complexity`? <br />
 
   1) `push()` which adds an element to the top of stack. 
@@ -550,11 +556,156 @@ int main()
 }
 ```
 
->Output<br />
-Item popped is 77<br />
-Item popped is 66<br />
-Item popped is 55<br />
-Middle Element is 33<br />
-Deleted Middle Element is 33<br />
-Middle Element is 22<br />
+Output<br />
+<pre>
+Item popped is 77
+Item popped is 66
+Item popped is 55
+Middle Element is 33
+Deleted Middle Element is 33
+Middle Element is 22
+</pre>
+
+
+
+
+
+
+
+<br /><br /><br />
+## Problem 5:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 6:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 7:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 8:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 9:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 10:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 11:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 12:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 13:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 14:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 15:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 16:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 17:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 18:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 19:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 20:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 21:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 22:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 23:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 24:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 25:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 26:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 27:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 28:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 29:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 30:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 31:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 32:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 33:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 34:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 35:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 36:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 37:
+**[]()**<br />
+
+<br /><br /><br />
+## Problem 38:
+**[]()**<br />
+
 
