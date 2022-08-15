@@ -834,9 +834,9 @@ int main()
 **[Reverse a string using Stack](https://practice.geeksforgeeks.org/problems/reverse-a-string-using-stack/1)**<br />
 You are given a string `S`, the task is to reverse the string using stack.<br />
 
->Example 1:
-Input: S="GeeksforGeeks"
-Output: skeeGrofskeeG
+>Example 1:<br />
+Input: S="GeeksforGeeks"<br />
+Output: skeeGrofskeeG<br />
  
 **Your Task:**<br />
 You don't need to read input or print anything. Your task is to complete the function `reverse()` which takes the string `S` as an input parameter and returns the reversed string.<br />
