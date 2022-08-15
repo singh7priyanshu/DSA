@@ -4859,6 +4859,488 @@ int main(){
 
 <br /><br /><br />
 ## Problem 38:
-**[]()**<br />
+**[Next Smaller Element](https://www.geeksforgeeks.org/next-smaller-element/)**<br />
+Given an array, print the `Next Smaller Element (NSE)` for every element. The `NSE` for an element `x` is the first smaller element on the right side of `x` in array.<br />
+Elements for which no `smaller element exist` (on right side), consider `NSE` as `-1`.<br /> 
+Examples:<br />
 
+	 a) For any array, **rightmost element always** has `NSE` as `-1`.<br /> 
+ 	 b) For an array which is sorted in increasing order, all elements have `NSE` as `-1`.<br /> 
+	 c) For the input array `[4, 8, 5, 2, 25}`, the `NSE` for each element are as follows.<br />
+ 
+ <pre>
+ Element         NSE
+   4      -->    2
+   8      -->    5
+   5      -->    2
+   2      -->   -1
+   25     -->   -1
+ </pre>
+ 
+ 	 d) For the input array `[13, 7, 6, 12}`, the `next smaller elements` for each element are as follows.<br />
+<pre>
+  Element        NSE
+   13      -->    7
+   7       -->    6
+   6       -->   -1
+   12      -->   -1
+</pre>
+<br />**Method 1 (Simple)**<br />
+`Use two loops:` The **outer loop picks** all the elements `one by one`. The `inner loop` looks for the first smaller element for the element **picked by outer loop**. If a `smaller element` is found then that element is printed as `next`, otherwise, `-1` is printed.<br />
+```cpp
+// Simple C++ program to print
+// next smaller elements in a given array
+#include "bits/stdc++.h"
+using namespace std;
 
+/* prints element and NSE pair
+for all elements of arr[] of size n */
+void printNSE(int arr[], int n)
+{
+	int next, i, j;
+	for (i = 0; i < n; i++)
+	{
+		next = -1;
+		for (j = i + 1; j < n; j++)
+		{
+			if (arr[i] > arr[j])
+			{
+				next = arr[j];
+				break;
+			}
+		}
+		cout << arr[i] << " -- " << next << endl;
+	}
+}
+
+// Driver Code
+int main()
+{
+	int arr[]= {11, 13, 21, 3};
+	int n = sizeof(arr) / sizeof(arr[0]);
+	printNSE(arr, n);
+	return 0;
+}
+```
+Output<br />
+<pre>
+11 -- 3
+13 -- 3
+21 -- 3
+3 -- -1
+</pre>
+<pre>
+Time Complexity: O(N^2)     
+The worst case occurs when all elements are sorted in decreasing order.
+Auxiliary Space: O(1) 
+As constant extra space is used
+</pre>
+<br />**Method 2 (Using Segment Tree and Binary Search)**<br />
+This method is also pretty simple if one knows `Segment trees and Binary Search`. Lets consider an array `a` and lets suppose `NSE` for `ai` is `aj`, we simply need to binary search for `j` in range `i + 1` to `n - 1`. `j` will be the first index `k` , such that range minimum of elements from index `i + 1` to `k` `forall k in [i+1, n - 1]`) is lesser than `ai`.<br />
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Program to find next smaller element for all elements in
+// an array, using segment tree and binary search
+
+// --------Segment Tree Starts Here-----------------
+
+vector<int> seg_tree;
+
+// combine function for combining two nodes of the tree, in
+// this case we need to take min of two
+int combine(int a, int b) { return min(a, b); }
+
+// build function, builds seg_tree based on vector parameter
+// arr
+void build(vector<int>& arr, int node, int tl, int tr)
+{
+	// if current range consists only of one element, then
+	// node should be this element
+	if (tl == tr) {
+		seg_tree[node] = arr[tl];
+	}
+	else {
+		// divide the build operations into two parts
+		int tm = (tr - tl) / 2 + tl;
+
+		build(arr, 2 * node, tl, tm);
+		build(arr, 2 * node + 1, tm + 1, tr);
+
+		// combine the results from two parts, and store it
+		// into current node
+		seg_tree[node] = combine(seg_tree[2 * node], seg_tree[2 * node + 1]);
+	}
+}
+
+// query function, returns minimum in the range [l, r]
+int query(int node, int tl, int tr, int l, int r)
+{
+	// if range is invalid, then return infinity
+	if (l > r) {
+		return INT32_MAX;
+	}
+
+	// if range completely aligns with a segment tree node,
+	// then value of this node should be returned
+	if (l == tl && r == tr) {
+		return seg_tree[node];
+	}
+
+	// else divide the query into two parts
+	int tm = (tr - tl) / 2 + tl;
+
+	int q1 = query(2 * node, tl, tm, l, min(r, tm));
+	int q2 = query(2 * node + 1, tm + 1, tr, max(l, tm + 1),
+				r);
+
+	// and combine the results from the two parts and return
+	// it
+	return combine(q1, q2);
+}
+
+// --------Segment Tree Ends Here-----------------
+
+void printNSE(vector<int> arr, int n)
+{
+	seg_tree = vector<int>(4 * n);
+
+	// build segment tree initially
+	build(arr, 1, 0, n - 1);
+
+	int q, l, r, mid, ans;
+	for (int i = 0; i < n; i++) {
+		// binary search for ans in range [i + 1, n - 1],
+		// initially ans is -1 representing there is no NSE
+		// for this element
+		l = i + 1;
+		r = n - 1;
+		ans = -1;
+
+		while (l <= r) {
+			mid = (r - l) / 2 + l;
+			// q is the minimum element in range [l, mid]
+			q = query(1, 0, n - 1, l, mid);
+
+			// if the minimum element in range [l, mid] is
+			// less than arr[i], then mid can be answer, we
+			// mark it, and look for a better answer in left
+			// half. Else if q is greater than arr[i], mid
+			// can't be an answer, we should search in right
+			// half
+
+			if (q < arr[i]) {
+				ans = arr[mid];
+				r = mid - 1;
+			}
+			else {
+				l = mid + 1;
+			}
+		}
+
+		// print NSE for arr[i]
+		cout << arr[i] << " ---> " << ans << "\n";
+	}
+}
+
+// Driver program to test above functions
+int main()
+{
+	vector<int> arr = { 11, 13, 21, 3 };
+	printNSE(arr, 4);
+	return 0;
+}
+```
+Output<br />
+<pre>
+11 ---> 3
+13 ---> 3
+21 ---> 3
+3 ---> -1
+</pre>
+<pre>
+Time Complexity : O(N(log(N))^2)   
+For each of n array elements we do a binary search, which includes log(N) steps, and each step costs log(N) operations [range minimum queries].
+Auxiliary Space: O(N)
+As extra space is used for storing the elements of the segment tree.
+</pre>
+<br />`Method 3 (Using Segment Tree and Coordinate Compression)`<br />
+In this approach, we build a segment tree on indices of compressed array elements:<br />
+<pre>
+ 1. Somewhere along the lines, we would build a array aux such-that aux[i] is the smallest index at which i is present in input array.
+ 2. Its easy to see that we need to compress the input array so as to build this array aux because if i 
+    exceeds 10^7 (memory limit of online judge) chances are we would get a segmentation fault.
+ 3. To compress we sort the input array, and then for each new value seen in array we map it to a corresponding 
+    smaller value, if possible. Use these mapped values to generate a compressed array with same order as input array.
+ 4. So now that we are done with compression, we can begin with the query part:
+   * Suppose in previous step, we compressed the array to ctr distinct values. Initially set 
+     aux[i] =  -1 forall i in [0, ctr), this signifies no value is processed at any index as of now.
+   * Traverse the compressed array in reverse order, this would imply that in past we would have only 
+     processed elements that are on the right side.
+       * For compressed[i], query (and store in ans[i]) the smallest index of values [0, compressed[i]) using 
+         segment tree, this must be the NSE for compressed[i]!
+       * Update the index of compressed[i] to i.
+ 5. We stored the index of NSEs for all array elements, we can easily print NSEs themselves as shown in code.
+</pre>
+**Note:**In implementation we use `INT32_MAX` instead of `-1` because storing `INT32_MAX` doesn’t affect our min-segment tree and still serves the purpose of identifying unprocessed values.<br />
+As `extra space` is used for storing the elements of the `segment tree`.<br />
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Program to find next smaller element for all elements in
+// an array, using segment tree and coordinate compression
+
+// --------Segment Tree Starts Here-----------------
+
+vector<int> seg_tree;
+
+// combine function for combining two nodes of the tree, in
+// this case we need to take min of two
+int combine(int a, int b) { return min(a, b); }
+
+// build function, builds seg_tree based on vector parameter
+// arr
+void build(vector<int>& arr, int node, int tl, int tr)
+{
+	// if current range consists only of one element, then
+	// node should be this element
+	if (tl == tr) {
+		seg_tree[node] = arr[tl];
+	}
+	else {
+		// divide the build operations into two parts
+		int tm = (tr - tl) / 2 + tl;
+
+		build(arr, 2 * node, tl, tm);
+		build(arr, 2 * node + 1, tm + 1, tr);
+
+		// combine the results from two parts, and store it
+		// into current node
+		seg_tree[node] = combine(seg_tree[2 * node], seg_tree[2 * node + 1]);
+	}
+}
+
+// update function, used to make a point update, update
+// arr[pos] to new_val and make required changes to segtree
+void update(int node, int tl, int tr, int pos, int new_val)
+{
+	// if current range only contains one point, this must
+	// be arr[pos], update the corresponding node to new_val
+	if (tl == tr) {
+		seg_tree[node] = new_val;
+	}
+	else {
+		// else divide the range into two parts
+		int tm = (tr - tl) / 2 + tl;
+
+		// if pos lies in first half, update this half, else
+		// update second half
+		if (pos <= tm) {
+			update(2 * node, tl, tm, pos, new_val);
+		}
+		else {
+			update(2 * node + 1, tm + 1, tr, pos, new_val);
+		}
+
+		// combine results from both halfs
+		seg_tree[node] = combine(seg_tree[2 * node], seg_tree[2 * node + 1]);
+	}
+}
+
+// query function, returns minimum in the range [l, r]
+int query(int node, int tl, int tr, int l, int r)
+{
+	// if range is invalid, then return infinity
+	if (l > r) {
+		return INT32_MAX;
+	}
+
+	// if range completely aligns with a segment tree node,
+	// then value of this node should be returned
+	if (l == tl && r == tr) {
+		return seg_tree[node];
+	}
+
+	// else divide the query into two parts
+	int tm = (tr - tl) / 2 + tl;
+
+	int q1 = query(2 * node, tl, tm, l, min(r, tm));
+	int q2 = query(2 * node + 1, tm + 1, tr, max(l, tm + 1),
+				r);
+
+	// and combine the results from the two parts and return
+	// it
+	return combine(q1, q2);
+}
+
+// --------Segment Tree Ends Here-----------------
+
+void printNSE(vector<int> original, int n)
+{
+	vector<int> sorted(n);
+	map<int, int> encode;
+
+	// -------Coordinate Compression Starts Here ------
+
+	// created a temporary sorted array out of original
+	for (int i = 0; i < n; i++) {
+		sorted[i] = original[i];
+	}
+	sort(sorted.begin(), sorted.end());
+
+	// encode each value to a new value in sorted array
+	int ctr = 0;
+	for (int i = 0; i < n; i++) {
+		if (encode.count(sorted[i]) == 0) {
+			encode[sorted[i]] = ctr++;
+		}
+	}
+
+	// use encode to compress original array
+	vector<int> compressed(n);
+	for (int i = 0; i < n; i++) {
+		compressed[i] = encode[original[i]];
+	}
+
+	// -------Coordinate Compression Ends Here ------
+
+	// Create an aux array of size ctr, and build a segtree
+	// based on this array
+
+	vector<int> aux(ctr, INT32_MAX);
+	seg_tree = vector<int>(4 * ctr);
+
+	build(aux, 1, 0, ctr - 1);
+
+	// For each compressed[i], query for index of NSE and
+	// update segment tree
+
+	vector<int> ans(n);
+	for (int i = n - 1; i >= 0; i--) {
+		ans[i] = query(1, 0, ctr - 1, 0, compressed[i] - 1);
+		update(1, 0, ctr - 1, compressed[i], i);
+	}
+
+	// Print -1 if NSE doesn't exist, otherwise print NSE
+	// itself
+
+	for (int i = 0; i < n; i++) {
+		cout << original[i] << " ---> ";
+		if (ans[i] == INT32_MAX) {
+			cout << -1;
+		}
+		else {
+			cout << original[ans[i]];
+		}
+		cout << "\n";
+	}
+}
+
+// Driver program to test above functions
+int main()
+{
+	vector<int> arr = { 11, 13, 21, 3 };
+	printNSE(arr, 4);
+	return 0;
+}
+```
+Output<br />
+<pre>
+11 ---> 3
+13 ---> 3
+21 ---> 3
+3 ---> -1
+</pre>
+<pre>
+Time Complexity: O(Nlog(N))      
+Auxiliary Space: O(N)
+</pre>
+<br />**Method 4 (Using Stack)**<br />
+This problem is `similar to next greater element`. Here we **maintain items in increasing order** in the `stack` (`instead of decreasing in next greater element` problem).<br />
+
+ 1. Push the **first element** to stack.<br />
+ 2. Pick rest of the elements one by one and follow following steps in loop.<br />
+   * Mark the `current element as next`.<br />
+   * If `stack is not empty`, then `compare` **next with stack top**. If `next is smaller` than top then `next is the NSE for the top`. Keep `popping` from the stack while `top is greater than next`. **next becomes the NSE** for all such `popped elements`<br />
+   * Push `next into the stack`<br />
+ 3. After the loop in step 2 is over, `pop all the elements from stack` and print `-1` as next element for them.<br />
+ 
+**Note:** To achieve same order, we use a stack of pairs, where first element is the value and second element is index of array element.<br />
+```cpp
+// A Stack based C++ program to find next
+// smaller element for all array elements
+#include <bits/stdc++.h>
+using namespace std;
+
+// prints NSE for elements of array arr[] of size n
+
+void printNSE(int arr[], int n)
+{
+	stack<pair<int, int> > s;
+	vector<int> ans(n);
+
+	// iterate for rest of the elements
+	for (int i = 0; i < n; i++) {
+		int next = arr[i];
+
+		// if stack is empty then this element cant be NSE
+		// for any other element, so just push it to stack
+		// so that we can find NSE for it, and continue
+		if (s.empty()) {
+			s.push({ next, i });
+			continue;
+		}
+
+		// while stack is not empty and the top element is
+		// greater than next
+		// a) NSE for top is next, use tops index to
+		// maintain original order
+		// b) pop the top element from stack
+
+		while (!s.empty() && s.top().first > next) {
+			ans[s.top().second] = next;
+			s.pop();
+		}
+
+		// push next to stack so that we can find NSE for it
+
+		s.push({ next, i });
+	}
+
+	// After iterating over the loop, the remaining elements
+	// in stack do not have any NSE, so set -1 for them
+
+	while (!s.empty()) {
+		ans[s.top().second] = -1;
+		s.pop();
+	}
+
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ---> " << ans[i] << endl;
+	}
+}
+
+// Driver program to test above functions
+int main()
+{
+	int arr[] = { 11, 13, 21, 3 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	printNSE(arr, n);
+	return 0;
+}
+```
+Output<br />
+<pre>
+11 ---> 3
+13 ---> 3
+21 ---> 3
+3 ---> -1
+</pre>
+<pre>
+Time Complexity: O(N)    
+As we use only single for loop and all the elements in the stack are push and popped atmost once.
+Auxiliary Space: O(N)
+As extra space is used for storing the elements of the stack.
+</pre>
