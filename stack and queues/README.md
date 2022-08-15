@@ -971,7 +971,94 @@ int getMin(stack<int>& s){
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[Find the next Greater element](https://practice.geeksforgeeks.org/problems/next-larger-element-1587115620/1)**<br />
+Given an array `arr[ ]` of size `N` having distinct elements, the task is to find **the next greater element for each element of the array** in order of their appearance in the array.<br />
+Next greater element of an element in the array is the `nearest element on the right` which is greater than the current element.<br />
+If there does not exist next greater of current element, then next greater element for current element is `-1`. For example, next greater of the last element is always `-1`.<br />
+
+>Example 1:<br />
+Input: <br />
+N = 4, arr[] = [1 3 2 4]<br />
+Output:<br />
+3 4 4 -1<br />
+Explanation:<br />
+In the array, the next larger element to 1 is 3 , 3 is 4 , 2 is 4 and for 4 ?<br /> 
+since it doesn't exist, it is -1.<br />
+
+>Example 2:<br />
+Input: <br />
+N = 5, arr[] [6 8 0 1 3]<br />
+Output:<br />
+8 -1 1 3 -1<br />
+Explanation:<br />
+In the array, the next larger element to 6 is 8, for 8 there is no larger elements <br />
+hence it is -1, for 0 it is 1 , for 1 it is 3 and then for 3 there is no larger element on right and hence -1.<br />
+
+**Your Task:**<br />
+This is a function problem. You only need to complete the function `nextLargerElement()` that takes list of integers `arr[ ]` and `N` as input parameters and returns _list of integers of length `N` denoting the next greater elements for all the corresponding elements in the input array_.<br />
+
+<pre>
+Expected Time Complexity : O(N)
+Expected Auxiliary Space : O(N)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^6`<br />
+`1 ≤ Ai ≤ 10^18`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    //Function to find the next greater element for each element of the array.
+    vector<long long> nextLargerElement(vector<long long> arr, int n)
+    {
+        stack<long long > s;
+        vector<long long > res (n);
+        
+        //traversing the array from last element in backward direction.
+        for (int i = n-1; i >= 0; i--)
+        {
+            //while element at top of stack is less than or equal to
+            //current array element, we pop elements from the stack.
+            while (!s.empty () and s.top () <= arr[i])
+                s.pop ();
+            
+            //if stack becomes empty, we store -1 in the answer list 
+            //else we store the top element of the stack.   
+            if (s.empty ())
+                res[i] = -1;
+            else 
+                res[i] = s.top ();
+            
+            //pushing the current array element into the stack.  
+            s.push (arr[i]);
+        }
+        //returning the list.
+        return res;
+    }
+};
+
+int main(){
+    long long int t; cin>>t;
+    while(t--){
+        int n; cin>>n;
+        vector<long long>arr(n);
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        vector<long long>res = ob.nextLargerElement(arr, n);
+        for(long long i : res)cout<<i<<" ";
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 10:
