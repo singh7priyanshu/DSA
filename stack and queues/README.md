@@ -3901,7 +3901,125 @@ int main(){
 
 <br /><br /><br />
 ## Problem 31:
-**[]()**<br />
+**[Minimum time required to rot all oranges](https://practice.geeksforgeeks.org/problems/rotten-oranges2536/1)**<br />
+Given a grid of dimension `nxm` where each cell in the grid can have values `0`, `1` or `2` which has the following meaning:<br />
+
+ 0 : Empty cell<br />
+ 1 : Cells have fresh oranges<br />
+ 2 : Cells have rotten oranges<br />
+
+We have to determine what is the `minimum time` required to rot all oranges. A rotten orange at `index [i,j]` can rot other fresh orange at `indexes [i-1,j], [i+1,j], [i,j-1], [i,j+1]` (`up`, `down`, `left` and `right`) in unit time.<br /> 
+ 
+>Example 1:<br />
+Input: grid = {{0,1,2},{0,1,2},{2,1,1}}<br />
+Output: 1<br />
+Explanation: The grid is-<br />
+0 1 2<br />
+0 1 2<br />
+2 1 1<br />
+Oranges at positions (0,2), (1,2), (2,0) will rot oranges at (0,1), (1,1), (2,2) and (2,1) in unit time.<br />
+
+>Example 2:<br />
+Input: grid = {{2,2,0,1}}<br />
+Output: -1<br />
+Explanation: The grid is-<br />
+2 2 0 1<br />
+Oranges at (0,0) and (0,1) can't rot orange at (0,3).<br />
+
+**Your Task:**<br />
+You don't need to read or print anything, Your task is to complete the function `orangesRotting()` which takes grid as `input parameter` and returns _the minimum time to rot all the fresh oranges_. If not possible returns `-1`.<br />
+ 
+<pre>
+Expected Time Complexity: O(n*m)
+Expected Auxiliary Space: O(n)
+</pre>
+
+* Constraints: `1 ≤ n, m ≤ 500`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution 
+{
+    public:
+    //Function to find minimum time required to rot all oranges. 
+    int orangesRotting(vector<vector<int>>& grid) 
+    {
+        int ct=0, res=-1;
+        //queue to store cells which have rotten oranges.
+        queue<vector<int>> q;
+        vector<vector<int>> dir={{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        
+        //traversing over all the cells of the matrix.
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[0].size();j++) 
+            {
+                //if grid value is more than 0, we increment the counter.
+                if(grid[i][j]>0) 
+                    ct++;
+                //if grid value is 2, we push the cell indexes into queue.
+                if(grid[i][j]==2) 
+                    q.push({i, j});
+            }
+        }
+        while(!q.empty())
+        {
+            //incrementing result counter.
+            res++;
+            int size=q.size();
+            for(int k=0;k<size;k++) 
+            {
+                //popping the front element of queue and storing cell indexes.
+                vector<int> cur=q.front();
+                ct--;
+                q.pop();
+                
+                //traversing the adjacent vertices.
+                for(int i=0;i<4;i++) 
+                {
+                    int x=cur[0]+dir[i][0], y=cur[1]+dir[i][1];
+                    
+                    //if cell indexes are within matrix bounds and grid value
+                    //is not 1, we continue the loop else we store 2 in current
+                    //cell and push the cell indexes in the queue.
+                    if(x>=grid.size()||x<0||y>=grid[0].size()||y<0||grid[x][y]!=1) 
+                        continue;
+                    grid[x][y]=2;
+                    q.push({x, y});
+                }
+            }
+        }
+        //returning the minimum time.
+        if(ct==0) return max(0, res);
+        return -1;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int n, m; cin>>n>>m;
+        vector<vector<int>>grid(n, vector<int>(m, -1));
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++)cin>>grid[i][j];
+        }
+        Solution ob;
+        int ans = ob.orangesRotting(grid);
+        cout<<ans<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 32:
