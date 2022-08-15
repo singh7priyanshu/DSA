@@ -5083,7 +5083,8 @@ In this approach, we build a segment tree on indices of compressed array element
        * Update the index of compressed[i] to i.
  5. We stored the index of NSEs for all array elements, we can easily print NSEs themselves as shown in code.
 </pre>
-**Note:**In implementation we use `INT32_MAX` instead of `-1` because storing `INT32_MAX` doesn’t affect our min-segment tree and still serves the purpose of identifying unprocessed values.<br />
+**Note:**<br />
+In implementation we use `INT32_MAX` instead of `-1` because storing `INT32_MAX` doesn’t affect our min-segment tree and still serves the purpose of identifying unprocessed values.<br />
 As `extra space` is used for storing the elements of the `segment tree`.<br />
 ```cpp
 #include <bits/stdc++.h>
