@@ -2743,7 +2743,8 @@ Expected Auxilliary Space : O(1).
 * Constraints: `1 <= Q <= 100`<br />
 `1 <= x <= 100`<br />
 
-**Note:**The Input/Ouput format and Example given are used for system's internal purpose, and should be used by a user for Expected Output only. As it is a function problem, hence a user should not read any input from stdin/console. The task is to complete the function specified, and not to write the full code.<br />
+**Note:**<br />
+The Input/Ouput format and Example given are used for system's internal purpose, and should be used by a user for Expected Output only. As it is a function problem, hence a user should not read any input from stdin/console. The task is to complete the function specified, and not to write the full code.<br />
 
 ```cpp
 #include<bits/stdc++.h>
@@ -3045,8 +3046,10 @@ In a normal Queue, we can insert elements until queue becomes full. But once que
  * `deQueue()` This function is used to delete an element from the `circular queue`. In a circular queue, the element is always `deleted` from front position.<br /> 
    1. Check whether queue is Empty means check `(front==-1)`.<br />
    2. If it is `empty` then display Queue is empty. If queue is not empty then step 3<br />
-   3. Check if `(front==rear)` if it is true then set `front=rear= -1` else check if `(front==size-1)`, if it is true then set `front=0` and return the element.<br />   
+   3. Check if `(front==rear)` if it is true then set `front=rear= -1` else check if `(front==size-1)`, if it is true then set `front=0` and return the element.<br />
+   
 **Implementation:**<br />
+
 ```cpp
 // C or C++ program for insertion and
 // deletion in Circular Queue
