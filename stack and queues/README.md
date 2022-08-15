@@ -1201,7 +1201,90 @@ The stack operations for this expression evaluation is shown below:<br />
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[Evaluation of Postfix Expression](https://practice.geeksforgeeks.org/problems/evaluation-of-postfix-expression1735/1)**<br />
+Given string `S` representing a `postfix expression`, the task is to evaluate the expression and find the final value. Operators will only include the basic arithmetic operators like `*, /, + and -`.<br />
+
+>Example 1:<br />
+Input: S = "231*+9-"<br />
+Output: -4<br />
+Explanation:<br />
+After solving the given expression, we have -4 as result.<br />
+
+>Example 2:<br />
+Input: S = "123+*8-"<br />
+Output: -3<br />
+Explanation:<br />
+After solving the given postfix expression, we have -3 as result.<br />
+
+**Your Task:**<br />
+You do not need to read input or print anything. Complete the function `evaluatePostfixExpression()` that takes the string `S` denoting the expression as input parameter and returns the evaluated value.<br />
+
+<pre>
+Expected Time Complexity: O(|S|)
+Expected Auixilliary Space: O(|S|)
+</pre>
+
+* Constraints: `1 ≤ |S| ≤ 10^5`<br />
+`0 ≤ |Si|≤ 9` (And given operators)<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+    public:
+    //Function to evaluate a postfix expression.
+    int evaluatePostfix(string S)
+    {
+        stack<int> st;
+        
+        //iterating over the given string.
+        for (int i = 0; i<S.size(); ++i)
+        {
+            //if current character is an operand, we push it to the stack.
+            if (isdigit(S[i]))
+                st.push(S[i] - '0');
+    
+            //else current character is an operator.
+            else
+            {
+                //we pop and store the values of first two elements of stack.
+                int val1 = st.top(); st.pop();
+                int val2 = st.top(); st.pop();
+                
+                //we perform required operation and push the result in stack.
+                switch (S[i])
+                {
+                 case '+': st.push(val2 + val1); break;
+                 case '-': st.push(val2 - val1); break;
+                 case '*': st.push(val2 * val1); break;
+                 case '/': st.push(val2 / val1); break;
+                }
+            }
+        }
+        //returning the top element of the stack.
+        return st.top();
+    }
+};
+
+int main(){
+    long long int t; cin>>t;
+    cin.ignore(INT_MAX, '\n');
+    while(t--){
+        string S; cin>>S;
+        Solution ob;
+        cout<<ob.evaluatePostfix(S)<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
