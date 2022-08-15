@@ -3076,7 +3076,7 @@ arr[] = {3,0,0,2,0,4}<br />
 Output:<br />
 10<br />
 Explanation:<br /> 
-<img src = "https://github.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/blob/main/array/source%20images/download.png">
+<img src = "https://user-images.githubusercontent.com/71781982/184681586-2451837f-1553-4abe-badc-b121c0b61523.png">
 
 >Example 2:<br />
 Input:<br />
