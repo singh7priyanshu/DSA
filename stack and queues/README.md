@@ -2690,27 +2690,924 @@ Space Complexity – O(N)
 
 <br /><br /><br />
 ## Problem 23:
-**[]()**<br />
+**[Implement Queue using Stack](https://practice.geeksforgeeks.org/problems/queue-using-two-stacks/1)**<br />
+Implement a Queue using 2 stacks `s1` and `s2` .<br />
+A Query `Q` is of `2` Types<br />
+
+(i) **1 x (a query of this type means  pushing 'x' into the queue)**<br />
+(ii) **2   (a query of this type means to pop element from queue and print the poped element)**<br />
+
+<pre>
+Example 1:
+Input:
+5
+1 2 1 3 2 1 4 2
+
+Output: 
+2 3
+
+Explanation: 
+In the first testcase
+1 2 the queue will be {2}
+1 3 the queue will be {2 3}
+2   poped element will be 2 the queue 
+    will be {3}
+1 4 the queue will be {3 4}
+2   poped element will be 3.
+</pre>
+<pre>
+Example 2:
+Input:
+4
+1 2 2 2 1 4
+
+Output: 
+2 -1
+
+Explanation: 
+In the second testcase 
+1 2 the queue will be {2}
+2   poped element will be 2 and 
+    then the queue will be empty
+2   the queue is empty and hence -1
+1 4 the queue will be {4}.
+</pre>
+**Your Task:**<br />
+You are required to complete the two methods push which take one argument an integer `'x'` to be pushed into the `queue` and `pop` which returns **a integer poped out from other queue**`(-1 if the queue is empty)`. The printing is done automatically by the driver code.
+
+<pre>
+Expected Time Complexity : O(1) for push() and O(N) for pop() or O(N) for push() and O(1) for pop()  
+Expected Auxilliary Space : O(1).
+</pre>
+
+* Constraints: `1 <= Q <= 100`<br />
+`1 <= x <= 100`<br />
+
+**Note:**The Input/Ouput format and Example given are used for system's internal purpose, and should be used by a user for Expected Output only. As it is a function problem, hence a user should not read any input from stdin/console. The task is to complete the function specified, and not to write the full code.<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class StackQueue{
+private:
+    stack<int>s1;
+    stack<int>s2;
+public:
+    void push(int B);
+    int pop();
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        StackQueue *sq = new StackQueue();
+        int Q; cin>>Q;
+        while(Q--){
+            int QueryType; cin>>QueryType;
+            if(QueryType == 1){
+                int a; cin>>a;
+                sq->push(a);
+            }else if(QueryType == 2){
+                cout<<sq->pop()<<" ";
+            }
+        }
+        cout<<endl;
+    }
+}
+
+//Function to push an element in queue by using 2 stacks.
+void StackQueue :: push(int B)
+{
+    //inserting the element in first stack.
+    s1.push(B);
+}
+
+//Function to pop an element from queue by using 2 stacks.
+int StackQueue :: pop(){
+    if(s2.empty())
+    {
+        //if both stacks are empty, we return -1.
+        if(s1.empty())
+            return -1;
+        //we keep removing the top element from first stack and keep
+        //pushing them in second stack. Thus, the order gets reversed.
+        while(!s1.empty())
+        {
+            int r=s1.top();
+            s1.pop(); 
+            s2.push(r);
+        }
+    }
+    //second stack holds the elements in reversed order so we just store 
+    //and then pop the element at top of the stack.
+    int k=s2.top();
+    s2.pop();
+    return k;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 24:
-**[]()**<br />
+**[Implement "n" queue in an array](https://www.geeksforgeeks.org/efficiently-implement-k-queues-single-array/)**<br />
+Create a data structure kQueues that represents `k` queues. Implementation of `kQueues` should use only one array, i.e., `k` queues should use the same array for storing elements. Following functions must be supported by `kQueues`.<br />
+
+ * `enqueue(int x, int qn)` –> adds `x` to queue number `‘qn’` where `qn` is from `0` to `k-1`<br /> 
+ * `dequeue(int qn)` –> deletes an element from queue number `‘qn’` where `qn` is from `0` to `k-1` <br />
+
+<br />**Method 1 (Divide the array in slots of size n/k):**<br />
+A simple way to implement `k` queues is to divide the array in `k` slots of size `n/k` each, and fix the slots for different queues, i.e., use `arr[0] to arr[n/k-1]` for the first queue, and `arr[n/k]` to `arr[2n/k-1]` for queue2 where `arr[]` is the array to be used to implement two queues and size of array be `n`.<br />
+The problem with this method is an inefficient use of array space. An `enqueue` operation may result in overflow even if there is space available in `arr[]`. For example, consider `k` as `2` and array size `n` as `6`. Let we enqueue `3` elements to first and do not enqueue anything to the second queue. When we enqueue the `4th` element to the first queue, there will be overflow even if we have space for `3` more elements in the array.<br />
+<br />**Method 2 (A space efficient implementation):**<br />
+The idea is similar to the stack post, here we need to use **three extra arrays**. In stack post, we needed **two extra arrays**, one more array is required because in `queues`, `enqueue()` and `dequeue()` operations are done at different ends.<br />
+Following are the three extra arrays are used:<br />
+
+ 1. `front[]:` This is of size `k` and stores indexes of front elements in all queues. <br />
+ 2. `rear[]:` This is of size `k` and stores indexes of rear elements in all queues. <br />
+ 3. `next[]:` This is of size `n` and stores indexes of next item for all items in array arr[].<br />
+
+Here `arr[]` is the actual array that stores `k` stacks.<br />
+Together with `k` queues, a stack of free slots in `arr[]` is also maintained. The top of this stack is stored in a variable `‘free’`.<br />
+All entries in `front[]` are initialized as `-1` to indicate that all queues are empty. All entries `next[i]` are initialized as `i+1` because all slots are free initially and pointing to the next slot. Top of the free stack, `‘free’` is initialized as `0`.<br />
+Following is C++ implementation of the above idea.<br />
+```cpp
+// A C++ program to demonstrate implementation
+// of k queues in a single
+// array in time and space efficient way
+#include<iostream>
+#include<climits>
+using namespace std;
+
+// A C++ class to represent k queues
+// in a single array of size n
+class kQueues
+{
+	// Array of size n to store actual
+	// content to be stored in queue
+	int *arr;
+
+	// Array of size k to store indexes
+	// of front elements of the queue
+	int *front;
+
+	// Array of size k to store indexes
+	// of rear elements of queue
+	int *rear;
+
+	// Array of size n to store next
+	// entry in all queues		
+	int *next;
+	int n, k;
+
+	int free; // To store the beginning index of the free list
+
+public:
+	//constructor to create k queue
+	// in an array of size n
+	kQueues(int k, int n);
+
+	// A utility function to check if
+	// there is space available
+	bool isFull() { return (free == -1); }
+
+	// To enqueue an item in queue number
+	// 'qn' where qn is from 0 to k-1
+	void enqueue(int item, int qn);
+
+	// To dequeue an from queue number
+	// 'qn' where qn is from 0 to k-1
+	int dequeue(int qn);
+
+	// To check whether queue number
+	// 'qn' is empty or not
+	bool isEmpty(int qn) { return (front[qn] == -1); }
+};
+
+// Constructor to create k queues
+// in an array of size n
+kQueues::kQueues(int k1, int n1)
+{
+	// Initialize n and k, and allocate
+	// memory for all arrays
+	k = k1, n = n1;
+	arr = new int[n];
+	front = new int[k];
+	rear = new int[k];
+	next = new int[n];
+
+	// Initialize all queues as empty
+	for (int i = 0; i < k; i++)
+		front[i] = -1;
+
+	// Initialize all spaces as free
+	free = 0;
+	for (int i=0; i<n-1; i++)
+		next[i] = i+1;
+	next[n-1] = -1; // -1 is used to indicate end of free list
+}
+
+// To enqueue an item in queue number
+// 'qn' where qn is from 0 to k-1
+void kQueues::enqueue(int item, int qn)
+{
+	// Overflow check
+	if (isFull())
+	{
+		cout << "\nQueue Overflow\n";
+		return;
+	}
+
+	int i = free;	 // Store index of first free slot
+
+	// Update index of free slot to index of next slot in free list
+	free = next[i];
+
+	if (isEmpty(qn))
+		front[qn] = i;
+	else
+		next[rear[qn]] = i;
+
+	next[i] = -1;
+
+	// Update next of rear and then rear for queue number 'qn'
+	rear[qn] = i;
+
+	// Put the item in array
+	arr[i] = item;
+}
+
+// To dequeue an from queue number 'qn' where qn is from 0 to k-1
+int kQueues::dequeue(int qn)
+{
+	// Underflow checkSAS
+	if (isEmpty(qn))
+	{
+		cout << "\nQueue Underflow\n";
+		return INT_MAX;
+	}
+
+	// Find index of front item in queue number 'qn'
+	int i = front[qn];
+
+	// Change top to store next of previous top
+	front[qn] = next[i];
+
+	// Attach the previous front to the
+	// beginning of free list
+	next[i] = free;
+	free = i;
+
+	// Return the previous front item
+	return arr[i];
+}
+
+/* Driver program to test kStacks class */
+int main()
+{
+	// Let us create 3 queue in an array of size 10
+	int k = 3, n = 10;
+	kQueues ks(k, n);
+
+	// Let us put some items in queue number 2
+	ks.enqueue(15, 2);
+	ks.enqueue(45, 2);
+
+	// Let us put some items in queue number 1
+	ks.enqueue(17, 1);
+	ks.enqueue(49, 1);
+	ks.enqueue(39, 1);
+
+	// Let us put some items in queue number 0
+	ks.enqueue(11, 0);
+	ks.enqueue(9, 0);
+	ks.enqueue(7, 0);
+
+	cout << "Dequeued element from queue 2 is " << ks.dequeue(2) << endl;
+	cout << "Dequeued element from queue 1 is " << ks.dequeue(1) << endl;
+	cout << "Dequeued element from queue 0 is " << ks.dequeue(0) << endl;
+
+	return 0;
+}
+```
+Output<br />
+<pre>
+Dequeued element from queue 2 is 15
+Dequeued element from queue 1 is 17
+Dequeued element from queue 0 is 11
+</pre>
+<pre>
+Time complexities of enqueue() and dequeue() is O(1).
+</pre>
+<pre>
+The best part of the above implementation is, if there is a slot available in the queue, 
+then an item can be enqueued in any of the queues, i.e., no wastage of space. 
+This method requires some extra space. Space may not be an issue because queue items are 
+typically large, for example, queues of employees, students, etc where every item is of hundreds of bytes. 
+For such large queues, the extra space used is comparatively very less as we use three integer arrays as extra space.
+</pre>
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 25:
-**[]()**<br />
+**[Implement a Circular queue](https://www.geeksforgeeks.org/circular-queue-set-1-introduction-array-implementation/)**<br />
+**What is a Circular Queue?**<br />
+<pre>
+A Circular Queue is a special version of queue where the last element of the 
+queue is connected to the first element of the queue forming a circle.
+</pre>
+The operations are performed based on `FIFO (First In First Out)` principle. It is also called `‘Ring Buffer’`.<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Circular-queue.png"><br />
+In a normal Queue, we can insert elements until queue becomes full. But once queue becomes full, we **can not insert** the next element even if there is a space in front of queue.<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/Circular-queue_1.png"><br />
+<br />**Operations on Circular Queue:**<br />
+
+ * `Front:` Get the front item from queue.<br />
+ * `Rear:` Get the last item from queue.<br />
+ * `enQueue(value)` This function is used to insert an element into the circular queue. In a circular queue, the new element is always inserted at Rear position.<br /> 
+   1. Check whether queue is Full – `Check ((rear == SIZE-1 && front == 0) || (rear == front-1))`.<br />
+   2. If it is full then display Queue is full. If queue is not full then, check if `(rear == SIZE – 1 && front != 0)` if it is `true` then set `rear=0` and insert element.<br />
+ * `deQueue()` This function is used to delete an element from the `circular queue`. In a circular queue, the element is always `deleted` from front position.<br /> 
+   1. Check whether queue is Empty means check `(front==-1)`.<br />
+   2. If it is `empty` then display Queue is empty. If queue is not empty then step 3<br />
+   3. Check if `(front==rear)` if it is true then set `front=rear= -1` else check if `(front==size-1)`, if it is true then set `front=0` and return the element.<br />   
+**Implementation:**<br />
+```cpp
+// C or C++ program for insertion and
+// deletion in Circular Queue
+#include<bits/stdc++.h>
+using namespace std;
+
+class Queue
+{
+	// Initialize front and rear
+	int rear, front;
+
+	// Circular Queue
+	int size;
+	int *arr;
+public:
+	Queue(int s)
+	{
+	front = rear = -1;
+	size = s;
+	arr = new int[s];
+	}
+
+	void enQueue(int value);
+	int deQueue();
+	void displayQueue();
+};
+
+
+/* Function to create Circular queue */
+void Queue::enQueue(int value)
+{
+	if ((front == 0 && rear == size-1) || (rear == (front-1)%(size-1)))
+	{
+		printf("\nQueue is Full");
+		return;
+	}
+
+	else if (front == -1) /* Insert First Element */
+	{
+		front = rear = 0;
+		arr[rear] = value;
+	}
+
+	else if (rear == size-1 && front != 0)
+	{
+		rear = 0;
+		arr[rear] = value;
+	}
+
+	else
+	{
+		rear++;
+		arr[rear] = value;
+	}
+}
+
+// Function to delete element from Circular Queue
+int Queue::deQueue()
+{
+	if (front == -1)
+	{
+		printf("\nQueue is Empty");
+		return INT_MIN;
+	}
+
+	int data = arr[front];
+	arr[front] = -1;
+	if (front == rear)
+	{
+		front = -1;
+		rear = -1;
+	}
+	else if (front == size-1)
+		front = 0;
+	else
+		front++;
+
+	return data;
+}
+
+// Function displaying the elements
+// of Circular Queue
+void Queue::displayQueue()
+{
+	if (front == -1)
+	{
+		printf("\nQueue is Empty");
+		return;
+	}
+	printf("\nElements in Circular Queue are: ");
+	if (rear >= front)
+	{
+		for (int i = front; i <= rear; i++)
+			printf("%d ",arr[i]);
+	}
+	else
+	{
+		for (int i = front; i < size; i++)
+			printf("%d ", arr[i]);
+
+		for (int i = 0; i <= rear; i++)
+			printf("%d ", arr[i]);
+	}
+}
+
+/* Driver of the program */
+int main()
+{
+	Queue q(5);
+
+	// Inserting elements in Circular Queue
+	q.enQueue(14);
+	q.enQueue(22);
+	q.enQueue(13);
+	q.enQueue(-6);
+
+	// Display elements present in Circular Queue
+	q.displayQueue();
+
+	// Deleting elements from Circular Queue
+	printf("\nDeleted value = %d", q.deQueue());
+	printf("\nDeleted value = %d", q.deQueue());
+
+	q.displayQueue();
+
+	q.enQueue(9);
+	q.enQueue(20);
+	q.enQueue(5);
+
+	q.displayQueue();
+
+	q.enQueue(20);
+	return 0;
+}
+```
+Output<br />
+<pre>
+Elements in Circular Queue are: 14 22 13 -6 
+Deleted value = 14
+Deleted value = 22
+Elements in Circular Queue are: 13 -6 
+Elements in Circular Queue are: 13 -6 9 20 5 
+Queue is Full
+</pre>
+<pre>
+Time Complexity: Time complexity of enQueue(), deQueue() operation is O(1) as there is no loop in any of the operation.
+</pre>
+<br />**Applications:**<br />
+
+ 1. `Memory Management:` The unused memory locations in the case of ordinary queues can be utilized in circular queues.<br />
+ 2. `Traffic system:` In computer controlled traffic system, circular queues are used to switch on the traffic lights one by one repeatedly as per the time set.<br />
+ 3. `CPU Scheduling:` Operating systems often maintain a queue of processes that are ready to execute or that are waiting for a particular event to occur.<br />
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 26:
-**[]()**<br />
+**[LRU Cache Implementationa](https://practice.geeksforgeeks.org/problems/lru-cache/1)**<br />
+Design a data structure that works like a `LRU Cache`. Here cap denotes the capacity of the `cache` and `Q` denotes the number of queries. Query can be of two types:<br />
+
+ 1. `SET x y :` sets the value of the key `x` with value `y`<br />
+ 2. `GET x :` gets the key of `x` if present else returns `-1`.<br />
+
+The LRUCache class has two methods `get()` and `set()` which are defined as follows.<br />
+
+ 1. `get(key)   :` returns the value of the key if it already exists in the cache otherwise returns `-1`.<br />
+ 2. `set(key, value) :` if the key is already present, update its value. If not present, **add** the key-value pair to the cache. If the cache reaches its capacity it should invalidate the least recently used item before inserting the new item.<br />
+ 3. In the **constructor** of the class the capacity of the cache should be intitialized.<br />
+ 
+<pre>
+Example 1:
+Input:
+cap = 2
+Q = 2
+Queries = SET 1 2 GET 1
+Output: 2
+Explanation: 
+Cache Size = 2
+
+SET 1 2 GET 1
+SET 1 2 : 1 -> 2
+
+GET 1 : Print the value corresponding to Key 1, ie 2.
+</pre>
+<pre>
+Example 2:
+Input:
+cap = 2
+Q = 8
+Queries = SET 1 2 SET 2 3 SET 1 5 SET 4 5 SET 6 7 GET 4 SET 1 2 GET 3
+Output: 5 -1
+
+Explanation: 
+Cache Size = 2
+
+SET 1 2 : 1 -> 2
+
+SET 2 3 : 1 -> 2, 2 -> 3 (the most recently 
+used one is kept at the rightmost position) 
+
+SET 1 5 : 2 -> 3, 1 -> 5
+
+SET 4 5 : 1 -> 5, 4 -> 5 (Cache size is 2, hence 
+we delete the least recently used key-value pair)
+
+SET 6 7 : 4 -> 5, 6 -> 7 
+
+GET 4 : Prints 5 (The cache now looks like
+6 -> 7, 4->5)
+
+SET 1 2 : 4 -> 5, 1 -> 2 
+(Cache size is 2, hence we delete the least 
+recently used key-value pair)
+
+GET 3 : No key value pair having 
+key = 3. Hence, -1 is printed.
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything . Complete the `constructor` and `get()`, `set()` methods of the class LRUcache.<br /> 
+
+<pre>
+Expected Time Complexity: O(1) for both get() and set().
+Expected Auxiliary Space: O(1) for both get() and set(). 
+(Although, you may use extra space for cache storage and implementation purposes).
+</pre>
+
+* Constraints: `1 <= cap <= 1000`<br />
+`1 <= Q <= 100000`<br />
+`1 <= x, y <= 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int key;
+    int value;
+    Node *next, *pre;
+    Node(int key, int value) {
+        this->key = key;
+        this->value = value;
+        next = pre = NULL;
+    }
+};
+
+class LRUCache
+{
+    private:
+    static unordered_map<int, Node *> hsmap;
+    static int capacity, count;
+    static Node *head, *tail;
+
+    public:
+    //Constructor for initializing the cache capacity with the given value.
+    LRUCache(int cap)
+    {
+        unordered_map<int, Node *> temp;
+        hsmap = temp;
+        capacity = cap;
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head->next = tail;
+        head->pre = NULL;
+        tail->next = NULL;
+        tail->pre = head;
+        count = 0;
+    }
+
+    void addToHead(Node *node)
+    {
+        node->next = head->next;
+        node->next->pre = node;
+        node->pre = head;
+        head->next = node;
+    }
+
+    //Function to delete a node.
+    void deleteNode(Node *node)
+    {
+        node->pre->next = node->next;
+        node->next->pre = node->pre;
+    }
+    
+    //Function to return value corresponding to the key.
+    int get(int key)
+    {
+        //if element is present in map,
+        if (hsmap.count(key) > 0)
+        {
+            Node *node = hsmap[key];
+            int result = node->value;
+            
+            deleteNode(node);
+            addToHead(node);
+            
+            //returning the value.
+            return result;
+        }
+        //else we return -1.
+        return -1;
+    }
+
+    //Function for storing key-value pair.
+    void set(int key, int value)
+    {
+        if (hsmap.count(key) > 0)
+        {
+            Node *node = hsmap[key];
+            node->value = value;
+            deleteNode(node);
+            addToHead(node);
+        }
+        else
+        {
+            Node *node = new Node(key, value);
+            hsmap[key] = node;
+            if (count < capacity) {
+                count++;
+                addToHead(node);
+            } 
+            else {
+                hsmap.erase(tail->pre->key);
+                deleteNode(tail->pre);
+                addToHead(node);
+            }
+        }
+    }
+};
+
+//initializing static members.
+unordered_map<int, Node *> temp;
+int LRUCache::capacity = 0;
+Node *LRUCache::head = new Node(0, 0);
+Node *LRUCache::tail = new Node(0, 0);
+int LRUCache::count = 0;
+unordered_map<int, Node *> LRUCache::hsmap = temp;
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        int capacity; cin>>capacity;
+        LRUCache *cache = new LRUCache(capacity);
+        int queries; cin>>queries;
+        while(queries--){
+            string q; cin>>q;
+            if(q == "SET"){
+                int key; cin>>key;
+                int value; cin>>value;
+                cache->set(key, value);
+            }else{
+                int key; cin>>key;
+                cout<<cache->get(key)<<" ";
+            }
+        }
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 27:
-**[]()**<br />
+**[Reverse a Queue using recursion](https://practice.geeksforgeeks.org/problems/queue-reversal/1)**<br />
+Given a `Queue Q` containing `N` elements. The task is to _reverse the Queue_. Your task is to complete the function `rev()`, that reverses the `N` elements of the queue.<br />
+
+>Example 1:<br />
+Input:<br />
+6<br />
+4 3 1 10 2 6<br />
+Output: <br />
+6 2 10 1 3 4<br />
+Explanation: <br />
+After reversing the given elements of the queue , the resultant queue will be 6 2 10 1 3 4.<br />
+
+>Example 2:
+Input:<br />
+4<br />
+4 3 2 1 <br />
+Output: <br />
+1 2 3 4<br />
+Explanation:<br /> 
+After reversing the given elements of the queue , the resultant queue will be 1 2 3 4.<br />
+
+**Your Task:**<br />
+You only need to complete the function rev that takes a `queue` as parameter and returns the `reversed queue`. The printing is done automatically by the driver code.<br />
+
+<pre>
+Expected Time Complexity : O(n)
+Expected Auxilliary Space : O(n)
+</pre>
+
+* Constraints: `1 ≤ N ≤ 10^5`<br />
+`1 ≤ elements of Queue ≤ 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+queue<int>rev(queue<int>q);
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        queue<int>q;
+        int n, var;
+        cin>>n;
+        while(n--){
+            cin>>var;
+            q.push(var);
+        }
+        queue<int> a = rev(q);
+        while(!a.empty()){
+            cout<<a.front()<<" ";
+            a.pop();
+        }
+        cout<<endl;
+    }
+}
+
+//Function to reverse the queue.
+queue<int> rev(queue<int> q)
+{
+    //using a stack to reverse the queue.
+    stack<int> s;      
+    while(!q.empty())
+    {
+        //pushing elements from queue into stack and removing them from queue.
+        s.push(q.front());       
+        q.pop();                 
+    }
+    //creating new queue.
+    queue<int> a;
+    while(!s.empty())
+    {
+        //now pushing elements back into the queue from stack and removing them 
+        //from stack. queue gets reversed as stack follows last in first out.
+        a.push(s.top());         
+        s.pop();                
+    }
+    //returning reversed queue.
+    return a;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 28:
-**[]()**<br />
+**[Reverse First K elements of Queue](https://practice.geeksforgeeks.org/problems/reverse-first-k-elements-of-queue/1)**<br />
+Given an integer `K` and a `queue` of integers, we need to reverse the order of the first `K` elements of the queue, leaving the other elements in the same relative order.<br />
+Only following standard operations are allowed on queue.<br />
+
+ * `enqueue(x) :` Add an item `x` to `rear` of queue<br />
+ * `dequeue() :` Remove an item from `front` of queue<br />
+ * `size() :` Returns number of elements in queue.<br />
+ * `front() :` Finds front item. <br />
+ 
+**Note:** The above operations represent the general processings. In-built functions of the respective languages can be used to solve the problem.<br />
+
+>Example 1:<br />
+Input:<br />
+5 3<br />
+1 2 3 4 5<br />
+Output: <br />
+3 2 1 4 5<br />
+Explanation: <br />
+After reversing the given input from the 3rd position the resultant output will be 3 2 1 4 5.<br />
+
+>Example 2:<br />
+Input:<br />
+4 4<br />
+4 3 2 1<br />
+Output: <br />
+1 2 3 4<br />
+Explanation: <br />
+After reversing the given input from the 4th position the resultant output will be 1 2 3 4.<br />
+
+**Your Task:**<br />
+Complete the provided function `modifyQueue` that takes `queue` and `k` as parameters and returns _a modified queue_. The printing is done automatically by the driver code.<br />
+
+<pre>
+Expected Time Complexity : O(N)
+Expected Auxiliary Space : O(K)
+</pre>
+
+* Constraints: `1 <= N <= 1000`<br />
+`1 <= K <= N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+queue<int>modifyQueue(queue<int>q, int k);
+
+int main(){
+    int t; cin>>t;
+    while(t-- > 0){
+        int n, k; cin>>n>>k;
+        queue<int>q;
+        while(n-- > 0){
+            int a; cin>>a;
+            q.push(a);
+        }
+        queue<int>ans = modifyQueue(q, k);
+        while(!ans.empty()){
+            int a = ans.front();
+            ans.pop();
+            cout<<a<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+// Function to reverse first k elements of a queue.
+queue<int> modifyQueue(queue<int> q, int k) {
+    // using a stack and another queue to reverse first k elements.
+    stack<int> s;
+    queue<int> qq;
+
+    // we pop first k elements from queue and push it in the stack.
+    while (k-- > 0) {
+        int a = q.front();
+        q.pop();
+        s.push(a);
+    }
+
+    // while stack is not empty, we push the elements into the new queue.
+    while (!s.empty()) {
+        int a = s.top();
+        s.pop();
+        qq.push(a);
+    }
+
+    // then we add rest of the elements of original queue to the new queue.
+    while (!q.empty()) {
+        int a = q.front();
+        q.pop();
+        qq.push(a);
+    }
+
+    // returning the new queue.
+    return qq;
+}
+```
+
+
+
+
 
 <br /><br /><br />
 ## Problem 29:
