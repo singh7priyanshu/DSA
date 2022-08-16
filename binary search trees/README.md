@@ -807,7 +807,158 @@ int main(){
 
 <br /><br /><br />
 ## Problem 6:
-**[]()**<br />
+**[Populate Inorder Successor for all nodes](https://practice.geeksforgeeks.org/problems/populate-inorder-successor-for-all-nodes/1)**<br />
+Given a `Binary Tree`, write a function to `populate next pointer for all nodes`. The next pointer for every node should be set to point to `inorder successor`.<br />
+
+<pre>
+Example 1:
+Input: 10 8 12 3
+        10
+       /  \
+      8    12
+     /
+    3
+  
+
+Output: 3->8 8->10 10->12 12->-1
+Explanation: The inorder of the above tree is : 3 8 10 12. So the next pointer of node 3 is pointing to 8 , 
+ 	     next pointer of 8 is pointing to 10 and so on.And next pointer of 12 is pointing to -1 
+	     as there is no inorder successor of 12.
+</pre>
+<pre>
+Example 2:
+Input:
+        1
+      /   \
+     2     3
+Output: 2->1 1->3 3->-1 
+</pre>
+
+**Your Task:**<br />
+You do not need to read input or print anything. Your task is to complete the function `populateNext()` that takes the **root node of the binary tree** as input parameter.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1<=n<=10^5`<br />
+`1<=data of the node<=10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+    struct Node *next;
+
+    Node(int x){
+        data = x;
+        left = right = next = NULL;
+    }
+};
+
+void printInorder(Node *node){
+    if(node == NULL)return;
+    printInorder(node->left);
+    cout<<node->data<<" ";
+    printInorder(node->right);
+}
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+Node *Inorder(Node *root){
+    if(root->left == NULL)return root;
+    Inorder(root->left);
+}
+
+class Solution
+{
+public:
+    void populateNextRecur(Node *p, Node **next_ref)
+    {
+        if (p)
+        {
+
+            populateNextRecur(p->right, next_ref);
+
+            p->next = *next_ref;
+
+            *next_ref = p;
+
+            populateNextRecur(p->left, next_ref);
+        }
+    }
+
+    void populateNext(Node *root)
+    {
+
+        Node *next = NULL;
+
+        populateNextRecur(root, &next);
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    cin.ignore();
+    while(t--){
+        string treeString; 
+        getline(cin, treeString);
+        Node *root = buildTree(treeString);
+        Solution ob;
+        ob.populateNext(root);
+        Node *ptr = Inorder(root);
+        while(ptr){
+            printf("%d->%d ", ptr->data, ptr->next ? ptr->next->data : -1);
+            ptr = ptr->next;
+        }
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 7:
