@@ -962,7 +962,141 @@ int main(){
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Find LCA (Lowest Common Ancestor) of 2 nodes in a BST](https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-bst/1)**<br />
+Given a `Binary Search Tree` (with all values unique) and **two node values**. Find _the Lowest Common Ancestors of the two nodes in the BST_.<br />
+
+<pre>
+Example 1:
+Input:
+1
+5 4 6 3 N N 7 N N N 8
+7 8
+
+              5
+           /    \
+         4       6
+        /         \
+       3           7
+                    \
+                     8
+n1 = 7, n2 = 8
+Output: 7
+</pre>
+<pre>
+Example 2:
+Input:
+     2
+   /   \
+  1     3
+n1 = 1, n2 = 3
+Output: 2
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `LCA()` which takes the **root Node of the BST** and **two integer values** `n1` and `n2` as inputs and returns _the **Lowest Common Ancestor** of the Nodes with values `n1` and `n2` in the given BST_.<br /> 
+
+<pre>
+Expected Time Complexity: O(Height of the BST).
+Expected Auxiliary Space: O(Height of the BST).
+</pre>
+
+* Constraints: `1 <= N <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+Node* LCA(Node *root, int l, int h);
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s; int l, h;
+        getline(cin, s);
+        cin>>l>>h;
+        Node *root = buildTree(s);
+        cout<<LCA(root, l, h)->data<<endl;
+    }
+    return 1;
+}
+
+//Function to find the lowest common ancestor in a BST.
+Node* LCA(Node *root, int n1, int n2)
+{
+    // base case
+    if(root==NULL)
+        return NULL;
+    
+    //If both n1 and n2 are smaller than data at current node, we call 
+    //the function recursively for finding LCA in the left subtree. 
+    if(n1<root->data and n2<root->data)
+    {
+        return LCA(root->left,n1,n2);
+    }
+    //If both n1 and n2 are greater than data at current node, we call 
+    //the function recursively for finding LCA in the right subtree. 
+    if(n1>root->data and n2 > root->data)
+    {
+        return LCA(root->right,n1,n2);
+    }
+    
+    //returning the lowest common ancestor.
+    return root;
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 8:
