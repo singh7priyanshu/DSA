@@ -360,7 +360,122 @@ public:
 
 <br /><br /><br />
 ## Problem 3:
-**[]()**<br />
+**[Minimum element in BST](https://practice.geeksforgeeks.org/problems/minimum-element-in-bst/1)**<br />
+Given a `Binary Search Tree`. The task is to find _the minimum element in this given BST_.<br />
+<pre>
+Example 1:
+Input: 5 4 6 3 N N 7 1 
+           5
+         /    \
+        4      6
+       /        \
+      3          7
+     /
+    1
+Output: 1
+</pre>
+<pre>
+Example 2:
+Input: 9 N 10 N N N 11
+             9
+              \
+               10
+                \
+                 11
+Output: 9
+</pre>
+**Your Task:**<br />
+The task is to complete the function `minValue()` which takes `root` as the argument and returns _the minimum element of BST_. If the tree is empty, there is no `minimum element`, so return `-1` in that case.
+
+<pre>
+Expected Time Complexity: O(Height of the BST)
+Expected Auxiliary Space: O(Height of the BST).
+</pre>
+
+* Constraints: `0 <= N <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data; 
+    struct Node* left;
+    struct Node* right;
+};
+
+Node* newNode(int val){
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+Node* buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss >> str;)ip.push_back(str);
+    Node* root = newNode(stoi(ip[0]));
+    queue<Node*>queue;
+    queue.push(root);
+    int i = 1;
+    while(!queue.empty() && i<ip.size()){
+        Node* currNode = queue.front();
+        queue.pop();
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = newNode(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+        if(currVal != "N"){
+            currNode->right = newNode(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+int minValue(Node* root);
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s; 
+        getline(cin, s);
+        Node* root = buildTree(s);
+        cout<<minValue(root)<<endl;
+    }
+    return 1;
+}
+
+// Function to find the minimum element in the given BST.
+int minValue(Node* root) {
+    // base case
+    if (root == NULL) return -1;
+
+    struct Node* current = root;
+
+    // leftmost node is minimum so we move in BST till left node is not NULL.
+    while (current->left != NULL) {
+        current = current->left;
+    }
+    // returning the data at leftmost node.
+    return (current->data);
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 4:
