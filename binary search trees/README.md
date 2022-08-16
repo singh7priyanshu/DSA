@@ -1422,7 +1422,163 @@ Output<br />
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[Convert Binary tree into BST](https://practice.geeksforgeeks.org/problems/binary-tree-to-bst/1)**<br />
+Given a `Binary Tree`, convert it to `Binary Search Tree` in such a way that keeps the original structure of Binary Tree intact.<br /> 
+<pre>
+Example 1:
+Input:
+      1
+    /   \
+   2     3
+Output: 1 2 3
+</pre>
+<pre>
+Example 2:
+Input:
+          1
+       /    \
+     2       3
+   /        
+ 4       
+Output: 1 2 3 4
+Explanation:
+The converted BST will be
+
+        3
+      /   \
+    2     4
+  /
+ 1
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `binaryTreeToBST()` which takes the root of the Binary tree as input and returns `the root of the BST`. The driver code will print inorder traversal of the converted BST.<br />
+
+<pre>
+Expected Time Complexity: O(NLogN).
+Expected Auxiliary Space: O(N).
+</pre>
+
+* Constraints: `1 <= Number of nodes <= 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+
+void printInorder(struct Node* node){
+    if(node == NULL)return;
+
+    printInorder(node->left);
+    printf("%d", node->data);
+    printInorder(node->right);
+}
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+class Solution{
+  public:
+    //Back-end complete function template for C++
+    
+    void getArr(int arr[],int *index,Node *root)
+    {
+        if(root==NULL)
+            return ;
+        getArr(arr,index,root->left);
+        arr[*index]=root->data;
+        *index+=1;
+        getArr(arr,index,root->right);
+    }
+    
+    
+    void convert(Node *root,int arr[],int *index)
+    {
+        if(root==NULL)
+            return ;
+    
+        convert(root->left,arr,index);
+        root->data=arr[*index];
+        *index+=1;
+        convert(root->right,arr,index);
+    }
+    
+    Node * binaryTreeToBST (Node *root)
+    {
+        if(root==NULL)
+            return NULL ;
+        int *arr=new int[1000];
+        int index=0;
+        getArr(arr,&index,root);
+        sort(arr,arr+index);
+        index=0;
+        convert(root,arr,&index);
+        return root;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s;
+        getline(cin, s);
+        Node *root = buildTree(s);
+        Solution ob;
+        Node *res = ob.binaryTreeToBST(root);
+        printInorder(res);
+        cout<<endl;
+    }
+    return 1;
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 10:
