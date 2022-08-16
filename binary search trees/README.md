@@ -2285,7 +2285,186 @@ int main(){
 
 <br /><br /><br />
 ## Problem 14:
-**[]()**<br />
+**[Count pairs from 2 BST whose sum is equal to given value "X"](https://practice.geeksforgeeks.org/problems/brothers-from-different-root/1)**<br />
+Given `two BSTs` containing `N1` and `N2` distinct nodes respectively and given a value `x`. Your task is to complete the function `countPairs()`, that returns _the count of all pairs from both the **BSTs** whose sum is equal to **x**_.<br />
+
+<pre>
+Example 1:
+Input:
+1
+5 3 7 2 4 6 8 
+10 6 15 3 8 11 18 
+16
+
+BST1:
+       5
+     /   \
+    3     7
+   / \   / \
+  2   4 6   8
+
+BST2:
+       10
+     /    \
+    6      15
+   / \    /  \
+  3   8  11   18
+
+x = 16
+Output:
+3
+Explanation: The pairs are: (5, 11), (6, 10) and (8, 8)
+</pre>
+<pre>
+Example 2:
+Input:
+BST1:
+  1
+   \
+    3
+   /
+  2
+BST2:
+    3
+   / \
+  2   4
+ /     
+1
+
+x = 4
+Output:
+3
+Explanation: The pairs are: (2, 2), (3, 1) and (1, 3)
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `countPairs()`, which takes `2 BST's` as parameter in form of `root1` and `root2` and the integer `x`, that returns _the count of all pairs from both the `BSTs` whose sum is equal to `x`_.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+</pre>
+
+* Constraints: `1 ≤ Number of nodes ≤ 10^5`<br />
+`1 ≤ Data of a node ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+class Solution
+{
+public:
+    int countPairs(Node* root1, Node* root2, int x)
+    {
+        // Code here
+        if (root1 == NULL || root2 == NULL)return 0;
+        stack<Node*> st1, st2;
+        Node* top1, *top2;
+        int count = 0;
+        while (1) {
+            while (root1 != NULL) {
+                st1.push(root1);
+                root1 = root1->left;
+            }
+            while (root2 != NULL) {
+                st2.push(root2);
+                root2 = root2->right;
+            }
+            if (st1.empty() || st2.empty())break;
+            top1 = st1.top();
+            top2 = st2.top();
+            if ((top1->data + top2->data) == x) {
+                count++;
+                st1.pop();
+                st2.pop();
+                root1 = top1->right;
+                root2 = top2->left;
+            }
+            else if ((top1->data + top2->data) < x) {
+                st1.pop();
+                root1 = top1->right;
+            }
+            else {
+                st2.pop();
+                root2 = top2->left;
+            }
+        }
+        return count;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    cin.ignore();
+    while(t--){
+        string tree1, tree2;
+        getline(cin, tree1);
+        getline(cin, tree2);
+        Node* root1 = buildTree(tree1);
+        Node* root2 = buildTree(tree2);
+        int x; cin>>x;
+        cin.ignore();
+        Solution ob;
+        cout<<ob.countPairs(root1, root2, x)<<"\n";
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 15:
