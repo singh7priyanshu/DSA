@@ -278,7 +278,85 @@ Output<br />
 
 <br /><br /><br />
 ## Problem 2:
-**[]()**<br />
+**[450. Delete Node in a BST](https://leetcode.com/problems/delete-node-in-a-bst/)**<br />
+Given a `root node reference of a BST` and a `key`, `delete` the node with the `given key` in the **BST**. Return _the root node reference (possibly updated) of the BST_.<br />
+Basically, the deletion can be divided into two stages:<br />
+
+ 1. Search for a node to remove.<br />
+ 2. If the node is found, delete the node.<br />
+ 
+>Example 1:<br />
+<img src = "https://assets.leetcode.com/uploads/2020/09/04/del_node_1.jpg"><br />
+Input: root = [5,3,6,2,4,null,7], key = 3<br />
+Output: [5,4,6,2,null,null,7]<br />
+Explanation: Given key to delete is 3. So we find the node with value 3 and delete it.<br />
+One valid answer is [5,4,6,2,null,null,7], shown in the above BST.<br />
+Please notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.<br />
+<img src = "https://assets.leetcode.com/uploads/2020/09/04/del_node_supp.jpg"><br />
+
+>Example 2:<br />
+Input: root = [5,3,6,2,4,null,7], key = 0<br />
+Output: [5,3,6,2,4,null,7]<br />
+Explanation: The tree does not contain a node with value = 0.<br />
+
+>Example 3:<br />
+Input: root = [], key = 0<br />
+Output: []<br />
+ 
+* Constraints: The number of nodes in the tree is in the range `[0, 10^4]`.<br />
+`-10^5 <= Node.val <= 10^5`<br />
+Each node has a **unique** value.<br />
+`root` is a valid binary search tree.<br />
+`-10^5 <= key <= 10^5`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int inorder_predecessor(TreeNode* root) {
+        root = root->left;
+        while(root->right) root = root->right;
+        return root->val;
+    }
+    int inorder_successor(TreeNode* root) {
+        root = root->right;
+        while(root->left) root = root->left;
+        return root->val;
+    }
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+      if(!root) return root;
+      if(key < root->val) root->left = deleteNode(root->left, key);
+      else if(key > root->val) root->right = deleteNode(root->right, key);
+      else {
+          if(!root->left && !root->right) root = nullptr;
+          else if(root->left){
+              root->val = inorder_predecessor(root);   //Find inorder predecessor
+              root->left = deleteNode(root->left, root->val);
+          } else {
+              root->val = inorder_successor(root);     //Find inorder successor
+              root->right = deleteNode(root->right, root->val);
+          }
+       }
+      return root;      
+    }
+};
+```
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 3:
