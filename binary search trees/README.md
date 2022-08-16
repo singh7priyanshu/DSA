@@ -479,7 +479,168 @@ int minValue(Node* root) {
 
 <br /><br /><br />
 ## Problem 4:
-**[]()**<br />
+**[Find inorder successor and inorder predecessor in a BST](https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1)**<br />
+There is `BST` given with `root node` with key part as an integer only. You need to find the `in-order successor` and `predecessor` of a given key. If either **predecessor** or **successor** is not found, then set it to `NULL`.<br />
+
+>Example:<br />
+Input:<br />
+2<br />
+6<br />
+50 30 L 30 20 L 30 40 R 50 70 R 70 60 L 70 80 R<br />
+65<br />
+6<br />
+50 30 L 30 20 L 30 40 R 50 70 R 70 60 L 70 80 R<br />
+100<br />
+Output:<br />
+60 70<br />
+80 -1<br />
+
+**Input:**<br />
+The first line of input contains an integer `T` denoting the number of test cases. Then `T` test cases follow. Each test case contains `n` denoting the number of edges of the BST. The next line contains the `edges of the BST`. The last line contains the `key`.<br />
+
+**Output:**<br />
+Find the predecessor and successor of the key in BST and _sets pre and suc as predecessor and successor_, respectively Otherwise, set to `NULL`.<br />
+
+**Your Task:**<br />
+You don't need to print anything. You only need to set `p.pre` to the `predecessor` and `s.succ` to the `successor`. `p` and `s` have been passed in the function parameter.<br />
+
+<pre>
+Time Complexity: O(N) 
+Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1<=T<=100`<br />
+`1<=n<=100`<br />
+`1<=data of node<=100`<br />
+`1<=key<=100`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int key;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int x){
+        key = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+int key = 0;
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key);
+
+void insert(struct Node *root, int n1, int n2, char lr){
+    if(root == NULL)return;
+    if(root->key == n1){
+        switch(lr){
+            case 'L' : root->left = new Node(n2);
+                    break;
+            case 'R' : root->right = new Node(n2);
+                    break;
+        }
+    }
+    else{
+        insert(root->left, n1, n2, lr);
+        insert(root->right, n1, n2, lr);
+    }
+}
+
+int main(){
+    int t, k; cin>>t; 
+    while(t--){
+        int n; cin>>n;
+        struct Node *root = NULL;
+        Node *pre = NULL;
+        Node *suc = NULL;
+        while(n--){
+            char lr;
+            int n1, n2; cin>>n1>>n2;
+            cin>>lr;
+            if(root == NULL){
+                root = new Node(n1);
+                switch(lr){
+                    case 'L' : root->left = new Node(n2);
+                            break;
+                    case 'R' : root->right = new Node(n2);
+                            break;
+                    }
+            }
+            else{
+                insert(root, n1, n2, lr);
+            }
+        }
+        cin>>key;
+        findPreSuc(root, pre, suc, key);
+        if(pre != NULL)cout<<pre->key<<" ";
+        else cout<<"-1";
+        if(suc != NULL)cout<<suc->key<<" "<<endl;
+        else cout<<" "<<"-1"<<endl;
+    }
+}
+
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+{
+    if (root == NULL)
+        return;
+ 
+    // Search for given key in BST.
+    while (root != NULL) {
+ 
+        // If root is given key.
+        if (root->key == key) {
+ 
+            // the minimum value in right subtree
+            // is successor.
+            if (root->right) {
+                suc = root->right;
+                while (suc->left)
+                    suc = suc->left;
+            }
+ 
+            // the maximum value in left subtree
+            // is predecessor.
+            if (root->left) {
+                pre = root->left;
+                while (pre->right)
+                    pre = pre->right;
+            }
+ 
+            return;
+        }
+ 
+        // If key is greater than root, then
+        // key lies in right subtree. Root
+        // could be predecessor if left
+        // subtree of key is null.
+        else if (root->key < key) {
+            pre = root;
+            root = root->right;
+        }
+ 
+        // If key is smaller than root, then
+        // key lies in left subtree. Root
+        // could be successor if right
+        // subtree of key is null.
+        else {
+            suc = root;
+            root = root->left;
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 5:
