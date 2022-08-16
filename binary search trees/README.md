@@ -1333,7 +1333,7 @@ Inorder traversal of the constructed tree:
 <pre>
 Time Complexity: O(n)
 </pre>
-<br />**Method 3 ( O(n2) time complexity ):**<br />
+<br />**Method 3 ( O(n^2) time complexity ):**<br />
 Simply do that just by using the `recursion concept` and iterating through the array of the given elements like below.<br />
 ```cpp
 // C++ Program for the same approach
