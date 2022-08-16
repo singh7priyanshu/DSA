@@ -644,7 +644,166 @@ void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
 
 <br /><br /><br />
 ## Problem 5:
-**[]()**<br />
+**[Check if a tree is a BST or not](https://practice.geeksforgeeks.org/problems/check-for-bst/1)**<br />
+Given the `root` of a `binary tree`. Check _whether it is a BST or not_.<br />
+**Note:**<br /> 
+We are considering that `BST`s can not contain duplicate Nodes.<br />
+A `BST` is defined as follows:<br />
+
+ * The `left subtree` of a node contains only nodes with keys **less than** the node's key.<br />
+ * The `right subtree` of a node contains only nodes with keys **greater than** the node's key.<br />
+ * Both the `left` and `right` subtrees must also be `binary search trees`.<br />
+ 
+<pre>
+Example 1:
+Input: 2 1 3
+   2
+ /    \
+1      3
+Output: 1 
+Explanation: 
+The left subtree of root node contains node with key lesser than the root nodes key and 
+the right subtree of root node contains node with key greater than the root nodes key.
+Hence, the tree is a BST.
+</pre>
+<pre>
+Example 2:
+Input:
+  2
+   \
+    7
+     \
+      6
+       \
+        5
+         \
+          9
+           \
+            2
+             \
+              6
+Output: 0 
+Explanation: 
+Since the node with value 7 has right subtree nodes with keys less than 7, this is not a BST.
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `isBST()` which takes the `root` of the tree as a parameter and returns `true` if the given binary tree is BST, else returns `false`.<br /> 
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(Height of the BST).
+</pre>
+
+* Constraints: `0 <= Number of edges <= 100000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX_HEIGHT 100000
+
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+class Solution
+{
+    public:
+    //Function to check whether a Binary Tree is BST or not.
+    bool isBST(struct Node* node)
+    {
+      return(isBSTUtil(node, INT_MIN, INT_MAX));
+    }
+    
+    public:
+    int isBSTUtil(struct Node* node, int min, int max)
+    {
+        //an empty tree is BST so we return true.
+        if (node==NULL)
+         return 1;
+        
+        //returning false if this node violates the min/max constraint.
+        if (node->data < min || node->data > max)
+         return 0;
+        
+        //otherwise checking the subtrees recursively.
+        //tightening the min or max constraint.
+        return
+            isBSTUtil(node->left, min, node->data-1) &&  
+            isBSTUtil(node->right, node->data+1, max); 
+    }
+};
+
+Node* buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+    vector<string>ip;
+
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+    Node* root = new Node(stoi(ip[0]));
+    queue<Node*>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i<ip.size()){
+        Node* currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+void inorder(Node *root, vector<int> &v){
+    if(root == NULL)return;
+
+    inorder(root->left, v);
+    v.push_back(root->data);
+    inorder(root->right, v);
+}
+
+int main(){
+    int t; string tc;
+    getline(cin, tc);
+    t = stoi(tc);
+    while(t--){
+        string s;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        if(ob.isBST(root))cout<<"1\n";
+        else cout<<"0\n";
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
