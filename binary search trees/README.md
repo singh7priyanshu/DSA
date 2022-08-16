@@ -1991,7 +1991,146 @@ Time complexity of this method is also `O(m+n)` and this method does conversion 
 
 <br /><br /><br />
 ## Problem 12:
-**[]()**<br />
+**[Kth largest element in BST](https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1)**<br />
+Given a `Binary search tree`. Your task is to complete the function which will return **the Kth largest element without doing any modification in Binary Search Tree**.<br />
+
+<pre>
+Example 1:
+Input:
+1
+4 2 9
+2
+
+      4
+    /   \
+   2     9
+k = 2 
+Output: 4
+</pre>
+
+<pre>
+Example 2:
+Input:
+       9
+        \ 
+          10
+K = 1
+Output: 10
+</pre>
+
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `kthLargest()` which takes the `root of the BST` and an integer `K` as inputs and returns _the Kth largest element in the given BST_.<br />
+
+<pre>
+Expected Time Complexity: O(H + K).
+Expected Auxiliary Space: O(H)
+</pre>
+
+* Constraints: `1 <= N <= 1000`<br />
+`1 <= K <= N`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int val){
+        data = val;
+        left = right = NULL;
+    }
+};
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node *root = new Node(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node *currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = new Node(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = new Node(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+class Solution
+{
+    public:
+    void kthLargestUtil(Node *root, int k, int &c, int &res)
+    {
+        if (root == NULL || c >= k)
+            return;
+        
+        kthLargestUtil(root->right, k, c, res);
+        
+        c++;
+        if (c == k)
+        {
+            res = root->data;
+            return;
+        }
+        
+        kthLargestUtil(root->left, k, c, res);
+    }
+    
+    public:
+    int kthLargest(Node *root, int k)
+    {
+        int c = 0;
+        int res = -1;
+        kthLargestUtil(root, k, c, res);
+        return res;
+    }
+
+};
+
+int main(){
+    int t; cin>>t;
+    getchar();
+    while(t--){
+        string s;
+        getline(cin, s);
+        Node *head = buildTree(s);
+        int k; cin>>k;
+        getchar();
+        Solution ob;
+        cout<<ob.kthLargest(head, k)<<endl;
+    }
+    return 1;
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
