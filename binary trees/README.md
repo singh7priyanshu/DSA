@@ -1099,7 +1099,18 @@ which can be equal to the total number of nodes in the tree in worst-case for sk
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Preorder Traversal of a tree both using recursion and Iteration](https://www.techiedelight.com/preorder-tree-traversal-iterative-recursive/)**<br />
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 8:
