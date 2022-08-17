@@ -1278,7 +1278,7 @@ int main()
 }
 ```
 The above solution can be further optimized by `pushing only the right children to the stack`.<br />
-<pre>
+```cpp
 #include <iostream>
 #include <stack>
 using namespace std;
@@ -1364,7 +1364,7 @@ int main()
  
     return 0;
 }
-</pre>
+```
 <pre>
 The time complexity of the above solutions is O(n), where n is the total number of nodes in the binary tree. 
 The space complexity of the program is O(n) as the space required is proportional to the tree’s height, 
