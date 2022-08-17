@@ -2721,7 +2721,151 @@ Median of BST is 50
 
 <br /><br /><br />
 ## Problem 16:
-**[]()**<br />
+**[Count BST nodes that lie in a given range](https://practice.geeksforgeeks.org/problems/count-bst-nodes-that-lie-in-a-given-range/1)**<br />
+Given a `Binary Search Tree (BST)` and a `range l-h(inclusive)`, count _the number of nodes in the BST that lie in the given range_.<br />
+
+ * The values **smaller** than root go to the `left side`<br />
+ * The values **greater** and equal to the root go to the `right side`<br />
+
+<pre>
+Example 1:
+Input:
+      10
+     /  \
+    5    50
+   /    /  \
+  1    40  100
+l = 5, h = 45
+Output: 3
+Explanation: 5 10 40 are the node in the range.
+</pre>
+<pre>
+Example 2:
+Input:
+1
+5 4 6 3 N N 7 1
+2 8
+     5
+    /  \
+   4    6
+  /      \
+ 3        7
+l = 2, h = 8
+Output: 5
+Explanation: All the nodes are in the given range.
+</pre>
+**Your Task:**<br />
+This is a function problem. You don't have to take input. You are required to complete the function `getCountOfNode()` that takes `root`, `l` ,`h` as parameters and returns _the count_.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(Height of the BST).
+</pre>
+
+* Constraints: `1 <= Number of nodes <= 100`<br />
+`1 <= l < h < 10^3`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+Node* newNode(int val){
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+
+    return temp;
+}
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node* root = newNode(stoi(ip[0]));
+    queue<Node *>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node* currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = newNode(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = newNode(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+//Function to count number of nodes in BST that lie in the given range.
+class Solution{
+public:
+    int getCount(Node* root, int low, int high)
+    {
+        if (!root) 
+            return 0;
+    
+        //if data at current node is equal to lower and upper range, we return 1.
+        if (root->data == high && root->data == low)
+            return 1;
+    
+        //if data at current node is within range then we include it in count 
+        //and call function recursively for its left and right children.
+        if (root->data <= high && root->data >= low)
+            return 1+getCount(root->left,low,high)+getCount(root->right,low,high);
+    
+        //else if data at current node is smaller than lower range then
+        //we call function recursively only for right child.
+        else if (root->data < low)
+            return getCount(root->right, low, high);
+    
+        //else we call function recursively only for left child.
+        else return getCount(root->left, low, high);
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s;
+        getline(cin>>ws, s);
+        int l, r; cin>>l>>r;
+        Solution ob;
+        Node* root = buildTree(s);
+        cout<<ob.getCount(root, l, r)<<endl;
+    }
+    return 1;
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 17:
