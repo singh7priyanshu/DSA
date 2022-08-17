@@ -9,6 +9,7 @@ Input:
     1
   /   \ 
  3     2
+ 
 Output:1 3 2
 </pre>
 <pre>
@@ -19,6 +20,7 @@ Input:
     20       30
   /   \
  40   60
+ 
 Output:10 20 30 40 60
 </pre>
 **Your Task:**<br />
