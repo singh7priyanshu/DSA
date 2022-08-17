@@ -1100,10 +1100,276 @@ which can be equal to the total number of nodes in the tree in worst-case for sk
 <br /><br /><br />
 ## Problem 7:
 **[Preorder Traversal of a tree both using recursion and Iteration](https://www.techiedelight.com/preorder-tree-traversal-iterative-recursive/)**<br />
+Unlike **linked lists**, **one-dimensional arrays**, and other **linear data structures**, which are traversed in `linear order`, trees can be traversed in multiple ways in `depth–first order` (`preorder`, `inorder`, and `postorder`) or `breadth–first order` (`level order traversal`). Beyond these basic traversals, various more complex or hybrid schemes are possible, such as `depth-limited searches` like `iterative deepening depth–first search`. In this post, `preorder tree traversal` is discussed in detail.<br />
+Traversing a tree involves iterating over all nodes in some manner. As the tree is not a `linear data structure`, there can be more than one possible next node from a given node, so some nodes must be deferred, i.e., stored in some way for later visiting. The traversal can be done iteratively where the deferred nodes are stored in the stack, or it can be done by `recursion`, where the deferred nodes are stored implicitly in the call stack.<br />
+For traversing a `(non-empty) binary tree` in a `preorder` fashion, we must do these three things for every node n starting from the tree’s root:<br />
 
-
-
-
+ * (N) Process `n` itself.<br />
+ * (L) `Recursively` traverse its `left subtree`. When this step is finished, we are back at `n` again.<br />
+ * (R) `Recursively` traverse its `right subtree`. When this step is finished, we are back at `n` again.<br />
+ 
+In `normal preorder traversal`, visit the `left subtree before the right subtree`. If we visit the `right subtree before visiting the left subtree`, it is referred to as `reverse preorder traversal`.<br />
+<img src = "https://www.techiedelight.com/wp-content/uploads/Preorder-Traversal.png"><br />
+<br />**Recursive Implementation**<br />
+As we can see, only after processing any node, the `left subtree` is processed, followed by the `right subtree`. These operations can be defined recursively for each node. The `recursive implementation` is referred to as a `Depth–first search (DFS)`, as the search tree is deepened as much as possible on each child before going to the next sibling.<br />
+```cpp
+#include <iostream>
+using namespace std;
+ 
+// Data structure to store a binary tree node
+struct Node
+{
+    int data;
+    Node *left, *right;
+ 
+    Node(int data)
+    {
+        this->data = data;
+        this->left = this->right = nullptr;
+    }
+};
+ 
+// Recursive function to perform preorder traversal on the tree
+void preorder(Node* root)
+{
+    // if the current node is empty
+    if (root == nullptr) {
+        return;
+    }
+ 
+    // Display the data part of the root (or current node)
+    cout << root->data << " ";
+ 
+    // Traverse the left subtree
+    preorder(root->left);
+ 
+    // Traverse the right subtree
+    preorder(root->right);
+}
+ 
+ 
+int main()
+{
+    /* Construct the following tree
+               1
+             /   \
+            /     \
+           2       3
+          /      /   \
+         /      /     \
+        4      5       6
+              / \
+             /   \
+            7     8
+    */
+ 
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->right->left = new Node(5);
+    root->right->right = new Node(6);
+    root->right->left->left = new Node(7);
+    root->right->left->right = new Node(8);
+ 
+    preorder(root);
+ 
+    return 0;
+}
+```
+**Iterative Implementation**<br />
+To convert the above `recursive procedure` into an `iterative one`, we need an `explicit stack`. Following is a simple stack-based iterative algorithm to perform `preorder traversal`:<br />
+<pre>
+iterativePreorder(node)
+ 
+if (node = null)
+  return
+s —> empty stack
+s.push(node)
+while (not s.isEmpty())
+  node —> s.pop()
+  visit(node)
+  if (node.right != null)
+    s.push(node.right)
+  if (node.left != null)
+    s.push(node.left)
+ </pre>
+ ```cpp
+#include <iostream>
+#include <stack>
+using namespace std;
+ 
+// Data structure to store a binary tree node
+struct Node
+{
+    int data;
+    Node *left, *right;
+ 
+    Node(int data)
+    {
+        this->data = data;
+        this->left = this->right = nullptr;
+    }
+};
+ 
+// Iterative function to perform preorder traversal on the tree
+void preorderIterative(Node* root)
+{
+    // return if the tree is empty
+    if (root == nullptr)
+    return;
+ 
+    // create an empty stack and push the root node
+    stack<Node*> stack;
+    stack.push(root);
+ 
+    // loop till stack is empty
+    while (!stack.empty())
+    {
+        // pop a node from the stack and print it
+        Node* curr = stack.top();
+        stack.pop();
+ 
+        cout << curr->data << " ";
+ 
+        // push the right child of the popped node into the stack
+        if (curr->right) {
+            stack.push(curr->right);
+        }
+ 
+        // push the left child of the popped node into the stack
+        if (curr->left) {
+            stack.push(curr->left);
+        }
+ 
+        // the right child must be pushed first so that the left child
+        // is processed first (LIFO order)
+    }
+}
+ 
+ 
+int main()
+{
+    /* Construct the following tree
+               1
+             /   \
+            /     \
+           2       3
+          /      /   \
+         /      /     \
+        4      5       6
+              / \
+             /   \
+            7     8
+    */
+ 
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->right->left = new Node(5);
+    root->right->right = new Node(6);
+    root->right->left->left = new Node(7);
+    root->right->left->right = new Node(8);
+ 
+    preorderIterative(root);
+ 
+    return 0;
+}
+```
+The above solution can be further optimized by `pushing only the right children to the stack`.<br />
+<pre>
+#include <iostream>
+#include <stack>
+using namespace std;
+ 
+// Data structure to store a binary tree node
+struct Node
+{
+    int data;
+    Node *left, *right;
+ 
+    Node(int data)
+    {
+        this->data = data;
+        this->left = this->right = nullptr;
+    }
+};
+ 
+// Iterative function to perform preorder traversal on the tree
+void preorderIterative(Node* root)
+{
+    // return if the tree is empty
+    if (root == nullptr) {
+        return;
+    }
+ 
+    // create an empty stack and push the root node
+    stack<Node*> stack;
+    stack.push(root);
+ 
+    // start from the root node (set current node to the root node)
+    Node* curr = root;
+ 
+    // loop till stack is empty
+    while (!stack.empty())
+    {
+        // if the current node exists, print it and push its right child
+        // to the stack before moving to its left child
+        if (curr != nullptr)
+        {
+            cout << curr->data << " ";
+ 
+            if (curr->right) {
+                stack.push(curr->right);
+            }
+ 
+            curr = curr->left;
+        }
+        // if the current node is null, pop a node from the stack
+        // set the current node to the popped node
+        else {
+            curr = stack.top();
+            stack.pop();
+        }
+    }
+}
+ 
+ 
+int main()
+{
+    /* Construct the following tree
+               1
+             /   \
+            /     \
+           2       3
+          /      /   \
+         /      /     \
+        4      5       6
+              / \
+             /   \
+            7     8
+    */
+ 
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->right->left = new Node(5);
+    root->right->right = new Node(6);
+    root->right->left->left = new Node(7);
+    root->right->left->right = new Node(8);
+ 
+    preorderIterative(root);
+ 
+    return 0;
+}
+</pre>
+<pre>
+The time complexity of the above solutions is O(n), where n is the total number of nodes in the binary tree. 
+The space complexity of the program is O(n) as the space required is proportional to the tree’s height, 
+which can be equal to the total number of nodes in the tree in the worst case for skewed trees.
+</pre>
 
 
 
