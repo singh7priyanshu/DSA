@@ -3306,7 +3306,192 @@ We can use Red-Black Tree or AVL Tree balancing techniques to make the above imp
 
 <br /><br /><br />
 ## Problem 19:
-**[]()**<br />
+**[Preorder to BST / Check preorder is valid or not](https://practice.geeksforgeeks.org/problems/preorder-to-postorder4423/1)**<br />
+Given an array `arr[]` of `N` nodes representing `preorder traversal` of some `BST`. You have to build the `exact BST` from it's given `preorder traversal`.<br /> 
+In `Pre-Order traversal`, the **root node** is visited before the **left child** and **right child** nodes.<br />
+
+<pre>
+Example 1:
+Input:
+N = 5
+arr[]  = {40,30,35,80,100}
+Output: 35 30 100 80 40
+Explanation: PreOrder: 40 30 35 80 100
+InOrder: 30 35 40 80 100
+Therefore, the BST will be:
+              40
+           /      \
+         30       80
+           \        \   
+           35      100
+Hence, the postOrder traversal will be: 35 30 100 80 40
+</pre>
+<pre>
+Example 2:
+Input:
+N = 8
+arr[]  = {40,30,32,35,80,90,100,120}
+Output: 35 32 30 120 100 90 80 40
+</pre>
+
+**Your Task:**<br />
+You need to complete the given `function` and return _the root of the tree_. The driver code will then use this root to print the post order traversal.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+</pre>
+
+* Constraints: `1 <= N <= 10^3`<br />
+`1 <= arr[i] <= 10^4`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef struct Node
+{
+    int data;
+    struct Node *left, *right;
+}Node;
+
+typedef struct Stack{
+    int top;
+    int capacity;
+    Node* *array;
+}Stack;
+
+Node* newNode(int data){
+    Node* temp = (Node *)malloc(sizeof(Node));
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+Stack* createStack(int capacity){
+    Stack* stack = (Stack *)malloc(sizeof(Stack));
+    stack->top = -1;
+    stack->capacity = capacity;
+    stack->array = (Node **)malloc(stack->capacity * sizeof(Node*));
+    return stack;
+}
+
+int isFull(Stack* stack){
+    return stack->top == stack->capacity -1;
+}
+
+int isEmpty(Stack* stack){
+    return stack->top == -1;
+}
+
+void push(Stack* stack, Node* item){
+    if(isFull(stack))return;
+    stack->array[ ++stack->top] = item;
+}
+
+Node* pop(Stack* stack){
+    if(isEmpty(stack))return NULL;
+    return stack->array[stack->top--];
+}
+
+Node* peek(Stack* stack){
+    return stack->array[stack->top];
+}
+
+bool canRepresentBST(int pre[], int n){
+    stack<int>s;
+    int root = INT_MIN;
+    for(int i = 0;i<n;i++){
+        if(pre[i]<root)return false;
+        while(!s.empty() && s.top()<pre[i]){
+            root = s.top();
+            s.pop();
+        }
+        s.push(pre[i]);
+    }
+    return true;
+}
+
+void printPostorder(Node* node){
+    if(node == NULL)return;
+    printPostorder(node->left);
+    printPostorder(node->right);
+    printf("%d ", node->data);
+}
+
+class Solution{
+public:
+    //Function that constructs BST from its preorder traversal.
+    Node * post_order ( int pre[], int size )
+    {
+        if (canRepresentBST(pre, size) == false)
+        {   cout << "NO";
+            return NULL;
+        }
+    
+        //creating a stack of capacity equal to size of array.
+        Stack* stack = createStack( size );
+    
+        //first element of preorder traversal is always root of BST.
+        Node* root = newNode( pre[0] );
+    
+        //pushing root into the stack.
+        push( stack, root );
+    
+        int i;
+        Node* temp;
+    
+        //iterating over rest of the array elements.
+        for ( i = 1; i < size; ++i )
+        {
+            temp = NULL;
+    
+            //we keep on popping from stack while data at top of stack is less
+            //than the current array element.
+            while ( !isEmpty( stack ) && pre[i] > peek(stack)->data )
+                temp = pop(stack);
+    
+            //we make this greater value as the right child and push it into stack.
+            if ( temp != NULL)
+            {
+                temp->right = newNode( pre[i] );
+                push( stack, temp->right );
+            }
+    
+            //if current array element is less than data at top of stack, we make
+            //it as the left child of the stack's top node and push it into stack.
+            else
+            {
+                peek( stack )->left = newNode( pre[i] );
+                push( stack, peek( stack )->left );
+            }
+        }
+        return root;
+         
+    }
+};
+
+int main(){
+    int arr[1000], x, t, n;
+    cin>>t;
+    while(t--){
+        cin>>n;
+        for(int i = 0;i<n;i++)cin>>arr[i];
+        Solution ob;
+        printPostorder(ob.post_order(arr, n));
+        cout<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 20:
