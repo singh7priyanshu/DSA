@@ -3673,7 +3673,164 @@ bool isDeadEnd(Node *root)
 
 <br /><br /><br />
 ## Problem 21:
-**[]()**<br />
+**[Largest BST in a Binary Tree [ V.V.V.V.V IMP ]](https://practice.geeksforgeeks.org/problems/largest-bst/1)**<br />
+Given a `binary tree`. Find _the size of its largest subtree that is a Binary Search Tree_.<br />
+**Note:** Here Size is equal to the number of nodes in the subtree.<br />
+<pre>
+Example 1:
+Input:
+        1
+      /   \
+     4     4
+   /   \
+  6     8
+Output: 1
+Explanation: There's no sub-tree with size greater than 1 which forms a BST. 
+All the leaf Nodes are the BSTs with size equal to 1. 
+</pre>
+<pre>
+Example 2:
+Input: 6 6 3 N 2 9 3 N 8 8 2
+            6
+        /       \
+       6         3
+        \      /   \
+         2    9     3
+          \  /  \
+          8 8    2 
+Output: 2
+Explanation: The following sub-tree is a BST of size 2: 
+       2
+    /    \ 
+   N      8
+</pre>
+**Your Task:**<br />
+You don't need to read input or print anything. Your task is to complete the function `largestBst()` that takes the **root node** of the **Binary Tree** as its input and returns _the size of the **largest subtree** which is also the BST_. If the complete Binary Tree is a `BST`, return the `size of the complete Binary Tree`.<br /> 
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(Height of the BST).
+</pre>
+
+* Constraints: `1 ≤ Number of nodes ≤ 10^5`<br />
+`1 ≤ Data of a node ≤ 10^6`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX_HEIGHT 100000
+
+struct Node{
+    int data;
+    Node *left;
+    Node *right;
+};
+
+Node* newNode(int val){
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+Node *buildTree(string str){
+    if(str.length() == 0 || str[0] == 'N')return NULL;
+
+    vector<string>ip;
+    istringstream iss(str);
+    for(string str; iss>>str;)ip.push_back(str);
+
+    Node* root = newNode(stoi(ip[0]));
+    queue<Node*>queue;
+    queue.push(root);
+
+    int i = 1;
+    while(!queue.empty() && i < ip.size()){
+        Node*   currNode = queue.front();
+        queue.pop();
+
+        string currVal = ip[i];
+        if(currVal != "N"){
+            currNode->left = newNode(stoi(currVal));
+            queue.push(currNode->left);
+        }
+        i++;
+        if(i >= ip.size())break;
+        currVal = ip[i];
+
+        if(currVal != "N"){
+            currNode->right = newNode(stoi(currVal));
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    return root;
+}
+
+struct node1
+{
+    int isbst;
+    int size;
+    int mn;
+    int mx;
+};
+struct node1 bst(struct Node *root)
+{
+    struct node1 x;
+    if(root == NULL) {
+        x.isbst = 1;
+        x.size = 0;
+        x.mn = 1000000;
+        x.mx = 0;
+        return x;
+    }
+    struct node1 left = bst(root->left);
+    struct node1 right = bst(root->right);
+    if(left.isbst == 1 && right.isbst == 1 && root->data > left.mx && root->data < right.mn) {
+        x.isbst = 1;
+        x.size = 1+left.size+right.size;
+        x.mx = max(root->data,right.mx);
+        x.mn = min(root->data,left.mn);
+    }
+    else {
+        x.isbst = 0;
+        x.size = max(left.size,right.size);
+        x.mn = 1000000;
+        x.mx = 0;
+    }
+    return x;
+};
+
+class Solution{
+    public:
+    int largestBst(Node *root)
+    {
+        return bst(root).size;
+    }
+};
+
+int main(){
+    int t; cin>>t;
+    while(t--){
+        string s, ch;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        cout<<ob.largestBst(root)<<endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 22:
