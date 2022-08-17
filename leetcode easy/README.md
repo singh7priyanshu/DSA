@@ -1426,4 +1426,69 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[804. Unique Morse Code Words](https://leetcode.com/problems/unique-morse-code-words/)**<br />
+International `Morse Code` defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows:<br />
+
+ * `'a'` maps to `".-"`,<br />
+ * `'b'` maps to `"-..."`,<br />
+ * `'c'` maps to `"-.-."`, and so on.<br />
+	
+For convenience, the full table for the `26` letters of the English alphabet is given below:<br />
+
+[`".-"`,`"-..."`,`"-.-."`,`"-.."`,`"."`,`"..-."`,`"--."`,`"...."`,`".."`,`".---"`,`"-.-"`,`".-.."`,`"--"`,`"-."`,`"---"`,`".--."`,`"--.-"`,`".-."`,`"..."`,`"-"`,`"..-"`,`"...-"`,`".--"`,`"-..-"`,`"-.--"`,`"--.."`]<br />
+	
+Given an array of strings `words` where each word can be written as a concatenation of the **Morse code** of each letter.<br />
+
+ * For example, `"cab"` can be written as `"-.-..--..."`, which is the concatenation of `"-.-."`, `".-"`, and `"-..."`. We will call such a concatenation the **transformation** of a word.<br />
+	
+Return _the number of different **transformations** among all words we have_.<br />
+
+>Example 1:
+Input: words = ["gin","zen","gig","msg"]
+Output: 2
+Explanation: The transformation of each word is:
+"gin" -> "--...-."
+"zen" -> "--...-."
+"gig" -> "--...--."
+"msg" -> "--...--."
+There are 2 different transformations: "--...-." and "--...--.".
+	
+>Example 2:
+Input: words = ["a"]
+Output: 1
+
+* Constraints: `1 <= words.length <= 100`<br />
+`1 <= words[i].length <= 12`<br />
+`words[i]` consists of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    int uniqueMorseRepresentations(vector<string>& words) {
+        vector<string> t = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        set<string> s;
+
+        for(int i = 0; i < words.size();i++){
+            string tt = words[i]; 
+            string temp = "";
+
+            for(int j= 0 ;j < tt.length(); j++){
+                int e = tt[j] - 'a';
+                temp += t[e];
+            }
+            s.insert(temp);
+        }
+        return s.size();
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
