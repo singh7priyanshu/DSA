@@ -1443,19 +1443,19 @@ Given an array of strings `words` where each word can be written as a concatenat
 	
 Return _the number of different **transformations** among all words we have_.<br />
 
->Example 1:
-Input: words = ["gin","zen","gig","msg"]
-Output: 2
-Explanation: The transformation of each word is:
-"gin" -> "--...-."
-"zen" -> "--...-."
-"gig" -> "--...--."
-"msg" -> "--...--."
-There are 2 different transformations: "--...-." and "--...--.".
+>Example 1:<br />
+Input: words = ["gin","zen","gig","msg"]<br />
+Output: 2<br />
+Explanation: The transformation of each word is:<br />
+"gin" -> "--...-."<br />
+"zen" -> "--...-."<br />
+"gig" -> "--...--."<br />
+"msg" -> "--...--."<br />
+There are 2 different transformations: "--...-." and "--...--.".<br />
 	
->Example 2:
-Input: words = ["a"]
-Output: 1
+>Example 2:<br />
+Input: words = ["a"]<br />
+Output: 1<br />
 
 * Constraints: `1 <= words.length <= 100`<br />
 `1 <= words[i].length <= 12`<br />
