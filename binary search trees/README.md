@@ -3497,7 +3497,7 @@ int main(){
 ## Problem 20:
 **[Check whether BST contains Dead End](https://practice.geeksforgeeks.org/problems/check-whether-bst-contains-dead-end/1)**<br />
 Given a `Binary search Tree` that contains `positive integer values greater then 0`. The task is to complete the function `isDeadEnd` which returns `true` if the BST contains a dead end else returns `false`. Here Dead End means, we are not able to insert any element after that node.<br />
-<pre>
+
 Examples:<br />
 <pre>
 Input :  
@@ -3609,8 +3609,7 @@ int main(){
     }
 }
 
-void storeNodes(Node * root, unordered_set<int> &all_nodes,
-                          unordered_set<int> &leaf_nodes)
+void storeNodes(Node * root, unordered_set<int> &all_nodes, unordered_set<int> &leaf_nodes)
 {
     if (root == NULL)
         return ;
