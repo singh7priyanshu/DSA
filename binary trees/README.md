@@ -545,7 +545,174 @@ int main()
 
 <br /><br /><br />
 ## Problem 4:
-**[]()**<br />
+**[Diameter of a Binary Tree](https://practice.geeksforgeeks.org/problems/diameter-of-binary-tree/1)**<br />
+The `diameter of a tree` (sometimes called the **width**) is the number of **nodes on the longest path between two end nodes**. The diagram below shows two trees each with diameter `nine`, the leaves that form the ends of the longest path are shaded (note that there is more than one path in each tree of length nine, but no path longer than nine nodes).<br />
+<img src = "https://contribute.geeksforgeeks.org/wp-content/uploads/diameter.jpg"><br />
+<pre>
+Example 1:
+Input:
+       1
+     /  \
+    2    3
+Output: 3
+</pre>
+<pre>
+Example 2:
+Input:
+         10
+        /   \
+      20    30
+    /   \ 
+   40   60
+Output: 4
+</pre>
+
+**Your Task:**<br />
+You need to complete the function `diameter()` that takes `root` as parameter and returns _the diameter_.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(Height of the Tree).
+</pre>
+
+* Constraints: `1 <= Number of nodes <= 10000`<br />
+`1 <= Data of a node <= 1000`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+Node* newNode(int val) {
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+Node* buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N') return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;) ip.push_back(str);
+
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size()) break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+class Solution {
+  public:
+    // Function to find the diameter of a Binary Tree.
+    int go(Node* n, int* dia) {
+        // if node becomes null, we return 0.
+        if (!n) return 0;
+
+        // calling the go function recursively for the left and
+        // right subtrees to find their heights.
+        int l = go(n->left, dia);
+        int r = go(n->right, dia);
+
+        // storing the maximum possible value of l+r+1 in diameter.
+        if (l + r + 1 > *dia) *dia = l + r + 1;
+
+        // returning height of subtree.
+        return 1 + max(l, r);
+    }
+
+  public:
+    // Function to return the diameter of a Binary Tree.
+    int diameter(Node* root) {
+        int dia = 0;
+        // calling the function to find the result.
+        go(root, &dia);
+        // returning the result.
+        return dia;
+    }
+};
+
+int main() {
+    int t;
+    scanf("%d\n", &t);
+    while (t--) {
+        string s;
+        getline(cin, s);
+        Node* root = buildTree(s);
+        Solution ob;
+        cout << ob.diameter(root) << endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 5:
