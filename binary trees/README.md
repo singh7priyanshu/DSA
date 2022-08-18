@@ -3080,7 +3080,7 @@ Output<br />
 Time complexity: O( N log N )
 Auxiliary Space: O(N)
 </pre>
-Approach 2: Using Queue:
+`Approach 2: Using Queue:`<br />
 Every node will contribute to the formation of the following **diagonal**. Only when the **element’s left is available** will we push it into the `queue`. We’ll process the node and then go to the `right`.<br />
 Below is the implementation of the above approach:<br />
 ```cpp
