@@ -4736,7 +4736,200 @@ int main()
 
 <br /><br /><br />
 ## Problem 24:
-**[]()**<br />
+**[Check if a Binary Tree contains duplicate subtrees of size 2 or more [ IMP ]](https://practice.geeksforgeeks.org/problems/duplicate-subtree-in-binary-tree/1)**<br />
+Given a `binary tree`, find out whether it contains a `duplicate sub-tree` of size `two or more`, or not.<br />
+
+<pre>
+Example 1 :
+Input : 
+               1
+             /   \ 
+           2       3
+         /   \       \    
+        4     5       2     
+                     /  \    
+                    4    5
+Output : 1
+Explanation : 
+    2     
+  /   \    
+ 4     5
+is the duplicate sub-tree.
+</pre>
+<pre>
+Example 2 :
+Input : 
+               1
+             /   \ 
+           2       3
+Output: 0
+Explanation: There is no duplicate sub-tree in the given binary tree.
+<pre>
+
+**Your Task:**<br />  
+You don't need to read input or print anything. Your task is to complete the function `dupSub()` which takes `root of the tree` as the only arguement and returns `1` if the binary tree contains a `duplicate sub-tree of size two or more`, else `0`.<br />
+**Note:** Two same leaf nodes are not considered as subtree as size of a leaf node is one.<br />
+
+* Constraints: `1 ≤ Number of nodes ≤ 100`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    char data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(char x) {
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+struct Node* buildTree(string str)
+{
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str; )
+        ip.push_back(str);
+
+    // Create the root of the tree
+    Node *root = new Node(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current Node
+            currNode->left = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+class Solution {
+  public:
+    unordered_set<string> subtrees;
+    char MARKER = '$'; 
+    // This function returns empty string if tree
+    // contains a duplicate subtree of size 2 or more.
+    string dupSubUtil(Node *root)
+    {
+        string s = "";
+     
+        // If current node is NULL, return marker
+        if (root == NULL)
+            return s + MARKER;
+     
+        // If left subtree has a duplicate subtree.
+        string lStr = dupSubUtil(root->left);
+        if (lStr.compare(s) == 0)
+           return s;
+     
+        // Do same for right subtree
+        string rStr = dupSubUtil(root->right);
+        if (rStr.compare(s) == 0)
+           return s;
+     
+        // Serialize current subtree
+        s = s + root->data + lStr + rStr;
+     
+        // If current subtree already exists in hash
+        // table. [Note that size of a serialized tree
+        // with single node is 3 as it has two marker
+        // nodes.
+        if (s.length() > 3 and 
+            subtrees.find(s) != subtrees.end())
+           return "";
+     
+        subtrees.insert(s);
+     
+        return s;
+    }
+    
+    int dupSub(Node *root)
+    {
+        //subtrees.clear();
+        string str = dupSubUtil(root);
+     
+        if(str.compare("") == 0)
+            return 1;
+        else
+            return 0;
+    }
+};
+
+int main()
+{
+    
+    int t;
+    cin >> t;
+    //cout << t << "\n";
+    while (t--)
+    {
+        string treeString;
+        getline(cin >> ws, treeString);
+        struct Node* root = buildTree(treeString);
+        Solution ob;
+        cout << ob.dupSub(root) << "\n";
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 25:
