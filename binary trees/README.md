@@ -5283,7 +5283,751 @@ int main()
 
 <br /><br /><br />
 ## Problem 27:
-**[]()**<br />
+**[Check if given graph is tree or not.  [ IMP ]](https://www.geeksforgeeks.org/check-given-graph-tree/)**<br />
+Write a function that returns `true` if a given **undirected graph** is tree and `false` otherwise. For example, the following graph is a tree.<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/10/cycleGraph.png"><br />
+But the following graph is not a tree.<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/cycleGraph-300x156.png"><br />
+`Approach 1:`<br />
+An `undirected graph` is tree if it has following properties.<br />
+
+ 1. There is no cycle.<br />
+ 2. The graph is connected.<br />
+ 
+For an undirected graph we can either use `BFS` or `DFS` to detect above two properties.<br />
+<br />**How to detect cycle in an undirected graph?**<br />
+We can either use `BFS` or `DFS`. For every visited vertex `‘v’`, if there is an adjacent `‘u’` such that `u` is already visited and `u` is not parent of `v`, then there is a cycle in graph. If we don’t find such an adjacent for any vertex, we say that there is no cycle.<br />
+**How to check for connectivity?**<br />
+Since the graph is `undirected`, we can start `BFS` or `DFS` from any vertex and check if all vertices are reachable or not. If all vertices are reachable, then graph is connected, otherwise not.<br />
+**Implementation:**<br />
+```cpp
+// A C++ Program to check whether a graph is tree or not
+#include<iostream>
+#include <list>
+#include <limits.h>
+using namespace std;
+
+// Class for an undirected graph
+class Graph
+{
+	int V; // No. of vertices
+	list<int> *adj; // Pointer to an array for adjacency lists
+	bool isCyclicUtil(int v, bool visited[], int parent);
+public:
+	Graph(int V); // Constructor
+	void addEdge(int v, int w); // to add an edge to graph
+	bool isTree(); // returns true if graph is tree
+};
+
+Graph::Graph(int V)
+{
+	this->V = V;
+	adj = new list<int>[V];
+}
+
+void Graph::addEdge(int v, int w)
+{
+	adj[v].push_back(w); // Add w to v’s list.
+	adj[w].push_back(v); // Add v to w’s list.
+}
+
+// A recursive function that uses visited[] and parent to
+// detect cycle in subgraph reachable from vertex v.
+bool Graph::isCyclicUtil(int v, bool visited[], int parent)
+{
+	// Mark the current node as visited
+	visited[v] = true;
+
+	// Recur for all the vertices adjacent to this vertex
+	list<int>::iterator i;
+	for (i = adj[v].begin(); i != adj[v].end(); ++i)
+	{
+		// If an adjacent is not visited, then recur for
+		// that adjacent
+		if (!visited[*i])
+		{
+		if (isCyclicUtil(*i, visited, v))
+			return true;
+		}
+
+		// If an adjacent is visited and not parent of current
+		// vertex, then there is a cycle.
+		else if (*i != parent)
+		return true;
+	}
+	return false;
+}
+
+// Returns true if the graph is a tree, else false.
+bool Graph::isTree()
+{
+	// Mark all the vertices as not visited and not part of
+	// recursion stack
+	bool *visited = new bool[V];
+	for (int i = 0; i < V; i++)
+		visited[i] = false;
+
+	// The call to isCyclicUtil serves multiple purposes.
+	// It returns true if graph reachable from vertex 0
+	// is cyclic. It also marks all vertices reachable
+	// from 0.
+	if (isCyclicUtil(0, visited, -1))
+			return false;
+
+	// If we find a vertex which is not reachable from 0
+	// (not marked by isCyclicUtil(), then we return false
+	for (int u = 0; u < V; u++)
+		if (!visited[u])
+		return false;
+
+	return true;
+}
+
+// Driver program to test above functions
+int main()
+{
+	Graph g1(5);
+	g1.addEdge(1, 0);
+	g1.addEdge(0, 2);
+	g1.addEdge(0, 3);
+	g1.addEdge(3, 4);
+	g1.isTree()? cout << "Graph is Tree\n": cout << "Graph is not Tree\n";
+
+	Graph g2(5);
+	g2.addEdge(1, 0);
+	g2.addEdge(0, 2);
+	g2.addEdge(2, 1);
+	g2.addEdge(0, 3);
+	g2.addEdge(3, 4);
+	g2.isTree()? cout << "Graph is Tree\n": cout << "Graph is not Tree\n";
+
+	return 0;
+}
+```
+```java
+// A Java Program to check whether a graph is tree or not
+import java.io.*;
+import java.util.*;
+
+// This class represents a directed graph using adjacency
+// list representation
+class Graph
+{
+	private int V; // No. of vertices
+	private LinkedList<Integer> adj[]; //Adjacency List
+
+	// Constructor
+
+	@SuppressWarnings("unchecked")
+	Graph(int v)
+	{
+		V = v;
+		adj = new LinkedList[V];
+		for (int i=0; i<v; ++i)
+			adj[i] = new LinkedList<Integer>();
+	}
+
+	// Function to add an edge into the graph
+	void addEdge(int v,int w)
+	{
+		adj[v].add(w);
+		adj[w].add(v);
+	}
+
+	// A recursive function that uses visited[] and parent
+	// to detect cycle in subgraph reachable from vertex v.
+	boolean isCyclicUtil(int v, boolean visited[], int parent)
+	{
+		// Mark the current node as visited
+		visited[v] = true;
+		Integer i;
+
+		// Recur for all the vertices adjacent to this vertex
+		Iterator<Integer> it = adj[v].iterator();
+		while (it.hasNext())
+		{
+			i = it.next();
+
+			// If an adjacent is not visited, then recur for
+			// that adjacent
+			if (!visited[i])
+			{
+				if (isCyclicUtil(i, visited, v))
+					return true;
+			}
+
+			// If an adjacent is visited and not parent of
+			// current vertex, then there is a cycle.
+			else if (i != parent)
+			return true;
+		}
+		return false;
+	}
+
+	// Returns true if the graph is a tree, else false.
+	boolean isTree()
+	{
+		// Mark all the vertices as not visited and not part
+		// of recursion stack
+		boolean visited[] = new boolean[V];
+		for (int i = 0; i < V; i++)
+			visited[i] = false;
+
+		// The call to isCyclicUtil serves multiple purposes
+		// It returns true if graph reachable from vertex 0
+		// is cyclic. It also marks all vertices reachable
+		// from 0.
+		if (isCyclicUtil(0, visited, -1))
+			return false;
+
+		// If we find a vertex which is not reachable from 0
+		// (not marked by isCyclicUtil(), then we return false
+		for (int u = 0; u < V; u++)
+			if (!visited[u])
+				return false;
+
+		return true;
+	}
+
+	// Driver method
+	public static void main(String args[])
+	{
+		// Create a graph given in the above diagram
+		Graph g1 = new Graph(5);
+		g1.addEdge(1, 0);
+		g1.addEdge(0, 2);
+		g1.addEdge(0, 3);
+		g1.addEdge(3, 4);
+		if (g1.isTree())
+			System.out.println("Graph is Tree");
+		else
+			System.out.println("Graph is not Tree");
+
+		Graph g2 = new Graph(5);
+		g2.addEdge(1, 0);
+		g2.addEdge(0, 2);
+		g2.addEdge(2, 1);
+		g2.addEdge(0, 3);
+		g2.addEdge(3, 4);
+
+		if (g2.isTree())
+			System.out.println("Graph is Tree");
+		else
+			System.out.println("Graph is not Tree");
+
+	}
+}
+```
+```python
+# Python Program to check whether
+# a graph is tree or not
+
+from collections import defaultdict
+
+class Graph():
+
+	def __init__(self, V):
+		self.V = V
+		self.graph = defaultdict(list)
+
+	def addEdge(self, v, w):
+		# Add w to v ist.
+		self.graph[v].append(w)
+		# Add v to w list.
+		self.graph[w].append(v)
+
+	# A recursive function that uses visited[]
+	# and parent to detect cycle in subgraph
+	# reachable from vertex v.
+	def isCyclicUtil(self, v, visited, parent):
+
+		# Mark current node as visited
+		visited[v] = True
+
+		# Recur for all the vertices adjacent
+		# for this vertex
+		for i in self.graph[v]:
+			# If an adjacent is not visited,
+			# then recur for that adjacent
+			if visited[i] == False:
+				if self.isCyclicUtil(i, visited, v) == True:
+					return True
+
+			# If an adjacent is visited and not
+			# parent of current vertex, then there
+			# is a cycle.
+			elif i != parent:
+				return True
+
+		return False
+
+	# Returns true if the graph is a tree,
+	# else false.
+	def isTree(self):
+		# Mark all the vertices as not visited
+		# and not part of recursion stack
+		visited = [False] * self.V
+
+		# The call to isCyclicUtil serves multiple
+		# purposes. It returns true if graph reachable
+		# from vertex 0 is cyclic. It also marks
+		# all vertices reachable from 0.
+		if self.isCyclicUtil(0, visited, -1) == True:
+			return False
+
+		# If we find a vertex which is not reachable
+		# from 0 (not marked by isCyclicUtil(),
+		# then we return false
+		for i in range(self.V):
+			if visited[i] == False:
+				return False
+
+		return True
+
+# Driver program to test above functions
+g1 = Graph(5)
+g1.addEdge(1, 0)
+g1.addEdge(0, 2)
+g1.addEdge(0, 3)
+g1.addEdge(3, 4)
+print ("Graph is a Tree" if g1.isTree() == True \
+						else "Graph is a not a Tree")
+
+g2 = Graph(5)
+g2.addEdge(1, 0)
+g2.addEdge(0, 2)
+g2.addEdge(2, 1)
+g2.addEdge(0, 3)
+g2.addEdge(3, 4)
+print ("Graph is a Tree" if g2.isTree() == True \
+						else "Graph is a not a Tree")
+						
+```
+```c#
+// A C# Program to check whether
+// a graph is tree or not
+using System;
+using System.Collections.Generic;
+
+// This class represents a directed graph
+// using adjacency list representation
+class Graph
+{
+	private int V; // No. of vertices
+	private List<int> []adj; // Adjacency List
+
+	// Constructor
+	Graph(int v)
+	{
+		V = v;
+		adj = new List<int>[v];
+		for (int i = 0; i < v; ++i)
+			adj[i] = new List<int>();
+	}
+
+	// Function to add an edge
+	// into the graph
+	void addEdge(int v, int w)
+	{
+		adj[v].Add(w);
+		adj[w].Add(v);
+	}
+
+	// A recursive function that uses visited[]
+	// and parent to detect cycle in subgraph
+	// reachable from vertex v.
+	Boolean isCyclicUtil(int v, Boolean []visited,
+						int parent)
+	{
+		// Mark the current node as visited
+		visited[v] = true;
+		int i;
+
+		// Recur for all the vertices
+		// adjacent to this vertex
+		foreach(int it in adj[v])
+		{
+			i = it;
+
+			// If an adjacent is not visited,
+			// then recur for that adjacent
+			if (!visited[i])
+			{
+				if (isCyclicUtil(i, visited, v))
+					return true;
+			}
+
+			// If an adjacent is visited and
+			// not parent of current vertex,
+			// then there is a cycle.
+			else if (i != parent)
+			return true;
+		}
+		return false;
+	}
+
+	// Returns true if the graph
+	// is a tree, else false.
+	Boolean isTree()
+	{
+		// Mark all the vertices as not visited
+		// and not part of recursion stack
+		Boolean []visited = new Boolean[V];
+		for (int i = 0; i < V; i++)
+			visited[i] = false;
+
+		// The call to isCyclicUtil serves
+		// multiple purposes. It returns true if
+		// graph reachable from vertex 0 is cyclic.
+		// It also marks all vertices reachable from 0.
+		if (isCyclicUtil(0, visited, -1))
+			return false;
+
+		// If we find a vertex which is not reachable
+		// from 0 (not marked by isCyclicUtil(),
+		// then we return false
+		for (int u = 0; u < V; u++)
+			if (!visited[u])
+				return false;
+
+		return true;
+	}
+
+	// Driver Code
+	public static void Main(String []args)
+	{
+		// Create a graph given
+		// in the above diagram
+		Graph g1 = new Graph(5);
+		g1.addEdge(1, 0);
+		g1.addEdge(0, 2);
+		g1.addEdge(0, 3);
+		g1.addEdge(3, 4);
+		if (g1.isTree())
+			Console.WriteLine("Graph is Tree");
+		else
+			Console.WriteLine("Graph is not Tree");
+
+		Graph g2 = new Graph(5);
+		g2.addEdge(1, 0);
+		g2.addEdge(0, 2);
+		g2.addEdge(2, 1);
+		g2.addEdge(0, 3);
+		g2.addEdge(3, 4);
+
+		if (g2.isTree())
+			Console.WriteLine("Graph is Tree");
+		else
+			Console.WriteLine("Graph is not Tree");
+
+	}
+}
+```
+```javascript
+<script>
+
+// A JavaScript Program to check whether
+// a graph is tree or not
+
+// This class represents a directed graph
+// using adjacency list representation
+var V = 0; // No. of vertices
+var adj; // Adjacency List
+// Constructor
+function initialize(v)
+{
+	V = v;
+	adj = Array.from(Array(v), ()=>Array());
+}
+// Function to add an edge
+// into the graph
+function addEdge(v, w)
+{
+	adj[v].push(w);
+	adj[w].push(v);
+}
+// A recursive function that uses visited[]
+// and parent to detect cycle in subgraph
+// reachable from vertex v.
+function isCyclicUtil(v, visited, parent)
+{
+	// Mark the current node as visited
+	visited[v] = true;
+	var i;
+	// Recur for all the vertices
+	// adjacent to this vertex
+	for(var it of adj[v])
+	{
+		i = it;
+		// If an adjacent is not visited,
+		// then recur for that adjacent
+		if (!visited[i])
+		{
+			if (isCyclicUtil(i, visited, v))
+				return true;
+		}
+		// If an adjacent is visited and
+		// not parent of current vertex,
+		// then there is a cycle.
+		else if (i != parent)
+		return true;
+	}
+	return false;
+}
+// Returns true if the graph
+// is a tree, else false.
+function isTree()
+{
+	// Mark all the vertices as not visited
+	// and not part of recursion stack
+	var visited = Array(V).fill(false);
+
+	// The call to isCyclicUtil serves
+	// multiple purposes. It returns true if
+	// graph reachable from vertex 0 is cyclic.
+	// It also marks all vertices reachable from 0.
+	if (isCyclicUtil(0, visited, -1))
+		return false;
+	// If we find a vertex which is not reachable
+	// from 0 (not marked by isCyclicUtil(),
+	// then we return false
+	for (var u = 0; u < V; u++)
+		if (!visited[u])
+			return false;
+	return true;
+}
+// Driver Code
+// Create a graph given
+// in the above diagram
+initialize(5)
+addEdge(1, 0);
+addEdge(0, 2);
+addEdge(0, 3);
+addEdge(3, 4);
+if (isTree())
+	document.write("Graph is Tree<br>");
+else
+	document.write("Graph is not Tree<br>");
+initialize(5)
+addEdge(1, 0);
+addEdge(0, 2);
+addEdge(2, 1);
+addEdge(0, 3);
+addEdge(3, 4);
+if (isTree())
+	document.write("Graph is Tree<br>");
+else
+	document.write("Graph is not Tree<br>");
+
+
+</script>
+```
+Output<br />
+<pre>
+Graph is Tree
+Graph is not Tree
+</pre>
+<br />`Approach 2:`<br />
+However if we observe carefully the definition of tree and its structure we will deduce that if a graph is connected and has `n – 1` edges exactly then the graph is a tree.<br />
+**Proof:**<br />
+Since we have assumed our graph of `n` nodes to be connected, it must have **at least** `n – 1` edges inside it. Now if we try to add one more edge than the `n – 1` edges already the graph will end up forming a cycle and thus will not satisfy the definition of tree. Therefore, it is necessary for a connected graph to have exactly `n – 1` edges to avoid forming cycle.<br />
+```cpp
+// A C++ Program to check whether a graph is tree or not
+#include<iostream>
+#include <list>
+#include <limits.h>
+using namespace std;
+
+// Class for an undirected graph
+class Graph
+{
+	int V; // No. of vertices
+	int E; // No. of edges
+	list<int> *adj; // Pointer to an array for adjacency lists
+	void dfsTraversal(int v, bool visited[], int parent);
+public:
+	Graph(int V); // Constructor
+	void addEdge(int v, int w); // to add an edge to graph
+	bool isConnected(); // returns true if graph is connected
+	bool isTree();	 // returns true of the graph is tree
+};
+
+Graph::Graph(int V)
+{
+	E = 0;
+	this->V = V;
+	adj = new list<int>[V];
+}
+
+void Graph::addEdge(int v, int w)
+{
+	E++;				 // increase the number of edges
+	adj[v].push_back(w); // Add w to v’s list.
+	adj[w].push_back(v); // Add v to w’s list.
+}
+
+// A recursive dfs function that uses visited[] and parent to
+// traverse the graph and mark visited[v] to true for visited nodes
+void Graph::dfsTraversal(int v, bool visited[], int parent)
+{
+	// Mark the current node as visited
+	visited[v] = true;
+
+	// Recur for all the vertices adjacent to this vertex
+	list<int>::iterator i;
+	for (i = adj[v].begin(); i != adj[v].end(); ++i)
+	{
+		// If an adjacent is not visited, then recur for
+		// that adjacent
+		if (!visited[*i])
+		{
+		dfsTraversal(*i, visited, v);
+		}
+	}
+}
+
+// Returns true if the graph is connected, else false.
+bool Graph::isConnected()
+{
+	// Mark all the vertices as not visited and not part of
+	// recursion stack
+	bool *visited = new bool[V];
+	for (int i = 0; i < V; i++)
+		visited[i] = false;
+
+	// Performing DFS traversal of the graph and marking
+	// reachable vertices from 0 to true
+	dfsTraversal(0, visited, -1);
+
+	// If we find a vertex which is not reachable from 0
+	// (not marked by dfsTraversal(), then we return false
+	// since graph is not connected
+	for (int u = 0; u < V; u++)
+		if (!visited[u])
+		return false;
+
+	// since all nodes were reachable so we returned true and
+	// and hence graph is connected
+	return true;
+}
+
+bool Graph::isTree()
+{
+	// as we proved earlier if a graph is connected and has
+	// V - 1 edges then it is a tree i.e. E = V - 1
+	return isConnected() and E == V - 1;
+}
+// Driver program to test above functions
+int main()
+{
+	Graph g1(5);
+	g1.addEdge(1, 0);
+	g1.addEdge(0, 2);
+	g1.addEdge(0, 3);
+	g1.addEdge(3, 4);
+	g1.isTree()? cout << "Graph is Tree\n":
+				cout << "Graph is not Tree\n";
+
+	Graph g2(5);
+	g2.addEdge(1, 0);
+	g2.addEdge(0, 2);
+	g2.addEdge(2, 1);
+	g2.addEdge(0, 3);
+	g2.addEdge(3, 4);
+	g2.isTree()? cout << "Graph is Tree\n":
+				cout << "Graph is not Tree\n";
+
+	return 0;
+}
+```
+```python
+# A Python Program to check whether a graph is tree or not
+
+# Class for an undirected graph
+class Graph:
+	def __init__(self, V):
+		self.V = V # No. of vertices
+		self.E = 0 # No. of edges
+		# Pointer to an array for adjacency lists
+		self.adj = [[] for i in range(V)]
+
+	# to add an edge to graph
+	def addEdge(self, v, w):
+		self.E += 1 # increase the number of edges
+		self.adj[v].append(w) # Add w to v’s list.
+		self.adj[w].append(v) # Add v to w’s list.
+
+	# A recursive dfs function that uses visited[] and parent to
+	# traverse the graph and mark visited[v] to true for visited nodes
+	def dfsTraversal(self, v, visited, parent):
+		# Mark the current node as visited
+		visited[v] = True
+
+		# Recur for all the vertices adjacent to this vertex
+		for i in self.adj[v]:
+
+			# If an adjacent is not visited, then recur for that adjacent
+			if not visited[i]:
+				self.dfsTraversal(i, visited, v)
+
+	# Returns true if the graph is connected, else false.
+	def isConnected(self):
+		# Mark all the vertices as not visited and not part of recursion stack
+
+		visited = [False] * self.V
+
+		# Performing DFS traversal of the graph and marking reachable vertices from 0 to true
+		self.dfsTraversal(0, visited, -1)
+
+		# If we find a vertex which is not reachable from 0 (not marked by dfsTraversal(), then we return false since graph is not connected
+		for u in range(self.V):
+			if not visited[u]:
+				return False
+
+		# since all nodes were reachable so we returned true and and hence graph is connected
+		return True
+
+	def isTree(self):
+	# as we proved earlier if a graph is connected and has
+		# V - 1 edges then it is a tree i.e. E = V - 1
+
+		return self.isConnected() and self.E == self.V - 1
+
+
+# Driver program to test above functions
+if __name__ == '__main__':
+	g1 = Graph(5)
+	g1.addEdge(1, 0)
+	g1.addEdge(0, 2)
+	g1.addEdge(0, 3)
+	g1.addEdge(3, 4)
+
+	print("Graph is Tree" if g1.isTree() == True else "Graph is not Tree")
+
+	g2 = Graph(5)
+	g2.addEdge(1, 0)
+	g2.addEdge(0, 2)
+	g2.addEdge(2, 1)
+	g2.addEdge(0, 3)
+	g2.addEdge(3, 4)
+
+	print("Graph is Tree" if g2.isTree() == True else "Graph is not Tree")
+```
+Output<br />
+<pre>
+Graph is Tree
+Graph is not Tree
+</pre>
+<pre>
+Time Complexity: O(V + E) For performing the DFS traversal
+Auxiliary Space: O(V) For storing the visited array
+</pre>
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 28:
