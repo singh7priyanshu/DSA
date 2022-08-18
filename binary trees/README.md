@@ -4215,7 +4215,111 @@ int main()
 
 <br /><br /><br />
 ## Problem 21:
-**[]()**<br />
+**[Minimum swap required to convert binary tree to binary search tree](https://www.geeksforgeeks.org/minimum-swap-required-convert-binary-tree-binary-search-tree/)**<br />
+Given the array representation of `Complete Binary Tree` i.e, if index `i` is the parent, index `2*i + 1` is the `left child` and index `2*i + 2` is the `right child`. The task is to find the _minimum number of swap required to convert it into Binary Search Tree_.<br />
+Examples:<br />
+<pre>
+Input : arr[] = { 5, 6, 7, 8, 9, 10, 11 }
+Output : 3
+Binary tree of the given array:
+</pre>
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/dig11.png"><br />
+<pre>
+Swap 1: Swap node 8 with node 5.
+Swap 2: Swap node 9 with node 10.
+Swap 3: Swap node 10 with node 7.
+</pre>
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/dig21.png"><br />
+<pre>
+So, minimum 3 swaps are required.
+
+Input : arr[] = { 1, 2, 3 }
+Output : 1
+Binary tree of the given array:
+</pre>
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Dig3.png"><br />
+<pre>
+After swapping node 1 with node 2.
+</pre>
+<img src = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/Dig41.png"><br />
+<pre>
+So, only 1 swap required.
+</pre>
+The idea is to use the fact that `inorder traversal` of `Binary Search Tree` is in increasing order of their value.<br /> 
+So, find the `inorder traversal` of the `Binary Tree` and store it in the array and try to sort the array. The `minimum number` of swap required to get the array sorted will be the answer.<br />
+<pre>
+Time Complexity: O(n log n).
+</pre>
+Implementation:<br />
+```cpp
+// C++ program for Minimum swap required
+// to convert binary tree to binary search tree
+#include<bits/stdc++.h>
+using namespace std;
+
+// Inorder Traversal of Binary Tree
+void inorder(int a[], std::vector<int> &v, int n, int index)
+{
+	// if index is greater or equal to vector size
+	if(index >= n)
+		return;
+	inorder(a, v, n, 2 * index + 1);
+	
+	// push elements in vector
+	v.push_back(a[index]);
+	inorder(a, v, n, 2 * index + 2);
+}
+
+// Function to find minimum swaps to sort an array
+int minSwaps(std::vector<int> &v)
+{
+	std::vector<pair<int,int> > t(v.size());
+	int ans = 0;
+	for(int i = 0; i < v.size(); i++)
+		t[i].first = v[i], t[i].second = i;
+	
+	sort(t.begin(), t.end());
+	for(int i = 0; i < t.size(); i++)
+	{
+		// second element is equal to i
+		if(i == t[i].second)
+			continue;
+		else
+		{
+			// swapping of elements
+			swap(t[i].first, t[t[i].second].first);
+			swap(t[i].second, t[t[i].second].second);
+		}
+		
+		// Second is not equal to i
+		if(i != t[i].second)
+			--i;
+		ans++;
+	}
+	return ans;
+}
+
+// Driver code
+int main()
+{
+	int a[] = { 5, 6, 7, 8, 9, 10, 11 };
+	int n = sizeof(a) / sizeof(a[0]);
+	std::vector<int> v;
+	inorder(a, v, n, 0);
+	cout << minSwaps(v) << endl;
+}
+```
+Output<br />
+<pre>
+3
+</pre>
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 22:
