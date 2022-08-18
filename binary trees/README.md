@@ -4764,7 +4764,7 @@ Input :
            2       3
 Output: 0
 Explanation: There is no duplicate sub-tree in the given binary tree.
-<pre>
+</pre>
 
 **Your Task:**<br />  
 You don't need to read input or print anything. Your task is to complete the function `dupSub()` which takes `root of the tree` as the only arguement and returns `1` if the binary tree contains a `duplicate sub-tree of size two or more`, else `0`.<br />
