@@ -4704,4 +4704,70 @@ class Solution
  
  
  
-<br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[1338. Reduce Array Size to The Half](https://leetcode.com/problems/reduce-array-size-to-the-half/)**<br />
+You are given an integer array `arr`. You can choose a set of integers and remove all the occurrences of these integers in the array.<br />
+Return _the **minimum size** of the set so that at **least half** of the integers of the array are removed_.<br />
+
+>Example 1:<br />
+Input: arr = [3,3,3,3,5,5,5,2,2,7]<br />
+Output: 2<br />
+Explanation: Choosing {3,7} will make the new array [5,5,5,2,2] which has size 5 (i.e equal to half of the size of the old array).<br />
+Possible sets of size 2 are {3,5},{3,2},{5,2}.<br />
+Choosing set {2,7} is not possible as it will make the new array [3,3,3,3,5,5,5] which has a size greater than half of the size of the old array.<br />
+
+>Example 2:<br />
+Input: arr = [7,7,7,7,7,7]<br />
+Output: 1<br />
+Explanation: The only possible set you can choose is {7}. This will make the new array empty.<br />
+ 
+
+* Constraints: `2 <= arr.length <= 10^5`<br />
+`arr.length` is even.<br />
+`1 <= arr[i] <= 10^5`<br />
+ 
+ ```cpp
+ class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        int ans=0;
+        int n1=0;
+        vector<int> v;
+        int n= arr.size();
+        unordered_map<int, int> um;
+        for(int i=0; i< n; i++)  
+        {
+          um[arr[i]]++;
+        }
+    
+       for (auto x : um)
+       {
+           v.push_back(x.second);
+           
+       }
+        if(v.size()==1)return 1;
+        sort(v.begin(), v.end());
+        for(int i=v.size()-1; i>=0; i--)
+        {
+            if(ans>=n/2){
+              return n1;
+        } 
+        n1++;
+        ans= ans+ v[i];
+        
+        }
+        return 0;
+    }
+};
+```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <br /> <br /> <br />**[]()**<br />
