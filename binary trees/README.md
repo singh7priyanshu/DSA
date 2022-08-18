@@ -4417,7 +4417,7 @@ Node* buildTree(string str)
         Node* currNode = queue.front();
         queue.pop();
             
-        // Get the current node's value from the string
+        // Get the current node value from the string
         string currVal = ip[i];
             
         // If the left child is not null
@@ -4535,7 +4535,204 @@ int main()
 
 <br /><br /><br />
 ## Problem 23:
-**[]()**<br />
+**[Check if all leaf nodes are at same level or not](https://practice.geeksforgeeks.org/problems/leaf-at-same-level/1)**<br />
+Given a `Binary Tree`, **check if all leaves are at same level or not**.<br />
+
+<pre>
+Example 1:
+Input: 
+            1
+          /   \
+         2     3
+
+Output: 1
+
+Explanation: 
+Leaves 2 and 3 are at same level.
+</pre>
+<pre>
+Example 2:
+Input:
+            10
+          /    \
+        20      30
+       /  \        
+     10    15
+
+Output: 0
+
+Explanation:
+Leaves 10, 15 and 30 are not at same level.
+</pre>
+
+**Your Task:**<br /> 
+You dont need to read input or print anything. Complete the function `check()` which takes root node as input parameter and returns `true/false` depending on whether all the leaf nodes are at the same level or not.<br />
+ 
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(height of tree)
+</pre> 
+
+* Constraints: `1 ≤ N ≤ 10^3`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// Tree Node
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+};
+
+// Utility function to create a new Tree Node
+Node* newNode(int val)
+{
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    
+    return temp;
+}
+
+// Function to Build Tree
+Node* buildTree(string str)
+{   
+    // Corner Case
+    if(str.length() == 0 || str[0] == 'N')
+            return NULL;
+    
+    // Creating vector of strings from input 
+    // string after spliting by space
+    vector<string> ip;
+    
+    istringstream iss(str);
+    for(string str; iss >> str; )
+        ip.push_back(str);
+        
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+        
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+        
+    // Starting from the second element
+    int i = 1;
+    while(!queue.empty() && i < ip.size()) {
+            
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+            
+        // Get the current node's value from the string
+        string currVal = ip[i];
+            
+        // If the left child is not null
+        if(currVal != "N") {
+                
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+            
+        // For the right child
+        i++;
+        if(i >= ip.size())
+            break;
+        currVal = ip[i];
+            
+        // If the right child is not null
+        if(currVal != "N") {
+                
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    
+    return root;
+}
+
+class Solution{
+    public:
+    /* Recursive function which checks whether
+    all leaves are at same level */
+    bool checkUtil(struct Node *root,
+                int level, int *leafLevel)
+    {
+        // Base case
+        if (root == NULL) return true;
+     
+        // If a leaf node is encountered
+        if (root->left == NULL &&
+            root->right == NULL)
+        {
+            // When a leaf node is found
+            // first time
+            if (*leafLevel == 0)
+            {
+                *leafLevel = level; // Set first found leaf's level
+                return true;
+            }
+     
+            // If this is not first leaf node, compare
+            // its level with first leaf level
+            return (level == *leafLevel);
+        }
+     
+        // If this node is not leaf, recursively
+        // check left and right subtrees
+        return checkUtil(root->left, level + 1, leafLevel) &&
+                checkUtil(root->right, level + 1, leafLevel);
+    }
+     
+    /* The main function to check
+    if all leafs are at same level.
+    It mainly uses checkUtil() */
+    bool check(struct Node *root)
+    {
+        int level = 0, leafLevel = 0;
+        return checkUtil(root, level, &leafLevel);
+    }
+};
+    
+// Driver program to test size function
+int main()
+{
+    int t;
+    cin>> t;
+    getchar();
+    while (t--)
+    {
+        string s;
+        getline( cin, s );
+        Node* head = buildTree( s );
+        Solution obj;
+        cout << obj.check(head) << endl;
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 24:
