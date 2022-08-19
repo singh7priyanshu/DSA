@@ -4774,7 +4774,7 @@ public:
 You are given an `integer array nums` that is sorted in **non-decreasing order**.<br />
 Determine if it is possible to split `nums` into **one or more subsequences** such that **both** of the following conditions are `true`:<br />
 
- 8 Each subsequence is a **consecutive increasing sequence** (i.e. each integer is **exactly one** more than the previous integer).<br />
+ * Each subsequence is a **consecutive increasing sequence** (i.e. each integer is **exactly one** more than the previous integer).<br />
  * All subsequences have a length of `3` or **more**.<br />
  
 Return `true` if you can split `nums` according to the above conditions, or `false` otherwise.<br />
