@@ -7255,6 +7255,7 @@ Output : 2 4
 Explanation: Above Trees are two 
 duplicate subtrees.i.e <img src = "http://contribute.geeksforgeeks.org/wp-content/uploads/tree2-1.png"> and <img src = "http://contribute.geeksforgeeks.org/wp-content/uploads/tree3.png"> 
 Therefore,you need to return above trees root in the form of a list.
+</pre>
 
 **Your Task:**<br />
 You don't need to take input. Just complete the function `printAllDups()` that takes the `root node` as a parameter and returns an **array of Node***, which contains all the duplicate subtree.<br />
