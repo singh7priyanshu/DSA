@@ -5980,7 +5980,165 @@ long long  multiplyTwoLists (Node* first, Node* second)
 
 <br /><br /><br />
 ## Problem 33:
-**[]()**<br />
+**[Delete nodes having greater value on right](https://practice.geeksforgeeks.org/problems/delete-nodes-having-greater-value-on-right/1)**<br />
+Given a `singly linked list`, remove _all the nodes which have a greater value on their right side_.<br />
+
+<pre>
+Example 1:
+Input:
+LinkedList = 12->15->10->11->5->6->2->3
+Output: 15 11 6 3
+Explanation: Since, 12, 10, 5 and 2 are the elements which have greater elements
+on the following nodes. So, after deleting them, the linked list would like be 15, 11, 6, 3.
+</pre>
+<pre>
+Example 2:
+Input:
+LinkedList = 10->20->30->40->50->60
+Output: 60
+</pre>
+
+**Your Task:**<br />
+The task is to complete the function `compute()` which should modify the list as required and return _the head of the modified linked list_. The printing is done by the driver code,<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+</pre>
+
+* Constraints: `1 ≤ size of linked list ≤ 1000`<br />
+`1 ≤ element of linked list ≤ 1000`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+void print(Node *root)
+{
+    Node *temp = root;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+
+class Solution
+{
+    public:
+    Node *compute(Node *head)
+    {
+        // First reversed the linked list
+    
+        Node *cur = head;
+        Node *prev = NULL;
+        Node *next;
+    
+        while(cur!=NULL)
+        {
+            next = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+        }
+    
+        head = prev;
+    
+        // Link list is reversed till here
+    
+        // Computing and deleting the nodes which have larger nodes
+        // on the left
+    
+        Node *current = head;
+    
+        Node *maxNode = head;
+        Node *temp;
+    
+         while (current != NULL && current->next != NULL)
+         {
+             if(current->next->data < maxNode->data)
+             {
+                 temp = current->next;
+                 current->next = temp->next;
+                 free(temp);
+             }
+             else
+             {
+                 current = current->next;
+                 maxNode= current;
+             }
+         }
+         
+         // reversing list again to get required result :-
+         
+         cur = head;
+         prev = NULL;
+         next;
+         while(cur!=NULL)
+         {
+             next = cur->next;
+             cur->next = prev;
+             prev = cur;
+             cur = next;
+         }
+    
+         head = prev;
+         
+         // head of list can be returned now
+    
+        return head;
+    
+    }
+};
+
+int main()
+{
+    int T;
+    cin>>T;
+
+    while(T--)
+    {
+        int K;
+        cin>>K;
+        struct Node *head = NULL;
+        struct Node *temp = head;
+
+        for(int i=0;i<K;i++){
+            int data;
+            cin>>data;
+            if(head==NULL)
+                head=temp=new Node(data);
+            else
+            {
+                temp->next = new Node(data);
+                temp = temp->next;
+            }
+        }
+        Solution ob;
+        Node *result = ob.compute(head);
+        print(result);
+        cout<<endl;
+    }
+}
+```
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 34:
