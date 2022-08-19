@@ -1,5 +1,6 @@
-# LinkedList
-**[1. Write a Program to reverse the Linked List. (Both Iterative and recursive)](https://www.geeksforgeeks.org/reverse-a-linked-list/)**<br />
+# Love Babbar Sheet 450 - LinkedList
+## Problem 1:
+**[Write a Program to reverse the Linked List. (Both Iterative and recursive)](https://www.geeksforgeeks.org/reverse-a-linked-list/)**<br />
 Given pointer to the head node of a linked list, the task is to reverse the linked list. We need to reverse the list by changing the links between nodes.<br />
 
 >Example 1: <br />
@@ -505,10 +506,13 @@ int main()
     
 >Time complexity: O(n)<br />
 >Space complexity: O(n)<br />
+	
+	
+	
 
-	
-	
-<br /> <br /> <br />**[2. Reverse a Linked List in group of Given Size. [Very Imp]](https://practice.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1)**<br />
+<br /> <br /> <br />	
+## Problem 2:
+**[Reverse a Linked List in group of Given Size. [Very Imp]](https://practice.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1)**<br />
 Given a linked list of size `N`. The task is to reverse every `k` nodes (where `k` is an input to the function) in the linked list. If the number of nodes is not a multiple of `k` then left-out nodes, in the end, should be considered as a group and must be reversed (See Example 2 for clarification).<br />
 	
 >Example 1:<br />
@@ -621,7 +625,9 @@ int main(void){
 	
 	
 	
-<br /> <br /> <br />**[3. Write a program to Detect loop in a linked list.](https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1)**<br />
+<br /> <br /> <br />
+## Problem 3:
+**[Write a program to Detect loop in a linked list.](https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1)**<br />
 Given a linked list of `N` nodes. The task is to check if the linked list has a loop. Linked list can contain self loop.<br />
 	
 >Example 1:<br />
@@ -731,7 +737,9 @@ int main(){
 	
 	
 	
-<br /> <br /> <br />**[4. Write a program to Delete loop in a linked list.](https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1)**<br />
+<br /> <br /> <br />
+## Problem 4:
+**[Write a program to Delete loop in a linked list.](https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1)**<br />
 Given a linked list of `N` nodes such that it may contain a loop.<br />
 * A loop here means that the last node of the link list is connected to the node at position `X`. If the link list does not have any loop, X=0.<br />
 Remove the loop from the linked list, if it is present.  <br />
@@ -934,7 +942,9 @@ int main()
 	
 	
 
-<br /> <br /> <br />**[5. Find the starting point of the loop](https://www.geeksforgeeks.org/find-first-node-of-loop-in-a-linked-list/)**<br />
+<br /> <br /> <br />
+## Problem 5:
+**[Find the starting point of the loop](https://www.geeksforgeeks.org/find-first-node-of-loop-in-a-linked-list/)**<br />
 Write a function `findFirstLoopNode()` that checks whether a given Linked List contains a loop. If the loop is present then it returns point to the first node of the loop. Else it returns `NULL`.<br />
 
 >Example : <br />
@@ -1067,7 +1077,7 @@ Which means m+k is a multiple of n.
 
 So if we start moving both pointers again at the same speed such that one pointer (say slow) begins from the `head` node of the linked list and other pointers (say fast) begins from the meeting point. When the `slow` pointer reaches the `beginning` of the loop (has made m steps), the fast pointer would have made also moved m steps as they are now moving the same pace. Since `m+k` is a multiple of `n` and `fast` starts from `k`, they would meet at the beginning. Can they meet before also? No, because the slow pointer enters the cycle first time after `m` steps.<br />
 
-* Method 2: <br />
+* `Method 2:`<br />
 In this method, a temporary node is created. The next pointer of each node that is traversed is made to point to this temporary node. This way we are using the next pointer of a node as a flag to indicate whether the node has been traversed or not. Every node is checked to see if the next is pointing to a `temporary` node or not. In the case of the first node of the loop, the second time we traverse it this condition will be true, hence we return that node. 
 The code runs in `O(n) time complexity` and `uses constant memory space`.<br />
 
@@ -1161,7 +1171,7 @@ int main()
 >Output: <br />
 Loop starting node is 15 <br />
 
-* Method 3: 
+* `Method 3:` 
 We can also use the concept of `hashing` in order to detect the first node of the loop. The idea is simple just iterate over the entire linked list and store node addresses in a set(C++ STL) one by one, while adding the node address into the set check if it already contains that particular node address if not then add node address to set if it is already present in the set then the current node is the first node of the loop. <br />
 
 ```cpp
