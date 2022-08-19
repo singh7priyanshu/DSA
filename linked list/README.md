@@ -1332,8 +1332,141 @@ Node* removeDuplicates(Node *head)
 
 <br /><br /><br />
 ## Problem 7:
-**[]()**<br />
+**[Remove duplicates from an unsorted linked list](https://practice.geeksforgeeks.org/problems/remove-duplicates-from-an-unsorted-linked-list/1)**<br />
+Given an `unsorted linked list` of `N` nodes. The task is to **remove duplicate elements** from this `unsorted Linked List`. When a value appears in multiple nodes, the node which appeared first should be kept, all others duplicates are to be removed.<br />
 
+<pre>
+Example 1:
+Input:
+N = 4
+value[] = {5,2,2,4}
+Output: 5 2 4
+Explanation:Given linked list elements are 5->2->2->4, in which 2 is repeated only.
+So, we will delete the extra repeated elements 2 from the linked list and the resultant linked list will contain 5->2->4
+</pre>
+<pre>
+Example 2:
+Input:
+N = 5
+value[] = {2,2,2,2,2}
+Output: 2
+Explanation:Given linked list elements are 2->2->2->2->2, in which 2 is repeated. So,
+we will delete the extra repeated elements 2 from the linked list and the resultant linked list will contain only 2.
+</pre>
+	
+**Your Task:**<br />
+You have to complete the method `removeDuplicates()` which takes `1` argument: the `head of the linked list`.  Your function should return _a pointer to a linked list with no duplicate element_.<br />
+
+<pre>
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+</pre>
+	
+* Constraints: `1 <= size of linked lists <= 10^6`<br />
+`0 <= numbers in list <= 10^4`<br />
+	
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+void print(Node *root){
+    Node *temp = root;
+    while(temp!=NULL){
+    cout<<temp->data<<" ";
+    temp=temp->next;
+    }
+}
+
+class Solution
+{
+    public:
+    //Function to remove duplicates from unsorted linked list.
+    Node * removeDuplicates( Node *head) 
+    { 
+        //using set to store already seen values in list. 
+        unordered_set<int> seen; 
+      
+        //using two pointers one of which stores first node other null.
+        struct Node *curr = head; 
+        struct Node *prev = NULL; 
+        
+        //traversing over the linked list.
+        while (curr != NULL) 
+        { 
+            //if data at current node is already present in set, we skip the 
+            //current node and store the node next to current in link of prev. 
+            if (seen.find(curr->data) != seen.end()) 
+            { 
+               prev->next = curr->next;
+               //deleting current node which contains duplicates. 
+               delete (curr);             
+            }
+            
+            //else we just insert the data at current node in set and update 
+            //prev to the current node.
+            else
+            { 
+               seen.insert(curr->data);
+               prev = curr; 
+            }
+            //updating current to the next node of prev node.
+            curr = prev->next; 
+        } 
+        return head;
+    }
+    
+};
+
+int main() {
+    int T;
+    cin>>T;
+    
+    while(T--)
+    {
+        int K;
+        cin>>K;
+        struct Node *head = NULL;
+        struct Node *temp = head;
+ 
+        for(int i=0;i<K;i++){
+        int data;
+        cin>>data;
+            if(head==NULL)
+            head=temp=new Node(data);
+            else
+            {
+                temp->next = new Node(data);
+                temp=temp->next;
+            }
+        }
+        
+        Solution ob;
+        Node *result  = ob.removeDuplicates(head);
+        print(result);
+        cout<<endl;
+        
+    }
+    return 0;
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /><br /><br />
 ## Problem 8:
 **[]()**<br />
