@@ -2231,7 +2231,176 @@ int intersectPoint(Node* head1, Node* head2)
 
 <br /><br /><br />
 ## Problem 13:
-**[]()**<br />
+**[Merge Sort For Linked lists [Very Important]](https://practice.geeksforgeeks.org/problems/sort-a-linked-list/1)**<br />
+Given `Pointer/Reference` to the head of the linked list, the task is to **Sort** the given linked list using `Merge Sort`.<br />
+**Note:**<br />
+If the length of linked list is `odd`, then the **extra node** should go in the first list while splitting.<br />
+
+<pre>	
+Example 1:
+Input:
+N = 5
+value[]  = {3,5,2,4,1}
+Output: 1 2 3 4 5
+Explanation: After sorting the given linked list, the resultant matrix will be 1->2->3->4->5.
+</pre>	
+	
+<pre>	
+Example 2:
+Input:
+N = 3
+value[]  = {9,15,0}
+Output: 0 9 15
+Explanation: After sorting the given linked list , resultant will be 0->9->15.
+</pre>
+	
+**Your Task:**<br />
+For `C++` and `Python`: The task is to complete the function `mergeSort()` which sort the linked list using merge sort function.<br />
+For `Java`: The task is to complete the function `mergeSort()` and return the node which can be used to print the sorted linked list.<br />
+
+<pre>
+Expected Time Complexity: O(N*Log(N))
+Expected Auxiliary Space: O(N)
+</pre>
+	
+* Constraints: `1 <= N <= 10^5`<br />
+	
+```cpp
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+class Solution{
+  public:
+  
+    //Function to split the list into two halves.
+    void splitList(Node* source, Node** frontRef, Node** backRef) {
+        
+        //using two pointers to find the midpoint of list.
+        struct Node* fast;
+        struct Node* slow;
+        if (source == NULL || source->next == NULL) {
+            *frontRef = source;
+            *backRef = NULL;
+        } else {
+            
+            //first pointer, slow moves 1 node and second pointer, fast moves
+            //2 nodes in one iteration.
+            slow = source;
+            fast = source->next;
+            while (fast != NULL) {
+                fast = fast->next;
+                if (fast != NULL) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+            }
+            
+            //slow is before the midpoint in the list, so we split the 
+            //list in two halves from that point.
+            *frontRef = source;
+            *backRef = slow->next;
+            slow->next = NULL;
+        }
+    }
+    
+    //Function to merge two halves of list.
+    Node* mergeList(struct Node* a, struct Node* b) {
+        struct Node* result = NULL;
+        
+        //base cases when either of two halves is null.
+        if (a == NULL)
+            return (b);
+        else if (b == NULL)
+            return (a);
+            
+        //comparing data in both halves and storing the smaller in result and
+        //recursively calling the mergeList function for next node in result.
+        if (a->data <= b->data) {
+            result = a;
+            result->next = mergeList(a->next, b);
+        } else {
+            result = b;
+            result->next = mergeList(a, b->next);
+        }
+        //returning the resultant list.
+        return (result);
+    }
+    
+    //Function to sort the given linked list using Merge Sort.
+    Node* mergeSort(Node *head) {
+        
+        struct Node* a;
+        struct Node* b;
+        
+        if (head == NULL || head->next == NULL) 
+        return head;
+        
+        //splitting the list into two halves.
+        splitList(head, &a, &b);
+        
+        //calling the mergeSort function recursively for both parts separately.
+        a = mergeSort(a);
+        b = mergeSort(b);
+        
+        //calling the function to merge both halves.
+        return mergeList(a, b);
+    }
+
+};
+
+void printList(Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+void push(struct Node** head_ref, int new_data) {
+    Node* new_node = new Node(new_data);
+
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+int main() {
+    long test;
+    cin >> test;
+    while (test--) {
+        struct Node* a = NULL;
+        long n, tmp;
+        cin >> n;
+        for (int i = 0; i < n; i++) {
+            cin >> tmp;
+            push(&a, tmp);
+        }
+        Solution obj;
+        a = obj.mergeSort(a);
+        printList(a);
+    }
+    return 0;
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
 
 <br /><br /><br />
 ## Problem 14:
