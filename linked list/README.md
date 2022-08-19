@@ -133,7 +133,7 @@ int main()
    4) Fix head pointer<br />
 
 <div align="left">
-<img src="https://raw.githubusercontent.com/singh7priyanshu/Competitive-Programming-Essentials-Master-Algorithms-2022/master/linked%20list/source%20images/ll2.png"><br />
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/2009/07/Linked-List-Rverse.gif"><br />
 
 Below is the implementation of the above approach: <br />
 ```cpp
