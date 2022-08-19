@@ -6167,7 +6167,442 @@ Auxiliary Space: O(n), function call stack size.
 
 <br /><br /><br />
 ## Problem 29:
-**[]()**<br />
+**[Maximum sum of nodes in Binary tree such that no two are adjacent](https://www.geeksforgeeks.org/maximum-sum-nodes-binary-tree-no-two-adjacent/)**<br />
+Given a `binary tree` with a value associated with each node, we need to choose a subset of these nodes such that the sum of selected nodes is `maximum` under a constraint that **no two chosen nodes in the subset should be directly connected**, that is, if we have taken a node in our sum then we can’t take any of its children in consideration and vice versa.<br />
+Examples:<br />
+<img src = "https://media.geeksforgeeks.org/wp-content/uploads/nodeSubsetWithMaxSum.png"><br />
+<pre>
+In the above binary tree, chosen nodes are encircled 
+and are not directly connected, and their sum is maximum possible.
+</pre>
+<br />`Method 1`<br /> 
+We can solve this problem by considering the fact that both node and its children can’t be in `sum` at the same time, so when we take a node into our sum, we will call `recursively for its grandchildren` or if we don’t take this node then we will `call for all its children nodes` and finally we will choose **maximum from both of the results**.<br /> 
+It can be seen easily that the above approach can lead to solving the same `subproblem` many times, for example in the above diagram node `1` calls node `4` and `5` when its value is chosen and node `3` also calls them when its value is not chosen so these nodes are processed more than once. We can stop solving these nodes more than once by memorizing the result at all nodes.<br /> 
+In the below code, a map is used for memorizing the result, which stores the development of the complete subtree rooted at a node in the map so that if it is called again, the value is not calculated again instead stored value from the map is returned directly.<br />
+Please see the below code for a better understanding.<br />
+```cpp
+// C++ program to find maximum sum from a subset of
+// nodes of binary tree
+#include <bits/stdc++.h>
+using namespace std;
+
+/* A binary tree node structure */
+struct node
+{
+	int data;
+	struct node *left, *right;
+};
+
+/* Utility function to create a new Binary Tree node */
+struct node* newNode(int data)
+{
+	struct node *temp = new struct node;
+	temp->data = data;
+	temp->left = temp->right = NULL;
+	return temp;
+}
+
+// Declaration of methods
+int sumOfGrandChildren(node* node);
+int getMaxSum(node* node);
+int getMaxSumUtil(node* node, map<struct node*, int>& mp);
+
+// method returns maximum sum possible from subtrees rooted
+// at grandChildrens of node 'node'
+int sumOfGrandChildren(node* node, map<struct node*, int>& mp)
+{
+	int sum = 0;
+
+	// call for children of left child only if it is not NULL
+	if (node->left)
+		sum += getMaxSumUtil(node->left->left, mp) + getMaxSumUtil(node->left->right, mp);
+
+	// call for children of right child only if it is not NULL
+	if (node->right)
+		sum += getMaxSumUtil(node->right->left, mp) + getMaxSumUtil(node->right->right, mp);
+
+	return sum;
+}
+
+// Utility method to return maximum sum rooted at node 'node'
+int getMaxSumUtil(node* node, map<struct node*, int>& mp)
+{
+	if (node == NULL)
+		return 0;
+
+	// If node is already processed then return calculated
+	// value from map
+	if (mp.find(node) != mp.end())
+		return mp[node];
+
+	// take current node value and call for all grand children
+	int incl = node->data + sumOfGrandChildren(node, mp);
+
+	// don't take current node value and call for all children
+	int excl = getMaxSumUtil(node->left, mp) + getMaxSumUtil(node->right, mp);
+
+	// choose maximum from both above calls and store that in map
+	mp[node] = max(incl, excl);
+
+	return mp[node];
+}
+
+// Returns maximum sum from subset of nodes
+// of binary tree under given constraints
+int getMaxSum(node* node)
+{
+	if (node == NULL)
+		return 0;
+	map<struct node*, int> mp;
+	return getMaxSumUtil(node, mp);
+}
+
+// Driver code to test above methods
+int main()
+{
+	node* root = newNode(1);
+	root->left = newNode(2);
+	root->right = newNode(3);
+	root->right->left = newNode(4);
+	root->right->right = newNode(5);
+	root->left->left = newNode(1);
+
+	cout << getMaxSum(root) << endl;
+	return 0;
+}
+```
+Output<br />
+<pre>
+11
+</pre>
+<pre>
+Time complexity: O(n)
+Auxiliary Space: O(n)
+</pre>
+<br />`Method 2 (Using pair)`<br /> 
+Return a pair for each node in the `binary tree` such that the **first of the pair indicates maximum sum** when the data of a node is **included** and the second indicates maximum sum when the data of a particular node is **not included**.<br />
+```cpp
+// C++ program to find maximum sum in Binary Tree
+// such that no two nodes are adjacent.
+#include<iostream>
+using namespace std;
+
+class Node
+{
+public:
+	int data;
+	Node* left, *right;
+	Node(int data)
+	{
+		this->data = data;
+		left = NULL;
+		right = NULL;
+	}
+};
+
+pair<int, int> maxSumHelper(Node *root)
+{
+	if (root==NULL)
+	{
+		pair<int, int> sum(0, 0);
+		return sum;
+	}
+	pair<int, int> sum1 = maxSumHelper(root->left);
+	pair<int, int> sum2 = maxSumHelper(root->right);
+	pair<int, int> sum;
+
+	// This node is included (Left and right children
+	// are not included)
+	sum.first = sum1.second + sum2.second + root->data;
+
+	// This node is excluded (Either left or right
+	// child is included)
+	sum.second = max(sum1.first, sum1.second) + max(sum2.first, sum2.second);
+
+	return sum;
+}
+
+int maxSum(Node *root)
+{
+	pair<int, int> res = maxSumHelper(root);
+	return max(res.first, res.second);
+}
+
+// Driver code
+int main()
+{
+	Node *root= new Node(10);
+	root->left= new Node(1);
+	root->left->left= new Node(2);
+	root->left->left->left= new Node(1);
+	root->left->right= new Node(3);
+	root->left->right->left= new Node(4);
+	root->left->right->right= new Node(5);
+	cout << maxSum(root);
+	return 0;
+}
+```
+Output<br />
+<pre>
+21
+</pre>
+<pre>
+Time complexity: O(n)
+Auxiliary Space: O(n)
+</pre>
+<br />`Method 3(Using dynamic programming)`<br />
+Store the maximum sum by **including a node or excluding the node in a dp array** or unordered map. `Recursively calls for grandchildren of nodes` if the node is **included** or calls for neighbours if the node is **excluded**.<br />
+```cpp
+// C++ program to find maximum sum in Binary Tree
+// such that no two nodes are adjacent.
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node *left, *right;
+	Node(int data)
+	{
+		this->data = data;
+		left = NULL;
+		right = NULL;
+	}
+};
+// declare map /dp array as global
+unordered_map<Node*, int> umap;
+int maxSum(Node* root)
+{
+	// base case
+	if (!root)
+		return 0;
+
+	// if the max sum from the node is already in
+	// map,return the value
+	if (umap[root])
+		return umap[root];
+
+	// if the current node(root) is included in result
+	// then find maximum sum
+	int inc = root->data;
+
+	// if left of node exists, add their grandchildren
+	if (root->left) {
+		inc += maxSum(root->left->left)
+			+ maxSum(root->left->right);
+	}
+	// if right of node exist,add their grandchildren
+	if (root->right) {
+		inc += maxSum(root->right->left) + maxSum(root->right->right);
+	}
+
+	// if the current node(root) is excluded, find the
+	// maximum sum
+	int ex = maxSum(root->left) + maxSum(root->right);
+
+	// store the maximum of including & excluding the node
+	// in map
+	umap[root] = max(inc, ex);
+	return max(inc, ex);
+}
+
+// Driver code
+int main()
+{
+	Node* root = new Node(10);
+	root->left = new Node(1);
+	root->left->left = new Node(2);
+	root->left->left->left = new Node(1);
+	root->left->right = new Node(3);
+	root->left->right->left = new Node(4);
+	root->left->right->right = new Node(5);
+	cout << maxSum(root);
+	return 0;
+}
+```
+Output<br />
+<pre>
+21
+</pre>
+<pre>
+Time complexity: O(n)
+Auxiliary Space: O(n)
+</pre>
+<br />`Method 4 (Simple tree traversal)`<br />
+For every node, we find the following:<br />
+
+  1. Maximum sum of non-adjacent nodes `including` the node.<br />
+  2. Maximum sum of non-adjacent nodes `excluding` the node.<br />
+  
+Now, we return both the values in the `recursive call`. The parent node of the previously calculated node gets the **maximum sum (including & excluding) the child node**. Accordingly, the parent now calculates the **maximum sum(including & excluding) and returns**. This process continues till `root node`. Finally, we return the `max(sum including root, sum excluding root)`.<br />
+<pre>
+Time Complexity: O(n)
+Space Complexity: O(1)
+</pre>
+```cpp
+// C++ Code for above approach
+class Node {
+public:
+	int data;
+	Node *left, *right;
+	Node(int data)
+	{
+		this->data = data;
+		left = NULL;
+		right = NULL;
+	}
+};
+
+pair<int, int> max_sum(Node* root)
+{
+	if (!root)
+		return { 0, 0 };
+
+	auto left = max_sum(root->left);
+	auto right = max_sum(root->right);
+
+	int no_root_l = left.first, root_l = left.second;
+
+	int no_root_r = right.first, root_r = right.second;
+
+	int root_sum_max = max(max(root->data, root->data + no_root_l), max(root->data + no_root_r, root->data + no_root_r + no_root_l));
+	int no_root_sum_max = max(max(root_l, root_r), max(max(root_l + root_r, no_root_l + no_root_r), max(root_l + no_root_r, root_r + no_root_l)));
+
+	return { no_root_sum_max, root_sum_max };
+}
+
+int getMaxSum(Node* root)
+{
+	pair<int, int> ans = max_sum(root);
+	return max(ans.first, ans.second);
+}
+```
+<br />`Method 5(Using Memoization)`<br />
+`Approach:` For every node, we can **either choose it or leave it** and pass on this information to `children`. Since we are passing on this info of the parent being selected or not, we don’t need to worry about the grandchildren of the node.<br /> 
+So for every node, we do the following:<br />
+
+ 1. If the **parent is selected**, we don’t select the `current node and move on to the children`.<br />
+ 2. if the `parent is not selected`, then we will either select or not select this node; in either case, we `pass that info to the children`.<br />
+ 
+Following is the implementation of the above method:<br />
+```cpp
+// C++ program to find maximum sum from a subset of
+// non-adjacent nodes of binary tree
+#include <bits/stdc++.h>
+using namespace std;
+
+/* A binary tree node structure */
+struct Node
+{
+	int data;
+	struct Node *left, *right;
+};
+
+/* Utility function to create a new Binary Tree node */
+struct Node *newNode(int data)
+{
+	struct Node *temp = new struct Node;
+	temp->data = data;
+	temp->left = temp->right = NULL;
+	return temp;
+}
+
+// Delaration of the vector to store the answer
+vector<vector<int>> dp;
+
+// Variables and function to index the given Binary tree
+// This indexing will be used in dp
+int cnt = 0;
+Node *temp;
+Node *giveIndex(Node *root)
+{
+	if (root == NULL)
+		return NULL;
+	// give the index to the current node and increment the index for next nodes.
+	Node *newNode1 = newNode(cnt++);
+
+	// Recursively calling right and left subtree
+	newNode1->left = giveIndex(root->left);
+	newNode1->right = giveIndex(root->right);
+	return newNode1;
+}
+
+// Memoization function to store the answer
+int solve(Node *root, int b, Node *temp)
+{
+	if (root == NULL)
+		return 0;
+	// If the answer is already calculated return that answer
+	if (dp[temp->data][b] != -1)
+		return dp[temp->data][b];
+
+	// Variable to store the answer for the current node.
+	int res;
+
+	// if the parent is not selected then we can either select ot not select this node.
+	if (b == 0)
+		res = max(root->data + solve(root->right, 1, temp->right) + solve(root->left, 1, temp->left), solve(root->right, 0, temp->right) + solve(root->left, 0, temp->left));
+
+	// If parent is selected then we can't select this node.
+	else
+		res = solve(root->right, 0, temp->right) + solve(root->left, 0, temp->left);
+
+	// return the annswer
+	return dp[temp->data][b] = res;
+}
+int getMaxSum(Node *root)
+{
+	// Initialization of the dp
+	dp = vector<vector<int>>(100, vector<int>(2, -1));
+	// Calling the indexing function
+	temp = giveIndex(root);
+	// calling the solve function for root with parent not selected
+	int res = solve(root, 0, temp);
+
+	return res;
+}
+
+// Driver code to test above methods
+int main()
+{
+	// TEST 1
+	Node *root = newNode(1);
+	root->left = newNode(2);
+	root->right = newNode(3);
+	root->right->left = newNode(4);
+	root->right->right = newNode(5);
+	root->left->left = newNode(1);
+	cout << getMaxSum(root) << endl;
+
+	// TEST 2
+	Node *root2 = newNode(10);
+	root2->left = newNode(1);
+	root2->left->left = newNode(2);
+	root2->left->left->left = newNode(1);
+	root2->left->right = newNode(3);
+	root2->left->right->left = newNode(4);
+	root2->left->right->right = newNode(5);
+	cout << getMaxSum(root2);
+
+	return 0;
+}
+```
+Output<br />
+<pre>
+11
+21
+</pre>
+<pre>
+Time Complexity: O(N)
+Space Complexity: O(N)
+</pre>
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 30:
