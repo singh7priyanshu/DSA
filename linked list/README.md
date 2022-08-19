@@ -5177,7 +5177,168 @@ Node* flatten (Node* root)
 
 <br /><br /><br />
 ## Problem 29:
-**[]()**<br />
+**[Given a linked list of 0s, 1s and 2s, sort it](https://practice.geeksforgeeks.org/problems/given-a-linked-list-of-0s-1s-and-2s-sort-it/1)**<br />
+Given a `linked list` of `N` nodes where nodes can contain values `0s`, `1s`, and `2s` only. The task is to segregate `0s`, `1s`, and `2s` linked list such that all **zeros segregate** to head side, `2s` at the end of the linked list, and `1s` in the mid of `0s` and `2s`.<br />
+
+<pre>
+Example 1:
+Input:
+N = 8
+value[] = {1,2,2,1,2,0,2,2}
+Output: 0 1 1 2 2 2 2 2
+Explanation: All the 0s are segregated to the left end of the linked list, 
+2s to the right end of the list, and 1s in between.
+</pre>
+
+<pre>
+Example 2:
+Input:
+N = 4
+value[] = {2,2,0,1}
+Output: 0 1 2 2
+Explanation: After arranging all the 0s,1s and 2s in the given format, the output will be 0 1 2 2.
+</pre>
+
+**Your Task:**<br />
+The task is to complete the function `segregate()` which segregates the nodes in the `linked list` as asked in the problem statement and returns _the head of the modified linked list_. The printing is done automatically by the driver code.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 <= N <= 10^3`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Link list Node */
+struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+struct Node *start = NULL;
+
+class Solution
+{
+    public:
+    //Function to sort a linked list of 0s, 1s and 2s.
+    Node* segregate(struct Node *head) {
+    if (!head || !(head->next))
+        return head;
+  
+    //creating three dummy nodes to point to beginning of three linked lists. 
+    Node* zeroD = new Node(0); 
+    Node* oneD = new Node(0); 
+    Node* twoD = new Node(0); 
+  
+    //initializing current pointers for three lists. 
+    Node* zero = zeroD, *one = oneD, *two = twoD; 
+  
+    //traversing over the list with a pointer. 
+    Node* curr = head; 
+    while (curr) { 
+        
+        //we check data at current node and store the node in it's respective
+        //list and update the link part of that list.
+        if (curr->data == 0) { 
+            zero->next = curr; 
+            zero = zero->next; 
+            curr = curr->next; 
+        }
+        else if (curr->data == 1) { 
+            one->next = curr; 
+            one = one->next; 
+            curr = curr->next; 
+        } 
+        else { 
+            two->next = curr; 
+            two = two->next; 
+            curr = curr->next; 
+        } 
+    } 
+  
+    //attaching the three lists containing 0s,1s and 2s respectively.
+    zero->next = (oneD->next) ? (oneD->next) : (twoD->next); 
+    one->next = twoD->next; 
+    two->next = NULL; 
+  
+    //updating the head of the list.
+    head = zeroD->next; 
+  
+    //deleting dummy nodes.
+    delete zeroD; 
+    delete oneD; 
+    delete twoD; 
+  
+    return head;
+}
+};
+
+// Function to sort a linked list of 0s, 1s and 2s
+void printList(struct Node *Node) {
+    while (Node != NULL) {
+        printf("%d ", Node->data);
+        Node = Node->next;
+    }
+    printf("\n");
+}
+
+/* Drier program to test above function*/
+void insert(int n1) {
+    int n, value, i;
+    // scanf("%d",&n);
+    n = n1;
+    struct Node *temp;
+    for (i = 0; i < n; i++) {
+        scanf("%d", &value);
+
+        if (i == 0) {
+            start = new Node(value);
+            temp = start;
+            continue;
+        } else {
+            temp->next = new Node(value);
+            temp = temp->next;
+            temp->next = NULL;
+        }
+    }
+}
+
+int main() {
+
+    int n;
+
+    int t;
+    scanf("%d", &t);
+
+    while (t--) {
+        scanf("%d", &n);
+
+        insert(n);
+        Solution ob;
+        struct Node *newHead = ob.segregate(start);
+        printList(newHead);
+    }
+
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 30:
