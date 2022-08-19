@@ -2628,7 +2628,7 @@ void quickSort(struct node **headRef)
 
 <br /><br /><br />
 ## Problem 15:
-<br /> <br /> <br />**[876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)**<br />    
+**[876. Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/)**<br />    
 Given the `head` of a singly linked list, return _the middle node of the linked list_.<br />
 If there are two middle nodes, return **the second middle node**.<br />
                      
