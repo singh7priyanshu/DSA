@@ -3299,7 +3299,170 @@ As constant extra space is used.
 	
 <br /><br /><br />
 ## Problem 20:
-**[]()**<br />
+**[Reverse a Doubly Linked List](https://practice.geeksforgeeks.org/problems/reverse-a-doubly-linked-list/1)**<br />
+Given a `doubly linked list` of `n` elements. The task _is to reverse the doubly linked list_.<br />
+
+<pre>
+Example 1:
+Input:
+LinkedList: 3 <--> 4 <--> 5
+Output: 5 4 3
+</pre>
+<pre>
+Example 2:
+Input:
+LinkedList: 75 <--> 122 <--> 59 <--> 196
+Output: 196 59 122 75
+</pre>
+	
+**Your Task:**<br />
+Your task is to complete the given function `reverseDLL()`, which takes head reference as argument and should reverse the elements so that the tail becomes the new head and all pointers are correctly pointed. You need to return _the new head of the reversed list_. The printing and verification is done by the driver code.<br />
+
+<pre>
+Expected Time Complexity: O(n).
+Expected Auxiliary Space: O(1).
+</pre>
+	
+* Constraints: `1 <= number of nodes <= 10^3`<br />
+`0 <= value of nodes <= 10^3`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node * next;
+    Node * prev;
+    Node (int x)
+    {
+        data=x;
+        next=NULL;
+        prev=NULL;
+    }
+        
+};
+
+Node *newNode(int data)
+{
+    Node *temp=new Node(data);
+    
+    return temp;
+}
+
+void displayList(Node *head)
+{
+    //Head to Tail
+    while(head->next)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<head->data;
+}
+
+
+int getLength(Node * head)
+{
+    Node *temp=head;
+    
+    int count=0;
+    while(temp->next!=head)
+    {
+        count++;
+        temp=temp->next;
+    }
+    return count+1;
+}
+
+bool verify(Node* head)
+{
+    int fl=0;
+    int bl=0;
+    
+    Node *temp=head;
+    
+    while(temp->next)
+    {
+        temp=temp->next;
+        fl++;
+    }
+    
+    while(temp->prev)
+    {
+        temp=temp->prev;
+        bl++;
+    }
+    
+    return fl==bl;
+}
+
+Node* reverseDLL(Node * head)
+{
+    
+    //Your code here
+    if(head == NULL || head->next == NULL)
+    return head;
+    
+    Node *prev = NULL, *curr = head;
+    
+    while(curr != NULL){
+        prev = curr->prev;
+        curr->prev = curr->next;
+        curr->next = prev;
+        
+        curr = curr->prev;
+    }
+    
+    return prev->prev;
+}
+
+int main() {
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        Node *head=NULL, *tail=NULL;
+        int x;
+        cin>>x;
+        head = newNode(x);
+        tail = head;
+        
+        for(int i=0;i<n - 1;i++)
+        {
+            cin>>x;
+            Node* temp=newNode(x);
+            tail->next=temp;
+            temp->prev= tail;
+            tail = temp;
+        }
+        head=reverseDLL(head);
+        
+        
+        if(verify(head))
+        displayList(head);
+        else
+        cout<<"Your pointers are not correctly connected";
+ 
+        cout<<endl;
+    }
+    return 0;
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 <br /><br /><br />
 ## Problem 21:
