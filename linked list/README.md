@@ -1608,7 +1608,141 @@ As constant extra space is used.
 
 <br /><br /><br />
 ## Problem 9:
-**[]()**<br />
+**[Add 1 to a number represented as linked list](https://practice.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1)**<br />
+A number `N` is represented in `Linked List` such that each digit corresponds to a **node in linked list**. You need to add `1` to it.<br />
+
+<pre>
+Example 1:
+Input:
+LinkedList: 4->5->6
+Output: 457 
+</pre>
+<pre>
+Example 2:
+Input:
+LinkedList: 1->2->3
+Output: 124 
+</pre>
+	
+**Your Task:**<br />
+Your task is to complete the function `addOne()` which takes the `head of the linked list` as the only argument and returns _the head of the modified linked list_. The driver code prints the number.<br />
+**Note:**<br />
+The head represents the **left-most digit** of the number.<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+	
+* Constraints: `1 <= N <= 10^1000`<br />
+	
+```cpp
+#include <bits/stdc++.h> 
+using namespace std; 
+
+struct Node
+{
+    int data;
+    struct Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+void printList(Node* node) 
+{ 
+    while (node != NULL) { 
+        cout << node->data; 
+        node = node->next; 
+    }  
+    cout<<"\n";
+} 
+
+class Solution
+{
+
+    public:
+        Node* reverse(Node *head) 
+        {
+            Node * prev = NULL;
+            Node * current = head;
+            Node * next;
+            
+            while (current != NULL) 
+            { 
+                next = current->next;     // storing next node
+                current->next = prev;     // linking current node to previous
+                prev = current;           // updating prev
+                current = next;           // updating current
+            }
+            
+            return prev; 
+        } 
+        
+    public:
+        Node* addOne(Node *head) 
+        { 
+            head = reverse(head);           // reversing list to make addition easy
+            
+            Node* current = head;
+            int carry = 1;
+            
+            while(carry)
+            {
+                current->data += 1;         // adding one to current node
+                
+                if(current->data < 10) return reverse(head);
+                    // if no carry we can reverse back list and return it
+                else current->data = 0;
+                    // else we continue with taking carry forward
+                
+                if(current->next == NULL) break;
+                    // if, end of list, we break from loop
+                else current = current->next;
+                    // else we move to next node
+            }
+            
+            current->next = new Node(1);  // adding new node for the carried 1
+            return reverse(head);
+        }
+};
+
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s;
+        cin>>s;
+        
+        Node* head = new Node( s[0]-'0' );
+        Node* tail = head;
+        for(int i=1; i<s.size(); i++)
+        {
+            tail->next = new Node( s[i]-'0' );
+            tail = tail->next;
+        }
+        Solution ob;
+        head = ob.addOne(head);
+        printList(head); 
+    }
+    return 0; 
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 <br /><br /><br />
 ## Problem 10:
