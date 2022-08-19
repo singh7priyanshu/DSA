@@ -6274,8 +6274,196 @@ int main() {
 
 <br /><br /><br />
 ## Problem 35:
-**[]()**<br />
+**[Nth node from end of linked list](https://practice.geeksforgeeks.org/problems/nth-node-from-end-of-linked-list/1)**<br />
+Given a `linked list` consisting of `L` nodes and given a number `N`. The task is to find the `Nth` node from the `end of the linked list`.<br />
+
+<pre>
+Example 1:
+Input:
+N = 2
+LinkedList: 1->2->3->4->5->6->7->8->9
+Output: 8
+Explanation: In the first example, there are 9 nodes in linked list and we need
+to find 2nd node from end. 2nd node from end os 8.  
+</pre>
+<pre>
+Example 2:
+Input:
+N = 5
+LinkedList: 10->5->100->5
+Output: -1
+Explanation: In the second example, there are 4 nodes in the linked list and we
+need to find 5th from the end. Since 'n' is more than the number of nodes in the linked list, the output is -1.
+</pre>
+
+**Your Task:**<br />
+The task is to complete the function `getNthFromLast()` which takes two arguments: `reference to head` and `N` and you need to return `Nth` from the end or `-1` in case node doesn't exist..<br />
+
+<pre>
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+</pre>
+
+* Constraints: `1 <= L <= 10^6`<br />
+`1 <= N <= 10^6`<br />
+
+```cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
+using namespace std;
+
+/* Link list Node */
+struct Node {
+      int data;
+      struct Node *next;
+      Node(int x) {
+        data = x;
+        next = NULL;
+      }
+};
+
+/* Function to get the nth node from the last of a linked list*/
+int getNthFromLast(struct Node* head, int n);
+
+int main()
+{
+  int T,i,n,l,k;
+
+    cin>>T;
+
+    while(T--){
+    struct Node *head = NULL,  *tail = NULL;
+
+        cin>>n>>k;
+        int firstdata;
+        cin>>firstdata;
+        head = new Node(firstdata);
+        tail = head;
+        for(i=1;i<n;i++)
+        {
+            cin>>l;
+            tail->next = new Node(l);
+            tail = tail->next;
+        }
+
+    cout<<getNthFromLast(head, k)<<endl;
+    }
+    return 0;
+}
+
+//Function to find the data of nth node from the end of a linked list.
+int getNthFromLast(Node *head, int n)
+{
+    //using two pointers, similar to finding middle element.
+    Node *currNode = head , *nthNode = head;
+    
+    //traversing first n elements with first pointer.
+    while(n!=0)
+        {
+            if(currNode==NULL)
+                return -1;
+            currNode = currNode->next;
+            n--;
+        }
+    //now traversing with both pointers and when first pointer gives null 
+    //we have got the nth node from end in second pointer since the first 
+    //pointer had already traversed n nodes and thus had difference of n 
+    //nodes with second pointer.
+    while(currNode!=NULL)   
+        {
+            nthNode = nthNode->next;
+            currNode = currNode->next;
+        }
+    
+    //returning the data of nth node from end.
+    if(nthNode!=NULL)
+        return nthNode->data;
+    else
+        return -1;
+        
+}
+```
+
+
 
 <br /><br /><br />
 ## Problem 36:
-**[]()**<br />
+**[First non-repeating character in a stream](https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1)**<br />
+Given an input stream of `A` of `n` characters consisting only of **lower case alphabets**. The task is to find the first **non repeating character**, each time a character is inserted to the stream. If there is no such character then **append** `'#'` to the answer.<br />
+ 
+<pre>
+Example 1:
+Input: A = "aabc"
+Output: "a#bb"
+Explanation: For every character first non repeating character is as follow-
+"a" - first non-repeating character is 'a'
+"aa" - no non-repeating character so '#'
+"aab" - first non-repeating character is 'b'
+"aabc" - first non-repeating character is 'b'
+</pre>
+
+<pre>
+Example 2:
+Input: A = "zz"
+Output: "z#"
+Explanation: For every character first non repeating character is as follow-
+"z" - first non-repeating character is 'z'
+"zz" - no non-repeating character so '#'
+</pre> 
+
+**Your Task:**<br />
+You don't need to read or print anything. Your task is to complete the function `FirstNonRepeating()` which takes `A` as input parameter and returns _a string after processing the input stream_.<br />
+ 
+<pre>
+Expected Time Complexity: O(26 * n)
+Expected Space Complexity: O(26)
+</pre>
+
+* Constraints: `1 <= n <= 10^5`<br />
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+    public:
+        string FirstNonRepeating(string A){
+            int n = A.size();
+            vector<int>f(26, 0);
+            vector<int>last(26, -1);
+            for(int i = 0; i < A.size(); i++){
+                if(last[A[i] - 'a'] == -1)
+                    last[A[i] - 'a'] = i;
+            }
+            string ans="";
+            for(int i = 0; i < A.size(); i++){
+                f[A[i] - 'a']++;
+                char ch = '#';
+                int x = A.size() + 1;
+                for(int j = 0; j < 26; j++){
+                    if(f[j] == 1 and x > last[j]){
+                        ch = char(j + 'a');
+                        x = last[j];
+                    }
+                }
+                ans += ch;
+            }
+            return ans;
+        }
+
+};
+
+int main(){
+    int tc;
+    cin >> tc;
+    while(tc--){
+        string A;
+        cin >> A;
+        Solution obj;
+        string ans = obj.FirstNonRepeating(A);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+```
