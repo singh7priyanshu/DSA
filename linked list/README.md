@@ -1586,9 +1586,9 @@ int main()
 ```
 Output:<br />
 <pre>
- Linked list before moving last to front 
+Linked list before moving last to front 
 1 2 3 4 5 
- Linked list after removing last to front 
+Linked list after removing last to front 
 5 1 2 3 4
 </pre>
 <pre>
