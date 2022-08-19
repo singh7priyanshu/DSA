@@ -1746,7 +1746,180 @@ int main()
 
 <br /><br /><br />
 ## Problem 10:
-**[]()**<br />
+**[Add two numbers represented by linked lists](https://practice.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1)**<br />
+Given `two decimal numbers` represented by **two linked lists** of size `N` and `M` respectively. The task is to return _a linked list that represents the sum of these two numbers_.<br />
+`For example`, the number 190 will be represented by the linked list, `1->9->0->null`, similarly `25` by `2->5->null`. Sum of these two numbers is `190 + 25 = 215`, which will be represented by `2->1->5->null`. You are required to return the head of the linked list `2->1->5->null`.<br />
+
+<pre>
+Example 1:
+Input:
+N = 2
+valueN[] = {4,5}
+M = 3
+valueM[] = {3,4,5}
+Output: 3 9 0  
+Explanation: For the given two linked list (4 5) and (3 4 5), after adding
+the two linked list resultant linked list will be (3 9 0).
+</pre>
+<pre>
+Example 2:
+Input:
+N = 2
+valueN[] = {6,3}
+M = 1
+valueM[] = {7}
+Output: 7 0
+Explanation: For the given two linked list (6 3) and (7), after adding the 
+two linked list resultant linked list will be (7 0).
+</pre>	
+	
+**Your Task:**<br />
+The task is to complete the function `addTwoLists()` which has **node reference** of both the linked lists and returns _the head of the sum list_.<br />   
+
+<pre>
+Expected Time Complexity: O(N+M)
+Expected Auxiliary Space: O(Max(N,M)) for the resultant list.
+</pre>
+
+* Constraints: `1 <= N, M <= 5000`<br />
+	
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Linked list Node */
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+struct Node* buildList(int size)
+{
+    int val;
+    cin>> val;
+    
+    Node* head = new Node(val);
+    Node* tail = head;
+    
+    for(int i=0; i<size-1; i++)
+    {
+        cin>> val;
+        tail->next = new Node(val);
+        tail = tail->next;
+    }
+    
+    return head;
+}
+
+void printList(Node* n)
+{
+    while(n)
+    {
+        cout<< n->data << " ";
+        n = n->next;
+    }
+    cout<< endl;
+}
+
+class Solution
+{
+    public:
+    //Function to reverse the linked list.
+    Node* reverse(Node *head) 
+    {
+        Node * prev = NULL;
+        Node * current = head;
+        Node * next;
+        
+        while (current != NULL) 
+        { 
+            next = current->next;     
+            current->next = prev;     
+            prev = current;          
+            current = next;
+        }
+        
+        return prev; 
+    }
+    public:
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        //reversing both lists to simplify addition.
+        first = reverse(first);             
+        second = reverse(second);            
+        
+        Node *sum=NULL;
+        int carry=0;
+        
+        //using a loop till both lists and carry gets exhausted.
+        while( first!=NULL || second!=NULL || carry!=0 )
+        {
+            //using a variable to store sum of two digits along with carry.
+            int newVal = carry;
+            
+            //if nodes are left in any list, we add their data in newVal.
+            if(first) newVal += first->data;
+            if(second) newVal += second->data;
+        
+            //updating carry.
+            carry = newVal/10;
+            
+            //using modulus to store only a single digit at that place.
+            newVal = newVal%10;             
+            
+            //creating new node which gets connected with other nodes that 
+            //we get after calculating sum of respective digits.
+            Node* newNode = new Node(newVal);
+            
+            //storing the previously made nodes in the link part of new node.
+            newNode->next = sum;
+            
+            //making the new node as the first node of all previously made node.
+            sum = newNode;
+            
+            //moving ahead in both lists.
+            if(first) first = first->next; 
+            if(second) second = second->next;
+        }
+        return sum;
+    }
+};
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, m;
+        
+        cin>>n;
+        Node* first = buildList(n);
+        
+        cin>>m;
+        Node* second = buildList(m);
+        Solution ob;
+        Node* res = ob.addTwoLists(first,second);
+        printList(res);
+    }
+    return 0;
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 <br /><br /><br />
 ## Problem 11:
