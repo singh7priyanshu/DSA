@@ -7243,7 +7243,170 @@ Time Complexity: O(n), where n is the number of nodes in the binary tree.
 
 <br /><br /><br />
 ## Problem 34:
-**[]()**<br />
+**[Find all Duplicate subtrees in a Binary tree [ IMP ]](https://practice.geeksforgeeks.org/problems/duplicate-subtrees/1)**<br />
+Given a `binary tree` of size `N`, your task is to that find all **duplicate subtrees** from the given binary tree.<br />
+
+<pre>
+Example:
+<img src = "http://contribute.geeksforgeeks.org/wp-content/uploads/tree1-1.png"><br />
+Input : 
+Output : 2 4
+         4
+Explanation: Above Trees are two 
+duplicate subtrees.i.e <img src = "http://contribute.geeksforgeeks.org/wp-content/uploads/tree2-1.png"> and <img src = "http://contribute.geeksforgeeks.org/wp-content/uploads/tree3.png"> 
+Therefore,you need to return above trees root in the form of a list.
+
+**Your Task:**<br />
+You don't need to take input. Just complete the function `printAllDups()` that takes the `root node` as a parameter and returns an **array of Node***, which contains all the duplicate subtree.<br />
+**Note:** Here the Output of every Node printed in the `Pre-Order tree traversal` format.<br />
+
+* Constraints: `1<=T<=100`<br />
+`1<=N<=100`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left;
+    struct Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+}; 
+
+// Function to Build Tree
+Node* buildTree(string str)
+{   
+    // Corner Case
+    if(str.length() == 0 || str[0] == 'N')
+            return NULL;
+    
+    // Creating vector of strings from input 
+    // string after spliting by space
+    vector<string> ip;
+    
+    istringstream iss(str);
+    for(string str; iss >> str; )
+        ip.push_back(str);
+        
+    // Create the root of the tree
+    Node *root = new Node(stoi(ip[0]));
+        
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+        
+    // Starting from the second element
+    int i = 1;
+    while(!queue.empty() && i < ip.size()) {
+            
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+            
+        // Get the current node value from the string
+        string currVal = ip[i];
+            
+        // If the left child is not null
+        if(currVal != "N") {
+
+            // Create the left child for the current Node
+            currNode->left = new Node(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+            
+        // For the right child
+        i++;
+        if(i >= ip.size())
+            break;
+        currVal = ip[i];
+            
+        // If the right child is not null
+        if(currVal != "N") {
+                
+            // Create the right child for the current node
+            currNode->right = new Node(stoi(currVal));
+                
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+    
+    return root;
+}
+
+void preorder(Node* root){
+    if(!root){
+        return ;
+    }
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+string helper(Node* root,vector<Node*>& ans, unordered_map<string, int>&m){
+    if(!root){
+        return "# ";
+    }
+    string node=to_string(root->data)+" ";
+    node+=helper(root->left, ans,m);
+    node+=helper(root->right, ans,m);
+    if(m.count(node) && m[node]==1){
+        ans.push_back(root);
+        m[node]++;
+    }
+    else if(!m.count(node)){
+        m[node]=1;
+    }
+    return node;
+}
+
+vector<Node*> printAllDups(Node* root){
+    vector<Node*> ans;
+    unordered_map<string, int> m;
+    helper(root, ans, m);
+    return ans;
+}
+
+int main()
+{
+    int t;
+    scanf("%d ",&t);
+    while(t--)
+    {
+        string treeString;
+        getline(cin,treeString);
+        Node* root = buildTree(treeString);
+        vector<Node*> res = printAllDups(root);
+        
+        for(int i=0;i<res.size();i++){
+            preorder(res[i]);
+            cout<<endl;
+        }
+    }
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 35:
