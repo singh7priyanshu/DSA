@@ -5610,7 +5610,179 @@ int main() {
 
 <br /><br /><br />
 ## Problem 31:
-**[]()**<br />
+**[Merge K sorted linked lists](https://practice.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1)**<br />
+Given `K` sorted `linked lists` of different sizes. The task _is to merge them in such a way that after merging they will be a single sorted linked list_.<br />
+
+<pre>
+Example 1:
+Input:
+K = 4
+value = {{1,2,3},{4 5},{5 6},{7,8}}
+Output: 1 2 3 4 5 5 6 7 8
+Explanation:
+The test case has 4 sorted linked list of size 3, 2, 2, 2
+1st    list     1 -> 2-> 3
+2nd   list      4->5
+3rd    list      5->6
+4th    list      7->8
+The merged list will be 1->2->3->4->5->5->6->7->8.
+</pre>
+
+<pre>
+Example 2:
+Input:
+K = 3
+value = {{1,3},{4,5,6},{8}}
+Output: 1 3 4 5 6 8
+Explanation:
+The test case has 3 sorted linked list of size 2, 3, 1.
+1st list 1 -> 3
+2nd list 4 -> 5 -> 6
+3rd list 8
+The merged list will be 1->3->4->5->6->8.
+</pre>
+
+**Your Task:**<br />
+The task is to complete the function `mergeKList()` which merges the `K` given lists into a sorted one. The printing is done automatically by the driver code.<br />
+
+<pre>
+Expected Time Complexity: O(nk Logk)
+Expected Auxiliary Space: O(k)
+Note: n is the maximum size of all the k link list
+</pre>
+
+* Constraints: `1 <= K <= 10^3`<br />
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// A Linked List node
+struct Node
+{
+    int data;
+    Node* next;
+    
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+    
+};
+
+/* Function to print nodes in a given linked list */
+void printList(Node* node)
+{
+    while (node != NULL)
+    {
+        printf("%d ", node->data);
+        node = node->next;
+    }
+    cout<<endl;
+}
+
+class Solution{
+  public:
+    //Function to merge two sorted list into one sorted list.
+    Node* SortedMerge(Node* a, Node* b)
+    {
+        Node* result = NULL;
+    
+        //base cases when either of two lists is null.
+        if (a == NULL)
+            return (b);
+        else if(b == NULL)
+            return (a);
+    
+        //comparing data in both lists and storing the smaller in result and
+        //recursively calling the SortedMerge function for next node in result.
+        if(a->data <= b->data)
+        {
+            result = a;
+            result->next = SortedMerge(a->next, b);
+        }
+        else
+        {
+            result = b;
+            result->next = SortedMerge(a, b->next);
+        }
+        //returning the resultant list.
+        return result;
+    }
+    
+    //Function to merge K sorted linked list.
+    Node* mergeKLists(Node* arr[], int K)
+    {
+        int N = K;
+        int last=N-1; 
+        while (last != 0)
+        {
+            int i = 0, j = last;
+            while (i < j)
+            {
+                //calling SortedMerge function to merge two different list into
+                //one list which has sorted elements.
+                arr[i] = SortedMerge(arr[i], arr[j]);
+    
+                //going for the next pair of lists.
+                i++, j--;
+    
+                //if all pairs are merged, we update the last.
+                if (i >= j)
+                    last = j;
+            }
+        }
+        //returning the merged list.
+        return arr[0];
+    }
+};
+
+int main()
+{
+   int t;
+   cin>>t;
+   while(t--)
+   {
+       int N;
+       cin>>N;
+       struct Node *arr[N];
+       for(int j=0;j<N;j++)
+        {
+           int n;
+           cin>>n;
+
+           int x;
+           cin>>x;
+           arr[j]=new Node(x);
+           Node *curr = arr[j];
+           n--;
+
+           for(int i=0;i<n;i++)
+           {
+               cin>>x;
+               Node *temp = new Node(x);
+               curr->next =temp;
+               curr=temp;
+           }
+        }
+        Solution obj;
+        Node *res = obj.mergeKLists(arr,N);
+        printList(res);
+
+   }
+
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 32:
