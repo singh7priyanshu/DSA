@@ -186,8 +186,9 @@ Time Complexity : O(n)
 
 
 
+<br /><br /><br />
 ## Problem 2:
-<br /><br /><br />**[Maximum and minimum of an array using minimum number of comparisons](https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/)**<br />
+**[Maximum and minimum of an array using minimum number of comparisons](https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/)**<br />
 Write a C function to return minimum and maximum in an array. Your program should make the minimum number of comparisons. <br />
 ### METHOD 1 (Simple Linear Search) :<br />
 ```cpp
@@ -486,8 +487,9 @@ Auxiliary Space: O(1) as no extra space was needed.
 
 
 
+<br /><br /><br />
 ## Problem 3:
-<br /><br /><br />**[Kth smallest element](https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1)**<br />
+**[Kth smallest element](https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1)**<br />
 Given an array `arr[]` and an integer `K` where K is smaller than size of array, the task is to find the `Kth smallest` element in the given array. It is given that all array elements are distinct.<br />
 
 >Example 1:<br />
