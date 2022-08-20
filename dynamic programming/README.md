@@ -1,3 +1,68 @@
+# Table of Content 
+* [Coin ChangeProblem](#Problem-1)
+* [Knapsack Problem](#Problem-2)
+* [Binomial CoefficientProblem](#Problem-3)
+* [Permutation CoefficientProblem](#Problem-4)
+* [Program for nth Catalan Number](#Problem-5)
+* [Matrix Chain Multiplication](#Problem-6)
+* [Edit Distance](#Problem-7)
+* [Partition Equal Subset Sum / Subset Sum Problem](#Problem-8)
+* [Friends Pairing Problem](#Problem-9)
+* [Gold Mine Problem](#Problem-10)
+* [Assembly Line SchedulingProblem](#Problem-11)
+* [Painting the Fence](#Problem-12)
+* [Maximize The Cut Segments](#Problem-13)
+* [Longest Common Subsequence](#Problem-14)
+* [Longest Repeated Subsequence](#Problem-15)
+* [Longest Increasing Subsequence](#Problem-16)
+* [Space Optimized Solution of LCS](#Problem-17)
+* [LCS (Longest Common Subsequence) of three strings](#Problem-18)
+* [Maximum Sum Increasing Subsequence](#Problem-19)
+* [Count all subsequences having product less than K](#Problem-20)
+* [Longest subsequence such that difference between adjacent is one](#Problem-21)
+* [Maximum subsequence sum such that no three are consecutive](#Problem-22)
+* [Egg Dropping Puzzle](#Problem-23)
+* [Maximum Length Chain of Pairs](#Problem-24)
+* [Maximum size square sub-matrix with all 1s](#Problem-25)
+* [Maximum sum of pairs with specific difference](#Problem-26)
+* [Maximum path sum in matrix](#Problem-27)
+* [Maximum difference of zeros and ones in binary string](#Problem-28)
+* [Minimum number of jumps to reach end](#Problem-29)
+* [Minimum cost to fill given weight in a bag](#Problem-30)
+* [Minimum removals from array to make max –min <= K](#Problem-31)
+* [Longest Common Substring](#Problem-32)
+* [Reach a given score](#Problem-33)
+* [Count Balanced Binary Trees of Height h](#Problem-34)
+* [LargestSum Contiguous Subarray [V>V>V>V IMP ]](#Problem-35)
+* [Smallest sum contiguous subarray](#Problem-36)
+* [Unbounded Knapsack (Repetition of items allowed)](#Problem-37)
+* [Word Break Problem](#Problem-38)
+* [Largest Independent Set Problem](#Problem-39)
+* [Partition Equal Subset Sum](#Problem-40)
+* [Longest Palindromic Subsequence](#Problem-41)
+* [Count All Palindromic Subsequence in a given String](#Problem-42)
+* [5. Longest Palindromic Substring](#Problem-43)
+* [Longest alternating subsequence](#Problem-44)
+* [Weighted Job Scheduling](#Problem-45)
+* [Coin game winner where every player has three choices](#Problem-46)
+* [Count Derangements (Permutation such that no element appears in its original position) [ IMPORTANT ]](#Problem-47)
+* [Maximum profit by buying and selling a share at most twice [ IMP ]](#Problem-48)
+* [Optimal Strategy For A Game](#Problem-49)
+* [Optimal Binary Search Tree](#Problem-50)
+* [Palindrome PartitioningProblem](#Problem-51)
+* [Word Wrap Problem](#Problem-52)
+* [Mobile Numeric Keypad Problem [ IMP ]](#Problem-53)
+* [Boolean Parenthesization Problem](#Problem-54)
+* [Largest rectangular sub-matrix whose sum is 0](#Problem-55)
+* [Largest area rectangular sub-matrix with equal number of 1’s and 0’s [ IMP ]](#Problem-56)
+* [Maximum sum rectangle in a 2D matrix](#Problem-57)
+* [Maximum profit by buying and selling a share at most k times](#Problem-58)
+* [Find if a string is interleaved of two other strings](#Problem-59)
+* [646. Maximum Length of Pair Chain](#Problem-60)
+  
+  
+  
+  
   # Love Babbar Sheet 450 - Dynamic Programming
   ## Problem 1:
   **[Coin ChangeProblem](https://practice.geeksforgeeks.org/problems/coin-change2448/1)**<br />
@@ -59,7 +124,7 @@
       return 0;
   }
   ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -137,7 +202,7 @@
       return 0;
   }
   ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -197,7 +262,7 @@
       return 0;
   }
   ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -350,7 +415,7 @@
   <pre>
   Value of P(10, 2) is 90 
   </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -635,7 +700,7 @@ Output<br />
 Time Complexity: O(n)
 Auxiliary Space: O(1), since no extra space has been taken.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -856,7 +921,7 @@ Minimum number of multiplications is 18
 Time Complexity: O(n^3)
 Auxiliary Space: O(n^2)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -932,7 +997,7 @@ int main(){
     return 0;
 }
 ```
-  
+  * [To top](#Table-of-Content)
   
   
   
@@ -1031,7 +1096,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1102,7 +1167,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1344,7 +1409,7 @@ Output<br />
 Time Complexity :O(m*n) 
 Space Complexity :O(m*n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1528,7 +1593,7 @@ Output:<br />
 <pre>
 35
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1602,7 +1667,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1675,7 +1740,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1746,7 +1811,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1871,7 +1936,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
   
@@ -1950,7 +2015,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2081,7 +2146,7 @@ Output<br />
 <pre>
 Length of LCS is 4
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2157,7 +2222,7 @@ int LCSof3 (string A, string B, string C, int n1, int n2, int n3){
     return solve(A, B, C, 0, 0, 0, n1, n2, n3);
 }
 ```
-  
+  * [To top](#Table-of-Content)
   
   
   
@@ -2227,7 +2292,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2305,7 +2370,7 @@ Output<br />
 Time Complexity: O(K*N)
 Auxiliary Space: O(K*N)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2376,7 +2441,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2542,7 +2607,7 @@ Output:<br />
 Time Complexity: O(n) 
 Auxiliary Space: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2629,7 +2694,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2708,7 +2773,7 @@ int maxChainLen(struct val p[], int n){
     return m;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2789,7 +2854,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2862,7 +2927,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2944,7 +3009,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3011,7 +3076,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3099,6 +3164,12 @@ int main()
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 30:
@@ -3177,7 +3248,7 @@ int main(){
     }
 }
 ```
-  
+* [To top](#Table-of-Content)  
   
   
   
@@ -3555,7 +3626,7 @@ Output<br />
 Time complexity: O(nlogn)
 Auxiliary Space: O(1)		
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3619,7 +3690,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3676,7 +3747,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3737,7 +3808,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3827,7 +3898,7 @@ Expected Auxiliary Space: O(1)
     		}
 	}
 ```
-  
+  * [To top](#Table-of-Content)
   
   
   
@@ -3917,7 +3988,7 @@ Smallest sum: -6
 <pre>
 Time Complexity: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3990,7 +4061,7 @@ int main(){
     }
 }
 ```
-  
+  * [To top](#Table-of-Content)
   
   
   
@@ -4086,7 +4157,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4283,7 +4354,7 @@ Size of the Largest Independent Set is 5
 <pre>
 Time Complexity: O(n) where n is the number of nodes in given Binary tree. 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4367,7 +4438,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4566,7 +4637,7 @@ The length of the LPS is 5
 Time Complexity: O(n^2)
 Auxiliary Space: (n^2)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4650,7 +4721,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4727,7 +4798,7 @@ public:
     }
 };
 ```
-	
+* [To top](#Table-of-Content)
 	
 	
 	
@@ -4799,7 +4870,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5018,6 +5089,13 @@ Time Complexity of the above Dynamic Programming Solution is O(n^2).
 	Note that the above solution can be optimized to O(nLogn) using 
 	Binary Search in latestNonConflict() instead of linear search.
 </pre>
+* [To top](#Table-of-Content)
+
+
+
+
+
+
 
   
 
@@ -5100,6 +5178,8 @@ Output:<br />
 <pre>
 A
 </pre>
+* [To top](#Table-of-Content)
+
 
 
 
@@ -5275,7 +5355,14 @@ Count of Derangements is 9
 Time Complexity: O(n) 
 Auxiliary Space: O(1), since no extra space has been taken.
 </pre>  
-  
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
 
   <br /><br /><br />
   ## Problem 48:
@@ -5435,6 +5522,9 @@ Output<br />
 Time Complexity: O(N)
 Auxiliary Space: O(1)  
 </pre>
+* [To top](#Table-of-Content)
+
+
 
 
   
@@ -5505,6 +5595,11 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
 
 
 
@@ -5717,7 +5812,7 @@ Cost of Optimal BST is 142
 **Notes**<br />
  1) The time complexity of the above solution is `O(n^4)`. The time complexity can be easily reduced to `O(n^3)` by pre-calculating sum of frequencies instead of calling `sum()` again and again.<br />
  2) In the above solutions, we have computed optimal cost only. The solutions can be easily modified to store the structure of `BSTs` also. We can create another auxiliary array of size `n` to store the structure of tree. All we need to do is, store the chosen `‘r’` in the innermost loop.<br />
- 
+* [To top](#Table-of-Content) 
  
 
 
@@ -5795,7 +5890,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5913,7 +6008,7 @@ int main(){
     return 0;
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6014,7 +6109,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6113,7 +6208,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6311,7 +6406,7 @@ Output<br />
 8 7 
 -2 0 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6506,7 +6601,7 @@ Area: 8 sq.units
 Time Complexity: O(n^3) 
 Auxiliary Space: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6643,7 +6738,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6731,7 +6826,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6816,7 +6911,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6865,3 +6960,4 @@ public:
     }
 };
 ```
+* [To top](#Table-of-Content)
