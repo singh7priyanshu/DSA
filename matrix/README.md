@@ -1,6 +1,7 @@
+<pre>
 # Table of Content 
 * [Common elements in all rows of a given matrix](#Problem-10)
-
+</pre>
 
 
 
