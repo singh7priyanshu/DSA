@@ -179,10 +179,9 @@ Output : <br />
 Reversed array is 
 6 5 4 3 2 1 
 </pre><br />
-
-* Time Complexity : O(n)<br />
-
-
+<pre>
+Time Complexity : O(n)
+</pre>
 * [To top](#Table-of-Content)
 
 
@@ -475,9 +474,11 @@ Output: <br />
 <pre>
 Minimum element is 1
 Maximum element is 3000
-</pre><br />
-* Time Complexity: O(n)<br />
-* Auxiliary Space: O(1) as no extra space was needed.<br /><br /><br /><br />
+</pre>
+<pre>
+Time Complexity: O(n)
+Auxiliary Space: O(1) as no extra space was needed.
+</pre>
 * [To top](#Table-of-Content)
 
 
@@ -486,7 +487,7 @@ Maximum element is 3000
 
 
 ## Problem 3:
-**[Kth smallest element](https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1)**<br />
+<br /><br /><br />**[Kth smallest element](https://practice.geeksforgeeks.org/problems/kth-smallest-element5635/1)**<br />
 Given an array `arr[]` and an integer `K` where K is smaller than size of array, the task is to find the `Kth smallest` element in the given array. It is given that all array elements are distinct.<br />
 
 >Example 1:<br />
