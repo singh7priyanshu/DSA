@@ -1,3 +1,16 @@
+# Table of Content 
+* [Common elements in all rows of a given matrix](#Problem 10)
+
+
+
+
+
+
+
+
+
+
+
 # Love Babbar Sheet 450 - Matrix
 ## Problem 1:
 **[Spirally traversing a matrix](https://practice.geeksforgeeks.org/problems/spirally-traversing-a-matrix-1587115621/1)**<br />
