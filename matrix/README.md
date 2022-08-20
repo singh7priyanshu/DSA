@@ -1,3 +1,23 @@
+## Table of Content 
+
+* [Spirally traversing a matrix](## Problem 1:)
+* [Tools and Technologies Used](#Tools%20and%20Technologies%20Used)
+* [Usage](#usage)
+* [Installation](#installation)
+* [Contribution](#contribution)
+* [License](#license)
+
+
+
+
+
+
+
+
+
+
+
+
 # Love Babbar Sheet 450 - Matrix
 ## Problem 1:
 **[Spirally traversing a matrix](https://practice.geeksforgeeks.org/problems/spirally-traversing-a-matrix-1587115621/1)**<br />
