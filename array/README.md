@@ -180,13 +180,15 @@ Reversed array is
 6 5 4 3 2 1 
 </pre><br />
 
-* Time Complexity : O(n)<br /><br /><br /><br />
+* Time Complexity : O(n)<br />
+
+
 * [To top](#Table-of-Content)
 
 
 
 ## Problem 2:
-**[Maximum and minimum of an array using minimum number of comparisons](https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/)**<br />
+<br /><br /><br />**[Maximum and minimum of an array using minimum number of comparisons](https://www.geeksforgeeks.org/maximum-and-minimum-in-an-array/)**<br />
 Write a C function to return minimum and maximum in an array. Your program should make the minimum number of comparisons. <br />
 ### METHOD 1 (Simple Linear Search) :<br />
 ```cpp
