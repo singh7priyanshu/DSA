@@ -1,5 +1,5 @@
 # Table of Content 
-* [Common elements in all rows of a given matrix](##Problem 10)
+* [Common elements in all rows of a given matrix](##Problem%2010)
 
 
 
