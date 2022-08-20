@@ -1,3 +1,14 @@
+# Table of Content 
+* [Construct a trie from scratch](#Problem-1)
+* [Find shortest unique prefix for every word in a given list](#Problem-2)
+* [Word Break Problem | (Trie solution)](#Problem-3)
+* [Given a sequence of words, print all anagrams together](#Problem-4)
+* [Implement a Phone Directory](#Problem-5)
+* [Print unique rows in a given boolean matrix](#Problem-6)
+
+
+
+
 # Love Babbar Sheet 450 - Trie
 ## Problem 1:
 **[Construct a trie from scratch](https://www.geeksforgeeks.org/trie-insert-and-search/)**<br />
@@ -132,7 +143,7 @@ these --- Not present in trie
 their --- Present in trie
 thaw --- Not present in trie
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -297,7 +308,7 @@ dog dov du z
 Time Complexity: O(n)
 Space Complexity: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -447,7 +458,7 @@ Yes
 Yes
 No
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -530,7 +541,7 @@ int main(){
   }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -672,7 +683,7 @@ int main(){
   }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -766,3 +777,4 @@ int main(){
     }
 }
 ```
+* [To top](#Table-of-Content)
