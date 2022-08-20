@@ -1,11 +1,14 @@
 # Table of Content 
+* [Spirally traversing a matrix](#Problem-1)
+* [74. Search a 2D Matrix](#Problem-2)
+* [Median in a row-wise sorted Matrix](#Problem-3)
+* [Find row with maximum no. of 1's](#Problem-4)
+* [Print elements in sorted order using row-column wise sorted matrix](#Problem-5)
+* [Maximum size rectangle](#Problem-6)
+* [Find a specific pair in Matrix](#Problem-7)
+* [Rotate matrix by 90 degrees](#Problem-8)
+* [Kth smallest element in a row-column wise sorted matrix](#Problem-9)
 * [Common elements in all rows of a given matrix](#Problem-10)
-
-
-
-
-
-
 
 
 
@@ -127,7 +130,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -187,7 +190,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -271,7 +274,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -354,7 +357,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -449,7 +452,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -553,7 +556,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -707,7 +710,7 @@ Time complexity: O(N^2).
 Auxiliary Space: O(N^2)
 </pre>
 If we are allowed to modify of the matrix, we can avoid using **extra space** and use input matrix instead.<br />
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1073,7 +1076,7 @@ int main()
 Time Complexity – O(n*n)
 Auxiliary Space – O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1218,6 +1221,7 @@ int kthSmallest(int mat[MAX][MAX], int n, int k)
     return hr.val;
 }
 ```
+* [To top](#Table-of-Content)
 
 
 
