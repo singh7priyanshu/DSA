@@ -1869,7 +1869,6 @@ public:
     }
 };
 ```
-<br />
 * [To top](#Table-of-Content)
 
 
