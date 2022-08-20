@@ -1,3 +1,48 @@
+# Table of Content 
+* [344. Reverse String](#Problem-1)
+* [Check whether a String is Palindrome or not](#Problem-2)
+* [Find Duplicate characters in a string](#Problem-3)
+* [Why strings are immutable in Java?](#Problem-4)
+* [Write a Code to check whether one string is a rotation of another](#Problem-5)
+* [Java Program to Check if a string is a valid shuffle of two distinct strings](#Problem-6)
+* [38. Count and Say](#Problem-7)
+* [Longest Palindrome in a String](#Problem-8)
+* [Find Longest Recurring Subsequence in String / Longest Repeating Subsequence](#Problem-9)
+* [Print all subsequences of a string](#Problem-10)
+* [Permutations of a given string](#Problem-11)
+* [Split the Binary string into two substring with equal 0’s and 1’s](#Problem-12)
+* [Word Wrap Problem [VERY IMP]](#Problem-13)
+* [EDIT Distance [Very Imp]](#Problem-14)
+* [Find next greater number with same set of digits. [Very Very IMP]](#Problem-15)
+* [Balanced Parenthesis problem.[Imp]](#Problem-16)
+* [Word break Problem[ Very Imp]](#Problem-17)
+* [KMP Algorithm for Pattern Searching](#Problem-18)
+* [Longest Prefix Suffix](#Problem-19)
+* [Convert a sentence into its equivalent mobile numeric keypad sequence](#Problem-20)
+* [Minimum number of bracket reversals needed to make an expression balanced](#Problem-21)
+* [Count All Palindromic Subsequence in a given String](#Problem-22)
+* [Count of number of given string in 2D character array](#Problem-23)
+* [Find the string in grid](#Problem-24)
+* [Boyer Moore Algorithm for Pattern Searching](#Problem-25)
+* [Roman Number to Integer](#Problem-26)
+* [14. Longest Common Prefix](#Problem-27)
+* [Number of flips to make binary string alternate](#Problem-28)
+* [Second most repeated string in a sequence](#Problem-29)
+* [Minimum Swaps for Bracket Balancing](#Problem-30)
+* [Longest Common Subsequence](#Problem-31)
+* [Program to generate all possible valid IP addresses from given string](#Problem-32)
+* [Write a program tofind the smallest window that contains all characters of string itself](#Problem-33)
+* [Rearrange characters in a string such that no two adjacent are same](#Problem-34)
+* [Minimum characters to be added at front to make string palindrome](#Problem-35)
+* [Given a sequence of words, print all anagrams together](#Problem-36)
+* [Find the smallest window in a string containing all characters of another string](#Problem-37)
+* [Remove Consecutive Characters](#Problem-38)
+* [String matching where one string contains wildcard characters](#Problem-39)
+* [Function to find Number of customers who could not get a computer](#Problem-40)
+* [Transform One String to Another using Minimum Number of Given Operation](#Problem-41)
+* [Check if two given strings are isomorphic to each other](#Problem-42)
+* [Recursively print all sentences that can be formed from list of word lists](#Problem-43)
+
 # Love Babbar Sheet 450 - Strings
 ## Problem 1:
 **[344. Reverse String](https://leetcode.com/problems/reverse-string/)**<br />
@@ -28,7 +73,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -86,6 +131,8 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 <br /><br /><br />
@@ -245,7 +292,7 @@ Time Complexity: O(N), where N = length of the string passed and
  it takes O(1) time to insert and access any element in an unordered map
 Auxiliary Space: O(K), where K = size of the map (0<=K<=input_string_length).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -273,6 +320,7 @@ The String is immutable in Java because of the `security`, `synchronization` and
 The reason of making string final is to destroy the `immutability` and to not allow others to extend it. <br />
 The String objects are cached in the `String pool`, and it makes the String **immutable**.<br />
 
+* [To top](#Table-of-Content)
 
 
 
@@ -537,7 +585,7 @@ s2 is rotation of s1
 Time Complexity will be O(n*n) in the worst case, where n is the length of the string.
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -659,7 +707,7 @@ if (checkLength(first, second, result) == true && shuffleCheck(first, second, re
 Since we are comparing the shuffled string with the other two strings, sorting all three strings will make the comparison more efficient.<br />
 **3. shuffleCheck()** - This method compares the individual characters of the shuffled string with the characters of `first` and `second` strings<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -732,7 +780,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -811,7 +859,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -944,7 +992,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1153,7 +1201,7 @@ b
 Time Complexity: O(n * 2n), where n is the size of the given string
 Auxiliary Space: O(1), as no extra space is used
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1314,7 +1362,7 @@ int main()
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1399,7 +1447,7 @@ Output:<br />
 Time complexity: O(N) where N is the length of string 
 Space Complexity: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1518,7 +1566,7 @@ int main(){
     return 0;
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1595,7 +1643,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1693,7 +1741,7 @@ int main(){
     return 0;
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1790,7 +1838,7 @@ int main()
    }
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1885,7 +1933,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2038,6 +2086,7 @@ Pattern found at index 10
 **Time Complexity:**<br />
 The average and best-case running time of the `Rabin-Karp algorithm` is `O(n+m)`, but its worst-case time is `O(nm)`. Worst case of Rabin-Karp algorithm occurs when all characters of pattern and text are same as the hash values of all the substrings of txt[] match with hash value of pat[]. For example `pat[]` = `“AAA”` and `txt[]` = `“AAAAAAA”`<br />
 
+* [To top](#Table-of-Content)
 
 
 
@@ -2374,7 +2423,7 @@ len = 3, lps[7] = 3, i = 8
 
 We stop here as we have constructed the whole lps[].
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2466,7 +2515,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2513,8 +2562,7 @@ Below is the implementation of above method :<br />
 using namespace std;
 
 // Function which computes the sequence
-string printSequence(string arr[],
-					string input)
+string printSequence(string arr[], string input)
 {
 	string output = "";
 
@@ -2566,7 +2614,7 @@ Output :<br />
 Time complexity: O(n) 
 Auxiliary Space: O(n), Linear complexity for the above code.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2644,7 +2692,7 @@ int countRev (string s){
     return res;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2734,7 +2782,7 @@ int main()
     } 
 }  
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2876,7 +2924,7 @@ count: 3
 Time Complexity: O(n*m), where n is row size and m is the column size.
 Auxiliary Space: O(n*m)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2989,6 +3037,9 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -3136,7 +3187,7 @@ Auxiliary Space: O(1)
 The Bad Character Heuristic may take `O(m*n)` time in worst case. The worst case occurs when all characters of the text and pattern are `same`. For example, `txt[] = “AAAAAAAAAAAAAAAAAA”` and `pat[] = “AAAAA”`.<br />
 The Bad Character Heuristic may take `O(n/m)` in the best case. The best case occurs when all all the characters of the text and pattern are different.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3208,7 +3259,7 @@ int main() {
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3255,7 +3306,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3319,7 +3370,7 @@ int minFlips (string S){
     return min(ans1, ans2);
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3400,6 +3451,8 @@ int main()
     }
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -3476,7 +3529,7 @@ int main()
     return 0; 
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3548,6 +3601,9 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -3855,7 +3911,7 @@ Output<br />
 255.255.11.135
 255.255.111.35
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3984,7 +4040,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4107,7 +4163,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4345,6 +4401,9 @@ Output<br />
 <pre>
 2
 </pre>
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -4428,7 +4487,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4554,7 +4613,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4625,7 +4684,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4762,7 +4821,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4891,7 +4950,7 @@ Time complexity of above solution is O(n)
 Space complexity extra space required is O(CHAR_MAX) 
 where CHAR_MAX is total number of possible characters in given sequence.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5000,7 +5059,7 @@ Time Complexity: O(n), please note that i is always decremented (in while loop a
                        and the for loop starts from n-1 and runs while i >= 0.
 Auxiliary Space: O(1).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5083,7 +5142,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5192,3 +5251,4 @@ we are sleep
 we are eat 
 we are drink 
 </pre>
+* [To top](#Table-of-Content)
