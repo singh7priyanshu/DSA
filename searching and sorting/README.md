@@ -1,3 +1,42 @@
+# Table of Content 
+* [](#Problem-1)
+* [](#Problem-2)
+* [](#Problem-3)
+* [](#Problem-4)
+* [](#Problem-5)
+* [](#Problem-6)
+* [](#Problem-7)
+* [](#Problem-8)
+* [](#Problem-9)
+* [](#Problem-10)
+* [](#Problem-11)
+* [](#Problem-12)
+* [](#Problem-13)
+* [](#Problem-14)
+* [](#Problem-15)
+* [](#Problem-16)
+* [](#Problem-17)
+* [](#Problem-18)
+* [](#Problem-19)
+* [](#Problem-20)
+* [](#Problem-21)
+* [](#Problem-22)
+* [](#Problem-23)
+* [](#Problem-24)
+* [](#Problem-25)
+* [](#Problem-26)
+* [](#Problem-27)
+* [](#Problem-28)
+* [](#Problem-29)
+* [](#Problem-30)
+* [](#Problem-31)
+* [](#Problem-32)
+* [](#Problem-33)
+* [](#Problem-34)
+* [](#Problem-35)
+* [](#Problem-36)
+
+
 # Love Babbar Sheet 450 - Searching & Sorting
 ## Problem 1:
 **[Find first and last positions of an element in a sorted array](https://practice.geeksforgeeks.org/problems/first-and-last-occurrences-of-x3116/1)**<br />
@@ -67,7 +106,7 @@ vector<int> find(int arr[], int n , int x )
     return {a1,a2};
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -148,7 +187,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -202,7 +241,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -261,6 +300,8 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -320,7 +361,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -454,7 +495,7 @@ Output<br />
 Time Complexity: O(n^2) 
 Auxiliary Space: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -524,7 +565,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -612,7 +653,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -687,7 +728,7 @@ Element 6 is present at index 5
 Time Complexity: O(n)
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -759,7 +800,7 @@ bool findPair(int arr[], int size, int n){
     return false;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -848,7 +889,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -914,7 +955,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -982,7 +1023,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1091,7 +1132,7 @@ Expected Auxilliary Space: O(1)
 		return 0;
 	}
   ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1167,7 +1208,7 @@ the map container. It returns 1 if the key is present in the container as the ma
 only contains a unique key. It returns 0 if the key is not present in the map container.
 */
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1248,7 +1289,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1362,7 +1403,7 @@ Syntax:
 // arr is the array and n is the size
 stable_sort(arr, arr + n, greater<int>());  
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1487,7 +1528,7 @@ int main(){
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1577,6 +1618,8 @@ upper_bound for element 35(here as p) is at position : 3
 upper_bound for element 45(here as p) is at position : 4
 */
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -1750,7 +1793,7 @@ main(){
 
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1841,7 +1884,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1916,7 +1959,7 @@ int peakElement(int arr[], int low, int high, int lowerBound, int upperBound)
     return -1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2006,7 +2049,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2107,7 +2150,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2210,7 +2253,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2295,7 +2338,7 @@ int main()
     return 0;
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2632,7 +2675,7 @@ The optimal profit is 250
 <pre>
 Time Complexity of the above Dynamic Programming Solution is O(n^2)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2700,7 +2743,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2778,7 +2821,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2888,7 +2931,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2995,7 +3038,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3132,7 +3175,7 @@ int main(int argc, char * argv[]) {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3216,7 +3259,7 @@ int main()
     printf("%lld\n",sum);
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3336,7 +3379,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3541,8 +3584,7 @@ void swap(int nums[], int i, int j)
 // Merging the subarrays using shell sorting
 // Time Complexity: O(nlog n)
 // Space Complexity: O(1)
-void inPlaceMerge(int nums[], int start,
-							int end)
+void inPlaceMerge(int nums[], int start, int end)
 {
 	int gap = end - start + 1;
 	
@@ -3890,7 +3932,7 @@ Time Complexity of merge_sort() function:  Overall: O(log n) for the recursion a
 Time Complexity of merge_sort() overall:  Worst Case: O(n^2 log n),  Average: O(n (log n)^2), Best: O(log n)
 The worst-case occurs when every sub-array exchange within merge() results in just _INSERT_THRESH-1 elements being exchanged
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4114,3 +4156,5 @@ In summary, the `worst-case time complexity` of both `single-pivot partitioning`
 <br /><br />`7. Conclusion`<br />
 In this tutorial, we learned about the performance issues with the trivial implementation of the Quicksort algorithm when the input has a large number of repeated elements.<br />
 With a motivation to fix this issue, we learned different three-way partitioning schemes and how we can implement them in Java.<br />
+
+* [To top](#Table-of-Content)
