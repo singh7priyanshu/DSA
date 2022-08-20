@@ -1,3 +1,41 @@
+# Table of Content 
+* [Write a program to reverse an array or string](#Problem-1)
+* [Maximum and minimum of an array using minimum number of comparisons](#Problem-2)
+* [Kth smallest element](#Problem-3)
+* [Sort an array of 0s, 1s and 2s](#Problem-4)
+* [Move all negative numbers to beginning and positive to end with constant extra space](#Problem-5)
+* [Union of two arrays](#Problem-6)
+* [Cyclically rotate an array by one](#Problem-7)
+* [Kadane's Algorithm](#Problem-8)
+* [Minimise the maximum difference between heights [V.IMP]](#Problem-9)
+* [Minimum no. of Jumps to reach end of an array](#Problem-10)
+* [287. find duplicate in an array of N+1 Integers](#Problem-11)
+* [Merge 2 sorted arrays without using Extra space](#Problem-12)
+* [56. Merge Intervals](#Problem-13)
+* [31. Next Permutation](#Problem-14)
+* [Count Inversions](#Problem-15)
+* [121. Best Time to Buy and Sell Stock](#Problem-16)
+* [find all pairs on integer array whose sum is equal to given number](#Problem-17)
+* [find common elements In 3 sorted arrays](#Problem-18)
+* [Rearrange array in alternating positive & negative items with O(1) extra space](#Problem-19)
+* [Find if there is any subarray with sum equal to 0](#Problem-20)
+* [Factorials of large numbers](#Problem-21)
+* [Maximum Product Subarray](#Problem-22)
+* [Longest consecutive subsequence](#Problem-23)
+* [Given an array of size n and a number k, find all elements that appear more than n/k times](#Problem-24)
+* [Maximum profit by buying and selling a share at most twice](#Problem-25)
+* [Find whether an array is a subset of another array](#Problem-26)
+* [Find the triplet that sum to a given value](#Problem-27)
+* [Trapping Rain water problem](#Problem-28)
+* [Chocolate Distribution Problem](#Problem-29)
+* [Smallest Subarray with sum greater than a given value](#Problem-30)
+* [Three way partitioning of an array around a given value](#Problem-31)
+* [Minimum swaps required bring elements less equal K together](#Problem-32)
+* [Palindromic Array](#Problem-33)
+* [Find minimum number of merge operations to make an array palindrome](#Problem-34)
+* [Median of two sorted arrays of same size](#Problem-35)
+* [Median of two sorted arrays of different sizes](#Problem-36)
+
 # Love Babbar Sheet 450 - Array
 ## Problem 1:
 **[Write a program to reverse an array or string](https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/)**<br />
@@ -143,7 +181,7 @@ Reversed array is
 </pre><br />
 
 * Time Complexity : O(n)<br /><br /><br /><br />
-
+* [To top](#Table-of-Content)
 
 
 
@@ -438,6 +476,11 @@ Maximum element is 3000
 </pre><br />
 * Time Complexity: O(n)<br />
 * Auxiliary Space: O(1) as no extra space was needed.<br /><br /><br /><br />
+* [To top](#Table-of-Content)
+
+
+
+
 
 
 ## Problem 3:
@@ -544,6 +587,13 @@ int main()
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 4:
@@ -636,6 +686,16 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
+
 
 
 <br /><br /><br />
@@ -841,6 +901,15 @@ Output: <br />
 * Auxiliary Space: O(1)<br />
 
 The order of elements does not matter here.<br />
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 6:
@@ -935,6 +1004,16 @@ int main() {
 	return 0;
 } 
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 7:
@@ -1001,6 +1080,19 @@ int x = arr[n-1], i;
    arr[0] = x;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <br /><br /><br />
@@ -1080,6 +1172,19 @@ int main()
     }
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 9:
@@ -1200,6 +1305,9 @@ int main() {
     return 0;
 }  
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -1285,6 +1393,9 @@ int main()
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 <br /><br /><br />
@@ -1342,6 +1453,11 @@ public:
 	}
     */
 ```
+* [To top](#Table-of-Content)
+
+
+
+
 
 
 <br /><br /><br />
@@ -1448,6 +1564,18 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
+
+
+
+
+
+
 
 <br /><br /><br />
 ## Problem 13:
@@ -1491,6 +1619,12 @@ public:
     }
 };
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
 
 
 
@@ -1557,6 +1691,12 @@ public:
     }
 };
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
 
 
 <br /><br /><br />
@@ -1682,6 +1822,12 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
+
+
 
 
 <br /><br /><br />
@@ -1719,7 +1865,7 @@ public:
 };
 ```
 <br />
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1797,6 +1943,10 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
 
 
 <br /><br /><br />
@@ -1877,7 +2027,7 @@ int main ()
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2001,6 +2151,11 @@ Rearranged array is
 
 * Time Complexity : O(N^2), as we are using a loop to traverse N times and calling function rightrotate each time which will cost O (N).
 * Space Complexity : O(1), as we are not using any extra space.
+* [To top](#Table-of-Content)
+
+
+
+
 
 
 <br /><br /><br />
@@ -2075,6 +2230,10 @@ int main()
 	return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
+
 
 
 
@@ -2150,6 +2309,8 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -2224,6 +2385,9 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -2301,6 +2465,9 @@ int main()
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -2737,6 +2904,10 @@ Output: <br />
 Time Complexity: O(N)
 Auxiliary Space: O(N)
 </pre>
+* [To top](#Table-of-Content)
+
+
+
 
 
 
@@ -2899,6 +3070,9 @@ Output:<br />
 Time Complexity: O(N)
 Auxiliary Space: O(1)
 </pre>
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -2985,7 +3159,7 @@ string isSubset(int a1[], int a2[], int n, int m) {
     else return "No";
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3060,6 +3234,8 @@ int main()
     }
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -3159,6 +3335,9 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -3243,6 +3422,8 @@ int main() {
 	return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -3335,6 +3516,8 @@ int main() {
 	return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
 
 
 
@@ -3478,6 +3661,9 @@ int main() {
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -3558,7 +3744,7 @@ int main() {
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3637,6 +3823,9 @@ int main()
 	}
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -3740,6 +3929,9 @@ Count of minimum operations is 1
 <pre>
 The time complexity for the given program is: O(n)
 </pre>
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -4060,6 +4252,9 @@ Median is 16
 Time Complexity: O(nlogn)
 Auxiliary Space: O(1)
 </pre>
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -4533,3 +4728,4 @@ Median of the two arrays are
 Time Complexity: O(min(log m, log n)) : Since binary search is being applied on the smaller of the 2 arrays
 Auxiliary Space: O(1)
 </pre>
+* [To top](#Table-of-Content)
