@@ -1,6 +1,6 @@
-## Table of Content 
+# Table of Content 
 
-* [Spirally traversing a matrix](## Problem 1:)
+* [Spirally traversing a matrix](Spirally traversing a matrix)
 * [Tools and Technologies Used](#Tools%20and%20Technologies%20Used)
 * [Usage](#usage)
 * [Installation](#installation)
