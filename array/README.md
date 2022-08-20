@@ -2152,9 +2152,10 @@ Given array is
 Rearranged array is 
 -5 5 -2 2 -8 4 7 1 8 0 
 </pre>
-
-* Time Complexity : O(N^2), as we are using a loop to traverse N times and calling function rightrotate each time which will cost O (N).
-* Space Complexity : O(1), as we are not using any extra space.
+<pre>
+Time Complexity : O(N^2), as we are using a loop to traverse N times and calling function rightrotate each time which will cost O (N).
+Space Complexity : O(1), as we are not using any extra space.
+</pre>
 * [To top](#Table-of-Content)
 
 
