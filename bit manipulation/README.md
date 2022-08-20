@@ -1,3 +1,19 @@
+# Table of Content 
+* [Count set bits in an integer](#Problem-1)
+* [Find the two non-repeating elements in an array of repeating elements](#Problem-2)
+* [Count number of bits to be flipped to convert A to B](#Problem-3)
+* [Count total set bits in all numbers from 1 to n](#Problem-4)
+* [Program to find whether a no is power of two](#Problem-5)
+* [Find position of the only set bit](#Problem-6)
+* [Copy set bits in a range](#Problem-7)
+* [Divide two integers without using multiplication, division and mod operator](#Problem-8)
+* [Calculate square of a number without using *, / and pow()](#Problem-9)
+* [Power Set](#Problem-10)
+
+
+
+
+
 # Love Babbar Sheet 450 - Bit Manipulation
 ## Problem 1:
 **[Count set bits in an integer](https://practice.geeksforgeeks.org/problems/set-bits0143/1)**<br />
@@ -55,6 +71,7 @@ int main(){
     }
 }
 ```
+* [To top](#Table-of-Content)
 
 
 
@@ -142,7 +159,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -217,7 +234,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -299,7 +316,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -371,7 +388,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -454,7 +471,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -570,7 +587,7 @@ Modified x is 14
 Time Complexity: O(1)
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -715,7 +732,7 @@ Output<br />
 Time complexity : O(log(a)) 
 Auxiliary space : O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -966,7 +983,7 @@ n = 15, n^2 = 225
 Time Complexity: O(logn)
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1032,3 +1049,4 @@ int main(){
     }
 }
 ```
+* [To top](#Table-of-Content)
