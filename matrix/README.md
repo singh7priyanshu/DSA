@@ -1,7 +1,5 @@
-<pre>
 # Table of Content 
 * [Common elements in all rows of a given matrix](#Problem-10)
-</pre>
 
 
 
@@ -1319,3 +1317,4 @@ Output
 The time complexity of this solution is O(m * n) and we are doing only one traversal of the matrix.
 Auxiliary Space: O(N)
 </pre>
+* [To top](#Table-of-Content)
