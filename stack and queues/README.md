@@ -1,3 +1,44 @@
+# Table of Content 
+* [Implement Stack from Scratch](#Problem-1)
+* [Implement Queue from Scratch](#Problem-2)
+* [Implement 2 stack in an array](#Problem-3)
+* [Find the middle element of a stack](#Problem-4)
+* [How to efficiently implement k stacks in a single array?](#Problem-5)
+* [Balanced Parenthesis problem.[Imp]](#Problem-6)
+* [Reverse a string using Stack](#Problem-7)
+* [Design a Stack that supports getMin() in O(1) time and O(1) extra space](#Problem-8)
+* [Find the next Greater element](#Problem-9)
+* [The celebrity Problem](#Problem-10)
+* [Arithmetic Expression Evaluation](#Problem-11)
+* [Evaluation of Postfix Expression](#Problem-12)
+* [Implement a method to insert an element at its bottom without using any other data structure](#Problem-13)
+* [Reverse a stack using recursion](#Problem-14)
+* [Sort a Stack using recursion](#Problem-15)
+* [Merge Overlapping Intervals](#Problem-16)
+* [Largest rectangular Area in Histogram](#Problem-17)
+* [Length of the Longest Valid Substring](#Problem-18)
+* [Expression contains redundant bracket or not](#Problem-19)
+* [Implement Stack using Queue](#Problem-20)
+* [Implement Stack and Queue using Deque](#Problem-21)
+* [Stack Permutations (Check if an array is stack permutation of other)](#Problem-22)
+* [Implement Queue using Stack](#Problem-23)
+* [Implement "n" queue in an array](#Problem-24)
+* [Implement a Circular queue](#Problem-25)
+* [LRU Cache Implementation](#Problem-26)
+* [Reverse a Queue using recursion](#Problem-27)
+* [Reverse First K elements of Queue](#Problem-28)
+* [Interleave the first half of the queue with second half](#Problem-29)
+* [Find the first circular tour that visits all Petrol Pumps](#Problem-30)
+* [Minimum time required to rot all oranges](#Problem-31)
+* [Distance of nearest cell having 1 in a binary matrix](#Problem-32)
+* [First negative integer in every window of size k](#Problem-33)
+* [Check if all levels of two trees are anagrams or not](#Problem-34)
+* [Sum of minimum and maximum elements of all subarrays of size k](#Problem-35)
+* [Minimum sum of squares of character counts in a given string after removing “k” characters](#Problem-36)
+* [Queue based approach or first non-repeating character in a stream](#Problem-37)
+* [Next Smaller Element](#Problem-38)
+
+
 # Love Babbar Sheet 450 - Stacks and Queues
 ## Problem 1:
 **[Implement Stack from Scratch](https://www.tutorialspoint.com/javaexamples/data_stack.htm)**<br />
@@ -99,6 +140,9 @@ stack: [40]<br />
 40<br />
 stack: []<br />
 it Is Empty Stack<br />
+
+* [To top](#Table-of-Content)
+
 
 
 
@@ -271,6 +315,9 @@ Rear item is 40<br />
  1. Static Data Structure, fixed size.<br />
  2. If the queue has a large number of enqueue and dequeue operations, at some point (in case of linear increment of front and rear indexes) we may not be able to insert elements in the queue even if the queue is empty (this problem is avoided by using circular queue).<br />
 
+* [To top](#Table-of-Content)
+
+
 
  
  
@@ -403,7 +450,7 @@ int twoStacks :: pop2()
     }else return -1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -565,7 +612,7 @@ Middle Element is 33
 Deleted Middle Element is 33
 Middle Element is 22
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -727,7 +774,7 @@ The best part of above implementation is, if there is a slot available in stack,
 Time Complexity: O(N), as we are using a loop to traverse N times.
 Auxiliary Space: O(N), as we are using extra space for stack.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -819,7 +866,7 @@ int main()
    }
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -880,7 +927,7 @@ char* reverse(char *S, int len)
     return S;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -964,7 +1011,7 @@ int getMin(stack<int>& s){
     return m;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1054,7 +1101,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1145,7 +1192,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1195,7 +1242,7 @@ Result: 60
 The stack operations for this expression evaluation is shown below:<br />
 <img src = "https://media.geeksforgeeks.org/wp-content/uploads/s1-9.png"><br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1278,7 +1325,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1312,7 +1359,7 @@ static void insert_at_bottom(char x){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1475,7 +1522,7 @@ Output:<br />
 Time Complexity: This approach takes the worst time complexity of O(n^2), 
 Auxiliary Space: O(n) since using call stack
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1563,7 +1610,7 @@ void SortedStack :: sort()
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1752,7 +1799,7 @@ The Merged Intervals are: [1, 9]
 Time Complexity: O(n*log(n))
 Auxiliary Space Complexity: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1865,7 +1912,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1967,7 +2014,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2089,7 +2136,7 @@ No
 Time complexity : O(n) 
 Auxiliary Space : O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2221,7 +2268,7 @@ int QueueStack ::pop(){
     return -1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2481,7 +2528,7 @@ Size of Queue is 1
 Time Complexity: O(n)
 Auxiliary Space: O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2681,7 +2728,7 @@ Yes
 Time Complexity –  O(N)
 Space Complexity – O(N)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2807,7 +2854,7 @@ int StackQueue :: pop(){
     return k;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3017,7 +3064,7 @@ This method requires some extra space. Space may not be an issue because queue i
 typically large, for example, queues of employees, students, etc where every item is of hundreds of bytes. 
 For such large queues, the extra space used is comparatively very less as we use three integer arrays as extra space.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3203,7 +3250,7 @@ Time Complexity: Time complexity of enQueue(), deQueue() operation is O(1) as th
  2. `Traffic system:` In computer controlled traffic system, circular queues are used to switch on the traffic lights one by one repeatedly as per the time set.<br />
  3. `CPU Scheduling:` Operating systems often maintain a queue of processes that are ready to execute or that are waiting for a particular event to occur.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3211,7 +3258,7 @@ Time Complexity: Time complexity of enQueue(), deQueue() operation is O(1) as th
 
 <br /><br /><br />
 ## Problem 26:
-**[LRU Cache Implementationa](https://practice.geeksforgeeks.org/problems/lru-cache/1)**<br />
+**[LRU Cache Implementation](https://practice.geeksforgeeks.org/problems/lru-cache/1)**<br />
 Design a data structure that works like a `LRU Cache`. Here cap denotes the capacity of the `cache` and `Q` denotes the number of queries. Query can be of two types:<br />
 
  1. `SET x y :` sets the value of the key `x` with value `y`<br />
@@ -3413,7 +3460,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3504,7 +3551,7 @@ queue<int> rev(queue<int> q)
     return a;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3607,7 +3654,7 @@ queue<int> modifyQueue(queue<int> q, int k) {
     return qq;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3805,7 +3852,7 @@ Output<br />
 Time complexity: O(n)  
 Auxiliary Space: O(n).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3892,7 +3939,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4011,7 +4058,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4140,7 +4187,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4252,7 +4299,7 @@ vector<long long> printFirstNegativeInteger(long long int arr[], long long int n
     return ans;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4544,7 +4591,7 @@ Yes
 <pre>
 Time complexity: O(N), where N is maximum number of nodes in either of the trees.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4698,7 +4745,7 @@ Output<br />
 Time Complexity: O(n)
 Auxiliary Space: O(k)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4767,7 +4814,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4848,7 +4895,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5345,3 +5392,4 @@ As we use only single for loop and all the elements in the stack are push and po
 Auxiliary Space: O(N)
 As extra space is used for storing the elements of the stack.
 </pre>
+* [To top](#Table-of-Content)
