@@ -1,3 +1,28 @@
+# Table of Content 
+* [Binary Search Tree | (Search and Insertion)](#Problem-1)
+* [450. Delete Node in a BST](#Problem-2)
+* [Minimum element in BST](#Problem-3)
+* [Find inorder successor and inorder predecessor in a BST](#Problem-4)
+* [Check if a tree is a BST or not](#Problem-5)
+* [Populate Inorder Successor for all nodes](#Problem-6)
+* [Find LCA (Lowest Common Ancestor) of 2 nodes in a BST](#Problem-7)
+* [Construct BST from given preorder traversal](#Problem-8)
+* [Convert Binary tree into BST](#Problem-9)
+* [Convert a normal BST to Balanced BST](#Problem-10)
+* [Merge two BST [ V.V.V>IMP ]](#Problem-11)
+* [Kth largest element in BST](#Problem-12)
+* [k-th smallest element in BST](#Problem-13)
+* [Count pairs from 2 BST whose sum is equal to given value "X"](#Problem-14)
+* [Find median of BST in O(n) time and O(1) space](#Problem-15)
+* [Count BST nodes that lie in a given range](#Problem-16)
+* [Replace every element with the least greater element on its right](#Problem-17)
+* [Given n appointments, find all conflicting appointments](#Problem-18)
+* [Preorder to BST / Check preorder is valid or not](#Problem-19)
+* [Check whether BST contains Dead End](#Problem-20)
+* [Largest BST in a Binary Tree [ V.V.V.V.V IMP ]](#Problem-21)
+* [Flatten BST to sorted list | Increasing order](#Problem-22)
+
+
 # Love Babbar Sheet 450 - Binary Search Trees
 ## Problem 1:
 **[Binary Search Tree | (Search and Insertion)](https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/)**<br />
@@ -271,7 +296,7 @@ Output<br />
  2. We can construct a `BST` with only `Preorder` or `Postorder` or `Level Order traversal`. Note that we can always get `inorder traversal` by sorting the only given traversal.<br />
  3. Number of `unique BSTs` with `n` distinct keys is `Catalan Number`<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -351,7 +376,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -469,7 +494,7 @@ int minValue(Node* root) {
     return (current->data);
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -632,7 +657,7 @@ void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -797,7 +822,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -952,7 +977,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1089,7 +1114,7 @@ Node* LCA(Node *root, int n1, int n2)
     return root;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1412,7 +1437,7 @@ Output<br />
 40
 50
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1572,7 +1597,7 @@ int main(){
     return 1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1748,7 +1773,7 @@ Output<br />
 Preorder traversal of balanced BST is : 
 7 5 6 8 10 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1984,7 +2009,7 @@ We can use a `Doubly Linked List` to merge trees in place. Following are the ste
 
 Time complexity of this method is also `O(m+n)` and this method does conversion in place.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2124,7 +2149,7 @@ int main(){
     return 1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2273,7 +2298,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2456,7 +2481,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2715,7 +2740,7 @@ Output<br />
 <pre>
 Median of BST is 50
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2858,7 +2883,7 @@ int main(){
     return 1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3133,7 +3158,7 @@ Output<br />
 8 58 71 18 31 32 63 92 43 3 91 93 25 80 28 
 18 63 80 25 32 43 80 93 80 25 93 -1 28 -1 -1 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3298,7 +3323,7 @@ Note that the above implementation uses a simple Binary Search Tree insert opera
 Therefore, the time complexity of the above implementation is more than O(nLogn). 
 We can use Red-Black Tree or AVL Tree balancing techniques to make the above implementation O(nLogn).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3484,7 +3509,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3663,7 +3688,7 @@ bool isDeadEnd(Node *root)
     return false ;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3822,7 +3847,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3960,3 +3985,4 @@ Output:<br />
 Time Complexity: O(N)
 Auxiliary Space: O(H)
 </pre>
+* [To top](#Table-of-Content)
