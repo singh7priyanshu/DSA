@@ -1,3 +1,42 @@
+# Table of Content 
+* [Level order traversal](#Problem-1)
+* [Reverse Level Order Traversal](#Problem-2)
+* [Height of Binary Tree](#Problem-3)
+* [Diameter of a Binary Tree](#Problem-4)
+* [Create a mirror tree from the given binary tree](#Problem-5)
+* [Inorder Tree Traversal – Iterative and Recursive](#Problem-6)
+* [Preorder Traversal of a tree both using recursion and Iteration](#Problem-7)
+* [Postorder Tree Traversal – Iterative and Recursive](#Problem-8)
+* [Left View of Binary Tree](#Problem-9)
+* [Right View of Binary Tree](#Problem-10)
+* [Top View of Binary Tree](#Problem-11)
+* [Bottom View of Binary Tree](#Problem-12)
+* [Zig-Zag traversal of a binary tree](#Problem-13)
+* [Check if a tree is balanced or not](#Problem-14)
+* [Diagonal Traversal of Binary Tree](#Problem-15)
+* [Boundary Traversal of binary tree](#Problem-16)
+* [Construct Binary Tree from String with bracket representation](#Problem-17)
+* [Convert Binary tree into Doubly Linked List](#Problem-18)
+* [Convert Binary tree into Sum tree](#Problem-19)
+* [Construct Binary tree from Inorder and preorder traversal](#Problem-20)
+* [Minimum swap required to convert binary tree to binary search tree](#Problem-21)
+* [Check if Binary tree is Sum tree or not](#Problem-22)
+* [Check if all leaf nodes are at same level or not](#Problem-23)
+* [Check if a Binary Tree contains duplicate subtrees of size 2 or more [ IMP ]](#Problem-24)
+* [Check if 2 trees are mirror or not](#Problem-25)
+* [Sum of the Longest Bloodline of a Tree (Sum of nodes on the longest path from root to leaf node)](#Problem-26)
+* [Check if given graph is tree or not.  [ IMP ]](#Problem-27)
+* [Find largest subtree sum in a tree](#Problem-28)
+* [Maximum sum of nodes in Binary tree such that no two are adjacent](#Problem-29)
+* [Print all k-sum paths in a binary tree](#Problem-30)
+* [Lowest Common Ancestor in a Binary Tree](#Problem-31)
+* [Min distance between two given nodes of a Binary Tree](#Problem-32)
+* [Kth Ancestor of node in a Binary tree](#Problem-33)
+* [Find all Duplicate subtrees in a Binary tree [ IMP ]](#Problem-34)
+* [Check if Tree is Isomorphic](#Problem-35)
+
+
+
 # Love Babbar Sheet 450 - Binary Trees
 ## Problem 1:
 **[Level order traversal](https://practice.geeksforgeeks.org/problems/level-order-traversal/1)**<br />
@@ -187,7 +226,7 @@ int main()
   return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -373,7 +412,7 @@ vector<int> reverseLevelOrder(Node *root)
    return ans;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -532,7 +571,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -700,7 +739,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -907,7 +946,7 @@ Output<br />
 Inorder of original tree: 2 3 4 5 6 
 Inorder of Mirror tree: 6 5 4 3 2 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1092,7 +1131,7 @@ The time complexity of the above solutions is O(n), where n is the total number 
 The space complexity of the program is O(n) as the space required is proportional to the height of the tree, 
 which can be equal to the total number of nodes in the tree in worst-case for skewed trees.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1370,7 +1409,7 @@ The time complexity of the above solutions is O(n), where n is the total number 
 The space complexity of the program is O(n) as the space required is proportional to the tree’s height, 
 which can be equal to the total number of nodes in the tree in the worst case for skewed trees.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1573,7 +1612,7 @@ The time complexity of the above solutions is O(n), where n is the total number 
 The space complexity of the program is O(n) as the space required is proportional to the height of the tree, 
 which can be equal to the total number of nodes in the tree in worst-case for skewed trees.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1761,7 +1800,7 @@ vector<int> leftView(struct Node *root)
     return vec;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1965,7 +2004,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2176,7 +2215,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2425,7 +2464,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2640,7 +2679,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2843,7 +2882,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3169,7 +3208,7 @@ Output<br />
 Time Complexity: O(N), because we are visiting nodes once.
 Auxiliary Space: O(N), because we are using a queue.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3422,7 +3461,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3663,6 +3702,10 @@ Output<br />
 <pre>
 4 2 3 1 6 5 
 </pre>
+* [To top](#Table-of-Content)
+
+
+
 
 
 
@@ -3883,7 +3926,7 @@ int main()
   return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4082,7 +4125,7 @@ int main()
     return 1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4205,7 +4248,7 @@ int main()
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4313,7 +4356,7 @@ Output<br />
 <pre>
 3
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4521,7 +4564,7 @@ int main()
     return 1;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4722,7 +4765,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4921,7 +4964,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5064,7 +5107,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5270,7 +5313,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6022,7 +6065,7 @@ Graph is not Tree
 Time Complexity: O(V + E) For performing the DFS traversal
 Auxiliary Space: O(V) For storing the visited array
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6155,7 +6198,7 @@ Complexity Analysis:
 Time Complexity: O(n), where n is number of nodes.
 Auxiliary Space: O(n), function call stack size.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6597,7 +6640,7 @@ Output<br />
 Time Complexity: O(N)
 Space Complexity: O(N)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6737,7 +6780,7 @@ Output<br />
 Time Complexity: O(n*h*h)  , as maximum size of path vector can be h 
 Space Complexity: O(h)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6940,7 +6983,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -7130,7 +7173,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -7233,7 +7276,7 @@ Kth ancestor is: 1
 <pre>
 Time Complexity: O(n), where n is the number of nodes in the binary tree.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -7396,7 +7439,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -7573,7 +7616,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
