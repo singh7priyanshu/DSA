@@ -1,3 +1,41 @@
+# Table of Content 
+* [Activity Selection Problem/N meetings in one room](#Problem-1)
+* [Job Sequencing Problem](#Problem-2)
+* [Huffman Coding](#Problem-3)
+* [Water Connection Problem](#Problem-4)
+* [Fractional Knapsack Problem](#Problem-5)
+* [Greedy Algorithm to find Minimum number of Coins](#Problem-6)
+* [Maximum trains for which stoppage can be provided](#Problem-7)
+* [Minimum Platforms Problem](#Problem-8)
+* [Buy Maximum Stocks if i stocks can be bought on i-th day](#Problem-9)
+* [Find the minimum and maximum amount to buy all N candies](#Problem-10)
+* [Minimize Cash Flow among a given set of friends who have borrowed money from each other](#Problem-11)
+* [Minimum Cost to cut a board into squares](#Problem-12)
+* [Check if it is possible to survive on Island](#Problem-13)
+* [Find maximum meetings in one room](#Problem-14)
+* [Maximum product subset of an array](#Problem-15)
+* [Maximize array sum after K negations](#Problem-16)
+* [Maximize the sum of arr[i]*i](#Problem-17)
+* [Maximum sum of absolute difference of any permutation](#Problem-18)
+* [Maximize sum of consecutive differences in a circular array](#Problem-19)
+* [Minimum sum of absolute difference of pairs of two arrays](#Problem-20)
+* [Program for Shortest Job First (or SJF) CPU Scheduling](#Problem-21)
+* [Program for Least Recently Used (LRU) Page Replacement algorithm](#Problem-22)
+* [Smallest subset with sum greater than all other elements](#Problem-23)
+* [Chocolate Distribution Problem](#Problem-24)
+* [DEFKIN - Defense of a Kingdom](#Problem-25)
+* [DIEHARD - DIE HARD dynamic-programming](#Problem-26)
+* [GERGOVIA - Wine trading in Gergovia greedy](#Problem-27)
+* [Picking Up Chicks](#Problem-28)
+* [CHOCOLA –Chocolate](#Problem-29)
+* [ARRANGE -Arranging Amplifiers sorting](#Problem-30)
+* [K Centers Problem](#Problem-31)
+* [Minimum Cost of ropes](#Problem-32)
+* [Find smallest number with given number of digits and sum of digits](#Problem-33)
+* [Rearrange characters in a string such that no two adjacent are same](#Problem-34)
+* [Find maximum equal sum of every three stacks](#Problem-35)
+
+
 # Love Babbar Sheet 450 - Greedy
 ## Problem 1:
 **[Activity Selection Problem/N meetings in one room](https://practice.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1)**<br />
@@ -81,7 +119,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -189,7 +227,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -291,7 +329,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -397,7 +435,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -494,7 +532,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -583,7 +621,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -686,7 +724,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -767,7 +805,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -849,7 +887,7 @@ Output:<br />
 <pre>
 Time Complexity :O(nlogn).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -935,7 +973,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1074,7 +1112,7 @@ Algorithmic Paradigm: Greedy
 <pre>
 Time Complexity: O(N^2) where N is the number of persons.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1179,7 +1217,7 @@ Output:<br />
 <pre>
 42
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1319,7 +1357,7 @@ Yes 2
 Time Complexity: O(1) 
 Space Complexity: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1421,7 +1459,7 @@ Output:<br />
 Time Complexity: O(N log(N)) 
 Auxiliary Space: O(N) for creating a vector of pairs that is approximately equal to O(n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1531,7 +1569,7 @@ Output<br />
 Time Complexity: O(n) 
 Auxiliary Space: O(1) 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1607,7 +1645,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1673,7 +1711,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1832,7 +1870,7 @@ Output<br />
 <pre>
 18
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1905,7 +1943,7 @@ Output<br />
 Time Complexity: O(nlogn). 
 Auxiliary Space : O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1988,7 +2026,7 @@ Output<br />
 Time Complexity: O(n * logn)
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2879,7 +2917,7 @@ Auxiliary Space: O(1)
  * Like shortest job first, it has the potential for process starvation.<br /> 
  * Long processes may be held off indefinitely if short processes are continually added.<br /> 
 
-	
+* [To top](#Table-of-Content)	
 
 
 
@@ -2970,7 +3008,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3041,7 +3079,7 @@ Output:<br />
 <pre>
 Time Complexity : O(n Log n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3125,7 +3163,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3211,7 +3249,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3288,7 +3326,7 @@ int main()
 
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3355,7 +3393,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3431,7 +3469,7 @@ int main() {
   return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3512,7 +3550,7 @@ int main() {
     return 0;
 } 
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3575,7 +3613,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3706,7 +3744,7 @@ Output<br />
 Time Complexity: O(n*k), as we are using nested loops to traverse n*k times.
 Auxiliary Space: O(k), as we are using extra space for the array center.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3795,7 +3833,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3875,7 +3913,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3987,7 +4025,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4084,3 +4122,4 @@ Output<br />
 <pre>
 Time Complexity : O(n1 + n2 + n3) where n1, n2 and n3 are sizes of three stacks.
 </pre>
+* [To top](#Table-of-Content)
