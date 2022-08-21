@@ -1,3 +1,42 @@
+# Table of Content 
+* [Write a Program to reverse the Linked List. (Both Iterative and recursive)](#Problem-1)
+* [Reverse a Linked List in group of Given Size. [Very Imp]](#Problem-2)
+* [Write a program to Detect loop in a linked list](#Problem-3)
+* [Write a program to Delete loop in a linked list](#Problem-4)
+* [Find the starting point of the loop](#Problem-5)
+* [Remove duplicate element from sorted Linked List](#Problem-6)
+* [Remove duplicates from an unsorted linked list](#Problem-7)
+* [Move last element to front of a given Linked List](#Problem-8)
+* [Add 1 to a number represented as linked list](#Problem-9)
+* [Add two numbers represented by linked lists](#Problem-10)
+* [Intersection of two sorted Linked lists](#Problem-11)
+* [Intersection Point of two Linked Lists / Intersection Point in Y Shapped Linked Lists](#Problem-12)
+* [Merge Sort For Linked lists [Very Important]](#Problem-13)
+* [Quicksort for Linked Lists [Very Important]](#Problem-14)
+* [876. Middle of the Linked List](#Problem-15)
+* [Check If Circular Linked List](#Problem-16)
+* [Split a Circular Linked List into two halves](#Problem-17)
+* [Check if Linked List is Palindrome](#Problem-18)
+* [Deletion from a Circular Linked List](#Problem-19)
+* [Reverse a Doubly Linked List](#Problem-20)
+* [Find pairs with given sum in doubly linked list](#Problem-21)
+* [Count triplets in a sorted doubly linked list whose sum is equal to a given value x](#Problem-22)
+* [Sort a “k”sorted Doubly Linked list.[Very IMP]](#Problem-23)
+* [Rotate Doubly linked list by N nodes](#Problem-24)
+* [Rotate a Doubly Linked list in group of Given Size.[Very IMP]](#Problem-25)
+* [Can we reverse a linked list in less than O(n)?](#Problem-26)
+* [Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?](#Problem-27)
+* [Flattening a Linked List](#Problem-28)
+* [Given a linked list of 0s, 1s and 2s, sort it](#Problem-29)
+* [Clone a linked list with next and random pointer](#Problem-30)
+* [Merge K sorted linked lists](#Problem-31)
+* [Multiply two linked lists](#Problem-32)
+* [Delete nodes having greater value on right](#Problem-33)
+* [Segregate even and odd nodes in a Link List](#Problem-34)
+* [Nth node from end of linked list](#Problem-35)
+* [First non-repeating character in a stream](#Problem-36)
+
+
 # Love Babbar Sheet 450 - LinkedList
 ## Problem 1:
 **[Write a Program to reverse the Linked List. (Both Iterative and recursive)](https://www.geeksforgeeks.org/reverse-a-linked-list/)**<br />
@@ -504,8 +543,12 @@ int main()
 >Input :  1->2->3->4->5<br />
 >Output: 5->4->3->2->1<br />
     
->Time complexity: O(n)<br />
->Space complexity: O(n)<br />
+<pre>
+Time complexity: O(n)
+Space complexity: O(n)
+</pre>
+* [To top](#Table-of-Content)
+	
 	
 	
 	
@@ -619,7 +662,7 @@ int main(void){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 	
 	
@@ -627,7 +670,7 @@ int main(void){
 	
 <br /> <br /> <br />
 ## Problem 3:
-**[Write a program to Detect loop in a linked list.](https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1)**<br />
+**[Write a program to Detect loop in a linked list](https://practice.geeksforgeeks.org/problems/detect-loop-in-linked-list/1)**<br />
 Given a linked list of `N` nodes. The task is to check if the linked list has a loop. Linked list can contain self loop.<br />
 	
 >Example 1:<br />
@@ -732,14 +775,14 @@ int main(){
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 	
 	
 	
 	
 <br /> <br /> <br />
 ## Problem 4:
-**[Write a program to Delete loop in a linked list.](https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1)**<br />
+**[Write a program to Delete loop in a linked list](https://practice.geeksforgeeks.org/problems/remove-loop-in-linked-list/1)**<br />
 Given a linked list of `N` nodes such that it may contain a loop.<br />
 * A loop here means that the last node of the link list is connected to the node at position `X`. If the link list does not have any loop, X=0.<br />
 Remove the loop from the linked list, if it is present.  <br />
@@ -938,7 +981,7 @@ int main()
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 	
 	
 
@@ -1209,7 +1252,7 @@ ListNode* detectCycle(ListNode* A)
 	return NULL;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 	
 	
@@ -1321,7 +1364,7 @@ Node* removeDuplicates(Node *head)
     return head;   
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -1458,7 +1501,7 @@ int main() {
     return 0;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -1597,7 +1640,7 @@ As we need to traverse the list once.
 Auxiliary Space: O(1)
 As constant extra space is used.
 </pre>
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -1732,7 +1775,7 @@ int main()
     return 0; 
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -1910,7 +1953,7 @@ int main()
     return 0;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2057,7 +2100,7 @@ Node* findIntersection(Node* head1, Node* head2)
     return head;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2220,7 +2263,7 @@ int intersectPoint(Node* head1, Node* head2)
     return -1;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2393,7 +2436,7 @@ int main() {
     return 0;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2615,7 +2658,7 @@ void quickSort(struct node **headRef)
     return;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2671,7 +2714,7 @@ public:
     }
 };
 ```  
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2775,7 +2818,7 @@ bool isCircular(struct Node *head)
     return true;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -2935,7 +2978,7 @@ void splitList(Node *head, Node **head1_ref, Node **head2_ref)
     slow_ptr->next = head; 
 } 
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -3101,7 +3144,7 @@ int main()
     return 0;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -3287,7 +3330,7 @@ Worst case occurs when the element to be deleted is the last element and we need
 Auxiliary Space: O(1)
 As constant extra space is used.
 </pre>
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -3452,7 +3495,7 @@ int main() {
     return 0;
 }
 ```
-	
+* [To top](#Table-of-Content)	
 	
 	
 	
@@ -3602,7 +3645,7 @@ If linked list is not sorted, then we can sort the list as a first step.
 But in that case overall time complexity would become O(n Log n). 
 We can use Hashing in such cases if extra space is not a constraint.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3940,7 +3983,7 @@ Count = 2
 Time Complexity: O(n^2) 
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4256,7 +4299,7 @@ Doubly linked list after sorting:
 Time Complexity: O(n*log k)
 Auxiliary Space: O(k)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4527,7 +4570,7 @@ c-->d-->e-->a-->b-->NULL
 Time Complexity: O(N)
 Space Complexity: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4897,7 +4940,7 @@ Modified list: 8 10 2 4
 Time Complexity: O(n) , where n is the number of nodes in the original list
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4915,7 +4958,7 @@ Auxiliary Space: O(1)
 <br />It is `not possible` to reverse a `simple singly linked list` in less than `O(n)`. A simple `singly linked list can only be reversed in O(n) time using recursive and iterative methods`.<br />
 A `doubly linked list` with head and tail pointers while only requiring swapping the head and tail pointers which require lesser operations than a singly linked list can also not be done in `less than O(n)` since we need to traverse till the end of the list anyway to find the tail node.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4963,7 +5006,7 @@ A `doubly linked list` with head and tail pointers while only requiring swapping
     Therefore, the overhead increases for quick sort. Merge sort accesses data sequentially and 
     the need of random access is low.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5163,7 +5206,7 @@ Node* flatten (Node* root)
     return merge( root, flatten(root->next) );
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5330,7 +5373,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5596,7 +5639,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5774,7 +5817,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5969,7 +6012,7 @@ long long  multiplyTwoLists (Node* first, Node* second)
     return (num1%mod*num2%mod)%mod;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6132,7 +6175,7 @@ int main()
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6260,7 +6303,7 @@ int main() {
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6384,6 +6427,9 @@ int getNthFromLast(Node *head, int n)
         
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 
 
@@ -6467,3 +6513,4 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
