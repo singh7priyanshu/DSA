@@ -1,3 +1,26 @@
+# Table of Content 
+* [Rat in a maze Problem](#Problem-1)
+* [Printing all solutions in N-Queen Problem](#Problem-2)
+* [Word Break Problem using Backtracking](#Problem-3)
+* [301. Remove Invalid Parentheses](#Problem-4)
+* [Sudoku Solver](#Problem-5)
+* [M Coloring Problem](#Problem-6)
+* [Print all palindromic partitions of a string](#Problem-7)
+* [Subset Sum Problem / Partition Equal Subset Sum](#Problem-8)
+* [The Knight’s tour problem](#Problem-9)
+* [Tug of War](#Problem-10)
+* [Find shortest safe route in a path with landmines](#Problem-11)
+* [Combinational Sum](#Problem-12)
+* [Find Maximum number possible by doing at-most K swaps](#Problem-13)
+* [Print all permutations of a string](#Problem-14)
+* [Find if there is a path of more than k length from a source](#Problem-15)
+* [Longest Possible Route in a Matrix with Hurdles](#Problem-16)
+* [Print all possible paths from top left to bottom right of a mXn matrix](#Problem-17)
+* [Partition of a set intoK subsets with equal sum](#Problem-18)
+* [Find the K-th Permutation Sequence of first N natural numbers](#Problem-19)
+
+
+
 # Love Babbar Sheet 450 - Backtracking
 ## Problem 1:
 **[Rat in a maze Problem](https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1)**<br />
@@ -113,7 +136,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -429,7 +452,7 @@ Output<br />
 <pre>
 [2 4 1 3 ][3 1 4 2 ]
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -538,7 +561,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -616,7 +639,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -787,7 +810,7 @@ Expected Auxiliary Space: O(N*N).
                 return 0;
         }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -890,7 +913,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1038,7 +1061,7 @@ g ee k s
 Time complexity: O(n*2^n)
 Auxiliary Space: O(n^2)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1125,7 +1148,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1303,7 +1326,7 @@ Auxiliary Space: O(N^2)
 **Important Note:**<br />
 No order of the `xMove`, `yMove` is wrong, but they will affect the running time of the algorithm drastically. For example, think of the case where the `8th` choice of the move is the correct one, and before that our code ran `7` different wrong paths. It’s always a good idea a have a `heuristic` than to try backtracking randomly. Like, in this case, we know the next step would probably be in the south or east direction, then checking the paths which lead their first is a better strategy.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1416,7 +1439,7 @@ The second subset is: 23 0 -99 4 189 4
 <pre>
 Time Complexity: O(2^n)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1777,7 +1800,7 @@ Output<br />
 <pre>
 Length of shortest safe route is 13
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1894,7 +1917,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1992,7 +2015,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2062,7 +2085,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2244,7 +2267,7 @@ As n times 2n(n-1)(n-2)(n-3)….1 is greater than the given expression so we can
 time complexity is: n*2*n!  Here in the question the first node is defined so time complexity becomes  
 F(n-1) = 2(n-1)*(n-1)! = 2*n*(n-1)! – 2*1*(n-1)! = 2*n!-2*(n-1)! = O(n!)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2402,7 +2425,7 @@ Time Complexity: 4^(R*C) : Here R and C are the numbers of rows and columns resp
 	For every index we have four options, so our overall time complexity will become 4^(R*C).
 Auxiliary Space: O(R*C)  : The extra space is used in storing the elements of the visited matrix.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2503,7 +2526,7 @@ Output<br />
 1 2 5 6 
 1 2 3 6 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2582,7 +2605,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2726,3 +2749,4 @@ Output:<br />
 <pre>
 231
 </pre>
+* [To top](#Table-of-Content)
