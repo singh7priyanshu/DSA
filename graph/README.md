@@ -1,3 +1,49 @@
+# Table of Content 
+* [Create a Graph, print it](#Problem-1)
+* [Implement BFS algorithm](#Problem-2)
+* [Depth First Search or DFS for a Graph](#Problem-3)
+* [Detect Cycle in Directed Graph using BFS/DFS Algo](#Problem-4)
+* [Detect Cycle in UnDirected Graph using BFS/DFS Algo](#Problem-5)
+* [Rat in a maze Problem](#Problem-6)
+* [Minimum Step by Knight](#Problem-7)
+* [733. Flood Fill](#Problem-8)
+* [133. Clone Graph](#Problem-9)
+* [1319. Number of Operations to Make Network Connected](#Problem-10)
+* [127. Word Ladder](#Problem-11)
+* [Dijkstra’s shortest path algorithm | Greedy Algo](#Problem-12)
+* [Implement Topological Sort](#Problem-13)
+* [Minimum time taken by each job to be completed given by a Directed Acyclic Graph](#Problem-14)
+* [Find whether it is possible to finish all tasks or not from given dependencies](#Problem-15)
+* [Find the number of islands](#Problem-16)
+* [Given a sorted Dictionary of an Alien Language, find order of characters](#Problem-17)
+* [Kruskal’s Minimum Spanning Tree Algorithm | Greedy Algo](#Problem-18)
+* [Prim’s Minimum Spanning Tree (MST) | Greedy Algo](#Problem-19)
+* [Total number of Spanning Trees in a Graph](#Problem-20)
+* [Implement Bellman Ford Algorithm / Negative weight cycle](#Problem-21)
+* [Implement Floyd warshallAlgorithm](#Problem-22)
+* [Travelling Salesman Problem | (Naive and Dynamic Programming)](#Problem-23)
+* [Graph Coloring](#Problem-24)
+* [909. Snakes and Ladders](#Problem-25)
+* [Bridges in a graph](#Problem-26)
+* [Strongly Connected Components (Kosaraju's Algo)](#Problem-27)
+* [Check whether a given graph is Bipartite or not](#Problem-28)
+* [Detect a negative cycle in a Graph | (Bellman Ford)](#Problem-29)
+* [Longest Path in a Directed Acyclic Graph](#Problem-30)
+* [Journey to the Moon](#Problem-31)
+* [787. Cheapest Flights Within K Stops](#Problem-32)
+* [Oliver and the Game](#Problem-33)
+* [Water Jug problem using BFS](#Problem-34)
+* [Find if there is a path of more than k length from a source](#Problem-35)
+* [M-Coloring Problem](#Problem-36)
+* [Minimum edges to reverse to make path from a source to a destination](#Problem-37)
+* [Paths to travel each nodes using each edge (Seven Bridges of Königsberg)](#Problem-38)
+* [Vertex Cover Problem | (Introduction and Approximate Algorithm)](#Problem-39)
+* [Chinese Postman or Route Inspection](#Problem-40)
+* [Number of Triangles in Directed and Undirected Graphs](#Problem-41)
+* [Minimize Cash Flow among a given set of friends who have borrowed money from each other](#Problem-42)
+* [Two Clique Problem (Check if Graph can be divided in two Cliques)](#Problem-43)
+
+
 # Love Babbar Sheet 450 - Graph
 ## Problem 1:
 **[Create a Graph, print it](https://onedrive.live.com/?authkey=%21AJrTq%5FU8BPKIWDk&id=842AECBB531CCEA4%211179&cid=842AECBB531CCEA4&parId=root&parQt=sharedby&parCid=5B675CE2DCD5977F&o=OneUp)**<br />
@@ -187,7 +233,7 @@ int main()
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -294,7 +340,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -495,7 +541,7 @@ Complexity Analysis:
 Time complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
 Space Complexity: O(V), since an extra visited array of size V is required.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -654,7 +700,7 @@ Time Complexity of this method is same as time complexity of DFS traversal which
 Space Complexity: O(V). 
 To store the visited and recursion stack O(V) space is needed.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -754,7 +800,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -880,7 +926,7 @@ int main(){
     return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1003,7 +1049,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1054,7 +1100,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1138,7 +1184,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1210,7 +1256,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1322,7 +1368,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1425,7 +1471,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1584,7 +1630,7 @@ Space Complexity: O(V)
 4) Time Complexity of the implementation is `O(V^2)`. If the input graph is represented using adjacency list, it can be reduced to `O(E log V)` with the help of a `binary heap`.<br />
 5) `Dijkstra’s algorithm` doesn’t work for graphs with `negative weight cycles`. It may give `correct results for a graph with negative edges` but you must allow a vertex can be **visited multiple times** and that version will lose its `fast time complexity`. For graphs with `negative weight edges and cycles`, `Bellman–Ford algorithm` can be used.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1711,7 +1757,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1883,7 +1929,7 @@ Output:<br />
 Time Complexity: O(V+E), where V is the number of nodes and E is the number of edges. 
 Auxiliary Space: O(V)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2052,7 +2098,7 @@ Output<br />
 <pre>
 Possible to finish all tasks
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2159,7 +2205,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2306,7 +2352,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2510,7 +2556,7 @@ The find and union operations can take at most O(LogV) time.
 So overall complexity is O(ELogE + ELogV) time. The value of E can be at most O(V2), so O(LogV) is O(LogE) the same. 
 Therefore, the overall time complexity is O(ElogE) or O(ElogV)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2670,7 +2716,7 @@ can be reduced to O(E log V) with the help of a binary heap.
 In this implementation, we are always considering the spanning tree to start from the root of the graph, 
 and this is the basic difference between Kruskal’s Minimum Spanning Tree and Prim’s Minimum Spanning tree.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2698,7 +2744,7 @@ After applying STEP 2 and STEP 3, adjacency matrix will look like<br />
 The co-factor for `(1, 1)` is `8`. Hence total no. of spanning tree that can be formed is `8`.<br />
 **NOTE:** Co-factor for all the elements will be same. Hence we can compute co-factor for any element of the matrix. This method is also known as `Kirchhoff’s Theorem`. It can be applied to complete graphs also.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2782,7 +2828,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2867,7 +2913,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2981,7 +3027,7 @@ There are at most O(n*2n) subproblems, and each one takes linear time to solve.
 The total running time is therefore O(n2*2n). The time complexity is much less than O(n!) but still exponential. 
 The space required is also exponential. So this approach is also infeasible even for a slightly higher number of vertices
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3006,7 +3052,7 @@ The graph coloring problem has huge number of applications.<br />
 5) `Bipartite Graphs:` We can check if a graph is Bipartite or not by coloring the graph using two colors. If a given graph is 2-colorable, then it is Bipartite, otherwise not.<br />
 6) `Map Coloring`: Geographical maps of countries or states where no two adjacent cities cannot be assigned same color. Four colors are sufficient to color any map according to four colour theorem.<br />
 	
-	
+* [To top](#Table-of-Content)
 
 
 
@@ -3086,7 +3132,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3270,7 +3316,7 @@ Time Complexity: The above function is simple DFS with additional arrays.
 So time complexity is same as DFS which is O(V+E) for adjacency list representation of graph.
 Auxiliary Space: O(B^M) where B is the maximum branching factor of the search tree and M is the maximum depth of the state space.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3411,7 +3457,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3791,7 +3837,7 @@ Yes
 Time Complexity: O(V+E)
 Auxiliary Space: O(V)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4152,7 +4198,7 @@ Output<br />
 <pre>
 No
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4352,7 +4398,7 @@ After finding topological order, the algorithm process all vertices and for ever
 Total adjacent vertices in a graph is O(E). So the inner loop runs O(V+E) times. 
 Therefore, overall time complexity of this algorithm is O(V+E).
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4432,7 +4478,7 @@ long long bfs(long long nod, node *nodelist) {
   return count;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4508,7 +4554,7 @@ class Solution{
         }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4596,7 +4642,7 @@ int main()
 	return 0;
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4797,7 +4843,7 @@ Path of states of jugs followed is :
 Time Complexity: O(n*m).
 Space Complexity: O(n*m). Where n and m are the quantity of jug1 and jug2, respectively. 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -4983,7 +5029,7 @@ This expands to: 2n + 2n*(n-1) + 2n*(n-1)*(n-2) + ……. + 2n(n-1)(n-2)(n-3)…
 As n times 2n(n-1)(n-2)(n-3)….1 is greater than the given expression so we can safely say time complexity is: n*2*n!  
 Here in the question the first node is defined so time complexity becomes  F(n-1) = 2(n-1)*(n-1)! = 2*n*(n-1)! – 2*1*(n-1)! = 2*n!-2*(n-1)! = O(n!)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -5092,7 +5138,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5418,7 +5464,7 @@ Output:<br />
 Time Complexity: O(V+E)
 Space Complexity: O(V+2*E)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5655,7 +5701,7 @@ Output:<br />
 2-0  0-1  1-2  2-3  
 1-0  0-2  2-3  3-1  1-0  0-2
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5792,7 +5838,7 @@ Although the problem is `NP complete`, it can be solved in polynomial time for t
 
 The problem to check whether there is a vertex cover of size smaller than or equal to a given number `k` can also be solved in polynomial time if `k` is bounded by `O(LogV)`<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5868,7 +5914,7 @@ Chinese Postman Route :
 a - b - d - f - d - b - f - e - c - a - c - e - a 
 This route is Euler Circuit of the modified graph. 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -5983,7 +6029,7 @@ The Number of triangles in directed graph : 2
 
  * The time complexity is O(n^3) and can’t be reduced any further.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6121,7 +6167,7 @@ Algorithmic Paradigm: Greedy
 <pre>
 Time Complexity: O(N^2) where N is the number of persons.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -6264,4 +6310,4 @@ Yes
 <pre>
 Time complexity of above implementation is O(V^2). 
 </pre>
-
+* [To top](#Table-of-Content)
