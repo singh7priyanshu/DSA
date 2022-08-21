@@ -1,3 +1,24 @@
+# Table of Content 
+* [Implement a Maxheap/MinHeap using arrays and recursion](#Problem-1)
+* [Sort an Array using heap. (HeapSort)](#Problem-2)
+* [Sliding Window Maximum (Maximum of all subarrays of size k)](#Problem-3)
+* [“k” largest element in an array](#Problem-4)
+* [K’th Smallest/Largest Element in Unsorted Array](#Problem-5)
+* [Merge k Sorted Arrays](#Problem-6)
+* [Merge two binary Max heaps](#Problem-7)
+* [K-th Largest Sum Contiguous Subarray](#Problem-8)
+* [767. Reorganize String](#Problem-9)
+* [Merge K sorted linked lists](#Problem-10)
+* [Smallest range in K lists](#Problem-11)
+* [Find median in a stream](#Problem-12)
+* [Is Binary Tree Heap](#Problem-13)
+* [Minimum Cost of ropes / Connect “n” ropes with minimum cost](#Problem-14)
+* [Convert BST to Min Heap](#Problem-15)
+* [Convert min Heap to max Heap](#Problem-16)
+* [Rearrange characters in a string such that no two adjacent are same](#Problem-17)
+* [Minimum sum of two numbers formed from digits of an array](#Problem-18)
+
+
 # Love Babbar Sheet 450 - Heap
 ## Problem 1:
 **[Implement a Maxheap/MinHeap using arrays and recursion.](https://www.geeksforgeeks.org/building-heap-from-array/)**<br />
@@ -222,7 +243,7 @@ Array representation of Heap is:
 Time Complexity: O(N)
 Auxiliary Space: O(N)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -517,7 +538,7 @@ Heap sort is similar to selection sort, but with a better way to get the maximum
 element. It takes advantage of the heap data structure to get the maximum element in <br />
 constant time.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1215,7 +1236,7 @@ In the above-mentioned methods, one of them was using `AVL tree`. This approach 
      * Perform heapify.<br />
      * Print the root of the Heap.<br />
 
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1292,7 +1313,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -1884,7 +1905,7 @@ K'th smallest element is 3
 Time complexity: O((mx-mn)(log(mx-mn))), where mn be minimum and mx be maximum.
 Auxiliary Space: O(1)
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2079,7 +2100,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 <br /><br /><br />
 ## Problem 7:
@@ -2185,7 +2206,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2299,7 +2320,7 @@ Output<br />
 Time complexity: O(n² log (k)) 
 Auxiliary Space : O(k) for min-heap and we can store the sum array in the array itself as it is of no use.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2363,7 +2384,7 @@ public:
     }
 };
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2514,7 +2535,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2675,7 +2696,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -2828,7 +2849,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 <br /><br /><br />
@@ -2963,7 +2984,7 @@ int main(){
     }
 }
 ```
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3050,6 +3071,9 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 <br /><br /><br />
 ## Problem 15:
@@ -3206,7 +3230,7 @@ Preorder Traversal:
 Time Complexity: O(n) 
 Auxiliary Space: O(n) 
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3308,7 +3332,7 @@ Max Heap array : 20 18 10 12 9 9 3 5 6 8
 The complexity of above solution might looks like O(nLogn) but it is O(n). 
 Space Complexity: O(n) for call stack since using recursion.
 </pre>
-
+* [To top](#Table-of-Content)
 
 
 
@@ -3419,6 +3443,9 @@ int main(){
     return 0;
 }
 ```
+* [To top](#Table-of-Content)
+
+
 
 <br /><br /><br />
 ## Problem 18:
@@ -3531,3 +3558,4 @@ int main(){
     }
 }
 ```
+* [To top](#Table-of-Content)
