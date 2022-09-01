@@ -1419,7 +1419,7 @@ public:
 
 <br /> <br /> <br />**[871. Minimum Number of Refueling Stops](https://leetcode.com/problems/minimum-number-of-refueling-stops/)**<br />
 A car travels from a starting position to a destination which is `target` miles east of the starting position.<br />
-There are gas stations along the way. The gas stations are represented as an array `stations` where `stations[i] = [position<sub>i</sub>, fuel<sub>i</sub>]` indicates that the `i<sup>th</sup>` gas station is `position<sub>i</sub>` miles east of the starting position and has `fuel<sub>i</sub>` liters of gas.<br />
+There are gas stations along the way. The gas stations are represented as an array `stations` where `stations[i] = [positioni, fueli]` indicates that the `ith` gas station is `positioni` miles east of the starting position and has `fueli` liters of gas.<br />
 The car starts with an infinite tank of gas, which initially has `startFuel` liters of fuel in it. It uses one liter of gas per one mile that it drives. When the car reaches a gas station, it may stop and refuel, transferring all the gas from the station into the car.<br />
 Return _the minimum number of refueling stops the car must make in order to reach its destination. If it cannot reach the destination_, return `-1`.<br />
 **Note**<br />
@@ -1444,9 +1444,9 @@ Then, we drive from position 10 to position 60 (expending 50 liters of fuel),<br
 and refuel from 10 liters to 50 liters of gas.  We then drive to and reach the target.<br />
 We made 2 refueling stops along the way, so we return 2. <br />
 
-* Constraints: `1 <= target, startFuel <= 10<sup>9</sup>`<br />
+* Constraints: `1 <= target, startFuel <= 10^9`<br />
 `0 <= stations.length <= 500`<br />
-`1 <= position<sub>i</sub> < position<sub>i+1</sub> < target`<br />
+`1 <= positioni < positioni+1 < target`<br />
 `1 <= fueli < 10^9`<br />
 
 ```cpp
