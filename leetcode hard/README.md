@@ -1417,5 +1417,85 @@ public:
 
 
 
+<br /> <br /> <br />**[871. Minimum Number of Refueling Stops](https://leetcode.com/problems/minimum-number-of-refueling-stops/)**<br />
+A car travels from a starting position to a destination which is `target` miles east of the starting position.<br />
+There are gas stations along the way. The gas stations are represented as an array `stations` where `stations[i] = [position<sub>i</sub>, fuel<sub>i</sub>]` indicates that the `i<sup>th</sup>` gas station is `position<sub>i</sub>` miles east of the starting position and has `fuel<sub>i</sub>` liters of gas.<br />
+The car starts with an infinite tank of gas, which initially has `startFuel` liters of fuel in it. It uses one liter of gas per one mile that it drives. When the car reaches a gas station, it may stop and refuel, transferring all the gas from the station into the car.<br />
+Return _the minimum number of refueling stops the car must make in order to reach its destination. If it cannot reach the destination_, return `-1`.<br />
+**Note**<br />
+that if the car reaches a gas station with `0` fuel left, the car can still refuel there. If the car reaches the destination with `0` fuel left, it is still considered to have arrived.<br />
+
+>Example 1:<br />
+Input: target = 1, startFuel = 1, stations = []<br />
+Output: 0<br />
+Explanation: We can reach the target without refueling.<br />
+
+>Example 2:<br />
+Input: target = 100, startFuel = 1, stations = [[10,100]]<br />
+Output: -1<br />
+Explanation: We can not reach the target (or even the first gas station).<br />
+
+>Example 3:<br />
+Input: target = 100, startFuel = 10, stations = [[10,60],[20,30],[30,30],[60,40]]<br />
+Output: 2<br />
+Explanation: We start with 10 liters of fuel.<br />
+We drive to position 10, expending 10 liters of fuel.  We refuel from 0 liters to 60 liters of gas.<br />
+Then, we drive from position 10 to position 60 (expending 50 liters of fuel),<br />
+and refuel from 10 liters to 50 liters of gas.  We then drive to and reach the target.<br />
+We made 2 refueling stops along the way, so we return 2. <br />
+
+* Constraints: `1 <= target, startFuel <= 10<sup>9</sup>`<br />
+`0 <= stations.length <= 500`<br />
+`1 <= position<sub>i</sub> < position<sub>i+1</sub> < target`<br />
+`1 <= fueli < 10^9`<br />
+
+```cpp
+class Solution {
+public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+        int n = stations.size();
+        
+        priority_queue<int> pq; //max heap
+        /*
+			if we can't reach target, I will first use the largestfuel Station
+			(which can take me farthest) and move ahead and keep doing this.
+        */
+        int curr = startFuel; //my current position
+        int i = 0; //station index
+        int result = 0;
+        while(curr < target) { //until I reach my target
+            while(i < n && curr >= stations[i][0]) {
+                /*
+					  Sice, I am already ahead of or at this station
+					  (i.e. curr >= stations[i][0])  we don't use this
+					  station and try to move ahead but I store this
+					  station in maxheap to use in future
+				*/
+                pq.push(stations[i][1]);
+				//Keep the station at top which can take me farthest (maximum gas)
+                i++;
+            }
+            
+            if(pq.empty()) //we can't move further now
+                return -1;
+            
+            int dist = pq.top();
+            pq.pop();
+            
+            curr += dist;
+            result++;
+        }
+        
+        return result;
+        
+    }
+};
+//O(nlog(n)) using max-heap
+```
+
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
 
