@@ -1581,4 +1581,42 @@ public:
 		
 		
 		
+<br /> <br /> <br />**[383. Ransom Note](https://leetcode.com/problems/ransom-note/)**<br />
+Given two strings `ransomNote` and `magazine`, return _`true` if `ransomNote` can be constructed by using the letters from `magazine` and `false` otherwise_.<br />
+Each letter in `magazine` can only be used once in `ransomNote`.<br />
+	
+Example 1:
+<pre>
+Input: ransomNote = "a", magazine = "b"
+Output: false
+</pre>
+Example 2:
+<pre>
+Input: ransomNote = "aa", magazine = "ab"
+Output: false
+</pre>
+Example 3:
+<pre>
+Input: ransomNote = "aa", magazine = "aab"
+Output: true
+</pre>
+
+* Constraints: `1 <= ransomNote.length, magazine.length <= 10^5`<br />
+`ransomNote` and `magazine` consist of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, int> m;
+        for(char c : magazine)m[c]++;
+        for(char c : ransomNote) {
+            if(m[c] == 0) return false;
+            m[c]--;
+        }
+        return true;
+    }
+};
+```
+	
 <br /> <br /> <br />**[]()**<br />
