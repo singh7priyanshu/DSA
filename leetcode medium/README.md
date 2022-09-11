@@ -5073,4 +5073,66 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[967. Numbers With Same Consecutive Differences](https://leetcode.com/problems/numbers-with-same-consecutive-differences/)**<br />
+Return all **non-negative** integers of length `n` such that the absolute difference between every two consecutive digits is `k`.<br />
+Note that **every** number in the answer **must not** have leading zeros. For example, `01` has one leading zero and is invalid.<br />
+You may return the answer in **any order**.<br />
+	
+Example 1:
+<pre>
+Input: n = 3, k = 7
+Output: [181,292,707,818,929]
+Explanation: Note that 070 is not a valid number, because it has leading zeroes.
+</pre>
+Example 2:
+<pre>
+Input: n = 2, k = 1
+Output: [10,12,21,23,32,34,43,45,54,56,65,67,76,78,87,89,98]
+</pre>
+
+* Constraints: `2 <= n <= 9`<br />
+`0 <= k <= 9`<br />
+	
+```cpp
+class Solution {
+public:
+	//To find digits in the current number
+    int digits(int x) {
+        int count = 0;
+        while(x){
+			count++;
+            x = x/10;
+        }
+        return count;
+    }
+    void findNumbers(int cur_digit , int n ,int k, vector<int> &result){
+		//Base case
+        if(digits(cur_digit ) == n) {
+            result.push_back(cur_digit);
+            return;
+        }
+        for(int i=0;i<10;i++) {
+           int last_digit = cur_digit  % 10;
+           if(abs(last_digit - i) == k) 
+           {
+               findNumbers((cur_digit *10 + i), n, k, result); 
+           } 
+        }
+    }
+    vector<int> numsSameConsecDiff(int N, int K) {
+        vector<int> result; 
+        for(int i=1;i<10;i++) {
+            findNumbers(i, N, K, result);    
+        }
+        return result; 
+    }
+};
+//Time Complexity : O(N*2^N)
+//Space Complexity : O(2^N), 
+```
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
