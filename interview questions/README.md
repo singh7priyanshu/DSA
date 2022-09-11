@@ -5849,4 +5849,86 @@ public:
 
 	
 	
+<br /> <br /> <br />**[273. Integer to English Words](https://leetcode.com/problems/integer-to-english-words/)**<br />
+Convert a non-negative integer `num` to its English words representation.<br />
+	
+Example 1:
+<pre>
+Input: num = 123
+Output: "One Hundred Twenty Three"
+</pre>
+Example 2:
+<pre>
+Input: num = 12345
+Output: "Twelve Thousand Three Hundred Forty Five"
+</pre>
+Example 3:
+<pre>
+Input: num = 1234567
+Output: "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
+</pre>
+
+* Constraints: `0 <= num <= 2^31 - 1`<br />
+	
+```cpp
+class Solution {
+public:
+    
+    // 0 to 19
+    string ones[20] = {"","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
+    "Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"};
+    
+    // tens only
+    string tens[10] = {"","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
+    
+    /* Thousand - 1000
+       Million  - 1000 000
+       Billion  - 1000 000 000 
+    */
+    
+    string helper(int num) 
+    {
+        if(num >=1000000000) 
+        {
+            return helper(num/1000000000) + " Billion" + helper(num%1000000000);
+        } 
+        else if(num >=1000000) 
+        {
+            return helper(num/1000000) + " Million" + helper(num%1000000);
+        } 
+        else if(num>=1000) 
+        {
+            return helper(num/1000) + " Thousand" + helper(num%1000);
+        } 
+        else if(num >=100) 
+        {
+            return helper(num/100) + " Hundred" + helper(num%100);
+        } 
+        else if(num >= 20) 
+        {
+            return " " + tens[num/10] + helper(num%10);
+        } 
+        else // 0 to 19...
+            return (ones[num]!="") ?  " " + ones[num] : "";
+        return "";
+    }
+    
+    string numberToWords(int num) 
+    {
+        if(num == 0) return "Zero";
+        
+        string ans = helper(num);
+        return ans.substr(1); // pass start index
+    }  
+};
+```
+
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
