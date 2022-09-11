@@ -5794,4 +5794,59 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[606. Construct String from Binary Tree](https://leetcode.com/problems/construct-string-from-binary-tree/)**<br />
+Given the `root` of a binary tree, construct a string consisting of parenthesis and integers from a binary tree with the preorder traversal way, and return it.<br />
+Omit all the empty parenthesis pairs that do not affect the one-to-one mapping relationship between the string and the original binary tree.<br />
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/05/03/cons1-tree.jpg">
+Input: root = [1,2,3,4]
+Output: "1(2(4))(3)"
+Explanation: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the unnecessary empty parenthesis pairs. 
+And it will be "1(2(4))(3)"
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/05/03/cons2-tree.jpg">
+Input: root = [1,2,3,null,4]
+Output: "1(2()(4))(3)"
+Explanation: Almost the same as the first example, except we cannot omit the first parenthesis pair to break the 
+one-to-one mapping relationship between the input and the output.
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[1, 10^4]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    string tree2str(TreeNode* root) {
+		string ans = to_string(root->val);
+		if (root->left) //left side check
+			ans += "(" + tree2str(root->left) + ")";
+		if (root->right) { //right side check
+			if (!root->left) ans += "()"; //left side not present, but right side present
+			ans += "(" + tree2str(root->right) + ")"; 
+		}
+		return ans;
+	}
+};
+//Time Complexity: O(N), where N is the number of nodes in the Binary Tree.
+//Space Complexity: O(H), where H is the height of the Binary Tree (Recursion stack space)
+```
+
+	
+	
 <br /> <br /> <br />**[]()**<br />
