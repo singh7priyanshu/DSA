@@ -4872,4 +4872,47 @@ since, that num can't be a part of any subseq.
  
  
  
-  <br /> <br /> <br />**[]()**<br />
+<br /> <br /> <br />**[869. Reordered Power of 2](https://leetcode.com/problems/reordered-power-of-2/)**<br />
+You are given an integer `n`. We reorder the digits in any order (including the original order) such that the leading digit is not zero.<br />
+Return `true` _if and only if we can do this so that the resulting number is a power of two_.<br />
+
+Example 1:
+<pre>
+Input: n = 1
+Output: true
+</pre>
+Example 2:
+<pre>
+Input: n = 10
+Output: false
+</pre>
+ 
+* Constraints: `1 <= n <= 10^9`<br />
+ 
+```cpp
+class Solution{
+    public:
+    bool reorderedPowerOf2(int n) {
+        string s = to_string(n);
+        sort(s.begin(),s.end());
+		
+        vector<string> power;
+        for(int i=0;i<=30;i++){
+            int p = pow(2,i);
+            power.push_back(to_string(p));
+        }
+        
+        for(int i=0;i<=30;i++){
+            sort(power[i].begin(),power[i].end());
+        }
+        
+        for(int i=0;i<=30;i++){
+            if(power[i] == s ) return true;
+        }
+        return false;
+    }
+};
+```
+ 
+ 
+<br /> <br /> <br />**[]()**<br />
