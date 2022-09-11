@@ -5735,4 +5735,63 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[814. Binary Tree Pruning](https://leetcode.com/problems/binary-tree-pruning/)**<br />
+Given the `root` of a binary tree, return the same tree where every subtree (of the given tree) not containing a `1` has been removed.<br />
+A subtree of a node `node` is `node` plus every node that is a descendant of `node`.<br />
+	
+Example 1:
+<pre>
+<img src = "https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_2.png">
+Input: root = [1,null,0,0,1]
+Output: [1,null,0,null,1]
+Explanation: 
+Only the red nodes satisfy the property "every subtree not containing a 1".
+The diagram on the right represents the answer.
+</pre>
+Example 2:
+<pre>
+<img src = "https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_1.png">
+Input: root = [1,0,1,0,0,0,1]
+Output: [1,null,1,null,1]
+</pre>
+Example 3:
+<pre>
+<img src = "https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/05/1028.png">
+Input: root = [1,1,0,1,1,0,1,0]
+Output: [1,1,0,1,1,null,1]
+</pre>
+	
+* Constraints: The number of nodes in the tree is in the range `[1, 200]`.<br />
+`Node.val` is either `0` or `1`.<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if(root!=NULL){
+            root->left = pruneTree(root->left);
+            root->right = pruneTree(root->right);
+            if(!root->left && !root->right && root->val==0)
+                return NULL;
+        }
+        return root;
+    }
+};
+//Time Complexity: O(N), where N is the number of nodes in the Binary Tree.
+//Space Complexity: O(H), where H is the height of the Binary Tree (Recursion stack space)
+```
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
