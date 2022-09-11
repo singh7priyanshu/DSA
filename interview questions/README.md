@@ -5363,4 +5363,54 @@ public:
 
 
 
+<br /> <br /> <br />**[234. Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)**<br />
+Given the `head` of a singly linked list, return `true` _if it is a palindrome or `false` otherwise_.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg">
+Input: head = [1,2,2,1]
+Output: true
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg">
+Input: head = [1,2]
+Output: false
+</pre>
+	
+* Constraints: The number of nodes in the list is in the range `[1, 10^5]`.<br />
+`0 <= Node.val <= 9`<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* temp;
+    
+    bool check(ListNode* head) {
+        if (NULL == head) return true;
+        bool res = check(head->next) & (temp->val == head->val);
+        temp = temp->next;
+        return res;
+    }
+    
+    bool isPalindrome(ListNode* head) {
+        temp = head;
+        return check(head);
+    }
+};
+```
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
