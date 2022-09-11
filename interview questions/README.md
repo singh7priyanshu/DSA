@@ -5478,4 +5478,65 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[200. Number of Islands](https://leetcode.com/problems/number-of-islands/)**<br />
+Given an `m x n` 2D binary grid `grid` which represents a map of `'1'`s (land) and `'0'`s (water), return _the number of islands_.<br />
+An **island** is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.<br />
+	
+Example 1:
+<pre>
+Input: grid = [["1","1","1","1","0"],
+               ["1","1","0","1","0"],
+               ["1","1","0","0","0"],
+               ["0","0","0","0","0"]]
+Output: 1
+</pre>
+Example 2:
+<pre>
+Input: grid = [["1","1","0","0","0"],
+               ["1","1","0","0","0"],
+               ["0","0","1","0","0"],
+               ["0","0","0","1","1"]]
+Output: 3
+</pre>
+
+* Constraints: `m == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= m, n <= 300`<br />
+`grid[i][j]` is `'0'` or `'1'`.<br />
+	
+```cpp
+class Solution {
+public:
+    
+    void turn_to_dust(vector<vector<char>>& grid, int i, int j, int m, int n){
+        if (i<0 || j<0 || i==m || j==n || grid[i][j]=='0') return;
+        grid[i][j]='0';
+        turn_to_dust(grid,i+1,j,m,n);
+        turn_to_dust(grid,i,j+1,m,n);
+        turn_to_dust(grid,i-1,j,m,n);
+        turn_to_dust(grid,i,j-1,m,n);
+        return;
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int res=0;
+        for (int i=0; i<m; i++){
+            for (int j=0; j<n; j++){
+                if (grid[i][j]=='1'){
+                    res++;
+                    turn_to_dust(grid,i,j,m,n);
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
