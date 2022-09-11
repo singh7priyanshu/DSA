@@ -1491,4 +1491,94 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[342. Power of Four](https://leetcode.com/problems/power-of-four/)**<br />
+Given an integer `n`, return `true` if it is a _power of four_. Otherwise, return `false`.<br />
+An integer `n` is a power of four, if there exists an integer `x` such that `n == 4^x`.<br />
+	
+Example 1:
+<pre>
+Input: n = 16
+Output: true
+</pre>
+Example 2:
+<pre>
+Input: n = 5
+Output: false
+</pre>
+Example 3:
+<pre>
+Input: n = 1
+Output: true
+</pre>
+
+* Constraints: `-2^31 <= n <= 2^31 - 1`<br />
+	
+```cpp
+class Solution {
+    public:
+        bool isPowerOfFour(int n) { 
+       if(n<=0) return false;
+       if(n==1) return true;
+       if(n%4!=0){
+            return false;
+        }
+        return isPowerOfFour(n/4);
+    }
+};
+
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        return n>0 && (n&(n-1))==0 && (n&0x55555555);
+		// n>0, n should be positive
+		// n&(n-1) ensure it is power of 2
+		// 5 is "0101" so n&0x55555... ensure that set bit is at the even position.
+		// soo if n is power of 2 and set bit is at even position -> n is power of 4
+    }
+};
+```
+	
+	
+<br /> <br /> <br />**[326. Power of Three](https://leetcode.com/problems/power-of-three/)**<br />
+Given an integer `n`, return `true` _if it is a power of three. Otherwise, return_ `false`.<br />
+An integer `n` is a power of three, if there exists an integer `x` such that `n == 3^x`.<br />
+	
+Example 1:
+<pre>
+Input: n = 27
+Output: true
+Explanation: 27 = 33
+</pre>
+Example 2:
+<pre>
+Input: n = 0
+Output: false
+Explanation: There is no x where 3x = 0.
+</pre>
+Example 3:
+<pre>
+Input: n = -1
+Output: false
+Explanation: There is no x where 3x = (-1).
+</pre>
+
+* Constraints: `-2^31 <= n <= 2^31 - 1`<br />
+	
+```cpp
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if(n<=0) return false;
+       if(n==1) return true;
+       if(n%3!=0){
+            return false;
+        }
+        return isPowerOfThree(n/3);
+    }
+};
+```
+
+		
+		
+		
 <br /> <br /> <br />**[]()**<br />
