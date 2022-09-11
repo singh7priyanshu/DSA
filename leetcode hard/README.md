@@ -1652,5 +1652,127 @@ public:
 
 
 
+<br /> <br /> <br />**[987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)**<br />
+Given the `root` of a binary tree, calculate the **vertical order traversal** of the binary tree.<br />
+For each node at position `(row, col)`, its left and right children will be at positions `(row + 1, col - 1)` and `(row + 1, col + 1)` respectively. The root of the tree is at `(0, 0)`.<br />
+The **vertical order traversal** of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.<br />
+Return the **vertical order traversal** of the binary tree.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/01/29/vtree1.jpg">
+Input: root = [3,9,20,null,null,15,7]
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/01/29/vtree2.jpg">
+Input: root = [1,2,3,4,5,6,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+Column -2: Only node 4 is in this column.
+Column -1: Only node 2 is in this column.
+Column 0: Nodes 1, 5, and 6 are in this column.
+          1 is at the top, so it comes first.
+          5 and 6 are at the same position (2, 0), so we order them by their value, 5 before 6.
+Column 1: Only node 3 is in this column.
+Column 2: Only node 7 is in this column.
+</pre>
+Example 3:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/01/29/vtree3.jpg">
+Input: root = [1,2,3,4,6,5,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+This case is the exact same as example 2, but with nodes 5 and 6 swapped.
+Note that the solution remains the same since 5 and 6 are in the same location and should be ordered by their values.
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[1, 1000]`.<br />
+`0 <= Node.val <= 1000`<br />
+
+**Intuition:**<br />
+ * We firstly need to assign `vertical` and `level` to every node.<br />
+ * After we complete the assigning part then we need to figure out how can we store them in a suitable `Data Structure`.<br />
+ * The data structure should give us the nodes with `left-side vertical` first and in every vertical, top-level `node` should appear `first`.<br />
+
+**Visualization of how the vertical lines passing through the nodes will look like:**<br />
+<img src = "https://lh3.googleusercontent.com/CGWyay17cv42ML-r95VSl7rjxHCbfPG4ZbTEMtPWl-XMzdrx3g8ebGA2ppUsLXBb61Eg0bPAK2j7QKloCiVmtYvuOjdHUkggnEX5yalfqOSU09-sB6gJWPT9sS_mveAXwy066_py"><br />
+**Approach:**<br />
+ * We will perform a `tree traversal` and assign a `vertical` and `level` to every node.<br />
+ * Based on this vertical and node, we store the node in our `special` data structure that we are gonna create.<br />
+ * For easy understanding, let's break it into `three` steps:<br />
+
+**Step-1: Vertical and Level Assign to every node:**<br />
+ * We are going to use `level` order traversal, initially we will push the `root` in the queue and also two more variables one for `vertical` and the other for `level`, both intialized with `0`.<br />
+ * Whenever we push the `left child` we are going to decrease the vertical by one and increase level by 1 and in the case of right child we are going to increase both the vertical and level both by 1.<br />
+
+**Step-2: Storing Verticals and Levels to our Data Structure:**<br />
+ * We require a data structure that can store nodes according to their vertical value and give us the nodes of least values first.<br />
+ * Hence we will use a `map` as it satisfies both criterias.<br />
+ * Lastly for every level, we need a data-structure which can store node values in a `sorted` order.<br />
+ * Moreover, as `duplicate` values are allowed in our tree, our data structure needs to handle this well. This is acheived by using `multiset` in C++<br />
+   How the data structure will look like --> `map<int,map<int,multiset>> mp`;<br />
+   
+**Step-3: Finally just print the vertical order traversal from the data structure that we have built:**<br />
+ * Just iterate over our verticals by using the data structure that we created.<br />
+ * In every iteration, we take a `list`(to store all nodes of that vertical) and again iterate over the levels. We then push the nodes of the level (stored in the multiset/priority queue) and push it to our vertical list.<br />
+ * Once we iterate over all verticals we get our vertical order traversal.<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int,map<int,multiset<int>>> mp;
+        queue<pair<TreeNode*,pair<int,int>>> q;
+        q.push({root,{0,0}});
+        while(!q.empty()){
+            auto p = q.front();
+            q.pop();
+            TreeNode* node = p.first;
+            int x = p.second.first, y = p.second.second;
+            mp[x][y].insert(node->val);
+            if(node->left){
+                q.push({node->left,{x-1,y+1}});
+            }
+            if(node->right){
+                q.push({node->right,{x+1,y+1}});
+            }
+        }
+        vector<vector<int>> ans;
+        for(auto q:mp){
+            vector<int> col;
+            for(auto p:q.second){
+                col.insert(col.end(),p.second.begin(),p.second.end());
+            }
+            ans.push_back(col);
+        }
+        return ans;
+    }
+};
+
+//Time Complexity: O(NlogNlogN*logN)
+//Space Complexity: O(N)
+```
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
 
