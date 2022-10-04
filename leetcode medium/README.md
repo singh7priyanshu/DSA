@@ -5449,4 +5449,74 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[2007. Find Original Array From Doubled Array](https://leetcode.com/problems/find-original-array-from-doubled-array/)**<br />
+An integer array `original` is transformed into a **doubled** array `changed` by appending **twice the value** of every element in `original`, and then randomly **shuffling** the resulting array.<br />
+Given an array `changed`, return `original` if `changed` is a **doubled** array. If `changed` is not a **doubled** array, return an empty array. The elements in `original` may be returned in **any** order.<br />
+<pre>
+Example 1:
+Input: changed = [1,3,4,2,6,8]
+Output: [1,3,4]
+Explanation: One possible original array could be [1,3,4]:
+- Twice the value of 1 is 1 * 2 = 2.
+- Twice the value of 3 is 3 * 2 = 6.
+- Twice the value of 4 is 4 * 2 = 8.
+Other original arrays could be [4,3,1] or [3,1,4].
+</pre>
+<pre>
+Example 2:
+Input: changed = [6,3,0,1]
+Output: []
+Explanation: changed is not a doubled array.
+</pre>
+<pre>
+Example 3:
+Input: changed = [1]
+Output: []
+Explanation: changed is not a doubled array.
+</pre>
+
+* Constraints: `1 <= changed.length <= 10^5`<br />
+`0 <= changed[i] <= 10^5`<br />
+	
+`Intuition:`<br />
+Since we need to return an original array if `changed` is a `doubled` array. If changed is not a doubled array, return an `empty` array. The elements in `original` may be returned in any `order`, so we first sort the array.<br />
+Since we have **sorted** the array, so we will find the **twice** of a **number**, If we get it, well and good, check further, else return **{}**<br />
+	
+`Approach:`<br />
+
+* First we take a `map`, then we **sort** the given array `changed`.<br />
+* We keep removing the smallest element `n` and `2 * n` and keep putting n into the answer until changed array becomes empty.<br />
+* If at anytime the we are unable to remove elements we **return** `empty` array.<br />
+	
+```cpp
+class Solution {
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        int n = changed.size();
+        if (n % 2 == 1) return {};
+        sort(changed.begin(), changed.end());
+        vector<int> ans;
+        map<int, int> mp;
+        for (int i = 0; i < n; i++) {
+            mp[changed[i]]++;
+        }
+        for (int i = 0; i < n; i++) {
+          if (mp[changed[i]] == 0) continue;
+          if (mp[changed[i] * 2] == 0) return {};
+          ans.push_back(changed[i]);
+          mp[changed[i]]--;
+          mp[changed[i] * 2]--;
+        }
+        return ans;
+    }
+};
+//Time Complexity: O(NLogN)
+//Space Complexity: O(N)
+```
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
