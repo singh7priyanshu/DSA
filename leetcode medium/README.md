@@ -6041,4 +6041,354 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[658. Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements/)**<br />
+Given a **sorted** integer array `arr`, two integers `k` and `x`, return the `k` closest integers to `x` in the array. The result should also be sorted in ascending order.<br />
+An integer `a` is closer to `x` than an integer `b` if:<br />
+
+* `|a - x| < |b - x|`, or<br />
+* `|a - x| == |b - x|` and `a < b`<br />
+	
+<pre>
+Example 1:
+Input: arr = [1,2,3,4,5], k = 4, x = 3
+Output: [1,2,3,4]
+</pre>
+<pre>
+Example 2:
+Input: arr = [1,2,3,4,5], k = 4, x = -1
+Output: [1,2,3,4]
+</pre>
+* Constraints: `1 <= k <= arr.length`<br />
+`1 <= arr.length <= 10^4`<br />
+`arr` is sorted in **ascending** order.<br />
+`-10^4 <= arr[i], x <= 10^4`<br />
+
+```cpp
+class Solution
+{
+public:
+    vector<int> findClosestElements(vector<int> &arr, int k, int x)
+    {
+        priority_queue<pair<int, int>> pq;
+        for (auto i : arr)
+        {
+            pq.push(make_pair(abs(i - x), i));
+            if (pq.size() > k)
+                pq.pop();
+        }
+        vector<int> ans;
+        while (!pq.empty())
+        {
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+// TC O(N log K) || SC O(K) 
+```
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[91. Decode Ways](https://leetcode.com/problems/decode-ways/)**<br />
+A message containing letters from `A-Z` can be **encoded** into numbers using the following mapping:<br />	
+<pre>
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+</pre>
+To **decode** an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, `"11106"` can be mapped into:<br />
+	
+* `"AAJF"` with the grouping `(1 1 10 6)`<br />
+* `"KJF"` with the grouping `(11 10 6)`<br />
+
+Note that the grouping `(1 11 06)` is invalid because `"06"` cannot be mapped into `'F'` since `"6"` is different from `"06"`.<br />
+Given a string `s` containing only digits, return the **number** of ways to **decode** it.<br />
+The test cases are generated so that the answer fits in a **32-bit** integer.<br />
+	
+<pre>
+Example 1:
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+</pre>
+<pre>
+Example 2:
+Input: s = "226"
+Output: 3
+Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+</pre>
+<pre>
+Example 3:
+Input: s = "06"
+Output: 0
+Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+</pre>
+* Constraints: `1 <= s.length <= 100`<br />
+`s` contains only digits and may contain leading zero(s).<br />
+```cpp
+class Solution {
+public:
+	int numDecodings(string s) {
+		int n=s.size();
+		if(n==1){            // for length=1
+			if(s[0]>'0') return 1;
+			else return 0;
+		}
+		vector<int> dp(n);
+
+		for(int i=n-1;i>=0;--i){
+			if(s[i]>'0'){
+				dp[i]=(i+1<n)? dp[i+1]:1;
+				if(i+1<n && (s[i]=='1' || (s[i]<='2' && s[i+1]<='6'))){
+					 // if i=1 then i-1 can be from 0 to 9 OR i=2 then i-1 should be from 0 to 6
+					dp[i]+=(i+2<n)? dp[i+2]:1;
+				}
+			}
+		}
+		return dp[0];
+	}
+};
+```
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1155. Number of Dice Rolls With Target Sum](https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/)**<br />
+You have `n` dice and each die has `k` faces numbered from `1` to `k`.<br />
+Given three integers `n`, `k`, and `target`, return the number of possible ways (out of the `k^n` total ways) to roll the dice so the sum of the face-up numbers equals `target`. Since the answer may be too large, return it **modulo** `10^9 + 7`.<br />	
+<pre>
+Example 1:
+Input: n = 1, k = 6, target = 3
+Output: 1
+Explanation: You throw one die with 6 faces.
+There is only one way to get a sum of 3.
+</pre>
+<pre>
+Example 2:
+Input: n = 2, k = 6, target = 7
+Output: 6
+Explanation: You throw two dice, each with 6 faces.
+There are 6 ways to get a sum of 7: 1+6, 2+5, 3+4, 4+3, 5+2, 6+1.
+</pre>
+<pre>
+Example 3:
+Input: n = 30, k = 30, target = 500
+Output: 222616187
+Explanation: The answer must be returned modulo 10^9 + 7.
+</pre>
+
+* Constraints: `1 <= n, k <= 30`<br />
+`1 <= target <= 1000`<br />
+	
+```cpp
+class Solution {
+public:
+    int helper(int n, int faces, int target, vector<vector<long long>>& dp) {
+        int N = 1E9+7;
+        if(target<0) return 0;
+        if(n==0 && target!=0) return 0;
+        if(n!=0 && target==0) return 0;
+        if(n==0 && target==0) return 1;
+        
+        if(dp[n][target]!=-1) return dp[n][target];
+        
+        long long ans = 0;
+        for(int i=1; i<=faces; i++) {
+            ans = (ans%N + helper(n-1, faces, target-i, dp)%N)%N;
+        }
+        return dp[n][target] = ans;
+        
+    }
+    int numRollsToTarget(int n, int k, int target) {
+        vector<vector<long long>> dp(n+1, vector<long long>(target+1, -1));
+        return helper(n, k, target, dp);
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1578. Minimum Time to Make Rope Colorful](https://leetcode.com/problems/minimum-time-to-make-rope-colorful/)**<br />
+Alice has `n` balloons arranged on a rope. You are given a `0-indexed` string `colors` where `colors[i]` is the color of the `ith` balloon.<br />
+Alice wants the rope to be **colorful**. She does not want **two consecutive balloons** to be of the same color, so she asks Bob for help. Bob can remove some balloons from the rope to make it **colorful**. You are given a **0-indexed** integer array `neededTime` where `neededTime[i]` is the time (in seconds) that Bob needs to remove the `ith` balloon from the rope.<br />
+Return the **minimum time** Bob needs to make the rope **colorful**.<br />	
+<pre>
+Example 1:
+<img src = "https://assets.leetcode.com/uploads/2021/12/13/ballon1.jpg">
+Input: colors = "abaac", neededTime = [1,2,3,4,5]
+Output: 3
+Explanation: In the above image, 'a' is blue, 'b' is red, and 'c' is green.
+Bob can remove the blue balloon at index 2. This takes 3 seconds.
+There are no longer two consecutive balloons of the same color. Total time = 3.
+</pre>
+<pre>
+Example 2:
+<img src = "https://assets.leetcode.com/uploads/2021/12/13/balloon2.jpg">
+Input: colors = "abc", neededTime = [1,2,3]
+Output: 0
+Explanation: The rope is already colorful. Bob does not need to remove any balloons from the rope.
+</pre>
+<pre>
+Example 3:
+<img src = "https://assets.leetcode.com/uploads/2021/12/13/balloon3.jpg">
+Input: colors = "aabaa", neededTime = [1,2,3,4,1]
+Output: 2
+Explanation: Bob will remove the ballons at indices 0 and 4. Each ballon takes 1 second to remove.
+There are no longer two consecutive balloons of the same color. Total time = 1 + 1 = 2.
+</pre>
+* Constraints: `n == colors.length == neededTime.length`<br />
+`1 <= n <= 10^5`<br />
+`1 <= neededTime[i] <= 10^4`<br />
+`colors` contains only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+     int minCost(string colors, vector<int>& a) {
+        int sum = a[0], mx = a[0], n =a.size();  // initialize by considering first balloon
+        char ch = colors[0];            //for keeping track of previos balloon color
+        int ans = 0;                    // our final answer
+		
+        for(int i=1 ; i<n ;i++)         // start from the 2nd element
+        {
+            if(ch == colors[i])         // when previous balloon is same as current
+            {
+                sum += a[i];            // we need to add the time taken
+                mx = max(mx , a[i]);    // also check if this balloon has the max time from previous ones
+            }
+            else                        //when balloon color is diff from previous
+            {
+                ans += sum -mx;        // we will store the ans of previos sequence 
+                sum = a[i];            //Now update the sum, mx and ch according to the current sequence
+                mx = a[i];
+                ch = colors[i];
+            }
+        }
+        ans += sum - mx;                   // for the last sequence, update the ans
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[623. Add One Row to Tree](https://leetcode.com/problems/add-one-row-to-tree/)**<br />
+Given the `root` of a binary tree and two integers `val` and `depth`, add a row of nodes with value `val` at the given depth `depth`.<br />
+Note that the `root` node is at depth `1`.<br />
+The adding rule is:<br />
+
+* Given the integer `depth`, for each not null tree node `cur` at the depth `depth - 1`, create two tree nodes with value `val` as `cur's` left subtree root and right subtree root.<br />
+* `cur's` original left subtree should be the left subtree of the new left subtree root.<br />
+* `cur's` original right subtree should be the right subtree of the new right subtree root.<br />
+* If `depth == 1` that means there is no depth `depth - 1` at all, then create a tree node with value `val` as the new root of the whole original tree, and the original tree is the new root's left subtree.<br />
+	
+<pre>
+Example 1:
+<img src = "https://assets.leetcode.com/uploads/2021/03/15/addrow-tree.jpg">
+Input: root = [4,2,6,3,1,5], val = 1, depth = 2
+Output: [4,1,1,2,null,null,6,3,1,5]
+</pre>
+<pre>
+Example 2:
+<img src = "https://assets.leetcode.com/uploads/2021/03/11/add2-tree.jpg">
+Input: root = [4,2,null,3,1], val = 1, depth = 3
+Output: [4,2,null,1,1,3,null,null,1]
+</pre>
+* Constraints: The number of nodes in the tree is in the range `[1, 10^4]`.<br />
+The depth of the tree is in the range `[1, 10^4]`.<br />
+`-100 <= Node.val <= 100`<br />
+`-10^5 <= val <= 10^5`<br />
+`1 <= depth <= the depth of tree + 1`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+//Using DFS
+class Solution {
+private:
+	TreeNode* addhelp(TreeNode* root,int val,int depth,int curDepth=1){
+
+		if(root==NULL) return root;
+
+		if(depth==1){
+			TreeNode* newRoot=new TreeNode(val);
+			newRoot->left=root;
+			return newRoot;
+		}
+
+
+
+		if(depth==curDepth+1){
+			//adding value to left subtree
+			TreeNode* newRoot1=new TreeNode(val);
+			newRoot1->left=root->left;
+			root->left=newRoot1;
+
+			//adding value to right subtree
+			TreeNode* newRoot2=new TreeNode(val);
+			newRoot2->right=root->right;
+			root->right=newRoot2;
+
+			return root;
+		}
+
+
+
+		root->left= addhelp(root->left,val,depth,curDepth+1);
+		root->right=addhelp(root->right,val,depth,curDepth+1);
+
+		return root;
+
+	}
+public:
+	TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+		return addhelp(root,val,depth);
+	}
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
