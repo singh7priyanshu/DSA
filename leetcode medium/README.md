@@ -5519,4 +5519,67 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[609. Find Duplicate File in System](https://leetcode.com/problems/find-duplicate-file-in-system/)**<br />
+Given a list `paths` of directory info, including the directory path, and all the files with contents in this directory, return _all the duplicate files in the file system in terms of their paths_. You may return the answer in **any order**.<br />
+A group of duplicate files consists of at least two files that have the same content.<br />
+A single directory info string in the input list has the following format:<br />
+
+* `"root/d1/d2/.../dm f1.txt(f1_content) f2.txt(f2_content) ... fn.txt(fn_content)"`<br />
+	
+It means there are `n` files `(f1.txt, f2.txt ... fn.txt)` with content `(f1_content, f2_content ... fn_content)` respectively in the directory `"root/d1/d2/.../dm"`. Note that `n >= 1` and `m >= 0`. If `m = 0`, it means the directory is just the root directory.<br />
+The output is a list of groups of duplicate file paths. For each group, it contains all the file paths of the files that have the same content. A file path is a string that has the following format:<br />
+
+* `"directory_path/file_name.txt"`<br />
+	
+<pre>
+Example 1:
+Input: paths = ["root/a 1.txt(abcd) 2.txt(efgh)","root/c 3.txt(abcd)","root/c/d 4.txt(efgh)","root 4.txt(efgh)"]
+Output: [["root/a/2.txt","root/c/d/4.txt","root/4.txt"],["root/a/1.txt","root/c/3.txt"]]
+</pre>
+<pre>
+Example 2:
+Input: paths = ["root/a 1.txt(abcd) 2.txt(efgh)","root/c 3.txt(abcd)","root/c/d 4.txt(efgh)"]
+Output: [["root/a/2.txt","root/c/d/4.txt"],["root/a/1.txt","root/c/3.txt"]]
+</pre>
+
+* Constraints: `1 <= paths.length <= 2 * 10^4`<br />
+`1 <= paths[i].length <= 3000`<br />
+`1 <= sum(paths[i].length) <= 5 * 10^5`<br />
+`paths[i]` consist of English letters, digits, `'/'`, `'.'`, `'('`, `')'`, and `' '`.<br />
+You may assume no files or directories share the same name in the same directory.<br />
+You may assume each given directory info represents a unique directory. A single blank space separates the directory path and file info.<br />
+	
+```cpp
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        unordered_map<string, vector<string>> hash;
+        for (auto path : paths) {
+            stringstream ss(path);
+            string dir;
+            string file;
+            getline(ss, dir, ' ');
+            while (getline(ss, file, ' ')) {
+                string content = file.substr(file.find('(') + 1, file.find(')') - file.find('(') - 1);
+                string name = dir + '/' + file.substr(0, file.find('('));
+                hash[content].push_back(name);
+            }
+        }
+        vector<vector<string>> res;
+        for (auto it = hash.begin(); it != hash.end(); it++) {
+            if (it->second.size() > 1) {
+                res.push_back(it->second);
+            }
+        }
+        return res;
+    }
+};
+//Time Complexity: O(n*m), where n: number of paths, m: average length of file name
+//Space Complexity: O(n*m)
+```	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
