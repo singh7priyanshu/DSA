@@ -2077,4 +2077,83 @@ public:
 
 
 
+<br /> <br /> <br />**[218. The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)**<br />
+A city's `skyline` is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Given the locations and heights of all the buildings, return the `skyline` formed by these buildings collectively.<br />
+The geometric information of each building is given in the array `buildings` where `buildings[i] = [lefti, righti, heighti]`:<br />
+
+* `lefti` is the `x` coordinate of the left edge of the `ith` building.<br />
+* `righti` is the `x` coordinate of the right edge of the `ith` building.<br />
+* `heighti` is the height of the `ith` building.<br />
+
+You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height `0`.<br />
+The `skyline` should be represented as a list of "key points" `sorted by their x-coordinate` in the form `[[x1,y1],[x2,y2],...]`. Each key point is the left endpoint of some horizontal segment in the skyline except the last point in the list, which always has a y-coordinate `0` and is used to mark the skyline's termination where the rightmost building ends. Any ground between the leftmost and rightmost buildings should be part of the skyline's contour.<br /><br />
+`Note:` There must be no consecutive horizontal lines of equal height in the output skyline. For instance, `[...,[2 3],[4 5],[7 5],[11 5],[12 7],...]` is not acceptable; the three lines of height 5 should be merged into one in the final output as such: `[...,[2 3],[4 5],[12 7],...]`<br />
+<pre>
+Example 1:
+<img src = "https://assets.leetcode.com/uploads/2020/12/01/merged.jpg">
+Input: buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
+Output: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
+Explanation:
+Figure A shows the buildings of the input.
+Figure B shows the skyline formed by those buildings. The red points in figure B represent the key points in the output list.
+</pre>
+<pre>
+Example 2:
+Input: buildings = [[0,2,3],[2,5,3]]
+Output: [[0,3],[5,0]]
+</pre>
+* Constraints: `1 <= buildings.length <= 10^4`<br />
+`0 <= lefti < righti <= 2^31 - 1`<br />
+`1 <= heighti <= 2^31 - 1`<br />
+`buildings` is sorted by `lefti` in non-decreasing order.<br />
+
+```cpp
+class Solution {
+    public:
+        vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+            vector<vector<int>> res;
+            vector<pair<int, int>> intervals;
+            for (const auto& b : buildings) {
+                // When we sort we want interval starts to come first
+                intervals.push_back({b[0], -b[2]});
+                intervals.push_back({b[1], b[2]});
+            }
+            std::sort(intervals.begin(), intervals.end());
+            multiset<int> heights{0};
+            int highest = 0;
+            for (auto building : intervals) {
+                // Invariant: heights contains all of the heights of the buildings
+                // in the interval [ans.rbegin()->first, building.second) (every height since the building which starts at the last element of ans up until the current building)
+                int point = building.first, height = building.second;
+                if (height < 0) {
+                    // We are opening an interval here, so add this
+                    // building's height to the current heights
+                    // Might result in this building becoming the highest
+                    heights.insert(-height);
+                } else {
+                    // An interval just ended, so remove the height of the building
+                    // from the current heights.
+                    // Might result in another building becoming the highest
+                    heights.erase(heights.find(height));
+                }
+                int h = *heights.rbegin();
+                if (h != highest) {
+                    // Our biggest height changed
+                    // it means we just began a new highest interval or
+                    // ended one
+                    res.push_back({point, h});
+                    highest = h;
+                }
+            }
+            return res;
+        }
+};
+```
+
+
+
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
