@@ -5908,6 +5908,7 @@ Explanation: We could assign a = 1 and b = 1 to satisfy both equations.
 `equations[i][1]` is either `'='` or `'!'`.<br />
 `equations[i][2]` is `'='`.<br />
 `equations[i][3]` is a lowercase letter.<br /><br />
+
 `Approach`<br />
 
 * We will store variables in same component if they are equal.<br />
