@@ -5711,4 +5711,61 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1680. Concatenation of Consecutive Binary Numbers](https://leetcode.com/problems/concatenation-of-consecutive-binary-numbers/)**<br />
+Given an integer `n`, return the **decimal value** of the binary string formed by concatenating the binary representations of `1` to `n` in order, **modulo** `10^9 + 7`.<br />	
+<pre>
+Example 1:
+Input: n = 1
+Output: 1
+Explanation: "1" in binary corresponds to the decimal value 1. 
+</pre>
+<pre>
+Example 2:
+Input: n = 3
+Output: 27
+Explanation: In binary, 1, 2, and 3 corresponds to "1", "10", and "11".
+After concatenating them, we have "11011", which corresponds to the decimal value 27.
+</pre>
+<pre>
+Example 3:
+Input: n = 12
+Output: 505379714
+Explanation: The concatenation results in "1101110010111011110001001101010111100".
+The decimal value of that is 118505380540.
+After modulo 109 + 7, the result is 505379714.
+</pre>
+* Constraints: `1 <= n <= 10^5`<br />
+<img src = "https://assets.leetcode.com/users/images/6822f124-b599-40a1-96d6-5e6111ee2ca9_1663902113.3584025.png"><br />
+<img src = "https://assets.leetcode.com/users/images/c3eecab6-bc21-49e9-b535-fc455f96fe8e_1663903076.2444859.png"><br />
+```cpp
+class Solution {
+public:
+    
+    int numberOfBits(int n) {
+	return log2(n) + 1;
+    }
+    
+    int concatenatedBinary(int n) {
+        long ans = 0, MOD = 1e9 + 7;
+        
+        for (int i = 1; i <= n; ++i) {
+            int len = numberOfBits(i);
+            ans = ((ans << len) % MOD + i) % MOD;
+        }
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
