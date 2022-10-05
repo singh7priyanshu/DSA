@@ -5886,4 +5886,67 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[990. Satisfiability of Equality Equations](https://leetcode.com/problems/satisfiability-of-equality-equations/)**<br />
+You are given an array of strings `equations` that represent relationships between variables where each string `equations[i]` is of length `4` and takes one of two different forms: `"xi==yi"` or `"xi!=yi"`.Here, `xi` and `yi` are lowercase letters (not necessarily different) that represent one-letter variable names.<br />
+Return `true` if it is possible to assign integers to variable names so as to satisfy all the given equations, or `false` otherwise.<br />
+<pre>
+Example 1:
+Input: equations = ["a==b","b!=a"]
+Output: false
+Explanation: If we assign say, a = 1 and b = 1, then the first equation is satisfied, but not the second.
+There is no way to assign the variables to satisfy both equations.
+</pre>
+<pre>
+Example 2:
+Input: equations = ["b==a","a==b"]
+Output: true
+Explanation: We could assign a = 1 and b = 1 to satisfy both equations.
+</pre>
+* Constraints: `1 <= equations.length <= 500`<br />
+`equations[i].length == 4`<br />
+`equations[i][0]` is a lowercase letter.<br />
+`equations[i][1]` is either `'='` or `'!'`.<br />
+`equations[i][2]` is `'='`.<br />
+`equations[i][3]` is a lowercase letter.<br /><br />
+`Approach`<br />
+
+* We will store variables in same component if they are equal.<br />
+* Then we will check non-equality equtions, if both variables in any of those equation are in same component, we return false.<br />
+
+Let's take one example - `a==b`, `b==c`, `a!=d`, `d==e`, `e!=f`, `a!=c`.<br />	
+<img src = "https://assets.leetcode.com/users/images/b7bfe6cb-c152-447b-86ef-bc8496e8e284_1664161052.0357618.png"><br />
+`How Union Find works ?`<br />
+<img src = "https://assets.leetcode.com/users/images/5eac1ff3-9f37-4e55-91aa-c41dd80e3054_1664188250.5381737.png"><br />
+```cpp
+class Solution {
+    int uf[26];
+    int find(int x) {
+        return uf[x] == x ? x : (uf[x] = find(uf[x]));
+    }
+public:
+    bool equationsPossible(vector<string>& equations) {
+        for (int i = 0; i < 26; ++i) uf[i] = i;
+        for (auto e : equations) {
+            if (e[1] == '=') uf[find(e[0] - 'a')] = find(e[3] - 'a'); 
+        }
+        for (auto e : equations) {
+            if (e[1] == '!' && find(e[0] - 'a') == find(e[3] - 'a')) return false;
+        }
+        return true;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
