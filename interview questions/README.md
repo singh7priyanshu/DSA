@@ -4241,6 +4241,87 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[113. Path Sum II](https://leetcode.com/problems/path-sum-ii/)**<br />
+Given the `root` of a binary tree and an integer `targetSum`, return all **root-to-leaf** paths where the sum of the node values in the path equals `targetSum`. Each path should be returned as a list of the node **values**, not node references.<br />
+A **root-to-leaf** path is a path starting from the root and ending at any leaf node. A **leaf** is a node with no children.<br />
+<pre>
+Example 1:
+<img src = "https://assets.leetcode.com/uploads/2021/01/18/pathsumii1.jpg">
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: [[5,4,11,2],[5,8,4,5]]
+Explanation: There are two paths whose sum equals targetSum:
+5 + 4 + 11 + 2 = 22
+5 + 8 + 4 + 5 = 22
+</pre>
+<pre>
+Example 2:
+<img src = "https://assets.leetcode.com/uploads/2021/01/18/pathsum2.jpg">
+Input: root = [1,2,3], targetSum = 5
+Output: []
+</pre>
+<pre>
+Example 3:
+Input: root = [1,2], targetSum = 0
+Output: []
+</pre>
+* Constraints: The number of nodes in the tree is in the range `[0, 5000]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+`-1000 <= targetSum <= 1000`<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+
+public:
+    vector<vector<int>> ans;
+    vector<int> path;
+    
+    void dfs(TreeNode* root, int current, int target) {
+        if(!root) {
+            return;
+        }
+        
+        current += root->val;
+        path.push_back(root->val);
+        
+		// When we reach at leaf node, we have to check if current sum is equal to target
+        if(current == target && !root->left && !root->right) {
+            ans.push_back(path);
+        }    
+        
+        dfs(root->left, current, target);
+        dfs(root->right, current, target);
+        
+        path.pop_back();
+    }
+    
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        dfs(root, 0, targetSum);
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)**<br />
 You are climbing a staircase. It takes `n` steps to reach the top.<br />
 Each time you can either climb `1` or `2` steps. In how many distinct ways can you climb to the top?<br />
