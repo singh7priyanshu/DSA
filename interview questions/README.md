@@ -4267,7 +4267,7 @@ Output: []
 * Constraints: The number of nodes in the tree is in the range `[0, 5000]`.<br />
 `-1000 <= Node.val <= 1000`<br />
 `-1000 <= targetSum <= 1000`<br />
-	
+<br /><img src = "https://assets.leetcode.com/users/images/22476ea5-e00a-4b04-a5dd-9fa680854fd7_1663987851.0947344.png"><br />
 ```cpp
 /**
  * Definition for a binary tree node.
