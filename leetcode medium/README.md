@@ -5950,4 +5950,95 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[838. Push Dominoes](https://leetcode.com/problems/push-dominoes/)**<br />
+There are `n` dominoes in a line, and we place each domino vertically upright. In the beginning, we simultaneously push some of the dominoes either to the left or to the right.<br />
+After each second, each domino that is falling to the left pushes the adjacent domino on the left. Similarly, the dominoes falling to the right push their adjacent dominoes standing on the right.<br />
+When a vertical domino has dominoes falling on it from both sides, it stays still due to the balance of the forces.<br />
+For the purposes of this question, we will consider that a falling domino expends no additional force to a falling or already fallen domino.<br />
+You are given a string `dominoes` representing the initial state where:<br />
+
+* `dominoes[i] = 'L'`, if the `ith` domino has been pushed to the left,<br />
+* `dominoes[i] = 'R'`, if the `ith` domino has been pushed to the right, and<br />
+* `dominoes[i] = '.'`, if the `ith` domino has not been pushed.<br />
+	
+Return a string representing the final state.<br />	
+	
+<pre>
+Example 1:
+Input: dominoes = "RR.L"
+Output: "RR.L"
+Explanation: The first domino expends no additional force on the second domino.
+</pre>
+<pre>
+Example 2:
+<img src = "https://s3-lc-upload.s3.amazonaws.com/uploads/2018/05/18/domino.png">
+Input: dominoes = ".L.R...LR..L.."
+Output: "LL.RR.LLRRLL.."
+</pre>
+	
+* Constraints: `n == dominoes.length`<br />
+`1 <= n <= 10^5`<br />
+`dominoes[i]` is either `'L'`, `'R'`, or `'.'`.<br /><br />
+	
+`Approach`<br />
+	
+1. If we encounter `.` in string, we move forward to next index.<br />
+2. If we encounter `L` in string, we see if index of right is -1, we make all the left index `L` until we see any other `L`.<br />
+3. If we encounter `L` in string and there is some previous `R` index, then we simultaneously change string from left and right side till two pointers reach each other. After that `right` moves back to `-1`.<br />
+4. If we encounter `R` in string, we see if the index of `R` is not -1, we make all the indices upto that index `R`.<br />
+	
+`Diagram Explanation`<br />
+<img src = "https://assets.leetcode.com/users/images/ffb493fa-7b64-4859-8aa0-e2cf78d5a2bf_1664247243.6077156.png"><br />
+<img src = "https://assets.leetcode.com/users/images/11608e78-545d-435f-afb1-d824948f13d9_1664247249.2657273.png"><br />
+`Explanation of steps`<br />
+In `step 8`, we encountered `L`, so first thing we check if index of previous `right` is not `-1`. Here `right` is `3`, so we started making `R` from index 4 onwards and simultaneously started making `L` from index `7` in backward direction. We will stop if left and right pointer arrives at same point. After than, we send right to -1 until we find another `R` in string.<br />
+	
+```cpp
+class Solution {
+public:
+    string pushDominoes(string s) {
+        int N = s.size(), right = -1;
+        for (int i = 0; i < N; ++i) {
+            if (s[i] == 'L') {
+                if (right == -1) { 
+                    // Step 2
+                    for (int j = i - 1; j >= 0 && s[j] == '.'; --j) {
+                      s[j] = 'L';  
+                    } 
+                } else {
+                    // Step 8
+                    for (int j = right + 1, k = i - 1; j < k; ++j, --k) {
+                        s[j] = 'R';
+                        s[k] = 'L';
+                    } 
+                    right = -1;
+                }
+            } else if (s[i] == 'R') {
+                if (right != -1) {
+                    for (int j = right + 1; j < i; ++j) s[j] = 'R';
+                }
+                right = i;
+            }
+        }
+        if (right != -1) {
+            for (int j = right + 1; j < N; ++j) s[j] = 'R';
+        }
+        return s;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
