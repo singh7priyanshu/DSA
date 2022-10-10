@@ -6534,4 +6534,71 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1328. Break a Palindrome](https://leetcode.com/problems/break-a-palindrome/)**<br />
+Given a palindromic string of lowercase English letters `palindrome`, replace **exactly one** character with any lowercase English letter so that the resulting string is **not** a palindrome and that it is the **lexicographically smallest** one possible.<br />
+Return _the resulting string. If there is no way to replace a character to make it not a palindrome, return an **empty string**_.<br />
+A string `a` is lexicographically smaller than a string `b` (of the same length) if in the first position where `a` and `b` differ, `a` has a character strictly smaller than the corresponding character in `b`. For example, `"abcc"` is lexicographically smaller than "abcd" because the first position they differ is at the fourth character, and `'c'` is smaller than `'d'`.<br />	
+<pre>
+Example 1:
+Input: palindrome = "abccba"
+Output: "aaccba"
+Explanation: There are many ways to make "abccba" not a palindrome, such as "zbccba", "aaccba", and "abacba".
+Of all the ways, "aaccba" is the lexicographically smallest.
+</pre>
+<pre>
+Example 2:
+Input: palindrome = "a"
+Output: ""
+Explanation: There is no way to replace a single character to make "a" not a palindrome, so return an empty string.
+</pre>
+* Constraints: `1 <= palindrome.length <= 1000`<br />
+`palindrome` consists of only lowercase English letters.<br />
+
+```cpp
+class Solution {
+public:
+    string breakPalindrome(string &palindrome) {
+        int n=palindrome.size();
+        // If only single character is present then we cant change 
+        if(n==1)
+            return "";
+        // find the first not 'a' character index i;
+        int i=0;
+        while(i<n && palindrome[i]=='a')
+            i++;
+        // If we reach out of bounds that implies that all characters are 'a' so // //   change last one to 'b'
+        if(i>=n){
+            palindrome[n-1]='b';
+            return palindrome;
+        }
+        // If the only non 'a' character is middle single element  in the palindrome then like 'aadaa' then change last character to 'b' as we cant change it to 'a' 
+        if(n%2==1 && i==n/2){
+            palindrome[n-1]='b';
+            
+        }
+        // Last case if i is not the middle element change it to 'b' which gives us the lexographically least string 
+        else{
+            palindrome[i]='a';
+        }
+        return palindrome;
+            
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
