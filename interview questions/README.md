@@ -6173,4 +6173,65 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1832. Check if the Sentence Is Pangram](https://leetcode.com/problems/check-if-the-sentence-is-pangram/)**<br />
+A **pangram** is a sentence where every letter of the English alphabet appears at least once.<br />
+Given a string `sentence` containing only lowercase English letters, return `true` if `sentence` is a **pangram**, or `false` otherwise.<br />
+
+Example 1:
+<pre>
+Input: sentence = "thequickbrownfoxjumpsoverthelazydog"
+Output: true
+Explanation: sentence contains at least one of every letter of the English alphabet.
+</pre>
+Example 2:
+<pre>
+Input: sentence = "leetcode"
+Output: false
+</pre>
+
+* Constraints: `1 <= sentence.length <= 1000`<br />
+`sentence` consists of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    bool checkIfPangram(string sentence) {
+         return unordered_set<char>(sentence.begin(), sentence.end()).size() == 26;
+    }
+};
+
+// Using a frequency vector store
+bool checkIfPangram(string sentence) {
+    
+    vector<int> freq(26);                      //create a frequency vector 
+    
+    for(auto ch:sentence) freq[ch-'a']++;      //update count of each character
+    
+    for(auto it:freq){                         //traverse freq vector
+        if(it==0) return false;                //if any aplhabet's occurence is 0
+    }                                          //return false;
+    return true;
+}
+
+// Using a hash set
+bool checkIfPangram(string sentence) {
+    
+    unordered_set<char> st (sentence.begin(), sentence.end());      //push all characters of string into set
+    return st.size()==26;                                           //check if it's size = 26 or not
+
+}
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
