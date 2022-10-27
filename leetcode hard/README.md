@@ -2433,4 +2433,143 @@ public:
 
 
 
+<br /> <br /> <br />**[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)**<br />
+Given two strings `s` and `t` of lengths `m` and `n` respectively, return the **minimum window substring** of `s` such that every character in `t` (**including duplicates**) is included in the window. If there is no such substring, return the empty string `""`.<br />
+The testcases will be generated such that the answer is **unique**.<br />
+A **substring** is a contiguous sequence of characters within the string.<br />
+
+Example 1:
+<pre>
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+</pre>
+Example 2:
+<pre>
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+</pre>
+Example 3:
+<pre>
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+</pre> 
+
+* Constraints: `m == s.length`<br />
+`n == t.length`<br />
+`1 <= m, n <= 10^5`<br />
+`s` and `t` consist of uppercase and lowercase English letters.<br />
+
+```cpp
+class Solution {
+public:
+        static string minWindow(const string& s, const string& t) {
+        if (size(s) < size(t)) return "";
+        
+        array<int, 128> cnt = {};
+        int nz = 0;  // How many "non zero" values do we have in |cnt|.
+        for (char ch : t) {
+            if (!cnt[ch]--) --nz;
+        }
+        
+        // Open the window.
+        for (int i = 0; i < size(t); ++i) {
+            if (!++cnt[s[i]]) ++nz;
+        }
+        // Do we have a match already?
+        if (!nz) return s.substr(0, size(t));
+        
+        // Slide the window.
+        int start = -1;
+        int min_len = numeric_limits<int>::max();
+        for (int l = 0, r = size(t); r < size(s); ++r) {
+            if (!++cnt[s[r]]) ++nz;
+            // While we have a match, shrink the window.
+            while (!nz) {
+                int len = r - l + 1;
+                if (len < min_len) {
+                    start = l;
+                    min_len = len;
+                }
+                if (!cnt[s[l++]]--) --nz;
+            }
+        }
+        
+        return start != -1 ? s.substr(start, min_len) : "";
+    }
+};
+//Complexity Analysis
+//Time complexity: $$O(n)$$ as we are looking at each char in s at most twice
+//Space complexity: $$O(1)$$
+
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if (s.size() < t.size() or s.empty()) {
+            return "";
+        }
+        
+        int i = 0, j = 0;
+        int start = -1, len = INT_MAX;
+        std::vector<int> m(128, 0);
+        
+        // Push elements of t into hash table.
+        for (auto c : t) {
+            m[c]++;
+        }
+        
+        while (j < s.size()) {
+            if (isFound(m)) {
+                // Current string contains all characters of t,
+                // then we start to shrink it from left.
+                if (j - i < len) {
+                    start = i;
+                    len = j - i;
+                }
+                m[s[i++]]++;
+                continue;
+            }
+            // Current string doesn't contain all characters of t,
+            // so we need to extend it and do checking in the next iteration.
+            m[s[j++]]--;
+        }
+        
+        // Try to shrink the last found string.
+        while (isFound(m)) {
+            if (j - i < len) {
+                start = i;
+                len = j - i;
+            }
+            m[s[i++]]++;
+        }
+        
+        if (start != -1) {
+            return s.substr(start, len);
+        }
+        return "";
+    }
+
+private:
+    // If all values of hash table are <= 0,
+    // it means all characters of t are included in current string
+    bool isFound(const std::vector<int>& m) {
+        return std::all_of(m.begin(), m.end(), [](int i) { return i <= 0; });
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
