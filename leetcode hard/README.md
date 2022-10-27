@@ -2336,4 +2336,101 @@ public:
 
 
 
+<br /> <br /> <br />**[1335. Minimum Difficulty of a Job Schedule](https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/)**<br />
+You want to schedule a list of jobs in `d` days. Jobs are dependent (i.e To work on the `ith` job, you have to finish all the jobs `j` where `0 <= j < i`).<br />
+You have to finish **at least** one task every day. The difficulty of a job schedule is the sum of difficulties of each day of the `d` days. The difficulty of a day is the maximum difficulty of a job done on that day.<br />
+You are given an integer array `jobDifficulty` and an integer `d`. The difficulty of the `ith` job is `jobDifficulty[i]`.<br />
+Return _the minimum difficulty of a job schedule. If you cannot find a schedule for the jobs return `-1`_.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/01/16/untitled.png">
+Input: jobDifficulty = [6,5,4,3,2,1], d = 2
+Output: 7
+Explanation: First day you can finish the first 5 jobs, total difficulty = 6.
+Second day you can finish the last job, total difficulty = 1.
+The difficulty of the schedule = 6 + 1 = 7 
+</pre>
+Example 2:
+<pre>
+Input: jobDifficulty = [9,9,9], d = 4
+Output: -1
+Explanation: If you finish a job per day you will still have a free day. you cannot find a schedule for the given jobs.
+</pre>
+Example 3:
+<pre>
+Input: jobDifficulty = [1,1,1], d = 3
+Output: 3
+Explanation: The schedule is one job per day. total difficulty will be 3.
+</pre>
+
+* Constraints: `1 <= jobDifficulty.length <= 300`<br />
+`0 <= jobDifficulty[i] <= 1000`<br />
+`1 <= d <= 10`<br />
+
+```cpp
+class Solution {
+public:
+    int t[301][11];
+    int solve(vector<int>& jd, int n, int idx, int d) {
+        
+        //if you have only 1 day, then you will all the remaining jobs
+        //and select the max difficulty as the answer
+        if(d == 1) {
+            return *max_element(begin(jd)+idx, end(jd));
+        }
+        
+        if(t[idx][d] != -1)
+            return t[idx][d];
+    
+        
+        int Max = INT_MIN;
+        int result = INT_MAX;
+        
+        //Try one by one with all possibility
+        /*
+            Take 1 job in one day
+            Take 2 jobs in one day
+            Take 3 jobs in one day
+            and so on
+            
+            Then find the optimal one among all the results
+        */
+        for(int i = idx; i<=n-d; i++) {
+            Max = max(Max, jd[i]);
+            
+            result = min(result, Max + solve(jd, n, i+1, d-1));
+        }
+        
+        return t[idx][d] = result;
+    }
+    
+    int minDifficulty(vector<int>& jd, int d) {
+        int n = jd.size();
+        
+        if(n < d)
+            return -1;
+
+        memset(t, -1, sizeof(t));
+        
+        return solve(jd, n, 0, d);
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
