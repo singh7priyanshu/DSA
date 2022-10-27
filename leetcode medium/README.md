@@ -6974,4 +6974,150 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[835. Image Overlap](https://leetcode.com/problems/image-overlap/)**<br />
+You are given two images, `img1` and `img2`, represented as binary, square matrices of size `n x n`. A binary matrix has only `0s` and `1s` as values.<br />
+We **translate** one image however we choose by sliding all the `1` bits left, right, up, and/or down any number of units. We then place it on top of the other image. We can then calculate the **overlap** by counting the number of positions that have a `1` in **both** images.<br />
+Note also that a translation does **not** include any kind of rotation. Any `1` bits that are translated outside of the matrix borders are erased.<br />
+Return _the largest possible overlap_.<br />
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/09/09/overlap1.jpg">
+Input: img1 = [[1,1,0],[0,1,0],[0,1,0]], img2 = [[0,0,0],[0,1,1],[0,0,1]]
+Output: 3
+Explanation: We translate img1 to right by 1 unit and down by 1 unit.
+<img src = "https://assets.leetcode.com/uploads/2020/09/09/overlap_step1.jpg">
+The number of positions that have a 1 in both images is 3 (shown in red).
+<img src = "https://assets.leetcode.com/uploads/2020/09/09/overlap_step2.jpg">
+</pre>
+Example 2:
+<pre>
+Input: img1 = [[1]], img2 = [[1]]
+Output: 1
+</pre>
+Example 3:
+<pre>
+Input: img1 = [[0]], img2 = [[0]]
+Output: 0
+</pre> 
+
+* Constraints: `n == img1.length == img1[i].length`<br />
+`n == img2.length == img2[i].length`<br />
+`1 <= n <= 30`<br />
+`img1[i][j]` is either `0` or `1`.<br />
+`img2[i][j]` is either `0` or `1`.<br />
+
+```cpp
+//We only have 30 elements at most, so we can use int as a data type to hold an 
+//entire row of bits. After that, we simply apply bit shift and 
+//bitwise and -- essentially O(1) operations on modern architecture.
+class Solution {
+public:
+    int overlap(vector<int> &v1, vector<int> &v2, int x, int y) {
+        array<int,4> ans={}; 
+        int n=v1.size();
+        for (int i=0; i<n-x; ++i) {
+            ans[0]+=__builtin_popcount((v1[i]>>y)&v2[i+x]);
+            ans[1]+=__builtin_popcount(v1[i]&(v2[i+x]>>y));
+            ans[2]+=__builtin_popcount((v1[i+x]>>y)&v2[i]);
+            ans[3]+=__builtin_popcount(v1[i+x]&(v2[i]>>y));
+        }        
+        return *max_element(ans.begin(), ans.end());    
+    }
+
+    int largestOverlap(vector<vector<int>>& i1, vector<vector<int>>& i2) {
+        int n=i1.size();
+        vector<int> v1(n,0), v2(n,0); 
+        for (int i=0; i<n; ++i) {
+            for (int j=0; j<n; ++j) {
+                if (i1[i][j]) v1[i]|=1<<j;
+                if (i2[i][j]) v2[i]|=1<<j;
+            }
+        }
+        int ans=0;
+        for (int i=0; i<n; ++i) 
+            for (int j=0; j<n; ++j) 
+                ans=max(ans,overlap(v1,v2,i,j));        
+        return ans;
+    }
+};
+
+
+//using vector
+class Solution {
+public:
+ int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
+        vector<pair<int, int>>v1;
+        vector<pair<int, int>>v2;
+        
+        for(int i=0; i<img1.size(); i++){
+            for(int j=0; j<img2.size(); j++){
+                if(img1[i][j]==1){
+                    v1.push_back({i,j});
+                }
+                if(img2[i][j]==1){
+                    v2.push_back({i,j});
+                }
+            }
+        }
+        
+        int ans=0;
+        map<pair<int, int>, int>m;
+        for(auto i:v1){
+            for(auto j:v2){
+                int x=i.first-j.first;
+                int y=i.second-j.second;
+                m[{x,y}]++;
+                ans=max(ans, m[{x,y}]);
+            }
+        }
+        return ans;
+        
+    }
+};
+
+
+//using map
+//Time Complexity : O(N*N)
+//Space Complexity : O(N+N)
+class Solution {
+public:
+	int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
+        int n=img1.size();
+        unordered_map<int, int>map;
+        vector<int>v1 , v2;
+        for(int i=0; i<n*n; i++)
+            if(img1[i/n][i%n]==1)v1.push_back(i/n*100+i%n);
+        for(int i=0; i<n*n; i++)
+            if(img2[i/n][i%n]==1)v2.push_back(i/n*100+i%n);
+        for(auto i:v1)for(auto j:v2)map[i-j]++;
+        int ans=0;
+        for(auto &[k, v]:map)ans=max(ans, v);
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
 <br /> <br /> <br />**[]()**<br />
