@@ -1724,4 +1724,61 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[645. Set Mismatch](https://leetcode.com/problems/set-mismatch/)**<br />
+You have a set of integers `s`, which originally contains all the numbers from `1` to `n`. Unfortunately, due to some error, one of the numbers in `s` got duplicated to another number in the set, which results in **repetition of one** number and **loss of another** number.<br />
+You are given an integer array `nums` representing the data status of this set after the error.<br />
+Find the number that occurs twice and the number that is missing and return _them in the form of an array_.<br />
+
+Example 1:
+<pre>
+Input: nums = [1,2,2,4]
+Output: [2,3]
+</pre>
+Example 2:
+<pre>
+Input: nums = [1,1]
+Output: [1,2]
+</pre>
+
+* Constraints: `2 <= nums.length <= 10^4`<br />
+`1 <= nums[i] <= 10^4`<br />
+	
+```cpp
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+    //sum of elements on nums
+    int initialSum = accumulate(nums.begin(), nums.end(), 0);
+
+    //put the element of nums into set to remove the duplicate number
+    set<int> s;
+    for(auto &i: nums){
+        s.insert(i);
+    }
+
+    //sum of elements of the set
+    int sum = accumulate(s.begin(), s.end(), 0);
+
+    //difference of initialSum and sum will give us the repeated number
+    int repeatedNum = initialSum - sum;
+
+    //subtracting the sum of elements in set i.e. sum from the sum of the natural numbers will give us the missing number
+	int n = nums.size();
+    int missingNum = n * (n+1)/2 - sum;
+
+    return {repeatedNum, missingNum};
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
