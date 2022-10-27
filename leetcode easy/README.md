@@ -1620,7 +1620,7 @@ public:
 ```
 	
 <br /> <br /> <br />**[219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/)**<br />
-Given an integer array `nums` and an integer `k`, return `true` if there are **two distinct** indices `i` and `j` in the array such that `nums[i] == nums[j]` and `abs(i - j) <= k`.<br />	
+Given an integer array `nums` and an integer `k`, return `true` if there are **two distinct** indices `i` and `j` in the array such that `nums[i] == nums[j]` and `abs(i - j) <= k`.<br /><br />	
 Example 1:
 <pre>
 Input: nums = [1,2,3,1], k = 3
