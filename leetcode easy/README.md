@@ -1781,4 +1781,130 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1662. Check If Two String Arrays are Equivalent](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/)**<br />
+Given two string arrays `word1` and `word2`, return `true` if the two arrays **represent** the same string, and `false` otherwise.<br />
+A string is **represented** by an array if the array elements concatenated **in order** forms the string.<br />
+	
+Example 1:
+<pre>
+Input: word1 = ["ab", "c"], word2 = ["a", "bc"]
+Output: true
+Explanation:
+word1 represents string "ab" + "c" -> "abc"
+word2 represents string "a" + "bc" -> "abc"
+The strings are the same, so return true.
+</pre>
+Example 2:
+<pre>
+Input: word1 = ["a", "cb"], word2 = ["ab", "c"]
+Output: false
+</pre>
+Example 3:
+<pre>
+Input: word1  = ["abc", "d", "defg"], word2 = ["abcddefg"]
+Output: true
+</pre> 
+
+* Constraints: `1 <= word1.length, word2.length <= 10^3`<br />
+`1 <= word1[i].length, word2[i].length <= 10^3`<br />
+`1 <= sum(word1[i].length), sum(word2[i].length) <= 10^3`<br />
+`word1[i]` and `word2[i]` consist of lowercase letters.<br />
+	
+```cpp
+//mysol
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        int onesize = word1.size();
+        int twosize = word2.size();
+        //sort(word1.begin(), word1.end());
+        //sort(word2.begin(), word2.end());
+        string wordone = "", wordtwo = "";
+        for(int i = 0; i<=onesize-1;i++)wordone += word1[i];
+        for(int i = 0; i<=twosize-1;i++)wordtwo += word2[i];
+        if(wordone == wordtwo)return true;
+        else return false;
+    }
+};
+
+//Using cpp stl
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        auto w1=reduce(word1.begin(),word1.end());
+        auto w2=reduce(word2.begin(),word2.end());
+        return (w1==w2);
+    }
+};
+
+//using pointers 
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        int i = 0, j = 0; // word pointers
+        int m = 0, n = 0; // char pointers
+        
+        while (i < word1.size() and j < word2.size()) {            
+            if (word1[i][m++] != word2[j][n++])
+                return false;
+            
+            if (m >= word1[i].size())
+                i++, m = 0;
+            
+            if (n >= word2[j].size())
+                j++, n = 0;
+        }
+        
+        return i == word1.size() and j == word2.size();
+    }
+};
+
+//matrix
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) 
+    {
+        int wordIdx1 = 0, wordIdx2 = 0, chIdx1 = 0, chIdx2 = 0;
+        while(true)
+        {
+            char ch1 = word1[wordIdx1][chIdx1];
+            char ch2 = word2[wordIdx2][chIdx2];
+            if (ch1 != ch2) return false;
+            
+            chIdx1++; //incrementing the character index of current word from "word1"
+            chIdx2++; //incrementing the character index of current word from "word2";
+            //=========================================================
+            if (chIdx1 == word1[wordIdx1].size()) //if current word from "word1" is over
+            { 
+                wordIdx1++;  //move to next word in "word1"
+                chIdx1 = 0;  //reset character index to 0
+            }
+            if (chIdx2 == word2[wordIdx2].size()) //if  current word from "word2" is over
+            { 
+                wordIdx2++;  //move to next word  in "word2"
+                chIdx2 = 0; //reset character index to 0
+            }
+            //=================================================================
+            if (wordIdx1 == word1.size() && wordIdx2 == word2.size()) break; // words in both arrays are finished
+            
+            if (wordIdx1 == word1.size() || wordIdx2 == word2.size()) return false;
+            //if words in any onr of the arrays are finished and other still has some words in it
+            //then there is no way same string could be formed on concatenation
+        }
+        return true; 
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
