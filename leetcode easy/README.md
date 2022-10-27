@@ -1619,4 +1619,109 @@ public:
 };
 ```
 	
+<br /> <br /> <br />**[219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/)**<br />
+Given an integer array `nums` and an integer `k`, return `true` if there are **two distinct** indices `i` and `j` in the array such that `nums[i] == nums[j]` and `abs(i - j) <= k`.<br />	
+Example 1:
+<pre>
+Input: nums = [1,2,3,1], k = 3
+Output: true
+</pre>
+Example 2:
+<pre>
+Input: nums = [1,0,1,1], k = 1
+Output: true
+</pre>
+Example 3:
+<pre>
+Input: nums = [1,2,3,1,2,3], k = 2
+Output: false
+</pre>
+
+* Constraints: `1 <= nums.length <= 10^5`<br />
+`-10^9 <= nums[i] <= 10^9`<br />
+`0 <= k <= 10^5`<br />
+	
+```cpp
+//psuedocode
+if(not present){
+    insert the key value pairs.
+}
+else{
+    Check the difference between 
+    the new index value and the initial index stored.
+    if
+        difference <= k return true
+    else 
+        update the index of current element.
+
+}
+
+/*
+Time complexity:
+Since the array is traversed completely,
+Time Complexity = O(n);
+
+Space complexity:
+An extra space of map is used hence,
+Space Complexity = O(n).
+*/   
+
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        map<int, int> m;
+        int len = nums.size();
+        for(int i = 0;i<len; i++){
+            if(m.find(nums[i]) == m.end()) m[nums[i]] = i;
+            else{
+                int diff = (abs(i - m[nums[i]]));
+                if(diff <=k)
+                    return true;
+                else
+                    m[nums[i]] = i;
+            }
+        }
+        return false;
+    }
+};
+
+//Time and Space Complexity => O(n), where n is the size of nums
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;
+        int n = nums.size();
+        
+        for(int i=0; i<n; i++)
+        {
+            // mp.count() will tell whatever ith index that I want, have I seen it before?
+            if(mp.count(nums[i]))
+            {
+                // if I have already seen this number, then check for condition abs(i - j) <= k
+                if(abs(i-mp[nums[i]])<=k)
+                    return true;
+            }
+            // if I have not seen this number before, insert the number with its position in the map
+            // and if the number is already present in the map, then update the position of that number
+            mp[nums[i]] = i;
+        }
+        // after the complete traversal, if we dont find a pair to satisfy the condition, return false
+        return false;
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
