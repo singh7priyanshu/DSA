@@ -6816,4 +6816,90 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1239. Maximum Length of a Concatenated String with Unique Characters](https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/)**<br />
+You are given an array of strings `arr`. A string `s` is formed by the **concatenation** of a **subsequence** of `arr` that has **unique characters**.<br />
+Return the **maximum** possible length of `s`.<br />
+A **subsequence** is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.<br />
+
+Example 1:
+<pre>
+Input: arr = ["un","iq","ue"]
+Output: 4
+Explanation: All the valid concatenations are:
+- ""
+- "un"
+- "iq"
+- "ue"
+- "uniq" ("un" + "iq")
+- "ique" ("iq" + "ue")
+Maximum length is 4.
+</pre>
+Example 2:
+<pre>
+Input: arr = ["cha","r","act","ers"]
+Output: 6
+Explanation: Possible longest valid concatenations are "chaers" ("cha" + "ers") and "acters" ("act" + "ers").
+</pre>
+Example 3:
+<pre>
+Input: arr = ["abcdefghijklmnopqrstuvwxyz"]
+Output: 26
+Explanation: The only string in arr has all 26 characters.
+</pre> 
+
+* Constraints: `1 <= arr.length <= 16`<br />
+`1 <= arr[i].length <= 26`<br />
+`arr[i]` contains only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    int maxLength(vector<string>& arr) {
+        int max_len = 0;
+        
+        // [1] we should first throw away all strings with any
+        //    duplicate characters; strings with all unique 
+        //    characters are the subsets of the alphabet, thus,
+        //    can be encoded using binary form
+        vector<bitset<26>> unique;
+        for (auto s : arr)
+        {
+            bitset<26> bin;
+            for (char ch : s) bin.set(ch - 'a');
+            if (bin.count() == s.size())
+                unique.push_back(bin);
+        }
+        
+        // [2] now start with an empty concatenation and iteratively
+        //    increase its length by trying to add more strings
+        vector<bitset<26>> concat = {bitset<26>()};
+        for (auto& u : unique)
+            for (int i = concat.size() - 1; i >= 0; i--)
+                if ((concat[i] & u).none())
+                {
+                    concat.push_back(concat[i] | u);
+                    max_len = max(max_len, (int)(concat[i].count() + u.count()));
+                }
+        
+        return max_len;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
