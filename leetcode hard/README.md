@@ -2613,9 +2613,9 @@ Explanation: On day 0, plant the 0th seed. The seed grows for 1 full day and blo
 Thus, on day 2, all the seeds are blooming.
 </pre>
 
-* Constraints: `n == plantTime.length == growTime.length`
-`1 <= n <= 10^5`
-`1 <= plantTime[i], growTime[i] <= 10^4`
+* Constraints: `n == plantTime.length == growTime.length`<br />
+`1 <= n <= 10^5`<br />
+`1 <= plantTime[i], growTime[i] <= 10^4`<br />
 
 ```cpp
 class Solution {
@@ -2723,6 +2723,146 @@ public:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /> <br /> <br />**[1293. Shortest Path in a Grid with Obstacles Elimination](https://leetcode.com/problems/shortest-path-in-a-grid-with-obstacles-elimination/)**<br />
+You are given an `m x n` integer matrix `grid` where each cell is either `0` (empty) or `1` (obstacle). You can move up, down, left, or right from and to an empty cell in **one step**.<br />
+Return _the minimum number of **steps** to walk from the upper left corner `(0, 0)` to the lower right corner_ `(m - 1, n - 1)` given that you can eliminate **at most** `k` obstacles. If it is not possible to find such walk return `-1`.<br />
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/09/30/short1-grid.jpg">
+Input: grid = [[0,0,0],[1,1,0],[0,0,0],[0,1,1],[0,0,0]], k = 1
+Output: 6
+Explanation: 
+The shortest path without eliminating any obstacle is 10.
+The shortest path with one obstacle elimination at position (3,2) is 6. Such 
+path is (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2) -> (3,2) -> (4,2).
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/09/30/short2-grid.jpg">
+Input: grid = [[0,1,1],[1,1,1],[1,0,0]], k = 1
+Output: -1
+Explanation: We need to eliminate at least two obstacles to find such a walk.
+</pre>
+
+* Constraints: `m == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= m, n <= 40`<br />
+`1 <= k <= m * n`<br />
+`grid[i][j]` is either `0` **or** `1`.<br />
+`grid[0][0] == grid[m - 1][n - 1] == 0`<br />
+
+```cpp
+class Solution {
+public:
+    int solve(vector<vector<int>>& grid,int k){
+        vector<vector<int>> vis(grid.size(),vector<int>(grid[0].size(),-1));
+        queue<vector<int>> q;
+	
+        q.push({0,0,0,k});
+        while(!q.empty()){
+            auto t=q.front();
+            int x=t[0],y=t[1];
+            q.pop();
+			
+			// Exit if current position is outside of the grid
+            if(x<0 || y<0 || x>=grid.size() || y>=grid[0].size()){
+                continue;
+            }
+			
+			// Destination found
+            if(x==grid.size()-1 && y==grid[0].size()-1)
+                return t[2];
+
+            if(grid[x][y]==1){
+                if(t[3]>0)
+                    t[3]--;
+                else
+                    continue;
+            }
+			
+
+            if(vis[x][y]!=-1 && vis[x][y]>=t[3])
+                continue;
+            vis[x][y]=t[3];
+            
+            q.push({x+1,y,t[2]+1,t[3]});
+            q.push({x,y+1,t[2]+1,t[3]});
+            q.push({x-1,y,t[2]+1,t[3]});
+            q.push({x,y-1,t[2]+1,t[3]});
+            
+        }
+        return -1;
+    }
+    
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        return solve(grid,k);
+    }
+};
+
+//Time complexity: O(n * m * k)
+//Space complexity: O(n * m * k)
+class Solution {
+public:
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        int rows = grid.size(), cols = grid[0].size();
+
+        int cnt = 0;
+        vector<pair<int, int>> deltas{{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+        vector<vector<int>> vis(rows, vector<int>(cols, -1));
+
+        queue<pair<pair<int, int>, int>> qu; // row, col, k
+        qu.push({{0, 0}, k});
+        while(!qu.empty()) {
+            int sz = qu.size();
+            while(sz--) {
+                auto & [cell, k_left] = qu.front();
+                auto & [row, col] = cell;
+
+                if(row == rows - 1 && col == cols - 1) return cnt;
+
+                for(auto & [dr, dc] : deltas) {
+                    int new_row = row + dr, new_col = col + dc;
+                    if(new_row < 0 || new_row == rows || new_col < 0 || new_col == cols) continue;
+
+                    int new_k = k_left - grid[new_row][new_col];
+                    if(new_k < 0) continue;
+
+                    if(vis[new_row][new_col] >= new_k) continue; // we already have a better path
+
+                    vis[new_row][new_col] = new_k;
+                    qu.push({{new_row, new_col}, new_k});
+                }
+
+                qu.pop();
+            }
+            ++cnt;
+        }
+
+        return -1;
+    }
+};
+```
 
 
 
