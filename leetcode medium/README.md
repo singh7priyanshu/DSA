@@ -7183,4 +7183,397 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1706. Where Will the Ball Fall](https://leetcode.com/problems/where-will-the-ball-fall/)**<br />
+You have a 2-D `grid` of size `m x n` representing a box, and you have `n` balls. The box is open on the top and bottom sides.<br />
+Each cell in the box has a diagonal board spanning two corners of the cell that can redirect a ball to the right or to the left.<br />
+	
+ * A board that redirects the ball to the right spans the top-left corner to the bottom-right corner and is represented in the grid as `1`.<br />
+ * A board that redirects the ball to the left spans the top-right corner to the bottom-left corner and is represented in the grid as `-1`.<br />
+	
+We drop one ball at the top of each column of the box. Each ball can get stuck in the box or fall out of the bottom. A ball gets stuck if it hits a "V" shaped pattern between two boards or if a board redirects the ball into either wall of the box.<br />
+Return an array `answer` of size `n` where `answer[i]` is the column that the ball falls out of at the bottom after dropping the ball from the `ith` column at the top, or `-1` if the ball gets stuck in the box.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2019/09/26/ball.jpg">
+Input: grid = [[1,1,1,-1,-1],[1,1,1,-1,-1],[-1,-1,-1,1,1],[1,1,1,1,-1],[-1,-1,-1,-1,-1]]
+Output: [1,-1,-1,-1,-1]
+Explanation: This example is shown in the photo.
+Ball b0 is dropped at column 0 and falls out of the box at column 1.
+Ball b1 is dropped at column 1 and will get stuck in the box between column 2 and 3 and row 1.
+Ball b2 is dropped at column 2 and will get stuck on the box between column 2 and 3 and row 0.
+Ball b3 is dropped at column 3 and will get stuck on the box between column 2 and 3 and row 0.
+Ball b4 is dropped at column 4 and will get stuck on the box between column 2 and 3 and row 1.
+</pre>
+Example 2:
+<pre>
+Input: grid = [[-1]]
+Output: [-1]
+Explanation: The ball gets stuck against the left wall.
+</pre>
+Example 3:
+<pre>
+Input: grid = [[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1],[1,1,1,1,1,1],[-1,-1,-1,-1,-1,-1]]
+Output: [0,1,2,3,4,-1]
+</pre> 
+
+* Constraints: `m == grid.length`<br />
+`n == grid[i].length`<br />
+`1 <= m, n <= 100`<br />
+`grid[i][j]` is `1` or `-1`.<br />
+	
+```cpp
+/*
+Just think in a recursive way
+
+#Forget about the final target
+#Make smaller targets for each cell
+#If ball is in any cell in the grid then we only have to solve a SUBPROBLEM
+
+SUBPROBLEM=>
+==========
+#Smaller target for ball is to reach the next row
+#We just want to somehow figure out solution to reach the next row for any current cell
+#For any cell we have two scenarios
+1. If board in currCell [grid[i][j]] is "RIGHT" :
+=>We can move to next row if board in the rightCell of currCell [grid[i][j + 1]] is also "RIGHT"
+2.If board in currCell [grid[i][j]] is "LEFT" :
+=>We can move to next row if board in the leftCell of currCell [grid[i][j - 1]] is also "LEFT"
+
+#If we cannot reach the next row after evaluating the above conditions
+=>ANSWER TO SUBPROBLEM ==> -1 :(
+
+#If ball is able to get into the next row
+=>Now we are closer to out goal to reach bottom row
+=>We are in some cell of nextRow depending on above scenarios
+=>Now it's again a same "SUBPROBLEM" [RECURSION AT IT'S BEST :)] but with reduced size
+=>ANSWER TO CURRENT SUBPROBLEM => Answer of next subproblem (for a grid cell of next row)
+#Answer to any subproblem will be the column by which it get's into the next row
+
+#If you can't find a solution to the bigger problem
+#Just figure out what all you can do at current steps
+#The next step will be ultimately solved using "RECURSION" :) [LIFE PHILOSOPHY]
+*/
+class Solution {
+public:
+    vector<int> findBall(vector<vector<int>>& grid) 
+    {
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>>dp(m + 1, vector<int>(n, -1));
+        for (int j = 0; j < n; j++) dp[m][j] = j; //Initializing the answer to the bottom case subproblem
+        //===================================================
+        for (int i = m - 1; i >= 0; i--) //Move from bottom to top,                        
+        {                               //as subproblems of next row should be solved before current row
+            for (int j = 0; j < n; j++)
+            {
+                if (grid[i][j] == 1) //if board is right
+                {
+                    bool isRightCellRight = (j + 1 == n)? false : (grid[i][j + 1] == 1);
+                    if (isRightCellRight) dp[i][j] = dp[i + 1][j + 1]; 
+                    //if we can reach next row, take the answer from the next row subproblem
+                }
+                else if (grid[i][j] == -1) //if board is left
+                {
+                    bool isLeftCellLeft = (j - 1 < 0)? false : (grid[i][j - 1] == -1);
+                    if (isLeftCellLeft) dp[i][j] = dp[i + 1][j - 1];
+                }
+            }
+        }
+        //=============================================================
+        return dp[0];
+        
+    }
+};
+
+
+/*
+If block is directing ball to right and the immediate right is directing to left => V shape formed .Same if block is directing to left and immediate left has right(1) => V formed. Also if we encounter a wall on any side , ball will get stuck there.
+
+Complexity
+Time complexity: O(m*n)
+Space complexity: O(1) (ignoring space for ans vector)
+*/
+vector<int> findBall(vector<vector<int>>& vec) {
+        vector<int> res ;
+        for(int i =0;i<vec[0].size();i++){
+
+            int  x=0,y=i;
+            bool flag = true;
+            while(x<vec.size()){
+
+                if(vec[x][y]==1){   // if block is directing ball to right
+                 if (y+1>= vec[0].size() || vec[x][y+1]!=1){ // ball will go down only if immediate right directs right otherwise V shape formed
+                   flag = false;
+                   break;       }
+                 x++,y++;
+                }
+
+                else if(vec[x][y]==-1){  // if block is directing to left
+                      if (y-1<0 || vec[x][y-1]!=-1){
+                   flag = false;
+                   break;       }
+                 x++,y--;
+                }
+
+            }
+            if(flag)res.push_back(y);
+            else
+                res.push_back(-1);
+
+        }
+           return res;
+
+}
+
+
+
+//using dfs
+class Solution {
+public:
+    vector<int> ans;
+    void dfs(int i,int j,int m,int n,vector<vector<int>> &grid)
+    {
+        if(i==m)
+        {
+            if(j>=0&&j<n)
+            {
+                ans.push_back(j);
+                return ;
+            }
+            else
+            {
+                ans.push_back(-1);
+                return ;
+            }
+        }
+        if((grid[i][j]==1&&j==n-1)||(grid[i][j]==-1&&j==0))
+        {
+            ans.push_back(-1);
+            return ;
+        }
+        if((grid[i][j]==1&&grid[i][j+1]==-1)||(grid[i][j]==-1&&grid[i][j-1]==1))
+        {
+            ans.push_back(-1);
+            return;
+        }
+        if(grid[i][j]==1)
+        {
+            dfs(i+1,j+1,m,n,grid);
+        }
+        else
+        {
+            dfs(i+1,j-1,m,n,grid);
+        }
+    }
+    vector<int> findBall(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
+        for(int j=0;j<n;j++)
+        {
+            dfs(0,j,m,n,grid);
+        }
+        return ans;
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[433. Minimum Genetic Mutation](https://leetcode.com/problems/minimum-genetic-mutation/)**<br />
+A gene string can be represented by an 8-character long string, with choices from `'A'`, `'C'`, `'G'`, and `'T'`.<br />
+Suppose we need to investigate a mutation from a gene string `start` to a gene string `end` where one mutation is defined as one single character changed in the gene string.<br />
+
+ * For example, `"AACCGGTT" --> "AACCGGTA"` is one mutation.<br />
+	
+There is also a gene bank `bank` that records all the valid gene mutations. A gene must be in `bank` to make it a valid gene string.<br />
+Given the two gene strings `start` and `end` and the gene bank `bank`, return the minimum number of mutations needed to mutate from `start` to `end`. If there is no such a mutation, return `-1`.<br />
+Note that the starting point is assumed to be valid, so it might not be included in the bank.<br />
+
+Example 1:
+<pre>
+Input: start = "AACCGGTT", end = "AACCGGTA", bank = ["AACCGGTA"]
+Output: 1
+</pre>
+Example 2:
+<pre>
+Input: start = "AACCGGTT", end = "AAACGGTA", bank = ["AACCGGTA","AACCGCTA","AAACGGTA"]
+Output: 2
+</pre>
+Example 3:
+<pre>
+Input: start = "AAAAACCC", end = "AACCCCCC", bank = ["AAAACCCC","AAACCCCC","AACCCCCC"]
+Output: 3
+</pre> 
+
+* Constraints: `start.length == 8`<br />
+`end.length == 8`<br />
+`0 <= bank.length <= 10`<br />
+`bank[i].length == 8`<br />
+`start`, `end`, and `bank[i]` consist of only the characters [`'A'`, `'C'`, `'G'`, `'T'`].<br />
+	
+```cpp
+class Solution {
+public:
+    // Intuition: we can see each string as a node and we can connect them if 
+    // 1. there is only one single character different
+    // 2. the target node is available in `bank`
+    // the problem is now to find the shortest path from the starting point to the ending point
+    // so we can use BFS
+    int minMutation(string start, string end, vector<string>& bank) {
+        // a queue to store each gene string (node)
+        queue<string> q;
+        // a hash map to store if we've visited a node
+        unordered_map<string, int> vis;
+        // distance
+        int steps = 0;
+        // we start from gene string `start` as a starting point
+        // push it to the queue
+        q.push(start);
+        // and mark it visited
+        vis[start] = 1;
+        // BFS
+        while (!q.empty()) {
+            // iterate from the back because the size of q varies
+            // which would result in wrong answer if you iterate from 0
+            // alternatively, you can define a new variable for q.size() before the for-loop
+            // i.e. 
+            // int n = q.size();
+            // for (int i = 0; i < n; i++) { 
+            for (int i = q.size(); i > 0; i--) {
+                // get the gene string from the queue
+                string s = q.front();
+                q.pop();
+                // if it is same as `end`, that means we found the answer
+                if (s == end) return steps;
+                // otherwise, given a gene string with 8-character long
+                // we can replace each character with "A", "C", "G" and "T" (i.e. mutate)
+                for (int j = 0; j < 8; j++) {
+                    // s[j] will be modified later, 
+                    // hence store the original character here
+                    char oc = s[j];
+                    // iterate ACGT
+                    // alternatively, you can use `for (char c : "ACGT") { ... }`
+                    for (int k = 0; k < 4; k++) {
+                        // replace the j-th character in s with the k-th character in ACGT
+                        s[j] = "ACGT"[k];
+                        // we can reach the next node if the next node hasn't been visited
+                        // and the next node is available in `bank`
+                        if (!vis[s] && find(bank.begin(), bank.end(), s) != bank.end()) {
+                            // push the next node to the queue
+                            q.push(s);
+                            // and mark it visited
+                            vis[s] = 1;
+                        }
+                    }
+                    // since we updated the character, we revert it back
+                    s[j] = oc;
+                }
+            }
+            // increase the step count
+            steps += 1;
+        }
+        // not able to reach `end`, return -1 here
+        return -1;
+    }
+};
+
+
+
+int minMutation(string start, string end, vector<string>& bank) {
+        
+        //DATA STRUCTURE USED:- SET AND BFS
+        
+        //1.BASICALLY WHAT WE WILL BE DOING IS WE WILL FIRST PUSH IN SET ALL ELEMENTS IN BANK
+        //2.WE WILL RETURN -1 IF END ELEMENT IS NOT PRESENT IN SET
+        //3.THE SIMPLE APPROACH IS USING BFS, WHAT WE WILL BE DOING IS FIRST WE WILL PUSH START ELEMENT AND THEN WE WILL REPLACE EVERY ELEMENT WITH THE CHARACTERS A C G AND T AND CHECKS IF THAT STRING IS PRESENT IN THE SET OOR NOT
+        //4.IF PRESENT WE WILL PUSH THE STRING IN QUEUE
+        //5.FOR MEASURING THE STEPS WE WILL TAKE A STEP COUNTER WHICH WILL KEEP THE STEP COUNT FOR IT.
+        //6.TIME COMPLEXITY WILL BE O(N)
+        
+        unordered_set<string>st{bank.begin(),bank.end()};
+        //IF END IS NOT PRESENT IN SET THEN RETURN -1
+        if(!st.count(end))
+            return -1;
+        queue<string>q;
+        q.push(start);
+        int steps=0,s;
+        string cur,t;
+        while(!q.empty())
+        {
+            s=q.size();
+            while(s--)
+            {
+                cur=q.front();
+            q.pop();
+            //  IF WE REACH END OF MUTATION THEN SIMPLI RETURN STEP
+            if(cur==end)
+                return steps;
+            //WE WILL REMOVE THE CUR AS TO AVOID ANY REPEATATION
+            st.erase(cur);
+            //NOW HERE WE WILL BE CHANGING THE CHARACTER IN CURR WITH A,C,G,T AND WILL BE CHECKING IF THAT STING IS IN SET OR NOT,IF YES THEN PUSH IT
+            for(int i=0;i<8;i++)
+            {
+                string t=cur;
+                t[i]='A';
+                if(st.count(t)!=0)
+                    q.push(t);
+                t[i]='C';
+                if(st.count(t)!=0)
+                    q.push(t);
+                t[i]='G';
+                if(st.count(t)!=0)
+                    q.push(t);
+                t[i]='T';
+                if(st.count(t)!=0)
+                    q.push(t);
+            }
+            
+            }
+            steps++;
+        }
+        return -1;
+    }
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
