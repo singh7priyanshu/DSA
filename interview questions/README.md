@@ -6234,4 +6234,65 @@ bool checkIfPangram(string sentence) {
 	
 	
 	
+<br /> <br /> <br />**[766. Toeplitz Matrix](https://leetcode.com/problems/toeplitz-matrix/)**<br />
+Given an `m x n` `matrix`, return `true` if the matrix is Toeplitz. Otherwise, return `false`.<br />
+A matrix is **Toeplitz** if every diagonal from top-left to bottom-right has the same elements.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/04/ex1.jpg">
+Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
+Output: true
+Explanation:
+In the above grid, the diagonals are:
+"[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".
+In each diagonal all elements are the same, so the answer is True.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/04/ex2.jpg">
+Input: matrix = [[1,2],[2,2]]
+Output: false
+Explanation:
+The diagonal "[1, 2]" has different elements.
+</pre>
+	
+* Constraints: `m == matrix.length`<br />
+`n == matrix[i].length`<br />
+`1 <= m, n <= 20`<br />
+`0 <= matrix[i][j] <= 99`<br />
+	
+```cpp
+class Solution {
+public:
+    bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+        for(int i = 1;i<matrix.size();i++){
+            for(int j = 1;j<matrix[0].size();j++){
+                if(matrix[i-1][j-1] != matrix[i][j])return false;
+            }
+        }
+        return true;
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
