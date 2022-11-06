@@ -1907,4 +1907,141 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[345. Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/)**<br />
+Given a string `s`, reverse only all the vowels in the string and return it.<br />
+The vowels are `'a'`, `'e'`, `'i'`, `'o'`, and `'u'`, and they can appear in both lower and upper cases, more than once.<br />
+
+Example 1:
+<pre>
+Input: s = "hello"
+Output: "holle"
+</pre>
+Example 2:
+<pre>
+Input: s = "leetcode"
+Output: "leotcede"
+</pre> 
+
+* Constraints: `1 <= s.length <= 3 * 10^5`<br />
+`s` consist of **printable ASCII** characters.<br />	
+	
+```cpp
+    static bool isVowel(char ch) {
+        return
+            ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ||
+            ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U';
+    }
+```	
+Other implementations could use a lookup in the a bit / bool vector and avoid the branching, and do something like<br />
+```cpp
+    static constexpr bool is_vowel[256] = {
+        ['a'] = true, ['e'] = true, ['i'] = true, ['o'] = true, ['u'] = true,
+        ['A'] = true, ['E'] = true, ['I'] = true, ['O'] = true, ['U'] = true,        
+    };
+	
+	// We would likley drop this wrapper
+	static constexpr bool isVowel(char ch) {
+		return is_vowel[ch];
+	}
+```
+	
+`Approach 1:`extract, reverse, update<br />
+We extract all the vowels, reverse them, and then update the string.
+```cpp
+    static string reverseVowels(string s) {
+        string vowels;
+        vowels.reserve(size(s));
+        copy_if(begin(s), end(s), back_inserter(vowels), isVowel);
+        reverse(begin(vowels), end(vowels));
+        for (int i = 0, v = 0; i < size(s); ++i)
+            if (isVowel(s[i])) s[i] = vowels[v++];
+        return s;
+    }
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+```
+`Approach 2:`extract w/ index, reverse, update<br />	
+Similar to approach 1, but instead of scanning the full string again, we keep track where we found the vowels and just update these positions. This approach is faster than approach 1 if there are only very few vowels in a long string.
+```cpp
+    static string reverseVowels(string s) {
+        string vowels;
+        vowels.reserve(size(s));
+        vector<int> idx;
+        idx.reserve(size(s));
+        for (int i = 0; i < size(s); ++i) {
+            if (isVowel(s[i])) {
+                vowels.push_back(s[i]);
+                idx.push_back(i);
+            }
+        }
+        reverse(begin(vowels), end(vowels));
+        for (int i = 0; i < size(idx); ++i)
+            s[idx[i]] = vowels[i];
+        return s;
+    }
+```
+Instead of reversing vowels we could just read the vowels or the index from the back, i.e. do something like:<br />
+```cpp
+        for (int i = 0; i < size(idx); ++i)
+            s[idx[size(idx) - 1 - i]] = vowels[i];
+```
+```cpp
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+```	
+`Approach 3:`stack<br />
+Runtime wise this is similar to approach 1. ... and yeah, `string` or a `vector` are a perfectly fine stack, but obviously we could use a `stack<char>` too.
+```cpp
+    static string reverseVowels(string s) {
+        string st;
+        st.reserve(size(s));
+        for (char ch : s)
+            if (isVowel(ch)) st.push_back(ch);
+        for (char& ch : s)
+            if (isVowel(ch)) {
+                ch = st.back();
+                st.pop_back();
+            }
+        return s;
+    }
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+```	
+`Approach 4:`two pointers<br />	
+In my opinion this is the best approach. Btw. doing `swap(s[l++], s[r--]);` instead of `if (l < r) swap(s[l++], s[r--]);` will swap a character with itself at the end, but that doesnot matter.	
+```cpp
+    static string reverseVowels(string s) {
+        for (int l = 0, r = size(s) - 1; l < r; ) {
+            while (l < r && !isVowel(s[l])) ++l;
+            while (l < r && !isVowel(s[r])) --r;
+            swap(s[l++], s[r--]);
+        }
+        return s;
+    }
+//Time Complexity: O(n)
+//Space Complexity: O(1)
+```	
+`Approach 5:` `string::find_first_of`, `string::find_last_of`<br />
+```cpp
+    static string reverseVowels(string s) {
+        for (int l = 0, r = size(s) - 1; l < r; ) {
+            l = s.find_first_of("aeiouAEIOU", l);
+            r = s.find_last_of("aeiouAEIOU", r);
+            if (l < r) swap(s[l++], s[r--]);
+        }
+        return s;
+    }
+//Time Complexity: O(n)
+//Space Complexity: O(1)
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
