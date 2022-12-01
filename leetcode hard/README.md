@@ -3028,4 +3028,72 @@ public:
 
 
 
+<br /> <br /> <br />**[899. Orderly Queue](https://leetcode.com/problems/orderly-queue/)**<br />
+You are given a string `s` and an integer `k`. You can choose one of the first `k` letters of `s` and append it at the end of the string.<br />
+Return _the lexicographically smallest string you could have after applying the mentioned step any number of moves_.<br />
+
+Example 1:
+<pre>
+Input: s = "cba", k = 1
+Output: "acb"
+Explanation: 
+In the first move, we move the 1st character 'c' to the end, obtaining the string "bac".
+In the second move, we move the 1st character 'b' to the end, obtaining the final result "acb".
+</pre>
+Example 2:
+<pre>
+Input: s = "baaca", k = 3
+Output: "aaabc"
+Explanation: 
+In the first move, we move the 1st character 'b' to the end, obtaining the string "aacab".
+In the second move, we move the 3rd character 'c' to the end, obtaining the final result "aaabc".
+</pre>
+
+* Constraints: `1 <= k <= s.length <= 1000`<br />
+`s` consist of lowercase English letters.<br />
+
+```cpp
+class Solution {
+public:
+    string orderlyQueue(string s, int k) {
+        // if k == 1 then we rotate the string and find the lexicographically minimum string
+        if(k == 1)
+        {
+            string ans = s;
+            int n = s.length();
+            for(int i = 0 ; i < n;i++)
+            {
+                // extracting end char and adding it to the front
+                char c = s[n - 1];
+                s.pop_back();
+                s = c + s;
+                // minimum of existing string and new string formed
+                ans = min(s, ans);   
+            }
+            return ans;
+        }
+        // if k > 1 then we can rearrange the string anyway we like
+        // so return the sorted string.
+        sort(s.begin(), s.end());
+        return s;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <br /> <br /> <br />**[]()**<br />
