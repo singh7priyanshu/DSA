@@ -7809,5 +7809,151 @@ public:
 	
 	
 	
+	
+<br /> <br /> <br />**[947. Most Stones Removed with Same Row or Column](https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/description/)**<br />
+On a 2D plane, we place `n` stones at some integer coordinate points. Each coordinate point may have at most one stone.<br />
+A stone can be removed if it shares either **the same row or the same column** as another stone that has not been removed.<br />
+Given an array `stones` of length `n` where `stones[i] = [xi, yi]` represents the location of the `ith` stone, return the largest possible number of stones that can be removed.<br />	
+	
+Example 1:
+<pre>
+Input: stones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]
+Output: 5
+Explanation: One way to remove 5 stones is as follows:
+1. Remove stone [2,2] because it shares the same row as [2,1].
+2. Remove stone [2,1] because it shares the same column as [0,1].
+3. Remove stone [1,2] because it shares the same row as [1,0].
+4. Remove stone [1,0] because it shares the same column as [0,0].
+5. Remove stone [0,1] because it shares the same row as [0,0].
+Stone [0,0] cannot be removed since it does not share a row/column with another stone still on the plane.
+</pre>
+Example 2:
+<pre>
+Input: stones = [[0,0],[0,2],[1,1],[2,0],[2,2]]
+Output: 3
+Explanation: One way to make 3 moves is as follows:
+1. Remove stone [2,2] because it shares the same row as [2,0].
+2. Remove stone [2,0] because it shares the same column as [0,0].
+3. Remove stone [0,2] because it shares the same row as [0,0].
+Stones [0,0] and [1,1] cannot be removed since they do not share a row/column with another stone still on the plane.
+</pre>
+Example 3:
+<pre>
+Input: stones = [[0,0]]
+Output: 0
+Explanation: [0,0] is the only stone on the plane, so you cannot remove it.
+</pre>
+
+* Constraints: `1 <= stones.length <= 1000`<br />
+`0 <= xi, yi <= 10^4`<br />
+No two stones are at the same coordinate point.<br />
+	
+```cpp
+class Solution {
+public:
+    bool isValid(vector<int>&pos1, vector<int>&pos2)
+    {
+        if (pos1[0] == pos2[0]) return true;
+        if (pos1[1] == pos2[1]) return true;
+        return false;
+    }
+    void dfs(vector<vector<int>>&stones, vector<bool>&visited, int currIdx)
+    {
+        visited[currIdx] = true;
+        for (int i = 0; i < stones.size(); i++)
+        {
+            if (visited[i]) continue;
+            if (isValid(stones[i], stones[currIdx]))  dfs(stones, visited, i);
+        }
+    }
+    int removeStones(vector<vector<int>>& stones)
+    {
+        int n = stones.size();
+        vector<bool>visited(n, false);
+        int componentCount = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (visited[i]) continue;
+            dfs(stones, visited, i);
+            componentCount++;
+        }
+        return (n - componentCount); 
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[222. Count Complete Tree Nodes](https://leetcode.com/problems/count-complete-tree-nodes/)**<br />
+Given the `root` of a complete binary tree, return the number of the nodes in the tree.<br />
+According to **Wikipedia**, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between `1` and `2^h` nodes inclusive at the last level `h`.<br />
+Design an algorithm that runs in less than `O(n)` time complexity.<br />
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/01/14/complete.jpg">
+Input: root = [1,2,3,4,5,6]
+Output: 6
+</pre>
+Example 2:
+<pre>
+Input: root = []
+Output: 0
+</pre>
+Example 3:
+<pre>
+Input: root = [1]
+Output: 1
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[0, 5 * 10^4]`.<br />
+`0 <= Node.val <= 5 * 10^4`<br />
+The tree is guaranteed to be **complete**.<br />
+	
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution 
+{
+public:
+    int countNodes(TreeNode* root, int l = 1, int r = 1) 
+    {
+        if (!root) return 0;
+
+        TreeNode *left = root, *right = root;
+        while (left = left->left)   ++l; 
+        while (right = right->right) ++r; 
+        
+        if (l == r) return (1 << l) - 1;
+        
+        return 1 + countNodes(root->left) + countNodes(root->right);
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
