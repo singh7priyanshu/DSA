@@ -2212,5 +2212,85 @@ Consider Sample Example 2   s = "abBAcC"
 	
 	
 	
+<br /> <br /> <br />**[1047. Remove All Adjacent Duplicates In String](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/description/)**<br />
+You are given a string `s` consisting of lowercase English letters. A **duplicate removal** consists of choosing two **adjacent** and **equal** letters and removing them.<br />
+We repeatedly make **duplicate removals** on `s` until we no longer can.<br />
+Return the final string after all such duplicate removals have been made. It can be proven that the answer is **unique**.<br />	
+
+Example 1:
+<pre>
+Input: s = "abbaca"
+Output: "ca"
+Explanation: 
+For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
+</pre>
+Example 2:
+<pre>
+Input: s = "azxxzy"
+Output: "ay"
+</pre>
+
+* Constraints: `1 <= s.length <= 10^5`<br />
+`s` consists of lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        string ans = "";
+        stack<char>checkthetop;
+        for(int i = 0;i<s.length();i++){
+            if(!checkthetop.empty() && s[i] == checkthetop.top()){
+                checkthetop.pop();
+                continue;
+            }
+            else(checkthetop.push(s[i]));
+        }
+        while(!checkthetop.empty()){
+            ans += checkthetop.top();
+            checkthetop.pop();
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
+//TC : 0(n) SC : O(n)
+```
+Explanation :
+<pre>
+					s = "abbaca"
+</pre>
+<pre>
+ 				ans = a              s[i+1] = b
+</pre>	
+<pre>
+ 				ans = ab             s[i+1] = b
+</pre>	
+<pre>
+ 				ans = a              s[i+1] = a
+</pre>		
+<pre>
+ 				ans = c              s[i+1] = a
+</pre>		
+<pre>
+ 				ans = ca      
+ 				 
+ 				Finally ans = "ca" 
+</pre>		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
