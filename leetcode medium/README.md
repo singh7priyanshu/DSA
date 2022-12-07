@@ -7742,6 +7742,72 @@ public:
 	
 	
 	
+		
+<br /> <br /> <br />**[151. Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/description/)**<br />
+Given an input string `s`, reverse the order of the words.<br />
+A word is defined as a sequence of non-space characters. The **words** in `s` will be separated by at least one space.<br />
+Return a string of the words in reverse order concatenated by a single space.<br />
+**Note** that `s` may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.<br />	
+	
+Example 1:
+<pre>
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+</pre>
+Example 2:
+<pre>
+Input: s = "  hello world  "
+Output: "world hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+</pre>
+Example 3:
+<pre>
+Input: s = "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+</pre>
+
+* Constraints: `1 <= s.length <= 10^4`<br />
+`s` contains English letters (upper-case and lower-case), digits, and spaces `' '`.<br />
+There is **at least one** word in `s`.<br />
+	
+```cpp
+class Solution {
+public:
+    string reverseWords(const string_view s) {
+        // Breakup the input into words and put them on a stack.
+        stack<string_view> st;
+        size_t start = 0;
+        size_t end = 0;
+        while ((start = s.find_first_not_of(' ', end)) != string::npos) {
+            end = s.find_first_of(' ', start);
+            st.push(s.substr(start, end - start));
+        }
+        // Stitch the answer together.
+        string ans;
+        ans.reserve(size(s));
+        while (!empty(st)) {
+            if (!empty(ans)) ans.push_back(' ');
+            ans += st.top();
+            st.pop();
+        }
+        return ans; 
+    }
+};
+//Time Complexity: O(n)
+//Space Complexity: O(n) for the stack and the output
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
