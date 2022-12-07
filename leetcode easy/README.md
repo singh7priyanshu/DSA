@@ -2258,7 +2258,7 @@ public:
 ```
 Explanation :
 <pre>
-					s = "abbaca"
+			s = "abbaca"
 </pre>
 <pre>
 		ans = a              s[i+1] = b
