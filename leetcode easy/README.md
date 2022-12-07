@@ -2261,21 +2261,21 @@ Explanation :
 					s = "abbaca"
 </pre>
 <pre>
- 				ans = a              s[i+1] = b
+		ans = a              s[i+1] = b
 </pre>	
 <pre>
- 				ans = ab             s[i+1] = b
+		ans = ab             s[i+1] = b
 </pre>	
 <pre>
- 				ans = a              s[i+1] = a
+		ans = a              s[i+1] = a
 </pre>		
 <pre>
- 				ans = c              s[i+1] = a
+		ans = c              s[i+1] = a
 </pre>		
 <pre>
- 				ans = ca      
+		ans = ca      
  				 
- 				Finally ans = "ca" 
+		Finally ans = "ca" 
 </pre>		
 	
 	
