@@ -2111,4 +2111,105 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1544. Make The String Great](https://leetcode.com/problems/make-the-string-great/)**<br />
+Given a string `s` of lower and upper case English letters.<br />
+A good string is a string which doesn't have **two adjacent characters** `s[i]` and `s[i + 1]` where:<br />
+
+ * `0 <= i <= s.length - 2`<br />
+ * `s[i]` is a lower-case letter and `s[i + 1]` is the same letter but in upper-case or **vice-versa**.<br />
+	
+To make the string good, you can choose **two adjacent** characters that make the string bad and remove them. You can keep doing this until the string becomes good.<br />
+Return the string after making it good. The answer is guaranteed to be unique under the given constraints.<br />
+**Notice** that an empty string is also good.<br />
+	
+Example 1:
+<pre>
+Input: s = "leEeetcode"
+Output: "leetcode"
+Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+</pre>
+Example 2:
+<pre>
+Input: s = "abBAcC"
+Output: ""
+Explanation: We have many possible scenarios, and all lead to the same answer. For example:
+"abBAcC" --> "aAcC" --> "cC" --> ""
+"abBAcC" --> "abBA" --> "aA" --> ""
+</pre>
+Example 3:
+<pre>
+Input: s = "s"
+Output: "s"
+</pre>
+	
+* Constraints: `1 <= s.length <= 100`<br />
+`s` contains only lower and upper case English letters.<br />
+	
+```cpp
+class Solution {
+public:
+    string makeGood(string s) {
+        
+        string ans;
+        
+        for(int i = 0 ; i < s.size() ; i++)
+        {
+            ans.push_back(s[i]);
+            
+            while(ans.size() && (ans.back()==s[i+1]+32 || ans.back()==s[i+1]-32))
+            {
+                ans.pop_back();
+                i++;
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+Explanation:
+<pre>
+Consider Sample Example 2   s = "abBAcC"
+</pre>
+<pre>
+      i = 0   ans = a          s[i+1] = b
+</pre>
+<pre>
+      i = 1   ans = ab         s[i+1] = B
+</pre>
+<pre>
+      i = 2   ans = a          s[i+1] = A
+</pre>
+<pre>
+      i = 3   ans = ""         s[i+1] = c
+</pre>
+<pre>
+      i = 4   ans = c          s[i+1] = C
+</pre>
+<pre>
+      i = 5   ans = "" 
+</pre>
+<pre>
+      Finally ans = "" 
+</pre>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <br /> <br /> <br />**[]()**<br />
