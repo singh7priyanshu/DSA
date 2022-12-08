@@ -3352,5 +3352,171 @@ public:
 
 
 
+	
+<br /> <br /> <br />**[1235. Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling/)**<br />
+We have `n` jobs, where every job is scheduled to be done from `startTime[i]` to `endTime[i]`, obtaining a profit of `profit[i]`.<br />
+You're given the `startTime`, `endTime` and `profit` arrays, return the maximum profit you can take such that there are no two jobs in the subset with overlapping time range.<br />
+If you choose a job that ends at time `X` you will be able to start another job that starts at time `X`.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2019/10/10/sample1_1584.png">
+Input: startTime = [1,2,3,3], endTime = [3,4,5,6], profit = [50,10,40,70]
+Output: 120
+Explanation: The subset chosen is the first and fourth job. 
+Time range [1-3]+[3-6] , we get profit of 120 = 50 + 70.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2019/10/10/sample22_1584.png">
+Input: startTime = [1,2,3,4,6], endTime = [3,5,10,6,9], profit = [20,20,100,70,60]
+Output: 150
+Explanation: The subset chosen is the first, fourth and fifth job. 
+Profit obtained 150 = 20 + 70 + 60.
+</pre>
+Example 3:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2019/10/10/sample3_1584.png">
+Input: startTime = [1,1,1], endTime = [2,3,4], profit = [5,6,4]
+Output: 6
+</pre>
+
+* Constraints: `1 <= startTime.length == endTime.length == profit.length <= 5 * 10^4`<br />
+`1 <= startTime[i] < endTime[i] <= 10^9`<br />
+`1 <= profit[i] <= 10^4`<br />
+
+```cpp
+class Solution {
+public:
+    int explore(vector<int> &dp,int i,vector<pair<int,pair<int,int>>>& time,int &n,int lastTime){
+        if(i==n)return 0;
+         if(lastTime>time[i].first)return explore(dp,i+1,time,n,lastTime);
+        if(dp[i]!=-1)return dp[i];
+        int profit=0;
+        profit=time[i].second.second+explore(dp,i+1,time,n,time[i].second.first);
+        profit=max(profit,explore(dp,i+1,time,n,lastTime));
+        return dp[i]=profit;
+    }
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        int n=startTime.size();
+        vector<int> dp(n,-1);
+        vector<pair<int,pair<int,int>>> time;
+        for(int  i=0;i<n;i++)time.push_back(make_pair(startTime[i],make_pair(endTime[i],profit[i])));              
+        sort(time.begin(),time.end());
+        int maxi=0;
+        for(int i=0;i<n;i++)maxi=max(maxi,explore(dp,i,time,n,0));
+        return maxi;       
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+<br /> <br /> <br />**[446. Arithmetic Slices II - Subsequence](https://leetcode.com/problems/arithmetic-slices-ii-subsequence/)**<br />
+Given an integer array `nums`, return the number of all the **arithmetic subsequences** of `nums`.<br />
+
+A sequence of numbers is called arithmetic if it consists of **at least three elements** and if the difference between any two consecutive elements is the same.<br />
+
+* For example, `[1, 3, 5, 7, 9]`, `[7, 7, 7, 7]`, and `[3, -1, -5, -9]` are arithmetic sequences.<br />
+* For example, `[1, 1, 2, 5, 7]` is not an arithmetic sequence.<br />
+
+A **subsequence** of an array is a sequence that can be formed by removing some elements (possibly none) of the array.<br />
+
+* For example, `[2,5,10]` is a subsequence of `[1,2,1,2,4,1,5,10]`.<br />
+
+The test cases are generated so that the answer fits in **32-bit** integer.<br />
+
+Example 1:
+<pre>
+Input: nums = [2,4,6,8,10]
+Output: 7
+Explanation: All arithmetic subsequence slices are:
+[2,4,6]
+[4,6,8]
+[6,8,10]
+[2,4,6,8]
+[4,6,8,10]
+[2,4,6,8,10]
+[2,6,10]
+</pre>
+Example 2:
+<pre>
+Input: nums = [7,7,7,7,7]
+Output: 16
+Explanation: Any subsequence of this array is arithmetic.
+</pre>
+
+* Constraints: `1  <= nums.length <= 1000`<br />
+`-2^31 <= nums[i] <= 2^31 - 1`<br />
+
+```cpp
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        
+        int n = nums.size();
+        
+        // declare a dp array of unordered_map
+        
+        vector<unordered_map<long, long>> dp(n + 1);
+        
+        // dp[i][diff] will store the no. of subsequence with common difference of diff, till ith index
+        
+        long ans = 0;
+        
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = i - 1; j >= 0; j--)
+            {
+                long diff = (long) nums[i] - long(nums[j]);
+                
+                // update ans
+                
+                ans += dp[j][diff];
+                
+                // update dp[i][diff]
+                
+                dp[i][diff] += dp[j][diff];
+                
+                dp[i][diff]++;
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
