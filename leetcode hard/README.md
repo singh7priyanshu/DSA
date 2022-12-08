@@ -3252,5 +3252,105 @@ private:
 
 
 
+	
+<br /> <br /> <br />**[224. Basic Calculator](https://leetcode.com/problems/basic-calculator/description/)**<br />
+Given a string `s` representing a valid expression, implement a basic calculator to evaluate it, and return the result of the evaluation.<br />
+**Note**: You are **not** allowed to use any built-in function which evaluates strings as mathematical expressions, such as `eval()`.<br />
+
+Example 1:
+<pre>
+Input: s = "1 + 1"
+Output: 2
+</pre>
+Example 2:
+<pre>
+Input: s = " 2-1 + 2 "
+Output: 3
+</pre>
+Example 3:
+<pre>
+Input: s = "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+</pre>
+
+* Constraints: `1 <= s.length <= 3 * 10^5`<br />
+`s` consists of digits, `'+'`, `'-'`, `'('`, `')'`, and `' '`.<br />
+`s` represents a valid expression.<br />
+`'+'` is not used as a unary operation (i.e., `"+1"` and `"+(2 + 3)"` is invalid).<br />
+`'-'` could be used as a unary operation (i.e., `"-1"` and `"-(2 + 3)"` is valid).<br />
+There will be no two consecutive operators in the input.<br />
+Every number and running calculation will fit in a signed 32-bit integer.<br />
+
+```cpp
+class Solution {
+public:
+    int calculate(string s) {
+        int result=0;
+        int sum=0;
+        int sign=1;
+        stack<int>st;
+        int n=s.size();
+        for(int i=0;i<n;i++)
+        {
+            if(isdigit(s[i]))
+            {
+                sum=s[i] -'0';
+                while(i+1<n && isdigit(s[i+1]))
+                {
+                    sum = sum*10 + (s[i+1] -'0');
+                    i++;
+                }
+                result+=sum*sign;
+            }
+            
+            else if(s[i] == '+')
+            {
+                sign=1;
+            }
+            else if (s[i] == '-')
+            {
+                sign=-1;
+            }
+            else if (s[i] == '(')
+            {
+                st.push(result);
+                st.push(sign);
+                result=0;
+                sign=1;
+            }
+            else if(s[i] == ')')
+            {
+                int xsign=st.top();
+                st.pop();
+                int xresult= st.top();
+                st.pop();
+                result=result*xsign + xresult;
+            }
+        }
+        
+        return result;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
