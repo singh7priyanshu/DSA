@@ -2354,5 +2354,89 @@ public:
 	
 	
 	
+	
+<br /> <br /> <br />**[374. Guess Number Higher or Lower](https://leetcode.com/problems/guess-number-higher-or-lower/description/)**<br />
+We are playing the Guess Game. The game is as follows:<br />
+I pick a number from `1` to `n`. You have to guess which number I picked.<br />
+Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.<br />
+You call a pre-defined API `int guess(int num)`, which returns three possible results:<br />
+
+ * `-1`: Your guess is higher than the number I picked (i.e. `num > pick`).<br />
+ * `1`: Your guess is lower than the number I picked (i.e. `num < pick`).<br />
+ * `0`: your guess is equal to the number I picked (i.e. `num == pick`).<br />
+
+Return the number that I picked.<br />
+
+Example 1:
+<pre>
+Input: n = 10, pick = 6
+Output: 6
+</pre>
+Example 2:
+<pre>
+Input: n = 1, pick = 1
+Output: 1
+</pre>
+Example 3:
+<pre>
+Input: n = 2, pick = 1
+Output: 1
+</pre>
+
+* Constraints: `1 <= n <= 2^31 - 1`<br />
+`1 <= pick <= n`<br />
+
+```cpp
+/** 
+ * Forward declaration of guess API.
+ * @param  num   your guess
+ * @return 	     -1 if num is higher than the picked number
+ *			      1 if num is lower than the picked number
+ *               otherwise return 0
+ * int guess(int num);
+ */
+
+class Solution {
+public:
+      int guessNumber(const int n) {
+        int lo = 1;
+        int hi = n;
+        while (lo <= hi) {
+            const int mid = lo + (hi - lo) / 2;
+            const int g = guess(mid);
+            if (g == 0) {
+                return mid;
+            } else if (g == -1) {
+                hi = mid - 1;
+            } else {
+                lo = mid + 1;
+            }
+        }
+        // unreachable
+        assert(false);
+        return -1;
+    }
+};
+
+//Time Complexity: $$O(\log n)$$
+//Space Complexity: $$O(1)$$
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
