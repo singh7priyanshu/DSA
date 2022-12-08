@@ -8009,5 +8009,107 @@ public:
 	
 	
 	
+	
+<br /> <br /> <br />**[1926. Nearest Exit from Entrance in Maze](https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/description/)**<br />
+You are given an `m x n` matrix `maze` (**0-indexed**) with empty cells (represented as `'.'`) and walls (represented as `'+'`). You are also given the `entrance` of the maze, where `entrance = [entrancerow, entrancecol]` denotes the row and column of the cell you are initially standing at.<br />
+In one step, you can move one cell **up**, **down**, **left**, or **right**. You cannot step into a cell with a wall, and you cannot step outside the maze. Your goal is to find the **nearest exit** from the `entrance`. An **exit** is defined as an **empty cell** that is at the **border** of the `maze`. The `entrance` **does not count** as an exit.<br />
+Return the **number of steps** in the shortest path from the `entrance` to the nearest exit, or `-1` if no such path exists.<br />	
+	
+Example 1:	
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/06/04/nearest1-grid.jpg">
+Input: maze = [["+","+",".","+"],[".",".",".","+"],["+","+","+","."]], entrance = [1,2]
+Output: 1
+Explanation: There are 3 exits in this maze at [1,0], [0,2], and [2,3].
+Initially, you are at the entrance cell [1,2].
+- You can reach [1,0] by moving 2 steps left.
+- You can reach [0,2] by moving 1 step up.
+It is impossible to reach [2,3] from the entrance.
+Thus, the nearest exit is [0,2], which is 1 step away.
+</pre>	
+Example 2:	
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/06/04/nearesr2-grid.jpg">	
+Input: maze = [["+","+","+"],[".",".","."],["+","+","+"]], entrance = [1,0]
+Output: 2
+Explanation: There is 1 exit in this maze at [1,2].
+[1,0] does not count as an exit since it is the entrance cell.
+Initially, you are at the entrance cell [1,0].
+- You can reach [1,2] by moving 2 steps right.
+Thus, the nearest exit is [1,2], which is 2 steps away.	
+</pre>	
+Example 3:	
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/06/04/nearest3-grid.jpg">	
+Input: maze = [[".","+"]], entrance = [0,0]
+Output: -1
+Explanation: There are no exits in this maze.	
+</pre>	
+
+* Constraints: `maze.length == m`<br />
+`maze[i].length == n`<br />
+`1 <= m, n <= 100`<br />
+`maze[i][j]` is either `'.'` or `'+'`.<br />
+`entrance.length == 2`<br />
+`0 <= entrancerow < m`<br />
+`0 <= entrancecol < n`<br />
+`entrance` will always be an empty cell.<br />
+	
+```cpp
+class Solution 
+{
+public:
+    int nearestExit(vector<vector<char>>& maze, vector<int>& e)
+    {
+        int m = maze.size(), n = maze[0].size();
+        int dirs[5] = {0, -1, 0, 1, 0};
+
+        auto is_exit = [&](int i, int j) -> int
+        {
+            return (i!=e[0] || j!=e[1]) && (i*j==0 or i==m-1 or j==n-1);
+        };
+        
+        deque<array<int,3>> dq = {{e[0],e[1],0}};
+        
+        while (!dq.empty())
+        {
+            auto [i,j,s] = dq.front(); dq.pop_front();
+            
+            for (int d = 0; d < 4; ++d)
+            {
+                int ii = i + dirs[d], jj = j + dirs[d + 1];
+                if (ii < 0 or ii >= m or jj < 0 or jj >= n or maze[ii][jj] == '+')
+                    continue;
+                maze[ii][jj] = '+';
+                if (is_exit(ii,jj)) return s+1;
+                dq.push_back({ii,jj,s+1});
+            }
+        }
+        
+        return -1;
+    }
+};
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
