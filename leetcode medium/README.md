@@ -8801,8 +8801,8 @@ Example 1:
 Input: word1 = "abc", word2 = "bca"
 Output: true
 Explanation: You can attain word2 from word1 in 2 operations.
-Apply Operation 1: "abc" -> "acb"
-Apply Operation 1: "acb" -> "bca"
+Apply Operation 1: "a.bc." -> "a.cb."
+Apply Operation 1: ".a. c .b." -> ".b. c .a."
 </pre>
 Example 2:
 <pre>
@@ -8815,9 +8815,9 @@ Example 3:
 Input: word1 = "cabbba", word2 = "abbccc"
 Output: true
 Explanation: You can attain word2 from word1 in 3 operations.
-Apply Operation 1: "cabbba" -> "caabbb"
-Apply Operation 2: "caabbb" -> "baaccc"
-Apply Operation 2: "baaccc" -> "abbccc"
+Apply Operation 1: "ca.b.bb.a." -> "ca.a.bb.b."
+Apply Operation 2: "caa.bbb." -> "baa.ccc."
+Apply Operation 2: ".baa.ccc" -> ".abb.ccc"
 </pre>
 
 * Constraints: `1 <= word1.length, word2.length <= 10^5`<br />
