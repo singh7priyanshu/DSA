@@ -8791,7 +8791,7 @@ Two strings are considered close if you can attain one from the other using the 
 
 * Operation 2: Transform **every** occurrence of one **existing** character into another **existing** character, and do the same with the other character.<br />
 	
-		* For example, `aacabb -> bbcbaa` (all `a`'s turn into `b`'s, and all `b`'s turn into `a`'s)<br />
+	* For example, `aacabb -> bbcbaa` (all `a`'s turn into `b`'s, and all `b`'s turn into `a`'s)<br />
 	
 You can use the operations on either string as many times as necessary.<br />
 Given two strings, `word1` and `word2`, return `true` if `word1` and `word2` are **close**, and `false` otherwise.<br />	
