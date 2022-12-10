@@ -2495,5 +2495,121 @@ public:
 
 
 
+	
+<br /> <br /> <br />**[1207. Unique Number of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/)**<br />
+Given an array of integers `arr`, return `true` if the number of occurrences of each value in the array is unique or `false` otherwise.<br />
+
+Example 1:
+<pre>
+Input: arr = [1,2,2,1,1,3]
+Output: true
+Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+</pre>
+Example 2:
+<pre>
+Input: arr = [1,2]
+Output: false
+</pre>
+Example 3:
+<pre>
+Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+Output: true
+</pre>
+
+* Constraints: `1 <= arr.length <= 1000`<br />
+`-1000 <= arr[i] <= 1000`<br />
+
+```cpp
+class Solution 
+{
+public:
+    bool uniqueOccurrences(vector<int>& arr) 
+    {
+        unordered_map<int, int> cnt;
+        unordered_set<int> unq;
+        for (int n   : arr) cnt[n]++;               // [1] count frequencies
+        for (auto& c : cnt) unq.insert(c.second);   // [2] collect unique frequencies
+        return cnt.size() == unq.size();
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+<br /> <br /> <br />**[1704. Determine if String Halves Are Alike](https://leetcode.com/problems/determine-if-string-halves-are-alike/)**<br />
+You are given a string `s` of even length. Split this string into two halves of equal lengths, and let `a` be the first half and `b` be the second half.<br />
+Two strings are alike if they have the same number of vowels (`'a'`, `'e'`, `'i'`, `'o'`, `'u'`, `'A'`, `'E'`, `'I'`, `'O'`, `'U'`). Notice that `s` contains uppercase and lowercase letters.<br />
+Return `true` if `a` and `b` are **alike**. Otherwise, return `false`.<br />
+
+Example 1:
+<pre>
+Input: s = "book"
+Output: true
+Explanation: a = "bo" and b = "ok". a has 1 vowel and b has 1 vowel. Therefore, they are alike.
+</pre>
+Example 2:
+<pre>
+Input: s = "textbook"
+Output: false
+Explanation: a = "text" and b = "book". a has 1 vowel whereas b has 2. Therefore, they are not alike.
+Notice that the vowel o is counted twice.
+</pre>
+
+* Constraints: `2 <= s.length <= 1000`<br />
+`s.length` is even.<br />
+`s` consists of **uppercase and lowercase** letters.<br />
+
+```cpp
+class Solution {
+public:
+    bool halvesAreAlike(string s) {
+        int frontvowels = 0, endvowels = 0;
+        for(int i = 0;i<s.length()/2;i++){
+            if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U')frontvowels++;
+        }
+        for(int i = s.length()/2;i<s.length();i++){
+            if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U')endvowels++;
+        }
+        return (frontvowels == endvowels);
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
