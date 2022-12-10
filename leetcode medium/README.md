@@ -9147,5 +9147,188 @@ public:
 	
 	
 	
+<br /> <br /> <br />**[1026. Maximum Difference Between Node and Ancestor](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/description/)**<br />
+Given the `root` of a binary tree, find the maximum value `v` for which there exist **different** nodes `a` and `b` where `v = |a.val - b.val|` and `a` is an ancestor of `b`.<br />
+A node `a` is an ancestor of `b` if either: any child of `a` is equal to `b` or any child of `a` is an ancestor of `b`.<br />	
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/09/tmp-tree.jpg">
+Input: root = [8,3,10,1,6,null,14,null,null,4,7,13]
+Output: 7
+Explanation: We have various ancestor-node differences, some of which are given below :
+|8 - 3| = 5
+|3 - 7| = 4
+|8 - 1| = 7
+|10 - 13| = 3
+Among all possible differences, the maximum value of 7 is obtained by |8 - 1| = 7.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/09/tmp-tree-1.jpg">
+Input: root = [1,null,2,null,0,3]
+Output: 3
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[2, 5000]`.<br />
+`0 <= Node.val <= 10^5`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxAncestorDiff(TreeNode* root) {
+        int res = 0, mx = INT_MIN, mn = INT_MAX;
+        helper(root, mx, mn, res);
+        return res;
+    }
+    void helper(TreeNode* node, int mx, int mn, int& res) {
+        if (!node) return;
+        if (mx != INT_MIN) res = max(res, abs(mx - node->val));
+        if (mn != INT_MAX) res = max(res, abs(node->val - mn));
+        mx = max(mx, node->val);
+        mn = min(mn, node->val);
+        helper(node->left, mx, mn, res);
+        helper(node->right, mx, mn, res);
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1339. Maximum Product of Splitted Binary Tree](https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/description/)**<br />
+Given the `root` of a binary tree, split the binary tree into two subtrees by removing one edge such that the product of the sums of the subtrees is maximized.<br />
+Return the maximum product of the sums of the two subtrees. Since the answer may be too large, return it modulo `10^9 + 7`.<br />
+**Note** that you need to maximize the answer before taking the mod and not after taking it.<br />
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/01/21/sample_1_1699.png">
+Input: root = [1,2,3,4,5,6]
+Output: 110
+Explanation: Remove the red edge and get 2 binary trees with sum 11 and 10. Their product is 110 (11*10)
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/01/21/sample_2_1699.png">
+Input: root = [1,null,2,3,4,null,null,5,6]
+Output: 90
+Explanation: Remove the red edge and get 2 binary trees with sum 15 and 6.Their product is 90 (15*6)
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[2, 5 * 10^4]`.<br />
+`1 <= Node.val <= 10^4`<br />	
+	
+`Observation`<br />
+The easiest way to do this is to check the sum of each subtree and subtract it with total sum of the tree to get sum of both the trees when the current
+subtree is removed.<br />
+
+`Solution`<br />
+Let's use 1 DFS to calculate the total sum of the tree and another one to get the sum of the left subtree and the right subtree under the current node which we can use to calculate the answer for every node.<br />
+At any given point in the second dfs we can either remove the left subtree under the current node or the right subtree and make either one of them a new tree.
+We can thus use the observation above to check all the subtrees in this DFS and formulate the final maximum answer.<br />
+For clarity I have here 2 seperate DFS functions, these can be merged into one as in Solution 2.<br />
+```cpp
+static int MOD=1e9+7;
+class Solution {
+public:
+    long long totalTreeSum=0,result=0;
+    void getTotalTreeSum(TreeNode* root)    //Get total sum of the tree.
+    {
+        if(!root)
+            return;
+        totalTreeSum+=root->val;
+        getTotalTreeSum(root->left);
+        getTotalTreeSum(root->right);
+    }
+    int SumUnder(TreeNode* root)             //Get the totalSum under the node `root` including root.
+    {
+       if(!root)
+            return 0;
+       int sumUnderLeft=SumUnder(root->left),sumUnderRight=SumUnder(root->right); //Get the sum of left and right subtree under node 'root'
+       result=max({result,(totalTreeSum-sumUnderLeft)*sumUnderLeft,(totalTreeSum-sumUnderRight)*sumUnderRight});    //Get the max product after making left or right subtrees as seprarate tree.
+       return sumUnderLeft+sumUnderRight+root->val;
+    }
+    int maxProduct(TreeNode* root) 
+    {
+        getTotalTreeSum(root);
+        SumUnder(root);
+        return result%MOD;
+    }
+};
+//Complexity
+//Space: O(h) where h is the height of the tree, at worst this can be O(n) in case of a skewed tree.
+//Time: O(n). We use two pass DFS's which are O(n) each
+```	
+
+Solution 2<br />
+As stated above we can simply use the same DFS function as `SumUnder` to get the `totalSum`.<br />
+```cpp
+static int MOD=1e9+7;
+class Solution {
+public:
+    long long totalTreeSum=0,result=0;
+    int SumUnder(TreeNode* root)             //Get the totalSum under the node `root` including root.
+    {
+        if(!root)
+            return 0;
+        long long sum=SumUnder(root->left)+SumUnder(root->right)+root->val; //Get the sum of current subtree.
+        result=max(result,sum*(totalTreeSum-sum));    //Get the max product after making current subtree as a separate tree
+        return sum;
+    }
+    int maxProduct(TreeNode* root) 
+    {
+        totalTreeSum=SumUnder(root);
+        SumUnder(root);
+        return result%MOD;
+    }
+};
+//Complexity
+//Space: O(h) where h is the height of the tree, at worst this can be O(n) in case of a skewed tree.
+//Time: O(n). We use two pass DFS's which are O(n) each
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
