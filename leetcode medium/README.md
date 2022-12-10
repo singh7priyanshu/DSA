@@ -9094,7 +9094,7 @@ Output: [1,3,5,2,4]
 </pre>
 Example 2:
 <pre>
-https://assets.leetcode.com/uploads/2021/03/10/oddeven2-linked-list.jpg
+<img src = https://assets.leetcode.com/uploads/2021/03/10/oddeven2-linked-list.jpg>
 Input: head = [2,1,3,5,6,4,7]
 Output: [2,3,6,7,1,5,4]
 </pre>
