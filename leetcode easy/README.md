@@ -2610,6 +2610,147 @@ public:
 
 
 
+	
+<br /> <br /> <br />**[938. Range Sum of BST](https://leetcode.com/problems/range-sum-of-bst/description/)**<br />
+Given the `root` node of a binary search tree and two integers `low` and `high`, return the sum of values of all nodes with a value in the inclusive range `[low, high]`.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/05/bst1.jpg">
+Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+Output: 32
+Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/11/05/bst2.jpg">
+Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+Output: 23
+Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+</pre>
+
+* Constraints: The number of nodes in the tree is in the range `[1, 2 * 10^4]`.<br />
+`1 <= Node.val <= 10^5`<br />
+`1 <= low <= high <= 10^5`<br />
+All `Node.val` are **unique**.<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+    if(!root || low > high)
+        return 0;
+    
+    if(root->val < low)
+        return rangeSumBST(root->right, low, high);
+    
+    if(root->val > high)
+        return rangeSumBST(root->left, low, high);
+    
+    return root->val + rangeSumBST(root->left, low, high) + rangeSumBST(root->right, low, high);    
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+	
+<br /> <br /> <br />**[872. Leaf-Similar Trees](https://leetcode.com/problems/leaf-similar-trees/description/)**<br />
+Consider all the leaves of a binary tree, from left to right order, the values of those leaves form a **leaf value sequence**.<br />
+<img src = "https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/16/tree.png"><br />
+For example, in the given tree above, the leaf value sequence is (`6, 7, 4, 9, 8`).<br />
+Two binary trees are considered leaf-similar if their leaf value sequence is the same.<br />
+Return `true` if and only if the two given trees with head nodes `root1` and `root2` are leaf-similar.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/09/03/leaf-similar-1.jpg">
+Input: root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+Output: true
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/09/03/leaf-similar-2.jpg">
+Input: root1 = [1,2,3], root2 = [1,3,2]
+Output: false
+</pre>
+
+* Constraints: The number of nodes in each tree will be in the range `[1, 200]`.<br />
+Both of the given trees will have values in the range `[0, 200]`.<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        stack<TreeNode*> s1 , s2;
+        s1.push(root1); s2.push(root2);
+        while (!s1.empty() && !s2.empty())
+            if (dfs(s1) != dfs(s2)) return false;
+        return s1.empty() && s2.empty();
+    }
+
+    int dfs(stack<TreeNode*>& s) {
+        while (true) {
+            TreeNode* node = s.top(); s.pop();
+            if (node->right) s.push(node->right);
+            if (node->left) s.push(node->left);
+            if (!node->left && !node->right) return node->val;
+        }
+    }
+};
+
+/*
+Here I share an idea of comparing node by node using O(H) space,
+where H is the height of the tree.
+
+Use a stack<TreeNode> to keep dfs path.
+dfs(stack) will return next leaf.
+Check leaves one by one, until the end or difference.
+Only O(H) space for stack, no extra space for comparation.
+O(1) is also possible if we can modify the tree.
+*/
+```
+
+
+
+
+
+
+
+
+
+
 
 # This is Bottom	
 <br /> <br /> <br />**[]()**<br />
