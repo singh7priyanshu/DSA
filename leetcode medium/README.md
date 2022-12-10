@@ -8773,12 +8773,369 @@ public:
 	
 	
 	
+
+	
+	
+
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[1657. Determine if Two Strings Are Close](https://leetcode.com/problems/determine-if-two-strings-are-close/)**<br />	
+Two strings are considered close if you can attain one from the other using the following operations:<br />
+
+* Operation 1: Swap any two **existing** characters.<br />
+	
+	* For example, `abcde -> aecdb`<br />
+
+* Operation 2: Transform **every** occurrence of one **existing** character into another **existing** character, and do the same with the other character.<br />
+	
+		* For example, `aacabb -> bbcbaa` (all `a`'s turn into `b`'s, and all `b`'s turn into `a`'s)<br />
+	
+You can use the operations on either string as many times as necessary.<br />
+Given two strings, `word1` and `word2`, return `true` if `word1` and `word2` are **close**, and `false` otherwise.<br />	
+	
+Example 1:
+<pre>
+Input: word1 = "abc", word2 = "bca"
+Output: true
+Explanation: You can attain word2 from word1 in 2 operations.
+Apply Operation 1: "abc" -> "acb"
+Apply Operation 1: "acb" -> "bca"
+</pre>
+Example 2:
+<pre>
+Input: word1 = "a", word2 = "aa"
+Output: false
+Explanation: It is impossible to attain word2 from word1, or vice versa, in any number of operations.
+</pre>
+Example 3:
+<pre>
+Input: word1 = "cabbba", word2 = "abbccc"
+Output: true
+Explanation: You can attain word2 from word1 in 3 operations.
+Apply Operation 1: "cabbba" -> "caabbb"
+Apply Operation 2: "caabbb" -> "baaccc"
+Apply Operation 2: "baaccc" -> "abbccc"
+</pre>
+
+* Constraints: `1 <= word1.length, word2.length <= 10^5`<br />
+`word1` and `word2` contain only lowercase English letters.<br />
+	
+```cpp
+class Solution {
+public:
+   bool closeStrings(string word1, string word2) {
+       // condition1 : we need the size of both strings to be same
+       // condition2 : we need freq of char in strings to be same, irrespective of the order
+       // if above 2 conditions are satisfied then just swapping will get us the word2 from word1
+       
+       if(word1.size()!=word2.size())
+           return false;
+       
+       set<char> s1, s2;
+       vector<int> freq1(26,0), freq2(26,0);
+       
+       for(int i=0; i<word1.size(); i++)
+       {
+           s1.insert(word1[i]);
+           s2.insert(word2[i]);
+           
+           freq1[word1[i] - 'a']++;
+           freq2[word2[i] - 'a']++;
+       }
+       
+       sort(freq1.begin(), freq1.end());
+       sort(freq2.begin(), freq2.end());
+       
+       if(s1==s2 && freq1==freq2)
+           return true;
+       else
+           return false;       
+   }
+};
+//Time Complexity : O(n)
+```	
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+
+<br /> <br /> <br />**[451. Sort Characters By Frequency](https://leetcode.com/problems/sort-characters-by-frequency/)**<br />	
+Given a string `s`, sort it in **decreasing order** based on the **frequency** of the characters. The **frequency** of a character is the number of times it appears in the string.<br />
+Return the sorted string. If there are multiple answers, return any of them.<br />	
+	
+Example 1:
+<pre>
+Input: s = "tree"
+Output: "eert"
+Explanation: 'e' appears twice while 'r' and 't' both appear once.
+So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+</pre>
+Example 2:
+<pre>
+Input: s = "cccaaa"
+Output: "aaaccc"
+Explanation: Both 'c' and 'a' appear three times, so both "cccaaa" and "aaaccc" are valid answers.
+Note that "cacaca" is incorrect, as the same characters must be together.
+</pre>
+Example 3:
+<pre>
+Input: s = "Aabb"
+Output: "bbAa"
+Explanation: "bbaA" is also a valid answer, but "Aabb" is incorrect.
+Note that 'A' and 'a' are treated as two different characters.
+</pre>
+
+* Constraints: `1 <= s.length <= 5 * 10^5`<br />
+`s` consists of uppercase and lowercase English letters and digits.<br />
+	
+```cpp
+class Solution {
+public:
+    string frequencySort(string s) 
+    {
+        // declare map for storing the frequency of each char in string
+        map<char,int> mp;
+        for(auto it : s)
+        {
+            mp[it]++;
+        }
+        
+        // declare a max heap for sorting the map values based on frequency
+        priority_queue<pair<int,char>> pq;
+        for(auto it : mp)
+        {
+            pq.push({it.second,it.first});
+        }
+        
+        
+        // start storing the chars in ans frequency wise
+        string ans = "";
+        while(!pq.empty())
+        {
+            int freq = pq.top().first;                // frequency count
+            char ch = pq.top().second;             // current char
+            pq.pop();                              // pop out the element
+            
+            // store the curr char (freq * 1 times)
+            for(int i=0;i<freq;i++)
+            {
+                ans += ch;
+            }
+        }
+        
+        return ans;
+    }
+};
+```
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[2256. Minimum Average Difference](https://leetcode.com/problems/minimum-average-difference/)**<br />	
+You are given a **0-indexed** integer array `nums` of length `n`.<br />
+The **average difference** of the index `i` is the **absolute difference** between the average of the **first** `i + 1` elements of `nums` and the average of the last `n - i - 1` elements. Both averages should be **rounded down** to the nearest integer.<br />
+Return the index with the **minimum average difference**. If there are multiple such indices, return the **smallest** one.<br />
+**Note:**<br />
+
+ * The **absolute difference** of two numbers is the absolute value of their difference.<br />
+ * The **average** of `n` elements is the **sum** of the `n` elements divided (**integer division**) by `n`.<br />
+ * The average of `0` elements is considered to be `0`.<br />	
+	
+Example 1:
+<pre>
+Input: nums = [2,5,3,9,5,3]
+Output: 3
+Explanation:
+- The average difference of index 0 is: |2 / 1 - (5 + 3 + 9 + 5 + 3) / 5| = |2 / 1 - 25 / 5| = |2 - 5| = 3.
+- The average difference of index 1 is: |(2 + 5) / 2 - (3 + 9 + 5 + 3) / 4| = |7 / 2 - 20 / 4| = |3 - 5| = 2.
+- The average difference of index 2 is: |(2 + 5 + 3) / 3 - (9 + 5 + 3) / 3| = |10 / 3 - 17 / 3| = |3 - 5| = 2.
+- The average difference of index 3 is: |(2 + 5 + 3 + 9) / 4 - (5 + 3) / 2| = |19 / 4 - 8 / 2| = |4 - 4| = 0.
+- The average difference of index 4 is: |(2 + 5 + 3 + 9 + 5) / 5 - 3 / 1| = |24 / 5 - 3 / 1| = |4 - 3| = 1.
+- The average difference of index 5 is: |(2 + 5 + 3 + 9 + 5 + 3) / 6 - 0| = |27 / 6 - 0| = |4 - 0| = 4.
+The average difference of index 3 is the minimum average difference so return 3.
+</pre>
+Example 2:
+<pre>
+Input: nums = [0]
+Output: 0
+Explanation:
+The only index is 0 so return 0.
+The average difference of index 0 is: |0 / 1 - 0| = |0 - 0| = 0.
+</pre>
+
+* Constraints: `1 <= nums.length <= 10^5`<br />
+`0 <= nums[i] <= 10^5`<br />
+	
+`Wrong Answer (18/78 testcases passed)`<br />
+```cpp
+class Solution {
+public:
+    int minimumAverageDifference(vector<int>& nums) {
+        stack<int>s1;
+        s1.push(nums[0]);
+        stack<int>s2;
+        int s = nums.size()-1;
+        s2.push(nums[s]);
+        int count = 0;
+        for(int i = 1;i<s;i++){
+            if(s1.top() > s2.top()){
+                int temp = nums[i]+s2.top();
+                s2.push(temp);
+                count++;
+                
+            }
+            else{
+                int temp = nums[i]+s1.top();
+                s1.push(temp);
+                count++;
+            }
+        }
+        //cout<<count;
+        return (abs(s1.top()-s2.top()));
+    }
+};
+```
+`Accepted Answer (78/78 testcases passed)`<br />	
+```cpp
+class Solution {
+public:
+    int minimumAverageDifference(vector<int>& nums) {
+        long totalsum = 0, currentsum = 0;
+        int n = nums.size();
+        
+        // calc totalsum
+        for(auto i : nums)
+            totalsum += i;
+        
+        int mini = INT_MAX;
+        int indexans = 0;
+        
+        // calc the avg1 till ith index and avg2 till n-1-ith index
+        // now take absolute diff btw avg1 and avg2 and keep tracking the index giving minimum diff
+        // return the index giving minimum diff
+        for(int i=0; i<n; i++)
+        {
+            currentsum += nums[i];
+            int avg1 = currentsum/(i+1);
+            if(i==n-1)
+            {
+                if(avg1<mini)
+                    return n-1;
+                else
+                    break;
+            }
+            int avg2 = (totalsum - currentsum)/(n-i-1);
+            
+            if(abs(avg1-avg2)<mini)
+            {
+                mini = abs(avg1-avg2);
+                indexans = i;
+            }
+        }
+        
+        return indexans;
+    }
+};
+//Time Complexity => O(N)
+//Space Complexity => O(1)
+```	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<br /> <br /> <br />**[328. Odd Even Linked List](https://leetcode.com/problems/odd-even-linked-list/description/)**<br />
+Given the `head` of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.<br />
+The **first** node is considered **odd**, and the **second** node is **even**, and so on.<br />
+Note that the relative order inside both the even and odd groups should remain as it was in the input.<br />
+You must solve the problem in `O(1)` extra space complexity and `O(n)` time complexity.<br />	
+	
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2021/03/10/oddeven-linked-list.jpg">
+Input: head = [1,2,3,4,5]
+Output: [1,3,5,2,4]
+</pre>
+Example 2:
+<pre>
+https://assets.leetcode.com/uploads/2021/03/10/oddeven2-linked-list.jpg
+Input: head = [2,1,3,5,6,4,7]
+Output: [2,3,6,7,1,5,4]
+</pre>
+
+* Constraints: The number of nodes in the linked list is in the range `[0, 10^4]`.<br />
+`-10^6 <= Node.val <= 10^6`<br />
+	
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        ListNode *odd = NULL, *headodd = NULL, *even = NULL, *headeven = NULL;
+        
+        if(!head || !head->next || !head->next->next) return head;
+         
+        odd = head; headodd = odd;
+        even = head->next; headeven = even;
+        
+        while(even && even->next){
+            odd->next = odd->next->next;
+            even->next = even->next->next;
+            odd = odd->next;
+            even = even->next;
+        }
+        
+        odd->next = headeven;
+        return headodd;
+    }  
+};
+//TC - O(n)
+```	
 	
 	
 	
