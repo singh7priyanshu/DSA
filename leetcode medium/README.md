@@ -8783,7 +8783,7 @@ public:
 	
 	
 <br /> <br /> <br />**[1657. Determine if Two Strings Are Close](https://leetcode.com/problems/determine-if-two-strings-are-close/)**<br />	
-Two strings are considered close if you can attain one from the other using the following operations:<br />
+Two strings are considered **close** if you can attain one from the other using the following operations:<br />
 
 * Operation 1: Swap any two **existing** characters.<br />
 	
