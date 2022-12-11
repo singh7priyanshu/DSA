@@ -3512,6 +3512,68 @@ public:
 
 
 
+	
+<br /> <br /> <br />**[124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/description/)**<br />
+A **path** in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence **at most once**. Note that the path does not need to pass through the root.<br />
+The **path sum** of a path is the sum of the node's values in the path.<br />
+Given the `root` of a binary tree, return the maximum **path sum** of any **non-empty** path.<br />
+
+Example 1:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/10/13/exx1.jpg">
+Input: root = [1,2,3]
+Output: 6
+Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
+</pre>
+Example 2:
+<pre>
+<img src = "https://assets.leetcode.com/uploads/2020/10/13/exx2.jpg">
+Input: root = [-10,9,20,null,null,15,7]
+Output: 42
+Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
+</pre>
+
+ * Constraints: The number of nodes in the tree is in the range `[1, 3 * 10^4]`.<br />
+`-1000 <= Node.val <= 1000`<br />
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxPathSum(TreeNode* root) {
+        int maxSum = INT_MIN;
+        DFS(root, maxSum);
+        return maxSum;
+    }
+    
+    int DFS(TreeNode* root, int& maxSum){
+        if(!root) return 0;
+        int left = max(0, DFS(root->left, maxSum));
+        int right = max(0, DFS(root->right, maxSum));
+        maxSum = max(maxSum, left + right + root->val);
+        return max(left, right) + root->val;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
 
 
 
